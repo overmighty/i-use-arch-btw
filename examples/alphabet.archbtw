@@ -1,0 +1,35 @@
+; Example program that prints all 26 letters of the English alphabet.
+
+; Set value at pointer to 65 (ASCII value of 'A')
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch
+
+; Increment pointer
+i
+
+; Set value at pointer (loop counter) to 26
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch
+
+; Loop
+the
+    use   ; Decrement pointer (loop counter pointer -> letter pointer)
+    btw   ; Print value at pointer as character
+    arch  ; Increment value at pointer
+    i     ; Increment pointer (letter pointer -> loop counter pointer)
+    linux ; Decrement value at pointer (loop counter)
+way
+
+; Value at pointer (loop counter) is now 0
+
+; Set value at pointer to 10 (ASCII value of the new line character)
+arch arch arch arch arch arch arch arch arch arch
+
+; Print new line
+btw

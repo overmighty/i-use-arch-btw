@@ -1,0 +1,4 @@
+; This program tries to decrement the pointer while it is at 0, to test the
+; interpreter's safety check for pointer underflow.
+
+use

@@ -1,0 +1,17 @@
+; This program creates 256 nested loops to test the interpreter's safety check
+; for stack pointer overflow.
+
+arch
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the
