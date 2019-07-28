@@ -1,8 +1,9 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#include "opcode.h"
 #include "safety.h"
 #include "util.h"
+#include "vm.h"
 
 struct vm *vm_init(const enum opcode *program) {
     struct vm *vm = try_malloc(sizeof(struct vm));

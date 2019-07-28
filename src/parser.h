@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <stdlib.h>
+#include <stddef.h>
 #include "opcode.h"
 
 struct parser {

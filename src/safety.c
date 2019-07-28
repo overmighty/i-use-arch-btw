@@ -1,7 +1,7 @@
-#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "safety.h"
-#include "util.h"
+#include "vm.h"
 
 static void crash(const struct vm *vm, const char *reason) {
     fprintf(stderr, "error: %s (program counter = %lu)\n",

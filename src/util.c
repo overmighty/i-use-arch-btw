@@ -1,6 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdarg.h>
+#include <stdlib.h>
 #include "util.h"
 
 static long get_file_size(FILE *file) {
