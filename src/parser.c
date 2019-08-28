@@ -1,10 +1,12 @@
 #include <ctype.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "parser.h"
 #include "util.h"
+#include "vm.h"
 
 #define KEYWORD_COUNT 9
 
@@ -31,8 +33,24 @@ struct parser *parser_init(const char *buffer) {
     parser->cursor = 0;
     parser->line = 1;
     parser->column = 0;
+    parser->token = "\0";
+    parser->loop_depth = 0;
 
     return parser;
+}
+
+static void crash_parser(const struct parser *parser, const char *format, ...) {
+    fprintf(stderr, "error: ");
+
+    // Print crash reason/message
+    va_list args;
+    va_start(args, format);
+    vfprintf(stderr, format, args);
+
+    fprintf(stderr, " (at line %lu, column %lu)\n",
+        parser->line, parser->column - strlen(parser->token) + 1);
+
+    exit(EXIT_FAILURE);
 }
 
 static inline void parser_handle_new_line(struct parser *parser) {
@@ -49,7 +67,7 @@ static void parser_skip_comment(struct parser *parser) {
     }
 }
 
-static char *parser_get_token(struct parser *parser) {
+static void parser_get_token(struct parser *parser) {
     size_t token_start = parser->cursor;
     size_t token_length = 1;
 
@@ -59,28 +77,41 @@ static char *parser_get_token(struct parser *parser) {
         parser->cursor++;
     }
 
-    char *token = try_malloc((token_length + 1) * sizeof(char));
-    memcpy(token, &parser->buffer[token_start], token_length);
-    token[token_length] = '\0';
-
-    return token;
+    parser->token = try_malloc((token_length + 1) * sizeof(char));
+    memcpy(parser->token, &parser->buffer[token_start], token_length);
+    parser->token[token_length] = '\0';
 }
 
-static void parser_handle_token(struct parser *parser, const char *token) {
+static void parser_loop_depth_check(struct parser *parser, enum opcode opcode) {
+    if (opcode == OPCODE_LOOP_BEGIN) {
+        if (parser->loop_depth == VM_STACK_SIZE - 1) {
+            crash_parser(parser, "too many nested loops");
+        } else {
+            parser->loop_depth++;
+        }
+    } else if (opcode == OPCODE_LOOP_END) {
+        if (parser->loop_depth == 0) {
+            crash_parser(parser, "unexpected loop end");
+        } else {
+            parser->loop_depth--;
+        }
+    }
+}
+
+static void parser_handle_token(struct parser *parser) {
     bool invalid_token = true;
 
     for (int i = 0; i < KEYWORD_COUNT; i++) {
-        if (strcmp(token, KEYWORDS[i]) == 0) {
+        if (strcmp(parser->token, KEYWORDS[i]) == 0) {
             parser->program[parser->program_length++] = (enum opcode) i;
             invalid_token = false;
+            parser_loop_depth_check(parser, (enum opcode) i);
             break;
         }
     }
 
     if (invalid_token) {
-        fprintf(stderr, "error: invalid token '%s' at line %lu, column %lu\n",
-            token, parser->line, parser->column - strlen(token));
-        exit(EXIT_FAILURE);
+        crash_parser(parser, "invalid token '%s'", parser->token);
     }
 }
 
@@ -113,9 +144,9 @@ enum opcode *parser_run(struct parser *parser) {
             continue;
         }
 
-        char *token = parser_get_token(parser);
-        parser_handle_token(parser, token);
-        free(token);
+        parser_get_token(parser);
+        parser_handle_token(parser);
+        free(parser->token);
 
         parser->cursor++;
     }

@@ -27,15 +27,9 @@ Whenever the pointer is incremented or decremented, the interpreter checks if
 the operation will cause a pointer overflow or underflow, and will crash if that
 is the case.
 
-The interpreter has similar safety checks for its stack pointer, which is
-incremented when a loop begins and decremented when a loop ends. These checks
-will make the interpreter crash if a program tries to begin a 256th nested loop
-or tries to end the current loop using the `way` keyword while there are no
-loops to end.
-
 However, there are no safety checks for overflow and underflow of memory cell
-values. Therefore, programs can rely on overflow and underflow of memory cell
-values for optimization/compression, as the interpreter will not crash.
+values. Therefore, programs can overflow and underflow memory cell values for
+optimization/compression, as the interpreter will not crash.
 
 Before a safety check crashes the interpreter, an error message is printed. The
 error message gives a description of the cause of the crash and the value of the

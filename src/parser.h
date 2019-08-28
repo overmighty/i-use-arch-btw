@@ -11,6 +11,8 @@ struct parser {
     size_t      cursor;
     size_t      line;
     size_t      column;
+    char        *token;
+    size_t      loop_depth;
 };
 
 struct parser *parser_init(const char *buffer);

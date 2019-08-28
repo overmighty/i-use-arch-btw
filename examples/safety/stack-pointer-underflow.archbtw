@@ -1,4 +1,5 @@
 ; This program uses the `way` keyword while there are no loops to end, to test
-; the interpreter's safety check for stack pointer underflow.
+; the interpreter's compile-time check for the prevention of stack pointer
+; underflow issues.
 
 way

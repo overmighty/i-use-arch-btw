@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "opcode.h"
-#include "safety.h"
 #include "util.h"
 #include "vm.h"
 
@@ -17,6 +16,28 @@ struct vm *vm_init(const enum opcode *program) {
     return vm;
 }
 
+static void vm_crash(const struct vm *vm, const char *reason) {
+    fprintf(stderr, "error: %s (program counter = %lu)\n",
+        reason, vm->program_counter);
+    exit(EXIT_FAILURE);
+}
+
+static void vm_increment_pointer(struct vm *vm) {
+    if (vm->pointer == VM_MEMORY_CAPACITY - 1) {
+        vm_crash(vm, "pointer overflow");
+    } else {
+        vm->pointer++;
+    }
+}
+
+static void vm_decrement_pointer(struct vm *vm) {
+    if (vm->pointer == 0) {
+        vm_crash(vm, "pointer underflow");
+    } else {
+        vm->pointer--;
+    }
+}
+
 static inline enum opcode vm_peek(const struct vm *vm) {
     return vm->program[vm->program_counter + 1];
 }
@@ -24,7 +45,7 @@ static inline enum opcode vm_peek(const struct vm *vm) {
 static void vm_skip_loop(struct vm *vm) {
     enum opcode opcode = vm->program[vm->program_counter];
 
-    while (vm_peek(vm) != OPCODE_PROGRAM_END && opcode != OPCODE_LOOP_END) {
+    while (opcode != OPCODE_LOOP_END && vm_peek(vm) != OPCODE_PROGRAM_END) {
         opcode = vm->program[++vm->program_counter];
     }
 }
@@ -33,14 +54,11 @@ static void vm_handle_loop_begin(struct vm *vm) {
     if (vm->memory[vm->pointer] == 0) {
         vm_skip_loop(vm);
     } else {
-        safety_check_stack_pointer_overflow(vm);
         vm->stack[vm->stack_pointer++] = vm->program_counter;
     }
 }
 
 static void vm_handle_loop_end(struct vm *vm) {
-    safety_check_stack_pointer_underflow(vm);
-
     if (vm->memory[vm->pointer] == 0) {
         vm->stack_pointer--;
     } else {
@@ -59,12 +77,10 @@ void vm_run(struct vm *vm) {
     while ((opcode = vm->program[vm->program_counter]) != OPCODE_PROGRAM_END) {
         switch (opcode) {
         case OPCODE_POINTER_INC:
-            safety_check_pointer_overflow(vm);
-            vm->pointer++;
+            vm_increment_pointer(vm);
             break;
         case OPCODE_POINTER_DEC:
-            safety_check_pointer_underflow(vm);
-            vm->pointer--;
+            vm_decrement_pointer(vm);
             break;
         case OPCODE_VALUE_INC:
             vm->memory[vm->pointer]++;
