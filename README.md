@@ -1,7 +1,7 @@
 <div align="center">
     <h1>I use Arch btw</h1>
     <blockquote>
-        <p>"I use Arch btw" but it's a turing-complete programming language.</p>
+        <p>"I use Arch btw" but it's a Turing-complete programming language.</p>
     </blockquote>
     <a href="./SPECIFICATION.md">Language specification</a>
     <span>|</span>
