@@ -39,7 +39,7 @@ struct parser *parser_init(const char *buffer) {
     return parser;
 }
 
-static void crash_parser(const struct parser *parser, const char *format, ...) {
+static void parser_crash(const struct parser *parser, const char *format, ...) {
     fprintf(stderr, "error: ");
 
     // Print crash reason/message
@@ -85,13 +85,13 @@ static void parser_get_token(struct parser *parser) {
 static void parser_loop_depth_check(struct parser *parser, enum opcode opcode) {
     if (opcode == OPCODE_LOOP_BEGIN) {
         if (parser->loop_depth == VM_STACK_SIZE - 1) {
-            crash_parser(parser, "too many nested loops");
+            parser_crash(parser, "too many nested loops");
         } else {
             parser->loop_depth++;
         }
     } else if (opcode == OPCODE_LOOP_END) {
         if (parser->loop_depth == 0) {
-            crash_parser(parser, "unexpected loop end");
+            parser_crash(parser, "unexpected loop end");
         } else {
             parser->loop_depth--;
         }
@@ -111,7 +111,7 @@ static void parser_handle_token(struct parser *parser) {
     }
 
     if (invalid_token) {
-        crash_parser(parser, "invalid token '%s'", parser->token);
+        parser_crash(parser, "invalid token '%s'", parser->token);
     }
 }
 
