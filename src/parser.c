@@ -116,6 +116,11 @@ static void parser_handle_token(struct parser *parser) {
 }
 
 static void parser_finalize_program(struct parser *parser) {
+    if (parser->loop_depth > 0) {
+        fprintf(stderr, "error: %lu unclosed loop(s)\n", parser->loop_depth);
+        exit(EXIT_FAILURE);
+    }
+
     parser->program[parser->program_length++] = OPCODE_PROGRAM_END;
     size_t size = parser->program_length * sizeof(enum opcode);
     parser->program = try_realloc(parser->program, size);
