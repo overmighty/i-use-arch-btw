@@ -44,9 +44,16 @@ static inline enum opcode vm_peek(const struct vm *vm) {
 
 static void vm_skip_loop(struct vm *vm) {
     enum opcode opcode = vm->program[vm->program_counter];
+    size_t loop_depth = 1;
 
-    while (opcode != OPCODE_LOOP_END && vm_peek(vm) != OPCODE_PROGRAM_END) {
+    while (loop_depth > 0 && vm_peek(vm) != OPCODE_PROGRAM_END) {
         opcode = vm->program[++vm->program_counter];
+
+        if (opcode == OPCODE_LOOP_BEGIN) {
+            loop_depth++;
+        } else if (opcode == OPCODE_LOOP_END) {
+            loop_depth--;
+        }
     }
 }
 
