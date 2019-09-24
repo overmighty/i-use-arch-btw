@@ -24,7 +24,7 @@ $(BUILDDIR)/i-use-arch-btw: $(OBJECTS)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(OBJECTS)
 
 install: $(BUILDDIR)/i-use-arch-btw
-	cp $< $(DESTDIR)$(PREFIX)$(BINDIR)/i-use-arch-btw
+	install -D $< $(DESTDIR)$(PREFIX)$(BINDIR)/i-use-arch-btw
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)$(BINDIR)/i-use-arch-btw
