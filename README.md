@@ -4,10 +4,6 @@
         <p>"I use Arch btw" but it's a Turing-complete programming language.</p>
     </blockquote>
     <a href="./SPECIFICATION.md">Language specification</a>
-    <span>|</span>
-    <a href="./DOCUMENTATION.md">Interpreter documentation</a>
-    <span>|</span>
-    <a href="./examples">Examples</a>
 </div>
 
 ## Introduction
@@ -18,50 +14,72 @@ commands have been replaced with the following keywords:
 
 `i`, `use`, `arch`, `linux`, `btw`, `by`, `the`, `way`.
 
-This repository contains the source code for an "I use Arch btw" interpreter
-written in C99.
+This repository contains the source code for an "I use Arch btw"
+[C/C++ library](./lib) and [command-line interpreter](./cmd), both written in
+C99.
 
 ## Installation
 
-On Unix-like systems, the [Makefile](./Makefile) included in this repository can
-be used to build and install the interpreter:
+On Unix-like systems, the Makefiles included in this repository can be used to
+build and install both the library and the interpreter:
 
 ```
+$ cd lib
+$ make
+$ sudo make install
+$ cd ../cmd
 $ make
 $ sudo make install
 ```
 
-By default, the Makefile uses `cc` as a C compiler, names the executable
-`i-use-arch-btw` and the `install` target copies the executable to
-`/usr/local/bin`.
-
-To uninstall the interpreter:
+To uninstall the library and the interpreter:
 
 ```
+$ cd lib
+$ sudo make uninstall
+$ cd ../cmd
 $ sudo make uninstall
 ```
 
 ## Usage
 
+To interpret a file containing "I use Arch btw" source code:
+
 ```
-$ i-use-arch-btw <file>
+$ i-use-arch-btw path/to/file.archbtw
+```
+
+Type this command to get the command-line interpreter's help message:
+
+```
+$ i-use-arch-btw -h
 ```
 
 ## Building
 
-To build the interpreter with optimizations and without debugging symbols:
+#### Dependencies
+
+* [`libiuab`](./lib): C/C++ library
+    - standard C99 library
+* [`i-use-arch-btw`](./cmd): command-line interpreter
+    - standard C99 library
+    - `unistd.h` (for `getopt`)
+    - `sys/timeb.h` (for printing compilation and execution times in verbose
+    mode)
+
+#### Makefiles
+
+Both the [`lib`](./lib) directory and the [`cmd`](./cmd) directory contain a
+Makefile that allows to easily build the C/C++ library (libiuab) and the
+command-line interpreter respectively:
 
 ```
 $ make
 ```
 
-To build the interpreter without optimizations and with debugging symbols:
-
-```
-$ make DEBUG=1
-```
-
-The executable will be located in the `build` directory.
+By default, when building the library, both the static library and the shared
+library will be output to `lib/build`, and when building the command-line
+interpreter, the executable will be output to the `cmd/build` directory.
 
 To delete build files/artifacts:
 
@@ -69,6 +87,6 @@ To delete build files/artifacts:
 $ make clean
 ```
 
----
+## License
 
-This project is licensed under the MIT license.
+This project is licensed under the [MIT license](./LICENSE).

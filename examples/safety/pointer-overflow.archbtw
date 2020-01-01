@@ -1,4 +1,0 @@
-; This program increments the pointer forever to test the interpreter's safety
-; check for pointer overflow.
-
-arch the i arch way
