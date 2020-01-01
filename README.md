@@ -63,6 +63,7 @@ $ i-use-arch-btw -h
     - standard C99 library
 * [`i-use-arch-btw`](./cmd): command-line interpreter
     - standard C99 library
+    - [`libiuab`](./lib)
     - `unistd.h` (for `getopt`)
     - `sys/timeb.h` (for printing compilation and execution times in verbose
     mode)
