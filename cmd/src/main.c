@@ -41,12 +41,12 @@ int compile_program(FILE *src, uint8_t **dest, size_t *len) {
     }
 
     timer_start();
-    result = iuab_compiler_run(comp, dest);
+    iuab_compiler_run(comp, dest);
     timer_stop("compiled in");
 
     fclose(src);
 
-    if (result != IUAB_ERROR_SUCCESS) {
+    if (comp->error != IUAB_ERROR_SUCCESS) {
         log_compiler_error(comp);
         iuab_compiler_free(comp);
         return EXIT_FAILURE;
