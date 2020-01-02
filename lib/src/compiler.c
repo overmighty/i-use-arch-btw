@@ -148,7 +148,8 @@ enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
     }
 
     if (comp->depth) {
-        return IUAB_ERROR_DEPTHNZ;
+        comp->error = IUAB_ERROR_DEPTHNZ;
+        return comp->error;
     }
 
     iuab_compiler_finalize_output(comp);
