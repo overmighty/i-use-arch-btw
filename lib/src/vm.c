@@ -1,6 +1,5 @@
 #include <iuab/vm.h>
 
-#include <iuab/errors.h>
 #include <iuab/op.h>
 
 #include <string.h> /* for memset */
