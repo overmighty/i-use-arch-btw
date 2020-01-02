@@ -23,8 +23,9 @@ C99.
 On Unix-like systems, the Makefiles included in this repository can be used to
 build and install both the library and the interpreter:
 
-**Note:** By default, built libraries are installed to `/usr/local/lib` and
-built executables are installed to `/usr/local/bin`.
+**Note:** By default, built libraries are installed to `/usr/local/lib`, library
+headers are installed to `/usr/local/include`, and built executables are
+installed to `/usr/local/bin`.
 
 ```
 $ cd lib
