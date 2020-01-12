@@ -39,10 +39,10 @@ these steps:
 
 1.  Read opcode at program counter
 2.  Increment program counter
-3.  If opcode is `RET`: break loop
+3.  If opcode is `RET`: break loop  
     Else: Call handler function for opcode
     1.  Read operand if needed
-    2.  If operation is impossible: set error code
+    2.  If operation is impossible: set error code  
         Else: execute operation
 
 ### Bytecode encoding
