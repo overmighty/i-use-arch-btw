@@ -4,16 +4,16 @@
 #include "version.h"
 
 #include <iuab/compiler.h>
-#include <iuab/vm.h>
 #include <iuab/version.h>
+#include <iuab/vm.h>
 
 #include <unistd.h> /* for optind */
 
 #include <errno.h>
-#include <string.h> /* for strerror */
-#include <stdlib.h> /* for malloc, free, size_t, EXIT_SUCCESS, EXIT_FAILURE */
 #include <stdint.h> /* for uint8_t */
 #include <stdio.h>  /* for printf, fprintf, fclose, fopen, FILE */
+#include <stdlib.h> /* for malloc, free, size_t, EXIT_SUCCESS, EXIT_FAILURE */
+#include <string.h> /* for strerror */
 
 void log_compiler_error(struct iuab_compiler *comp) {
     if (comp->error == IUAB_ERROR_DEPTHNZ) {
