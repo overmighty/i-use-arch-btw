@@ -1,0 +1,5 @@
+; This example program will cause an "invalid token" compile-time error.
+
+i use arch linux btw
+test ; This keyword doesn't exist
+gentoo

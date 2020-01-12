@@ -1,0 +1,5 @@
+; This example program will cause a "data pointer underflow" run-time error.
+
+; The data pointer points to the first byte of program memory by default
+; Decrementing it now would cause it to go out of the program memory's bounds
+use

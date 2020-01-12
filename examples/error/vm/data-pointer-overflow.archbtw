@@ -1,0 +1,4 @@
+; This example program will cause a "data pointer overflow" run-time error.
+
+; Keeps incrementing the data pointer forever
+arch the i arch way

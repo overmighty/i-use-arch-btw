@@ -1,0 +1,8 @@
+; Example program that showcases the `gentoo` keyword which is used to print
+; debugging information.
+
+gentoo
+i arch gentoo
+i arch arch arch gentoo
+i arch arch arch arch arch gentoo
+by gentoo

@@ -1,0 +1,22 @@
+; Example program that reads a line of input text then prints it in reverse.
+
+; Decrement value at data pointer by 10
+linux linux linux linux linux linux linux linux linux linux
+
+; Keep reading into program memory until a newline character is encountered
+the
+    ; Increment value at data pointer back to its original value
+    arch arch arch arch arch arch arch arch arch arch
+    ; Read a character into the next memory cell
+    i by
+    ; Decrement the current value by 10, so that if we read a newline char,
+    ; the value at the data pointer will be 0, and the loop will stop
+    linux linux linux linux linux linux linux linux linux linux
+way
+
+; Print the line in reverse
+use the btw use way
+
+; Print a newline character
+arch arch arch arch arch arch arch arch arch arch
+btw

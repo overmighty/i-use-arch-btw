@@ -1,0 +1,38 @@
+; Example program that prints all 26 letters of the English alphabet.
+
+; Set value at data pointer to 65 (ASCII value of 'A')
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch
+
+; Increment data pointer: point to second byte of program memory
+i
+
+; The second byte of program memory will serve as a reverse loop counter:
+; its value will be the amount of loop iterations left to run
+
+; Set loop counter's value to 26
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch
+
+; Loops 26 times
+the
+    use   ; Decrement data pointer (loop counter pointer -> letter pointer)
+    btw   ; Print value at data pointer as character
+    arch  ; Increment value at data pointer
+    i     ; Increment data pointer (letter pointer -> loop counter pointer)
+    linux ; Decrement value at data pointer
+way
+
+; Value at data pointer is now 0
+
+; Set value at data pointer to 10 (ASCII value of '\n')
+arch arch arch arch arch arch arch arch arch arch
+
+; Print newline character
+btw

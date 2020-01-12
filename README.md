@@ -3,6 +3,8 @@
     <blockquote>
         <p>"I use Arch btw" but it's a Turing-complete programming language.</p>
     </blockquote>
+    <a href="./examples">Example programs</a>
+    <span>|</span>
     <a href="./docs/LANG_SPEC.md">Language specification</a>
     <span>|</span>
     <a href="./docs/VM_SPEC.md">Virtual machine specification</a>

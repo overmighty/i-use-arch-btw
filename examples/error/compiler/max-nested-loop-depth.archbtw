@@ -1,0 +1,18 @@
+; This example program will cause a "maximum nested loop depth exceeded"
+; compile-time error.
+; For information, the compiler only supports a maximum loop nesting depth of
+; 256 loops, due to its stack's capacity.
+
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the the the the
+the the the the the the the the the the the the the the the the the ; Depth: 257
