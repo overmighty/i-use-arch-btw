@@ -12,7 +12,7 @@ struct options {
 
 /* Initializes the given options struct by setting the default values and then
  * parsing the given command-line options, overriding default option values when
- * needed. Returns if the parsing was successful (true) or not (false). */
+ * needed. Returns if the parsing failed (true) or not (false). */
 bool options_init(struct options *opts, int argc, char **argv);
 
 #endif /* OPTIONS_H */
