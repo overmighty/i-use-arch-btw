@@ -53,3 +53,7 @@ void iuab_buffer_put_size(struct iuab_buffer *buffer, size_t size) {
         buffer->len += sizeof(size);
     }
 }
+
+void iuab_buffer_fini(struct iuab_buffer *buffer) {
+    free(buffer->data);
+}

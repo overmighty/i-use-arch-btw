@@ -1,6 +1,7 @@
 #include <iuab/compiler.h>
 
 #include <stdlib.h> /* for malloc */
+#include <string.h> /* for memcpy */
 
 #define EMIT_BYTE(comp, byte) (iuab_buffer_put_byte(comp->output, byte))
 #define EMIT_SIZE(comp, size) (iuab_buffer_put_size(comp->output, size))
@@ -119,9 +120,22 @@ static void iuab_compiler_end_loop(struct iuab_compiler *comp) {
     iuab_compiler_advance(comp);
 }
 
-static void iuab_compiler_finalize_output(struct iuab_compiler *comp) {
+static void iuab_compiler_finalize_output(struct iuab_compiler *comp,
+                                          uint8_t **dest) {
+    if (comp->depth) {
+        comp->error = IUAB_ERROR_DEPTHNZ;
+        return;
+    }
+
     EMIT_BYTE(comp, IUAB_OP_RET);
     iuab_buffer_trim(comp->output);
+
+    if (!comp->output->data || !(*dest = malloc(comp->output->len))) {
+        comp->error = IUAB_ERROR_MEMORY;
+        return;
+    }
+
+    memcpy(*dest, comp->output->data, comp->output->len);
 }
 
 enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
@@ -147,17 +161,12 @@ enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
         }
     }
 
-    if (comp->depth) {
-        comp->error = IUAB_ERROR_DEPTHNZ;
-        return comp->error;
-    }
-
-    iuab_compiler_finalize_output(comp);
-    *dest = comp->output->data;
+    iuab_compiler_finalize_output(comp, dest);
     return comp->error;
 }
 
 void iuab_compiler_fini(struct iuab_compiler *comp) {
     free(comp->lexer);
+    iuab_buffer_fini(comp->output);
     free(comp->output);
 }

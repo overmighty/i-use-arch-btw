@@ -29,6 +29,9 @@ void iuab_buffer_put_byte(struct iuab_buffer *buffer, uint8_t byte);
 /* Writes the given size at the end of the given buffer. */
 void iuab_buffer_put_size(struct iuab_buffer *buffer, size_t size);
 
+/* Cleans up the given buffer. */
+void iuab_buffer_fini(struct iuab_buffer *buffer);
+
 #ifdef __cplusplus
 }
 #endif
