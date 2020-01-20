@@ -48,12 +48,14 @@ int compile_program(FILE *src, uint8_t **dest, size_t *len) {
 
     if (comp->error != IUAB_ERROR_SUCCESS) {
         log_compiler_error(comp);
-        iuab_compiler_free(comp);
+        iuab_compiler_fini(comp);
+        free(comp);
         return EXIT_FAILURE;
     }
 
     *len = comp->output->len;
-    iuab_compiler_free(comp);
+    iuab_compiler_fini(comp);
+    free(comp);
     return EXIT_SUCCESS;
 }
 

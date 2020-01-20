@@ -157,8 +157,7 @@ enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
     return comp->error;
 }
 
-void iuab_compiler_free(struct iuab_compiler *comp) {
+void iuab_compiler_fini(struct iuab_compiler *comp) {
     free(comp->lexer);
     free(comp->output);
-    free(comp);
 }

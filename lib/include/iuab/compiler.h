@@ -29,8 +29,8 @@ enum iuab_error iuab_compiler_init(struct iuab_compiler *comp, FILE *input);
  * the compiler's error code. */
 enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest);
 
-/* Frees the given dynamically allocated compiler. */
-void iuab_compiler_free(struct iuab_compiler *comp);
+/* Cleans up the given compiler. */
+void iuab_compiler_fini(struct iuab_compiler *comp);
 
 #ifdef __cplusplus
 }
