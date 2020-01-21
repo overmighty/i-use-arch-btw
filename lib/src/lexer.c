@@ -13,7 +13,7 @@ void iuab_lexer_init(struct iuab_lexer *lexer, FILE *input) {
     lexer->col = 1;
 }
 
-static char iuab_lexer_next_char(struct iuab_lexer *lexer) {
+static int iuab_lexer_next_char(struct iuab_lexer *lexer) {
     lexer->col++;
     lexer->ch = fgetc(lexer->input);
     return lexer->ch;

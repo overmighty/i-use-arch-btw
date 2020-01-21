@@ -164,7 +164,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    FILE *src = fopen(argv[optind], "rb");
+    FILE *src = fopen(argv[optind], "rbe");
 
     if (!src) {
         log_error("could not open file: %s", strerror(errno));

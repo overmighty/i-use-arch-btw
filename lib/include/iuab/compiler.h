@@ -10,7 +10,7 @@ extern "C" {
 #include "lexer.h"
 #include "op.h"
 
-#define IUAB_COMPILER_STACK_DEPTH (1 << 8)
+#define IUAB_COMPILER_STACK_DEPTH (1U << 8U)
 
 /* A compiler for "I use Arch btw" source files. */
 struct iuab_compiler {

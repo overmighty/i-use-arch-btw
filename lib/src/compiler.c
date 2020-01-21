@@ -3,11 +3,11 @@
 #include <stdlib.h> /* for malloc */
 #include <string.h> /* for memcpy */
 
-#define EMIT_BYTE(comp, byte) (iuab_buffer_put_byte(comp->output, byte))
-#define EMIT_SIZE(comp, size) (iuab_buffer_put_size(comp->output, size))
+#define EMIT_BYTE(comp, byte) (iuab_buffer_put_byte((comp)->output, byte))
+#define EMIT_SIZE(comp, size) (iuab_buffer_put_size((comp)->output, size))
 
-#define STACK_PUSH(comp, n) (comp->stack[comp->depth++] = (n))
-#define STACK_POP(comp)     (comp->stack[--comp->depth])
+#define STACK_PUSH(comp, n) ((comp)->stack[(comp)->depth++] = (n))
+#define STACK_POP(comp)     ((comp)->stack[--(comp)->depth])
 
 #define IS_ARITHM_TOKEN(type) ((type) >= IUAB_TOKEN_I && \
                                (type) <= IUAB_TOKEN_LINUX)

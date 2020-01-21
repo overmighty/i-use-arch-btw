@@ -10,7 +10,7 @@ extern "C" {
 #include <stdint.h> /* for uint8_t */
 #include <stdio.h>  /* for FILE, size_t */
 
-#define IUAB_VM_MEMORY_SIZE (1 << 16)
+#define IUAB_VM_MEMORY_SIZE (1U << 16U)
 
 /* An "I use Arch btw" bytecode virtual machine */
 struct iuab_vm {
