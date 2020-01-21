@@ -3,6 +3,7 @@
 #include <unistd.h> /* for getopt */
 
 static void options_set_defaults(struct options *opts) {
+    opts->help = false;
     opts->verbosity = 0;
     opts->version = false;
 }
