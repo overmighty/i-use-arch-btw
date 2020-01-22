@@ -2,7 +2,7 @@
 CC      = cc
 CFLAGS  = -std=gnu99 -O2 -Wall -Wextra -pedantic -l iuab
 LD      = $(CC)
-LDFLAGS = -l iuab
+LDFLAGS = -Wl,--as-needed -l iuab
 
 INSTALL = install -D
 
@@ -25,7 +25,7 @@ $(BUILDDIR):
 
 $(BUILDDIR)/$(TARGET): $(BUILDDIR) $(OBJECTS)
 	@echo "  LD      $@"
-	@$(LD) $(LDFLAGS) -o $@ $(OBJECTS)
+	@$(LD) -o $@ $(OBJECTS) $(LDFLAGS)
 
 .c.o:
 	@echo "  CC      $@"
