@@ -32,22 +32,15 @@ headers are installed to `/usr/local/include`, and built executables are
 installed to `/usr/local/bin`.
 
 ```
-$ cd lib
-$ make
-$ sudo make install
-$ cd ../cmd
 $ make
 $ sudo make install
 ```
 
-The common `DESTDIR` and `PREFIX` make flags are supported.
+The common `DESTDIR` and `PREFIX` Make flags are supported.
 
 To uninstall the library and the interpreter:
 
 ```
-$ cd lib
-$ sudo make uninstall
-$ cd ../cmd
 $ sudo make uninstall
 ```
 
@@ -80,17 +73,21 @@ $ i-use-arch-btw -h
 
 #### Makefiles
 
-Both the [`lib`](./lib) directory and the [`cmd`](./cmd) directory contain a
-Makefile that allows to easily build the C/C++ library (libiuab) and the
-command-line interpreter respectively:
+You can use the global Makefile at the root of this repository to build
+everything:
 
 ```
 $ make
 ```
 
-By default, when building the library, both the static library and the shared
-library will be output to `lib/build`, and when building the command-line
-interpreter, the executable will be output to the `cmd/build` directory.
+To build everything but for debugging (generate debugging symbols):
+
+```
+$ make DEBUG=1
+```
+
+All build files/artifacts will be located in the build directory specified by
+the `BUILDDIR` Make variable, which is set to `build` by default. 
 
 To delete build files/artifacts:
 
