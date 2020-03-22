@@ -67,9 +67,8 @@ $ i-use-arch-btw -h
 * [`i-use-arch-btw`](./cmd): command-line interpreter
     - standard C99 library
     - [`libiuab`](./lib)
-    - `unistd.h` (for `getopt`)
-    - `sys/timeb.h` (for printing compilation and execution times in verbose
-    mode)
+    - `unistd.h` for `getopt()` and `optind`
+    - `time.h` for `clock_gettime()`, `CLOCK_MONOTONIC` and `struct timespec`
 
 #### Makefiles
 
