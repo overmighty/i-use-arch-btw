@@ -2,21 +2,25 @@
 
 #include "log.h"
 
-#include <sys/timeb.h>
+#include <time.h>
 
-/* 1 second converted to milliseconds. */
-#define S_TO_MS 1000
+/* 1 second converted to nanoseconds. */
+#define S_TO_NS (1000 * 1000 * 1000)
 
-static struct timeb tm_start;
+static struct timespec start;
+
+static double seconds(const struct timespec *t) {
+    return t->tv_sec + ((double) t->tv_nsec / S_TO_NS);
+}
 
 void timer_start(void) {
-    ftime(&tm_start);
+    clock_gettime(CLOCK_MONOTONIC, &start);
 }
 
 void timer_stop(const char *msg) {
-    struct timeb tm_end;
-    ftime(&tm_end);
-    double diff = (double) tm_end.time - tm_start.time +
-        ((double) (tm_end.millitm - tm_start.millitm) / S_TO_MS);
+    struct timespec end;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+
+    double diff = seconds(&end) - seconds(&start);
     log_info("%s %.3fs", msg, diff);
 }
