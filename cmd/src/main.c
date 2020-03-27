@@ -19,7 +19,7 @@ void log_compiler_error(struct iuab_compiler *comp) {
     if (comp->error == IUAB_ERROR_DEPTHNZ) {
         log_error("%s", iuab_strerror(comp->error));
     } else {
-        log_error("%s at line %lu, col %lu", iuab_strerror(comp->error),
+        log_error("%s at line %zu, col %zu", iuab_strerror(comp->error),
             comp->token.line, comp->token.col);
     }
 }
@@ -97,7 +97,7 @@ enum iuab_error execute_program(const uint8_t *program) {
     free(vm);
 
     if (result != IUAB_ERROR_SUCCESS) {
-        log_error("%s at 0x%X", iuab_strerror(result), last_op_pos);
+        log_error("%s at 0x%zX", iuab_strerror(result), last_op_pos);
         return EXIT_FAILURE;
     }
 
