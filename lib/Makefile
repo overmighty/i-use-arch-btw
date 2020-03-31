@@ -41,6 +41,7 @@ install_shared: $(builddir)/$(TARGET_SHARED)
 .PHONY: install_headers
 install_headers:
 	@echo "  CP      $(includedir)/$(LIBNAME)"
+	@mkdir -p $(includedir)
 	$(Q)cp -r include/$(LIBNAME) $(includedir)
 
 .PHONY: uninstall

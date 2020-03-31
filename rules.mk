@@ -7,8 +7,8 @@ deps := $(objs:%.o=%.d)
 basetarget = $(1:$(builddir)/%=%)
 
 $(builddir)/$(module)/%.o: %.c $(builddir)/$(module)/%.d
-	@mkdir -p $(dir $@)
 	@echo -e "  CC      $(call basetarget,$@)"
+	@mkdir -p $(dir $@)
 	$(Q)$(CC) $(CFLAGS) -c -o $@ $<
 
 $(builddir)/$(module)/%.d: %.c
