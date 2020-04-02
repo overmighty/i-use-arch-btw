@@ -140,7 +140,7 @@ static void iuab_compiler_finalize_output(struct iuab_compiler *comp,
 
 enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
     while (comp->token.type != IUAB_TOKEN_EOF) {
-        if (IS_ARITHM_TOKEN(comp->token.type)){
+        if (IS_ARITHM_TOKEN(comp->token.type)) {
             iuab_compiler_arithm_op(comp);
         } else if (IS_IO_TOKEN(comp->token.type)) {
             iuab_compiler_io_op(comp);
