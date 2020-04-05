@@ -27,8 +27,8 @@ enum iuab_token_type {
 /* An "I use Arch btw" source code token. */
 struct iuab_token {
     enum iuab_token_type type;
-    size_t line;
-    size_t col; /* Column. */
+    size_t line; /* The line number of the first character. */
+    size_t col; /* The column number of the first character. */
 };
 
 /* Returns the name of the given token type as a string. */
