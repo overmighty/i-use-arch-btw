@@ -7,8 +7,8 @@ extern "C" {
 
 #include "errors.h"
 
-#include <stdint.h> /* for uint8_t */
-#include <stdio.h>  /* for FILE, size_t */
+#include <stdint.h>
+#include <stdio.h>
 
 #define IUAB_VM_MEMORY_SIZE (1U << 16U)
 

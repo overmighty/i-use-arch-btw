@@ -1,7 +1,7 @@
 #include "log.h"
 
 #include <stdarg.h>
-#include <stdio.h> /* for printf, vprintf */
+#include <stdio.h>
 
 #define PREFIX_INFO  "\033[1;32minfo: \033[0m"
 #define PREFIX_ERROR "\033[1;31merror: \033[0m"

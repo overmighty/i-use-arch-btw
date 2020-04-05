@@ -1,6 +1,6 @@
 #include <iuab/buffer.h>
 
-#include <stdlib.h> /* for malloc, realloc */
+#include <stdlib.h>
 
 /* Initial/base buffer capacity. */
 #define BASE_CAP 64

@@ -1,7 +1,7 @@
 #include <iuab/compiler.h>
 
-#include <stdlib.h> /* for malloc */
-#include <string.h> /* for memcpy */
+#include <stdlib.h>
+#include <string.h>
 
 #define EMIT_BYTE(comp, byte) (iuab_buffer_put_byte((comp)->output, byte))
 #define EMIT_SIZE(comp, size) (iuab_buffer_put_size((comp)->output, size))

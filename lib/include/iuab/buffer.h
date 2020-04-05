@@ -7,8 +7,8 @@ extern "C" {
 
 #include "errors.h"
 
-#include <stddef.h> /* for size_t */
-#include <stdint.h> /* for uint8_t */
+#include <stddef.h>
+#include <stdint.h>
 
 /* A byte buffer that automatically grows in capacity. */
 struct iuab_buffer {

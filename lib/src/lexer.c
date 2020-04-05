@@ -1,6 +1,6 @@
 #include <iuab/lexer.h>
 
-#include <ctype.h> /* for isspace */
+#include <ctype.h>
 
 #define COMMENT_CHAR ';'
 

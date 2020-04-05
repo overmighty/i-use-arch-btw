@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <stdint.h> /* for uint8_t */
+#include <stdint.h>
 
 /* Opcodes for the virtual machine. */
 enum {

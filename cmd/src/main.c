@@ -10,10 +10,10 @@
 #include <unistd.h> /* for optind */
 
 #include <errno.h>
-#include <stdint.h> /* for uint8_t */
-#include <stdio.h>  /* for printf, fprintf, fclose, fopen, FILE */
-#include <stdlib.h> /* for malloc, free, size_t, EXIT_SUCCESS, EXIT_FAILURE */
-#include <string.h> /* for strerror */
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void log_compiler_error(struct iuab_compiler *comp) {
     if (comp->error == IUAB_ERROR_DEPTHNZ) {

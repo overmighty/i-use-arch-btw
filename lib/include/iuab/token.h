@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-#include <stddef.h> /* for size_t */
+#include <stddef.h>
 
 /* Types of "I use Arch btw" source code tokens. */
 enum iuab_token_type {

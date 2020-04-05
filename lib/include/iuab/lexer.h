@@ -7,7 +7,7 @@ extern "C" {
 
 #include "token.h"
 
-#include <stdio.h> /* for FILE */
+#include <stdio.h>
 
 /* A lexer for "I use Arch btw" source files. */
 struct iuab_lexer {
