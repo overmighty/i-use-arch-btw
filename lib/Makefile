@@ -11,11 +11,13 @@ LDFLAGS += -shared -Wl,-O1 -fPIC
 LIBNAME = iuab
 
 # Targets to build
-TARGET_STATIC = lib$(LIBNAME)$(STATICEXT)
-TARGET_SHARED = lib$(LIBNAME)$(SHAREDEXT)
+TARGET_STATIC    = lib$(LIBNAME)$(STATICEXT)
+TARGET_SHARED    = lib$(LIBNAME)$(SHAREDEXT)
+TARGET_PKGCONFIG = lib$(LIBNAME).pc
 
 .PHONY: all
-all: $(builddir)/$(TARGET_STATIC) $(builddir)/$(TARGET_SHARED)
+all: $(builddir)/$(TARGET_STATIC) $(builddir)/$(TARGET_SHARED) \
+	$(builddir)/$(TARGET_PKGCONFIG)
 
 $(builddir)/$(TARGET_STATIC): $(objs)
 	@echo "  AR      $(call basetarget,$@)"
@@ -25,8 +27,15 @@ $(builddir)/$(TARGET_SHARED): $(objs)
 	@echo "  LD      $(call basetarget,$@)"
 	$(Q)$(LD) $(LDFLAGS) -o $@ $(objs)
 
+$(builddir)/$(TARGET_PKGCONFIG): $(TARGET_PKGCONFIG).in
+	@echo "  GEN     $(call basetarget,$@)"
+	$(Q)sed $< \
+		-e 's#@includedir@#$(includedir)#g' \
+		-e 's#@libdir@#$(libdir)#g' \
+		> $@
+
 .PHONY: install
-install: install_static install_shared install_headers
+install: install_static install_shared install_headers install_pkgconfig
 
 .PHONY: install_static
 install_static: $(builddir)/$(TARGET_STATIC)
@@ -44,8 +53,14 @@ install_headers:
 	@mkdir -p $(includedir)
 	$(Q)cp -r include/$(LIBNAME) $(includedir)
 
+.PHONY: install_pkgconfig
+install_pkgconfig: $(builddir)/$(TARGET_PKGCONFIG)
+	@echo "  INSTALL $(libdir)/pkgconfig/$(TARGET_PKGCONFIG)"
+	$(Q)$(INSTALL_DATA) $< $(libdir)/pkgconfig/$(TARGET_PKGCONFIG)
+
 .PHONY: uninstall
-uninstall: uninstall_static uninstall_shared uninstall_headers
+uninstall: uninstall_static uninstall_shared uninstall_headers \
+	uninstall_pkgconfig
 
 .PHONY: uninstall_static
 uninstall_static:
@@ -61,3 +76,8 @@ uninstall_shared:
 uninstall_headers:
 	@echo "  RM      $(includedir)/$(LIBNAME)"
 	$(Q)$(RM) -r $(includedir)/$(LIBNAME)
+
+.PHONY: uninstall_pkgconfig
+uninstall_pkgconfig:
+	@echo "  RM      $(libdir)/pkgconfig/$(TARGET_PKGCONFIG)"
+	$(Q)$(RM) $(libdir)/pkgconfig/$(TARGET_PKGCONFIG)
