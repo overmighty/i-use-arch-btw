@@ -24,7 +24,7 @@ struct iuab_vm {
     enum iuab_error error; /* The current error. */
 };
 
-/* Initializes the given VM for execution of the given bytecode program Sets
+/* Initializes the given VM for execution of the given bytecode program. Sets
  * the VM's input and output files to the in and out parameters respectively. */
 void iuab_vm_init(struct iuab_vm *vm, const uint8_t *program, FILE *in,
                   FILE *out);
