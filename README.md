@@ -86,7 +86,7 @@ $ make DEBUG=1
 ```
 
 All build files/artifacts will be located in the build directory specified by
-the `BUILDDIR` Make variable, which is set to `build` by default. 
+the `BUILDDIR` Make variable, which is set to `build` by default.
 
 To delete build files/artifacts:
 
