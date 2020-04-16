@@ -14,8 +14,8 @@ int compile(FILE *src, uint8_t **dest) {
 
     if (result != IUAB_ERROR_SUCCESS) {
         std::cerr << "error: " << iuab_strerror(result) << " at line "
-            << compiler.get()->token.line << ", col "
-            << compiler.get()->token.col << std::endl;
+            << compiler->token.line << ", col "
+            << compiler->token.col << std::endl;
         return EXIT_FAILURE;
     }
 
