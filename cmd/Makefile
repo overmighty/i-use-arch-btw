@@ -1,14 +1,14 @@
 .PHONY: default
 default: all
 
-include ../rules.mk
-
-# Build program flags
-CFLAGS  += -std=gnu99 -O2 -Wall -Wextra -pedantic -I../lib/include
-LDFLAGS += -Wl,-O1,--as-needed $(LIBS)
-
 # Linker flags for libraries
 LIBS = -L$(builddir) -liuab
+
+# Build program flags
+ALL_CFLAGS  += -std=gnu99 -Wall -Wextra -pedantic -I../lib/include
+ALL_LDFLAGS += -Wl,--as-needed $(LIBS)
+
+include ../rules.mk
 
 # Target base name
 CMDNAME = i-use-arch-btw
@@ -21,7 +21,7 @@ all: $(builddir)/$(TARGET)
 
 $(builddir)/$(TARGET): $(objs)
 	@echo "  LD      $(call basetarget,$@)"
-	$(Q)$(LD) -o $@ $(objs) $(LDFLAGS)
+	$(Q)$(LD) -o $@ $(objs) $(ALL_LDFLAGS)
 
 .PHONY: install
 install: $(builddir)/$(TARGET)

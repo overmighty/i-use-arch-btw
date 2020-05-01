@@ -9,10 +9,10 @@ basetarget = $(1:$(builddir)/%=%)
 $(builddir)/$(module)/%.o: %.c $(builddir)/$(module)/%.d
 	@echo -e "  CC      $(call basetarget,$@)"
 	@mkdir -p $(dir $@)
-	$(Q)$(CC) $(CFLAGS) -c -o $@ $<
+	$(Q)$(CC) $(ALL_CFLAGS) -c -o $@ $<
 
 $(builddir)/$(module)/%.d: %.c
 	@mkdir -p $(dir $@)
-	$(Q)$(CC) $(CFLAGS) -MM -MT $(@:%.d=%.o) $< > $@
+	$(Q)$(CC) $(ALL_CFLAGS) -MM -MT $(@:%.d=%.o) $< > $@
 
 -include $(deps)

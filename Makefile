@@ -1,6 +1,3 @@
-.SUFFIXES:
-SUFFIXES =
-
 MAKEFLAGS += -rR --no-print-directory
 
 SHELL = /bin/sh
@@ -11,15 +8,18 @@ LD = $(CC)
 AR = ar
 
 # Build program flags
-CFLAGS  =
-LDFLAGS =
+CFLAGS  = -O2
+LDFLAGS = -Wl,-O1
 ARFLAGS = rcs
 
 # Debugging flags
 DEBUG_CFLAGS = -g -Og
 
+ALL_CFLAGS  = $(CFLAGS)
+ALL_LDFLAGS = $(LDFLAGS)
+
 ifeq ($(DEBUG), 1)
-	CFLAGS += $(DEBUG_CFLAGS)
+	ALL_CFLAGS += $(DEBUG_CFLAGS)
 endif
 
 # Install commands

@@ -1,11 +1,11 @@
 .PHONY: default
 default: all
 
-include ../rules.mk
-
 # Build program flags
-CFLAGS 	+= -std=c99 -O2 -Wall -Wextra -pedantic -Iinclude -fPIC
-LDFLAGS += -shared -Wl,-O1 -fPIC
+ALL_CFLAGS  += -std=c99 -Wall -Wextra -pedantic -Iinclude -fPIC
+ALL_LDFLAGS += -shared -fPIC
+
+include ../rules.mk
 
 # Target base name
 LIBNAME = iuab
@@ -25,7 +25,7 @@ $(builddir)/$(TARGET_STATIC): $(objs)
 
 $(builddir)/$(TARGET_SHARED): $(objs)
 	@echo "  LD      $(call basetarget,$@)"
-	$(Q)$(LD) $(LDFLAGS) -o $@ $(objs)
+	$(Q)$(LD) $(ALL_LDFLAGS) -o $@ $(objs)
 
 $(builddir)/$(TARGET_PKGCONFIG): $(TARGET_PKGCONFIG).in
 	@echo "  GEN     $(call basetarget,$@)"
