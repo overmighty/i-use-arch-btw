@@ -1,8 +1,6 @@
 # Build files/artifacts
 build/
 
-# Object files
-*.o
-
-# Visual Studio Code workspace settings
+# Code editor/IDE workspace settings
+.vim/
 .vscode/
