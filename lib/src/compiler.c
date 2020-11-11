@@ -1,6 +1,6 @@
 #include <iuab/compiler.h>
 
-#include <stdlib.h>
+#include <stddef.h>
 #include <string.h>
 
 #define EMIT_BYTE(comp, byte) (iuab_buffer_put_byte((comp)->output, byte))
@@ -16,34 +16,16 @@
                                (type) == IUAB_TOKEN_GENTOO)
 
 static void iuab_compiler_advance(struct iuab_compiler *comp) {
-    comp->token = iuab_lexer_next_token(comp->lexer);
+    comp->token = iuab_lexer_next_token(&comp->lexer);
 }
 
-enum iuab_error iuab_compiler_init(struct iuab_compiler *comp, FILE *input) {
-    comp->lexer = malloc(sizeof(struct iuab_lexer));
-
-    if (!comp->lexer) {
-        return IUAB_ERROR_MEMORY;
-    }
-
-    iuab_lexer_init(comp->lexer, input);
+void iuab_compiler_init(struct iuab_compiler *comp, FILE *input,
+                        struct iuab_buffer *output) {
+    iuab_lexer_init(&comp->lexer, input);
     iuab_compiler_advance(comp);
-    comp->output = malloc(sizeof(struct iuab_buffer));
-
-    if (!comp->output) {
-        free(comp->lexer);
-        return IUAB_ERROR_MEMORY;
-    }
-
-    if (iuab_buffer_init(comp->output) != IUAB_ERROR_SUCCESS) {
-        free(comp->output);
-        free(comp->lexer);
-        return IUAB_ERROR_MEMORY;
-    }
-
+    comp->output = output;
     comp->depth = 0;
     comp->error = IUAB_ERROR_SUCCESS;
-    return IUAB_ERROR_SUCCESS;
 }
 
 static void iuab_compiler_arithm_op(struct iuab_compiler *comp) {
@@ -120,8 +102,7 @@ static void iuab_compiler_end_loop(struct iuab_compiler *comp) {
     iuab_compiler_advance(comp);
 }
 
-static void iuab_compiler_finalize_output(struct iuab_compiler *comp,
-                                          uint8_t **dest) {
+static void iuab_compiler_finalize_output(struct iuab_compiler *comp) {
     if (comp->depth) {
         comp->error = IUAB_ERROR_DEPTHNZ;
         return;
@@ -130,15 +111,12 @@ static void iuab_compiler_finalize_output(struct iuab_compiler *comp,
     EMIT_BYTE(comp, IUAB_OP_RET);
     iuab_buffer_trim(comp->output);
 
-    if (!comp->output->data || !(*dest = malloc(comp->output->len))) {
+    if (!comp->output->data) {
         comp->error = IUAB_ERROR_MEMORY;
-        return;
     }
-
-    memcpy(*dest, comp->output->data, comp->output->len);
 }
 
-enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
+enum iuab_error iuab_compiler_run(struct iuab_compiler *comp) {
     while (comp->token.type != IUAB_TOKEN_EOF) {
         if (IS_ARITHM_TOKEN(comp->token.type)) {
             iuab_compiler_arithm_op(comp);
@@ -161,12 +139,6 @@ enum iuab_error iuab_compiler_run(struct iuab_compiler *comp, uint8_t **dest) {
         }
     }
 
-    iuab_compiler_finalize_output(comp, dest);
+    iuab_compiler_finalize_output(comp);
     return comp->error;
-}
-
-void iuab_compiler_fini(struct iuab_compiler *comp) {
-    free(comp->lexer);
-    iuab_buffer_fini(comp->output);
-    free(comp->output);
 }
