@@ -1,6 +1,6 @@
 #include <iuab/token.h>
 
-char *iuab_token_type_name(enum iuab_token_type tok_type) {
+const char *iuab_token_type_name(enum iuab_token_type tok_type) {
     switch (tok_type) {
     case IUAB_TOKEN_EOF:    return "EOF";
     case IUAB_TOKEN_I:      return "i";

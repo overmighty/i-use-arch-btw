@@ -1,6 +1,6 @@
 #include <iuab/op.h>
 
-char *iuab_op_name(uint8_t op) {
+const char *iuab_op_name(uint8_t op) {
     switch (op) {
     case IUAB_OP_RET:   return "RET";
     case IUAB_OP_INCP:  return "INCP";

@@ -1,6 +1,6 @@
 #include <iuab/errors.h>
 
-char *iuab_strerror(enum iuab_error error) {
+const char *iuab_strerror(enum iuab_error error) {
     switch (error) {
     /* General error codes */
     case IUAB_ERROR_SUCCESS: return "success";
