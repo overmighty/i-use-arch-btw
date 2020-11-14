@@ -23,7 +23,7 @@ enum iuab_error {
 };
 
 /* Returns a string describing the meaning of the given library error code. */
-char *iuab_strerror(enum iuab_error error);
+const char *iuab_strerror(enum iuab_error error);
 
 #ifdef __cplusplus
 }

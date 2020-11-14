@@ -24,7 +24,7 @@ enum {
 };
 
 /* Returns the name of the given opcode as a string. */
-char *iuab_op_name(uint8_t op);
+const char *iuab_op_name(uint8_t op);
 
 #ifdef __cplusplus
 }

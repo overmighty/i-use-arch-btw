@@ -32,7 +32,7 @@ struct iuab_token {
 };
 
 /* Returns the name of the given token type as a string. */
-char *iuab_token_type_name(enum iuab_token_type tok_type);
+const char *iuab_token_type_name(enum iuab_token_type tok_type);
 
 #ifdef __cplusplus
 }
