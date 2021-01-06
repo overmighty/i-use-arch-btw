@@ -63,9 +63,9 @@ $ i-use-arch-btw -h
 #### Dependencies
 
 * [`libiuab`](./lib): C/C++ library
-    - standard C99 library
+    - C99 standard library
 * [`i-use-arch-btw`](./cmd): command-line interpreter
-    - standard C99 library
+    - C99 standard library
     - [`libiuab`](./lib)
     - `unistd.h` for `getopt()` and `optind`
     - `time.h` for `clock_gettime()`, `CLOCK_MONOTONIC` and `struct timespec`
