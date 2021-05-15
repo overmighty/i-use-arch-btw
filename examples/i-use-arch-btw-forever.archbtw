@@ -1,0 +1,57 @@
+; Example program that prints "I use Arch btw" forever.
+
+; Write string "I use Arch btw\n" at start of memory
+
+; I
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; <SPACE>
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; u
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; s
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; e
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; <SPACE>
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; A
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; r
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; c
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; h
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; <SPACE>
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; b
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; t
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; w
+arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch arch i
+; <LF>
+arch arch arch arch arch arch arch arch arch arch i
+
+; First byte after string is a null byte that marks the end of the string, but
+; we temporarily turn it into a non-null byte before each iteration of the
+; following loop to make the program run forever; this first incrementation is
+; for triggering the initial iteration of the loop
+arch
+
+; Print loop
+the
+    ; Turn byte after string back into string-terminating null byte
+    linux
+    ; Navigate data pointer back to first byte (start of string)
+    use use use use use use use use use use use use use use use
+
+    ; Print string (loop stops on encounter of the string-terminating null byte)
+    the
+        btw
+        i
+    way
+
+    ; Turn byte after string into non-null byte to trigger next loop iteration
+    arch
+way
