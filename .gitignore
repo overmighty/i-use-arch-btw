@@ -1,6 +1,9 @@
-# Build files/artifacts
+# Build artifacts.
 build/
 
-# Code editor/IDE workspace settings
-.vim/
-.vscode/
+# clangd cache and compilation database.
+.cache/
+compile_commands.json
+
+# Code editor/IDE settings.
+.idea/

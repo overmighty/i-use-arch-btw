@@ -1,0 +1,4 @@
+; Example program that should cause an "invalid token" compile-time error.
+
+; This is an invalid token:
+manjaro

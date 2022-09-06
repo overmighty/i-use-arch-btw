@@ -1,99 +1,61 @@
-<div align="center">
-    <h1>I use Arch btw</h1>
-    <blockquote>
-        <p>"I use Arch btw" but it's a Turing-complete programming language.</p>
-    </blockquote>
-    <a href="./examples">Example programs</a>
-    <span>|</span>
-    <a href="./docs/LANG_SPEC.md">Language specification</a>
-    <span>|</span>
-    <a href="./docs/VM_SPEC.md">Virtual machine specification</a>
-</div>
+# I use Arch btw
+
+> "I use Arch btw" but it's a Turing-complete programming language.
 
 ## Introduction
 
-"I use Arch btw" is an esoteric programming language based on
-[Brainfuck](https://en.wikipedia.org/wiki/Brainfuck) in which the Brainfuck
-commands have been replaced with the following keywords:
+I use Arch btw is an esoteric programming language based on [Brainfuck](
+https://en.wikipedia.org/wiki/Brainfuck) in which the commands are the following
+keywords:
 
-`i`, `use`, `arch`, `linux`, `btw`, `by`, `the`, `way`.
+`i`, `use`, `arch`, `linux`, `btw`, `by`, `the`, `way`, `gentoo`.
 
-This repository contains the source code for an "I use Arch btw"
-[C/C++ library](./lib) and [command-line interpreter](./cmd), both written in
-C99.
+See the [language specification](./docs/language_specification.md) for more
+information.
 
-## Installation
+This repository contains a [C/C++ library implementing I use Arch btw](./lib)
+and a dependent [command-line interpreter](./cmd).
 
-On Unix-like systems, the Makefiles included in this repository can be used to
-build and install both the library and the interpreter:
+## Getting Started
 
-**Note:** By default, built libraries are installed to `/usr/local/lib`, library
-headers are installed to `/usr/local/include`, and built executables are
-installed to `/usr/local/bin`.
+### Prerequisites
 
-```
-$ make
-$ sudo make install
-```
+- [CMake](https://cmake.org/) >= 3.23
+- a C99 and C++17 compiler toolchain supported by CMake and providing POSIX
+  [`unistd.h`](https://en.wikipedia.org/wiki/Unistd.h)
 
-The common `DESTDIR` and `PREFIX` Make flags are supported.
+### Building
 
-To uninstall the library and the interpreter:
+    $ mkdir build
+    $ cd build
+    $ cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
+    $ cmake --build .
 
-```
-$ sudo make uninstall
-```
+### Installation
 
-## Usage
+    # cmake --install .
 
-To interpret a file containing "I use Arch btw" source code:
+### Usage
 
-```
-$ i-use-arch-btw path/to/file.archbtw
-```
+#### Command-line interpreter
 
-Type this command to get the command-line interpreter's help message:
+    $ i-use-arch-btw <source file>
 
-```
-$ i-use-arch-btw -h
-```
+Try some of the [example I use Arch btw programs](./examples) as source files.
 
-## Building
+For details:
 
-#### Dependencies
+    $ i-use-arch-btw -h
 
-* [`libiuab`](./lib): C/C++ library
-    - C99 standard library
-* [`i-use-arch-btw`](./cmd): command-line interpreter
-    - C99 standard library
-    - [`libiuab`](./lib)
-    - `unistd.h` for `getopt()` and `optind`
-    - `time.h` for `clock_gettime()`, `CLOCK_MONOTONIC` and `struct timespec`
+#### C/C++ library
 
-#### Makefiles
+For documentation of the public API, see the [public headers](
+./lib/include/iuab).
 
-You can use the global Makefile at the root of this repository to build
-everything:
-
-```
-$ make
-```
-
-To build everything but for debugging (generate debugging symbols):
-
-```
-$ make DEBUG=1
-```
-
-All build files/artifacts will be located in the build directory specified by
-the `BUILDDIR` Make variable, which is set to `build` by default.
-
-To delete build files/artifacts:
-
-```
-$ make clean
-```
+For example usage, see the [command-line interpreter](./cmd) and [example
+libiuab programs](./examples/libiuab).
 
 ## License
 
-This project is licensed under the [MIT license](./LICENSE).
+This software is licensed under the [GNU General Public License, version 3](
+./LICENSE.md).

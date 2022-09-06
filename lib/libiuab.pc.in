@@ -1,8 +1,0 @@
-includedir=@includedir@
-libdir=@libdir@
-
-Name: libiuab
-Description: Library for embedding the "I use Arch btw" programming language.
-Version: 0.1.0
-Libs: -L${libdir} -liuab
-Cflags: -I${includedir}

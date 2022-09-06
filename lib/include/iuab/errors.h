@@ -1,3 +1,6 @@
+// Copyright (C) 2022 OverMighty
+// SPDX-License-Identifier: GPL-3.0-only
+
 #ifndef IUAB_ERRORS_H
 #define IUAB_ERRORS_H
 
@@ -5,28 +8,43 @@
 extern "C" {
 #endif
 
-/* Library error codes. */
+// I use Arch btw errors.
 enum iuab_error {
-    /* General error codes. */
-    IUAB_ERROR_SUCCESS, /* Success. */
-    IUAB_ERROR_MEMORY,  /* Memory allocation failure. */
-    /* Compiler error codes. */
-    IUAB_ERROR_INVALTOK, /* Invalid token. */
-    IUAB_ERROR_DEPTHMIN, /* Unexpected loop end. */
-    IUAB_ERROR_DEPTHMAX, /* Maximum loop nesting depth exceeded. */
-    IUAB_ERROR_DEPTHNZ,  /* Unclosed loops. */
-    /* VM error codes. */
-    IUAB_ERROR_INVALOP, /* Invalid opcode. */
-    IUAB_ERROR_POVERF,  /* Data pointer overflow. */
-    IUAB_ERROR_PUNDERF, /* Data pointer underflow. */
-    IUAB_ERROR_INEOF    /* End of input file. */
+    // Success.
+    IUAB_ERROR_SUCCESS,
+
+    // Memory allocation error.
+    IUAB_ERROR_MALLOC,
+    // Input/output error.
+    IUAB_ERROR_IO,
+
+    // Invalid target.
+    IUAB_ERROR_INVALID_TARGET,
+
+    // Invalid token.
+    IUAB_ERROR_COMPILER_INVALID_TOKEN,
+    // Unexpected loop end.
+    IUAB_ERROR_COMPILER_UNEXPECTED_LOOP_END,
+    // Unclosed loops.
+    IUAB_ERROR_COMPILER_UNCLOSED_LOOPS,
+    // Internal compiler error.
+    IUAB_ERROR_COMPILER_INTERNAL,
+
+    // Data pointer out of bounds.
+    IUAB_ERROR_DP_OUT_OF_BOUNDS,
+
+    // End of input file.
+    IUAB_ERROR_RUNTIME_END_OF_INPUT_FILE,
+
+    // Invalid bytecode opcode.
+    IUAB_ERROR_BYTECODE_INVALID_OP,
 };
 
-/* Returns a string describing the meaning of the given library error code. */
+// Returns a description of the given error as a string.
 const char *iuab_strerror(enum iuab_error error);
 
 #ifdef __cplusplus
-}
+};
 #endif
 
-#endif /* IUAB_ERRORS_H */
+#endif // IUAB_ERRORS_H

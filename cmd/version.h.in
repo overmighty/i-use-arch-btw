@@ -1,0 +1,9 @@
+// Copyright (C) 2022 OverMighty
+// SPDX-License-Identifier: GPL-3.0-only
+
+#ifndef VERSION_H
+#define VERSION_H
+
+#define VERSION_STRING "i-use-arch-btw @PROJECT_VERSION@"
+
+#endif // VERSION_H

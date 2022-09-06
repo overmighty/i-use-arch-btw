@@ -1,6 +1,7 @@
 ; Example program that prints all 26 letters of the English alphabet.
 
-; Set value at data pointer to 65 (ASCII value of 'A')
+; The first byte of the working memory will store the next letter to print.
+; Initialize it to 65 (ASCII value of 'A').
 arch arch arch arch arch arch arch arch arch arch
 arch arch arch arch arch arch arch arch arch arch
 arch arch arch arch arch arch arch arch arch arch
@@ -9,30 +10,30 @@ arch arch arch arch arch arch arch arch arch arch
 arch arch arch arch arch arch arch arch arch arch
 arch arch arch arch arch
 
-; Increment data pointer: point to second byte of program memory
 i
 
-; The second byte of program memory will serve as a reverse loop counter:
-; its value will be the amount of loop iterations left to run
-
-; Set loop counter's value to 26
+; The second byte of the working memory will serve as a loop counter: it will
+; store the amount of loop iterations left to perform. Initialize it to 26.
 arch arch arch arch arch arch arch arch arch arch
 arch arch arch arch arch arch arch arch arch arch
 arch arch arch arch arch arch
 
-; Loops 26 times
+; Loops 26 times.
 the
-    use   ; Decrement data pointer (loop counter pointer -> letter pointer)
-    btw   ; Print value at data pointer as character
-    arch  ; Increment value at data pointer
-    i     ; Increment data pointer (letter pointer -> loop counter pointer)
-    linux ; Decrement value at data pointer
+    ; Switch data pointer back to letter.
+    use
+    ; Print letter.
+    btw
+    ; Set next letter.
+    arch
+    ; Switch data pointer to loop counter.
+    i
+    ; Decrement loop counter.
+    linux
 way
 
-; Value at data pointer is now 0
-
-; Set value at data pointer to 10 (ASCII value of '\n')
+; Value pointed to by data pointer is now 0. Set it to 10 (ASCII value of '\n').
 arch arch arch arch arch arch arch arch arch arch
 
-; Print newline character
+; Print new line.
 btw

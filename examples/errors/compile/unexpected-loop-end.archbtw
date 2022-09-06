@@ -1,0 +1,4 @@
+; Example program that should cause an "unexpected loop end" compile-time error.
+
+; No matching `the` keyword to mark the start of a loop block.
+way

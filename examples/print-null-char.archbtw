@@ -1,0 +1,6 @@
+; Example program that prints the ASCII null character ('\0').
+
+i use arch linux btw
+
+; Just `btw` would also work, but would not remind those reading your code that
+; you use Arch Linux btw for the millionth time.

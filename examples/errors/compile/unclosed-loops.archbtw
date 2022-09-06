@@ -1,0 +1,4 @@
+; Example program that should cause an "unclosed loops" compile-time error.
+
+; No matching `way` keyword to mark the end of this loop block.
+the

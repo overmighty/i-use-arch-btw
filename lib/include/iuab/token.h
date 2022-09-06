@@ -1,3 +1,6 @@
+// Copyright (C) 2022 OverMighty
+// SPDX-License-Identifier: GPL-3.0-only
+
 #ifndef IUAB_TOKEN_H
 #define IUAB_TOKEN_H
 
@@ -7,35 +10,46 @@ extern "C" {
 
 #include <stddef.h>
 
-/* Types of "I use Arch btw" source code tokens. */
+// A type of I use Arch btw source code token.
 enum iuab_token_type {
-    IUAB_TOKEN_EOF = -1, /* End of file. */
+    // End of file.
+    IUAB_TOKEN_EOF = -1,
 
-    IUAB_TOKEN_I = 0,
+    // The "i" keyword.
+    IUAB_TOKEN_I,
+    // The "use" keyword.
     IUAB_TOKEN_USE,
+    // The "arch" keyword.
     IUAB_TOKEN_ARCH,
+    // The "linux" keyword.
     IUAB_TOKEN_LINUX,
+    // The "btw" keyword.
     IUAB_TOKEN_BTW,
+    // The "by" keyword.
     IUAB_TOKEN_BY,
+    // The "the" keyword.
     IUAB_TOKEN_THE,
+    // The "way" keyword.
     IUAB_TOKEN_WAY,
+    // The "gentoo" keyword.
     IUAB_TOKEN_GENTOO,
 
-    IUAB_TOKEN_INVAL /* Invalid token. */
+    // Invalid token type.
+    IUAB_TOKEN_INVALID
 };
 
-/* An "I use Arch btw" source code token. */
+// Returns the name of the given token type as a string.
+const char *iuab_token_type_name(enum iuab_token_type type);
+
+// An I use Arch btw source code token.
 struct iuab_token {
     enum iuab_token_type type;
-    size_t line; /* The line number of the first character. */
-    size_t col; /* The column number of the first character. */
+    size_t line;
+    size_t col;
 };
-
-/* Returns the name of the given token type as a string. */
-const char *iuab_token_type_name(enum iuab_token_type tok_type);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* IUAB_TOKEN_H */
+#endif

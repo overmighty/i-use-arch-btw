@@ -1,5 +1,6 @@
-; Example program that showcases the `gentoo` keyword which is used to print
-; debugging information.
+; Example program to showcase the `gentoo` keyword which the official
+; command-line interpreter handles by printing information about the program's
+; state.
 
 gentoo
 i arch gentoo

@@ -1,4 +1,4 @@
-; Example program that keeps reading an input character then printing it until
-; a null character ('\0') is read.
+; Example program that repeatedly reads a character then prints it until it
+; reads a null character ('\0').
 
 arch the by btw way

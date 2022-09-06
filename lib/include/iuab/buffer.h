@@ -1,3 +1,6 @@
+// Copyright (C) 2022 OverMighty
+// SPDX-License-Identifier: GPL-3.0-only
+
 #ifndef IUAB_BUFFER_H
 #define IUAB_BUFFER_H
 
@@ -10,30 +13,48 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 
-/* A dynamically sized 8-bit byte buffer. */
+// A growable byte buffer.
 struct iuab_buffer {
-    size_t len; /* The length of the stored data, in bytes. */
-    size_t cap; /* The allocated storage capacity, in bytes. */
-    uint8_t *data; /* A pointer to the first byte of stored data. */
+    size_t size;
+    size_t cap;
+    uint8_t *data;
 };
 
-/* Initializes the given buffer. */
+// Initializes the given buffer. Returns the error that occurred in the process.
 enum iuab_error iuab_buffer_init(struct iuab_buffer *buffer);
 
-/* Sets the given buffer's capacity to its length. */
-void iuab_buffer_trim(struct iuab_buffer *buffer);
+// Writes `n` bytes from `data` at the end of the given buffer. Returns the
+// error that occurred in the process.
+enum iuab_error
+iuab_buffer_write(struct iuab_buffer *buffer, const void *data, size_t n);
 
-/* Writes the given byte at the end of the given buffer. */
-void iuab_buffer_put_byte(struct iuab_buffer *buffer, uint8_t byte);
+// Writes the given `uint8_t` value at the end of the given buffer. Returns the
+// error that occurred in the process.
+static inline enum iuab_error
+iuab_buffer_write_u8(struct iuab_buffer *buffer, uint8_t value) {
+    return iuab_buffer_write(buffer, &value, sizeof(value));
+}
 
-/* Writes the given size at the end of the given buffer. */
-void iuab_buffer_put_size(struct iuab_buffer *buffer, size_t size);
+// Writes the given `size_t` value at the end of the given buffer. Returns the
+// error that occurred in the process.
+static inline enum iuab_error
+iuab_buffer_write_size(struct iuab_buffer *buffer, size_t value) {
+    return iuab_buffer_write(buffer, &value, sizeof(value));
+}
 
-/* Destroys the given buffer. */
+// Transforms to a call to `iuab_buffer_write()` with `sizeof(data)` as argument
+// for the `n` parameter.
+#define IUAB_BUFFER_WRITE(buffer, data) \
+    iuab_buffer_write((buffer), (data), sizeof(data))
+
+// Returns and removes the `size_t` value at the end of the given buffer.
+size_t iuab_buffer_pop_size(struct iuab_buffer *buffer);
+
+// Finalizes the given buffer. Frees the allocated storage cap.
 void iuab_buffer_fini(struct iuab_buffer *buffer);
 
 #ifdef __cplusplus
-}
+};
 #endif
 
-#endif /* IUAB_BUFFER_H */
+#endif // IUAB_BUFFER_H

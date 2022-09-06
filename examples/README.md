@@ -1,11 +1,11 @@
 ## Examples
 
-This directory contains a few example "I use Arch btw" programs.
+This directory contains example I use Arch btw programs.
 
 Example programs that are meant to cause errors are stored in the
-[error](./error) directory.
+[errors](./errors) subdirectory.
 
 ### libiuab
 
-Example usage of libiuab, the C/C++ library for embedding "I use Arch btw", can
-be found in the [libiuab](./libiuab) directory.
+Example usage of libiuab, the C/C++ library implementing I use Arch btw, can be
+found in the [libiuab](./libiuab) subdirectory.

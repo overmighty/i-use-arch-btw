@@ -1,3 +1,0 @@
-; This example program will cause an "unexpected loop end" compile-time error.
-
-way ; No matching `the` keyword: no loop to mark the end of

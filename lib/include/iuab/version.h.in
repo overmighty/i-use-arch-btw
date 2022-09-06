@@ -1,0 +1,17 @@
+// Copyright (C) 2022 OverMighty
+// SPDX-License-Identifier: GPL-3.0-only
+
+#ifndef IUAB_VERSION_H
+#define IUAB_VERSION_H
+
+// Major version of libiuab.
+#define IUAB_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+// Minor version of libiuab.
+#define IUAB_VERSION_MINOR @PROJECT_VERSION_MINOR@
+// Patch version of libiuab.
+#define IUAB_VERSION_PATCH @PROJECT_VERSION_PATCH@
+
+// libiuab version string.
+#define IUAB_VERSION_STRING "libiuab @PROJECT_VERSION@"
+
+#endif
