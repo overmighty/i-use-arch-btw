@@ -11,10 +11,17 @@
 #include "iuab/token.h"
 
 #include <errno.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#if defined(__x86_64__) && defined(IUAB_USE_JIT)
+    #define COMPILE_AND_RUN_TARGET IUAB_TARGET_JIT_X86_64
+#else
+    #define COMPILE_AND_RUN_TARGET IUAB_TARGET_BYTECODE
+#endif
 
 int compile(enum iuab_target target, FILE *src, struct iuab_buffer *dst) {
     struct iuab_token last_token;
@@ -59,10 +66,11 @@ int compile_and_run(const char *filename) {
         return EXIT_FAILURE;
     }
 
-    enum iuab_target target = IUAB_TARGET_BYTECODE;
+    enum iuab_target target = COMPILE_AND_RUN_TARGET;
+    bool is_jit_target = iuab_target_is_jit(target);
 
     struct iuab_buffer program;
-    enum iuab_error error = iuab_buffer_init(&program);
+    enum iuab_error error = iuab_buffer_init_maybe_jit(&program, is_jit_target);
 
     if (error != IUAB_ERROR_SUCCESS) {
         LOG_ERROR("failed to init program buffer: %s\n", strerror(error));
@@ -77,6 +85,6 @@ int compile_and_run(const char *filename) {
         status = run(target, &program);
     }
 
-    iuab_buffer_fini(&program);
+    iuab_buffer_fini_maybe_jit(&program, is_jit_target);
     return status;
 }

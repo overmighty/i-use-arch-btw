@@ -9,6 +9,10 @@ target_compile_options(
     $<$<COMPILE_LANG_AND_ID:C,Clang,GNU>:-Wall -Wextra -pedantic>
 )
 
+if(IUAB_USE_JIT)
+    target_compile_definitions(i-use-arch-btw PUBLIC IUAB_USE_JIT)
+endif()
+
 configure_file(version.h.in version.h)
 target_include_directories(i-use-arch-btw PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
 

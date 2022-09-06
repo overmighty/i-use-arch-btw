@@ -22,7 +22,8 @@ and a dependent [command-line interpreter](./cmd).
 
 - [CMake](https://cmake.org/) >= 3.23
 - a C99 and C++17 compiler toolchain supported by CMake and providing POSIX
-  [`unistd.h`](https://en.wikipedia.org/wiki/Unistd.h)
+  [`unistd.h`](https://en.wikipedia.org/wiki/Unistd.h), `mmap()`, `MAP_ANON`,
+  and defining `__x86_64__` when targeting x86-64
 
 ### Building
 

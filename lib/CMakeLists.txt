@@ -11,6 +11,8 @@ add_library(
     src/targets/bytecode_compile.c
     src/targets/bytecode_run.c
     src/targets.c
+    src/targets/jit_x86_64_compile.c
+    src/targets/jit_x86_64_run.c
     src/token.c
 )
 
@@ -32,6 +34,7 @@ target_sources(
     include/iuab/lexer.h
     include/iuab/targets/bytecode.h
     include/iuab/targets.h
+    include/iuab/targets/jit_x86_64.h
     include/iuab/token.h
     ${CMAKE_CURRENT_BINARY_DIR}/include/iuab/version.h
 )

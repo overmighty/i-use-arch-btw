@@ -15,6 +15,7 @@ const char *iuab_strerror(enum iuab_error error) {
     case IUAB_ERROR_DP_OUT_OF_BOUNDS: return "data pointer out of bounds";
     case IUAB_ERROR_RUNTIME_END_OF_INPUT_FILE: return "end of input file";
     case IUAB_ERROR_BYTECODE_INVALID_OP: return "invalid bytecode opcode";
+    case IUAB_ERROR_JIT_JUMP_TOO_LARGE: return "jump too large";
     default: return "???";
     }
 }

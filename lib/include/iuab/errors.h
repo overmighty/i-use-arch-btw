@@ -38,6 +38,9 @@ enum iuab_error {
 
     // Invalid bytecode opcode.
     IUAB_ERROR_BYTECODE_INVALID_OP,
+
+    // Jump too large.
+    IUAB_ERROR_JIT_JUMP_TOO_LARGE,
 };
 
 // Returns a description of the given error as a string.
