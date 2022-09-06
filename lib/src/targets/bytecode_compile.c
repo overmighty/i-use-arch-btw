@@ -187,7 +187,7 @@ enum iuab_error iuab_compile_bytecode(
         return error;
     }
 
-    while (compiler.token.type != EOF) {
+    while (compiler.token.type != IUAB_TOKEN_EOF) {
         error = iuab_bytecode_emit(&compiler);
 
         if (error != IUAB_ERROR_SUCCESS) {

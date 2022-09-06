@@ -23,7 +23,7 @@ int print_tokens(const char *filename) {
     size_t last_end_col = 1;
     struct iuab_token token;
 
-    while ((token = iuab_lexer_next_token(&lexer)).type != EOF) {
+    while ((token = iuab_lexer_next_token(&lexer)).type != IUAB_TOKEN_EOF) {
         if (token.type == IUAB_TOKEN_INVALID) {
             fprintf(
                 stderr,

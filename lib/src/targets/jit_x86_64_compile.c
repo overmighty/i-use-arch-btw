@@ -779,7 +779,7 @@ enum iuab_error iuab_compile_jit_x86_64(
         return error;
     }
 
-    while (compiler.token.type != EOF) {
+    while (compiler.token.type != IUAB_TOKEN_EOF) {
         error = iuab_jit_x86_64_emit(&compiler);
 
         if (error != IUAB_ERROR_SUCCESS) {
