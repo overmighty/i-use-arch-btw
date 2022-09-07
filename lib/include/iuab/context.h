@@ -38,7 +38,7 @@ void iuab_context_init(
 );
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_CONTEXT_H

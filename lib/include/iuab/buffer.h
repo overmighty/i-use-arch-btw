@@ -102,7 +102,7 @@ iuab_buffer_fini_maybe_jit(struct iuab_buffer *buffer, bool is_jit) {
 }
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_BUFFER_H

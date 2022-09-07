@@ -35,7 +35,7 @@ enum iuab_error iuab_compile_jit_x86_64(
 enum iuab_error iuab_run_jit_x86_64(struct iuab_context *ctx);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_TARGETS_JIT_X86_64_H

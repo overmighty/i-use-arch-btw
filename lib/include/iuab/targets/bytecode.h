@@ -64,7 +64,7 @@ enum iuab_error iuab_compile_bytecode(
 enum iuab_error iuab_run_bytecode(struct iuab_context *ctx);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_TARGETS_BYTECODE_H

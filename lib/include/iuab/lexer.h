@@ -27,7 +27,7 @@ void iuab_lexer_init(struct iuab_lexer *lexer, FILE *src);
 struct iuab_token iuab_lexer_next_token(struct iuab_lexer *lexer);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_LEXER_H

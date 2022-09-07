@@ -51,7 +51,7 @@ enum iuab_error iuab_compile(
 enum iuab_error iuab_run(enum iuab_target target, struct iuab_context *ctx);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_TARGETS_H

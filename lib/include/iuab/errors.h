@@ -47,7 +47,7 @@ enum iuab_error {
 const char *iuab_strerror(enum iuab_error error);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif // IUAB_ERRORS_H
