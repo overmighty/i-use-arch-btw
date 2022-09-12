@@ -133,8 +133,8 @@ enum iuab_jit_x86_64_jump_target {
 };
 
 struct iuab_jit_x86_64_jump {
-    size_t operand_offset;
-    enum iuab_jit_x86_64_jump_target target;
+    size_t from;
+    enum iuab_jit_x86_64_jump_target to;
 };
 
 struct iuab_jit_x86_64_compiler {
@@ -230,7 +230,11 @@ iuab_jit_x86_64_set_rel32(struct iuab_buffer *dst, size_t from, size_t to) {
         return IUAB_ERROR_JIT_JUMP_TOO_LARGE;
     }
 
-    *(int32_t *) &dst->data[from - sizeof(int32_t)] = (int32_t) rel32;
+    uint8_t *rel32_dst = &dst->data[from - sizeof(int32_t)];
+    rel32_dst[0] = rel32 & 0xFF;
+    rel32_dst[1] = (rel32 >> 8) & 0xFF;
+    rel32_dst[2] = (rel32 >> 16) & 0xFF;
+    rel32_dst[3] = (rel32 >> 24) & 0xFF;
     return IUAB_ERROR_SUCCESS;
 }
 
@@ -430,14 +434,20 @@ static enum iuab_error iuab_jit_x86_64_emit_footer(
         struct iuab_jit_x86_64_jump *jump =
             (struct iuab_jit_x86_64_jump *) &jumps->data[i];
 
-        if (jump_target_offsets[jump->target] == 0) {
-            jump_target_offsets[jump->target] = dst->size;
-            iuab_jit_x86_64_emit_jump_target(jump->target, exit_offset, dst);
+        if (jump_target_offsets[jump->to] == 0) {
+            jump_target_offsets[jump->to] = dst->size;
+            iuab_jit_x86_64_emit_jump_target(jump->to, exit_offset, dst);
         }
 
-        *(uint32_t *) &dst->data[jump->operand_offset] =
-            jump_target_offsets[jump->target] - jump->operand_offset -
-            sizeof(uint32_t);
+        error = iuab_jit_x86_64_set_rel32(
+            dst,
+            jump->from,
+            jump_target_offsets[jump->to]
+        );
+
+        if (error != IUAB_ERROR_SUCCESS) {
+            return error;
+        }
     }
 
     return IUAB_ERROR_SUCCESS;
@@ -507,8 +517,8 @@ iuab_jit_x86_64_emit_additive_p(struct iuab_jit_x86_64_compiler *compiler) {
     }
 
     struct iuab_jit_x86_64_jump jump_on_error = {
-        .operand_offset = compiler->dst->size - sizeof(uint32_t),
-        .target = IUAB_JUMP_RET_ERROR_DP_OUT_OF_BOUNDS,
+        .from = compiler->dst->size,
+        .to = IUAB_JUMP_RET_ERROR_DP_OUT_OF_BOUNDS,
     };
     error = iuab_buffer_write(
         &compiler->jumps,
@@ -603,8 +613,8 @@ iuab_jit_x86_64_emit_write(struct iuab_jit_x86_64_compiler *compiler) {
     }
 
     struct iuab_jit_x86_64_jump jump = {
-        .operand_offset = compiler->dst->size - sizeof(uint32_t),
-        .target = IUAB_JUMP_RET_ERROR_IO,
+        .from = compiler->dst->size,
+        .to = IUAB_JUMP_RET_ERROR_IO,
     };
     return iuab_buffer_write(&compiler->jumps, &jump, sizeof(jump));
 }
@@ -635,8 +645,8 @@ iuab_jit_x86_64_emit_read(struct iuab_jit_x86_64_compiler *compiler) {
     }
 
     struct iuab_jit_x86_64_jump jump = {
-        .operand_offset = compiler->dst->size - sizeof(int32_t),
-        .target = IUAB_JUMP_HANDLE_FGETC_EOF,
+        .from = compiler->dst->size,
+        .to = IUAB_JUMP_HANDLE_FGETC_EOF,
     };
     error = iuab_buffer_write(&compiler->jumps, &jump, sizeof(jump));
 
@@ -728,8 +738,8 @@ iuab_jit_x86_64_emit_debug(struct iuab_jit_x86_64_compiler *compiler) {
     }
 
     struct iuab_jit_x86_64_jump jump = {
-        .operand_offset = compiler->dst->size - sizeof(uint32_t),
-        .target = IUAB_JUMP_CALL_DEBUG_HANDLER,
+        .from = compiler->dst->size,
+        .to = IUAB_JUMP_CALL_DEBUG_HANDLER,
     };
     return iuab_buffer_write(&compiler->jumps, &jump, sizeof(jump));
 }
