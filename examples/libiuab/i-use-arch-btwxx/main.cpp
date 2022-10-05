@@ -11,7 +11,7 @@
 #include <cstring>
 #include <iostream>
 
-int compile(iuab_target target, FILE *src, iuab_buffer *dst) {
+int compile(iuab_target target, std::FILE *src, iuab_buffer *dst) {
     iuab_token last_token;
     iuab_error error = iuab_compile(target, src, dst, &last_token);
 
@@ -29,7 +29,7 @@ void debug_handler([[maybe_unused]] iuab_context *ctx) {
     std::cout << "debug handler called\n";
 }
 
-int run(iuab_target target, struct iuab_buffer *program) {
+int run(iuab_target target, iuab_buffer *program) {
     iuab_context ctx;
     iuab_context_init(&ctx, program->data, stdin, stdout, debug_handler);
     iuab_error error = iuab_run(target, &ctx);
@@ -45,7 +45,7 @@ int run(iuab_target target, struct iuab_buffer *program) {
 }
 
 int compile_and_run(const char *filename) {
-    FILE *src = std::fopen(filename, "rbe");
+    std::FILE *src = std::fopen(filename, "rbe");
 
     if (src == nullptr) {
         std::cerr << "failed to open source file: " << std::strerror(errno)
