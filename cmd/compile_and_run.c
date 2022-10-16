@@ -73,7 +73,7 @@ int compile_and_run(const char *filename) {
     enum iuab_error error = iuab_buffer_init_maybe_jit(&program, is_jit_target);
 
     if (error != IUAB_ERROR_SUCCESS) {
-        LOG_ERROR("failed to init program buffer: %s\n", strerror(error));
+        LOG_ERROR("failed to init program buffer: %s\n", iuab_strerror(error));
         fclose(src);
         return EXIT_FAILURE;
     }
