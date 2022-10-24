@@ -15,23 +15,23 @@ enum iuab_token_type {
     // End of file.
     IUAB_TOKEN_EOF = -1,
 
-    // The "i" keyword.
+    // The `i` keyword.
     IUAB_TOKEN_I,
-    // The "use" keyword.
+    // The `use` keyword.
     IUAB_TOKEN_USE,
-    // The "arch" keyword.
+    // The `arch` keyword.
     IUAB_TOKEN_ARCH,
-    // The "linux" keyword.
+    // The `linux` keyword.
     IUAB_TOKEN_LINUX,
-    // The "btw" keyword.
+    // The `btw` keyword.
     IUAB_TOKEN_BTW,
-    // The "by" keyword.
+    // The `by` keyword.
     IUAB_TOKEN_BY,
-    // The "the" keyword.
+    // The `the` keyword.
     IUAB_TOKEN_THE,
-    // The "way" keyword.
+    // The `way` keyword.
     IUAB_TOKEN_WAY,
-    // The "gentoo" keyword.
+    // The `gentoo` keyword.
     IUAB_TOKEN_GENTOO,
 
     // Invalid token type.

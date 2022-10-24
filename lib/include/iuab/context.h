@@ -26,7 +26,7 @@ struct iuab_context {
 };
 
 // Initializes the given context for execution of the code stored at `program`,
-// with the files pointed to by `in` and `out as input and output files
+// with the files pointed to by `in` and `out` as input and output files
 // respectively, and the function pointed to by `debug_handler` as debugging
 // event handler.
 void iuab_context_init(
