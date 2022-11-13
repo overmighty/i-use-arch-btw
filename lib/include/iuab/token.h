@@ -35,7 +35,7 @@ enum iuab_token_type {
     IUAB_TOKEN_GENTOO,
 
     // Invalid token type.
-    IUAB_TOKEN_INVALID
+    IUAB_TOKEN_INVALID,
 };
 
 // Returns the name of the given token type as a string.
