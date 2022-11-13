@@ -7,27 +7,30 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 
 static enum iuab_error iuab_bytecode_run_addp(struct iuab_context *ctx) {
-    uint16_t operand = *(uint16_t *) ctx->ip;
+    uint16_t operand;
+    memcpy(&operand, ctx->ip, sizeof(operand));
 
     if (ctx->dp - ctx->memory >= IUAB_CONTEXT_MEMORY_SIZE - operand) {
         return IUAB_ERROR_DP_OUT_OF_BOUNDS;
     }
 
-    ctx->ip += sizeof(uint16_t);
+    ctx->ip += sizeof(operand);
     ctx->dp += operand;
     return IUAB_ERROR_SUCCESS;
 }
 
 static enum iuab_error iuab_bytecode_run_subp(struct iuab_context *ctx) {
-    uint16_t operand = *(uint16_t *) ctx->ip;
+    uint16_t operand;
+    memcpy(&operand, ctx->ip, sizeof(operand));
 
     if (ctx->dp - ctx->memory < operand) {
         return IUAB_ERROR_DP_OUT_OF_BOUNDS;
     }
 
-    ctx->ip += sizeof(uint16_t);
+    ctx->ip += sizeof(operand);
     ctx->dp -= operand;
     return IUAB_ERROR_SUCCESS;
 }
@@ -58,21 +61,27 @@ static enum iuab_error iuab_bytecode_run_read(struct iuab_context *ctx) {
 }
 
 static void iuab_bytecode_run_jmpz(struct iuab_context *ctx) {
+    size_t offset;
+
     if (*ctx->dp != 0) {
-        ctx->ip += sizeof(size_t);
+        ctx->ip += sizeof(offset);
         return;
     }
 
-    ctx->ip = ctx->program + *(size_t *) ctx->ip;
+    memcpy(&offset, ctx->ip, sizeof(offset));
+    ctx->ip = ctx->program + offset;
 }
 
 static void iuab_bytecode_run_jmpnz(struct iuab_context *ctx) {
+    size_t offset;
+
     if (*ctx->dp == 0) {
-        ctx->ip += sizeof(uint8_t *);
+        ctx->ip += sizeof(offset);
         return;
     }
 
-    ctx->ip = ctx->program + *(size_t *) ctx->ip;
+    memcpy(&offset, ctx->ip, sizeof(offset));
+    ctx->ip = ctx->program + offset;
 }
 
 enum iuab_error iuab_run_bytecode(struct iuab_context *ctx) {

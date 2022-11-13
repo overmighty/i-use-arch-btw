@@ -16,7 +16,7 @@
                                                                          \
     void name##_init(name instr, uint8_t op, operand_type operand) {     \
         instr[0] = op;                                                   \
-        *(operand_type *) &instr[1] = operand;                           \
+        memcpy(&instr[1], &operand, sizeof(operand));                    \
     }
 
 DEFINE_IUAB_BYTECODE_INSTR_TYPE_WITH_OPERAND(iuab_bytecode_instr_u8, uint8_t)
