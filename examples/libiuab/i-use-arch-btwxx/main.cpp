@@ -10,6 +10,13 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <memory>
+
+struct FileDeleter {
+    void operator()(std::FILE *file) {
+        std::fclose(file);
+    }
+};
 
 int compile(iuab_target target, std::FILE *src, iuab_buffer *dst) {
     iuab_token last_token;
@@ -45,7 +52,7 @@ int run(iuab_target target, iuab_buffer *program) {
 }
 
 int compile_and_run(const char *filename) {
-    std::FILE *src = std::fopen(filename, "rbe");
+    std::unique_ptr<std::FILE, FileDeleter> src{std::fopen(filename, "rbe")};
 
     if (src == nullptr) {
         std::cerr << "failed to open source file: " << std::strerror(errno)
@@ -59,14 +66,12 @@ int compile_and_run(const char *filename) {
     if (error != IUAB_ERROR_SUCCESS) {
         std::cerr << "failed to init program buffer: " << iuab_strerror(error)
                   << "\n";
-        std::fclose(src);
         return EXIT_FAILURE;
     }
 
     iuab_target target = IUAB_TARGET_BYTECODE;
 
-    int status = compile(target, src, &program);
-    std::fclose(src);
+    int status = compile(target, src.get(), &program);
 
     if (status == EXIT_SUCCESS) {
         status = run(target, &program);
