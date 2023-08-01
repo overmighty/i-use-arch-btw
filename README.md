@@ -18,23 +18,33 @@ and a dependent [command-line interpreter](./cmd).
 
 ## Getting Started
 
-### Prerequisites
+### Prerequisites [C]
 
 - [CMake](https://cmake.org/) >= 3.23
 - a C99 and C++17 compiler toolchain supported by CMake and providing POSIX
   [`unistd.h`](https://en.wikipedia.org/wiki/Unistd.h), `mmap()`, `MAP_ANON`,
   and defining `__x86_64__` when targeting x86-64
 
-### Building
+### Prerequisites [Rust]
+- [Rust] (https://rust-lang.org)
+
+### Building [C]
 
     $ mkdir build
     $ cd build
     $ cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
     $ cmake --build .
 
-### Installation
+### Building [Rust]
+    $ cd i-use-arch-btw-with-rust
+    $ cargo build --release
+
+### Installation [C]
 
     # cmake --install .
+
+### Installation [Rust]
+    $ cargo install --path .
 
 ### Usage
 
