@@ -26,7 +26,7 @@ and a dependent [command-line interpreter](./cmd).
   and defining `__x86_64__` when targeting x86-64
 
 ### Prerequisites [Rust]
-- [Rust] (https://rust-lang.org)
+- [Rust](https://rust-lang.org)
 
 ### Building [C]
 
