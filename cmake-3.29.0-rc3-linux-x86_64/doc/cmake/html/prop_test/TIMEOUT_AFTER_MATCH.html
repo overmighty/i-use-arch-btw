@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>TIMEOUT_AFTER_MATCH &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TIMEOUT_SIGNAL_GRACE_PERIOD" href="TIMEOUT_SIGNAL_GRACE_PERIOD.html" />
+    <link rel="prev" title="TIMEOUT" href="TIMEOUT.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TIMEOUT_SIGNAL_GRACE_PERIOD.html" title="TIMEOUT_SIGNAL_GRACE_PERIOD"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="TIMEOUT.html" title="TIMEOUT"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TIMEOUT_AFTER_MATCH</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="timeout-after-match">
+<span id="prop_test:TIMEOUT_AFTER_MATCH"></span><h1>TIMEOUT_AFTER_MATCH<a class="headerlink" href="#timeout-after-match" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Change a test's timeout duration after a matching line is encountered
+in its output.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_test(</span><span class="nb">mytest</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TEST</span><span class="w"> </span><span class="nb">mytest</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">TIMEOUT_AFTER_MATCH</span><span class="w"> </span><span class="s">&quot;${seconds}&quot;</span><span class="w"> </span><span class="s">&quot;${regex}&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+<section id="description">
+<h2>Description<a class="headerlink" href="#description" title="Permalink to this heading">¶</a></h2>
+<p>Allow a test <code class="docutils literal notranslate"><span class="pre">seconds</span></code> to complete after <code class="docutils literal notranslate"><span class="pre">regex</span></code> is encountered in
+its output.</p>
+<p>When the test outputs a line that matches <code class="docutils literal notranslate"><span class="pre">regex</span></code> its start time is
+reset to the current time and its timeout duration is changed to
+<code class="docutils literal notranslate"><span class="pre">seconds</span></code>.  Prior to this, the timeout duration is determined by the
+<span class="target" id="index-0-prop_test:TIMEOUT"></span><a class="reference internal" href="TIMEOUT.html#prop_test:TIMEOUT" title="TIMEOUT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">TIMEOUT</span></code></a> property or the <span class="target" id="index-0-variable:CTEST_TEST_TIMEOUT"></span><a class="reference internal" href="../variable/CTEST_TEST_TIMEOUT.html#variable:CTEST_TEST_TIMEOUT" title="CTEST_TEST_TIMEOUT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_TEST_TIMEOUT</span></code></a>
+variable if either of these are set.  Because the test's start time is
+reset, its execution time will not include any time that was spent
+waiting for the matching output.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TIMEOUT_AFTER_MATCH</span></code> is useful for avoiding spurious
+timeouts when your test must wait for some system resource to become
+available before it can execute.  Set <span class="target" id="index-1-prop_test:TIMEOUT"></span><a class="reference internal" href="TIMEOUT.html#prop_test:TIMEOUT" title="TIMEOUT"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">TIMEOUT</span></code></a> to a longer
+duration that accounts for resource acquisition and use
+<code class="docutils literal notranslate"><span class="pre">TIMEOUT_AFTER_MATCH</span></code> to control how long the actual test
+is allowed to run.</p>
+<p>If the required resource can be controlled by CTest you should use
+<span class="target" id="index-0-prop_test:RESOURCE_LOCK"></span><a class="reference internal" href="RESOURCE_LOCK.html#prop_test:RESOURCE_LOCK" title="RESOURCE_LOCK"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">RESOURCE_LOCK</span></code></a> instead of <code class="docutils literal notranslate"><span class="pre">TIMEOUT_AFTER_MATCH</span></code>.
+This property should be used when only the test itself can determine
+when its required resources are available.</p>
+<p>See also <span class="target" id="index-0-prop_test:TIMEOUT_SIGNAL_NAME"></span><a class="reference internal" href="TIMEOUT_SIGNAL_NAME.html#prop_test:TIMEOUT_SIGNAL_NAME" title="TIMEOUT_SIGNAL_NAME"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">TIMEOUT_SIGNAL_NAME</span></code></a>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">TIMEOUT_AFTER_MATCH</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#description">Description</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="TIMEOUT.html"
+                          title="previous chapter">TIMEOUT</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="TIMEOUT_SIGNAL_GRACE_PERIOD.html"
+                          title="next chapter">TIMEOUT_SIGNAL_GRACE_PERIOD</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_test/TIMEOUT_AFTER_MATCH.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TIMEOUT_SIGNAL_GRACE_PERIOD.html" title="TIMEOUT_SIGNAL_GRACE_PERIOD"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="TIMEOUT.html" title="TIMEOUT"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TIMEOUT_AFTER_MATCH</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

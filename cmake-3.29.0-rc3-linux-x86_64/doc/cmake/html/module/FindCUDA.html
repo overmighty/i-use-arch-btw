@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>FindCUDA &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FindDart" href="FindDart.html" />
+    <link rel="prev" title="WriteCompilerDetectionHeader" href="WriteCompilerDetectionHeader.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="FindDart.html" title="FindDart"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="WriteCompilerDetectionHeader.html" title="WriteCompilerDetectionHeader"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindCUDA</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="findcuda">
+<span id="module:FindCUDA"></span><h1>FindCUDA<a class="headerlink" href="#findcuda" title="Permalink to this heading">¶</a></h1>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.27: </span>This module is available only if policy <span class="target" id="index-0-policy:CMP0146"></span><a class="reference internal" href="../policy/CMP0146.html#policy:CMP0146" title="CMP0146"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0146</span></code></a> is not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.
+Port projects to CMake's first-class <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language support.</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.10: </span>Do not use this module in new code.</p>
+</div>
+<p>It is no longer necessary to use this module or call <code class="docutils literal notranslate"><span class="pre">find_package(CUDA)</span></code>
+for compiling CUDA code. Instead, list <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> among the languages named
+in the top-level call to the <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> command, or call the
+<span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a> command with <code class="docutils literal notranslate"><span class="pre">CUDA</span></code>.
+Then one can add CUDA (<code class="docutils literal notranslate"><span class="pre">.cu</span></code>) sources directly to targets similar to other
+languages.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17: </span>To find and use the CUDA toolkit libraries manually, use the
+<span class="target" id="index-0-module:FindCUDAToolkit"></span><a class="reference internal" href="FindCUDAToolkit.html#module:FindCUDAToolkit" title="FindCUDAToolkit"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindCUDAToolkit</span></code></a> module instead.  It works regardless of the
+<code class="docutils literal notranslate"><span class="pre">CUDA</span></code> language being enabled.</p>
+</div>
+<section id="documentation-of-deprecated-usage">
+<h2>Documentation of Deprecated Usage<a class="headerlink" href="#documentation-of-deprecated-usage" title="Permalink to this heading">¶</a></h2>
+<p>Tools for building CUDA C files: libraries and build dependencies.</p>
+<p>This script locates the NVIDIA CUDA C tools.  It should work on Linux,
+Windows, and macOS and should be reasonably up to date with CUDA C
+releases.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>QNX support.</p>
+</div>
+<p>This script makes use of the standard <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> arguments of
+<code class="docutils literal notranslate"><span class="pre">&lt;VERSION&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> and <code class="docutils literal notranslate"><span class="pre">QUIET</span></code>.  <code class="docutils literal notranslate"><span class="pre">CUDA_FOUND</span></code> will report if an
+acceptable version of CUDA was found.</p>
+<p>The script will prompt the user to specify <code class="docutils literal notranslate"><span class="pre">CUDA_TOOLKIT_ROOT_DIR</span></code> if
+the prefix cannot be determined by the location of nvcc in the system
+path and <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> is specified to <span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>.  To use
+a different installed version of the toolkit set the environment variable
+<code class="docutils literal notranslate"><span class="pre">CUDA_BIN_PATH</span></code> before running cmake (e.g.
+<code class="docutils literal notranslate"><span class="pre">CUDA_BIN_PATH=/usr/local/cuda1.0</span></code> instead of the default
+<code class="docutils literal notranslate"><span class="pre">/usr/local/cuda</span></code>) or set <code class="docutils literal notranslate"><span class="pre">CUDA_TOOLKIT_ROOT_DIR</span></code> after configuring.  If
+you change the value of <code class="docutils literal notranslate"><span class="pre">CUDA_TOOLKIT_ROOT_DIR</span></code>, various components that
+depend on the path will be relocated.</p>
+<p>It might be necessary to set <code class="docutils literal notranslate"><span class="pre">CUDA_TOOLKIT_ROOT_DIR</span></code> manually on certain
+platforms, or to use a CUDA runtime not installed in the default
+location.  In newer versions of the toolkit the CUDA library is
+included with the graphics driver -- be sure that the driver version
+matches what is needed by the CUDA runtime version.</p>
+<section id="input-variables">
+<h3>Input Variables<a class="headerlink" href="#input-variables" title="Permalink to this heading">¶</a></h3>
+<p>The following variables affect the behavior of the macros in the
+script (in alphabetical order).  Note that any of these flags can be
+changed multiple times in the same directory before calling
+<code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda_compile()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cuda_compile_ptx()</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda_compile_fatbin()</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda_compile_cubin()</span></code>
+or <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code>:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_64_BIT_DEVICE_CODE</span></code> (Default: host bit size)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to compile for 64 bit device code, OFF for 32 bit device code.
+Note that making this different from the host code when generating object
+or C files from CUDA code just won't work, because size_t gets defined by
+nvcc in the generated source.  If you compile to PTX and then load the
+file yourself, you can mix bit sizes between device and host.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">ON</span></code>)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">ON</span></code> if you want the custom build rule to be attached to the source
+file in Visual Studio.  Turn OFF if you add the same cuda file to multiple
+targets.</p>
+<p>This allows the user to build the target from the CUDA file; however, bad
+things can happen if the CUDA source file is added to multiple targets.
+When performing parallel builds it is possible for the custom build
+command to be run more than once and in parallel causing cryptic build
+errors.  VS runs the rules for every source file in the target, and a
+source can have only one rule no matter how many projects it is added to.
+When the rule is run from multiple targets race conditions can occur on
+the generated file.  Eventually everything will get built, but if the user
+is unaware of this behavior, there may be confusion.  It would be nice if
+this script could detect the reuse of source files across multiple targets
+and turn the option off for the user, but no good solution could be found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_BUILD_CUBIN</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">OFF</span></code>)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to enable and extra compilation pass with the <code class="docutils literal notranslate"><span class="pre">-cubin</span></code> option in
+Device mode. The output is parsed and register, shared memory usage is
+printed during build.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_BUILD_EMULATION</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">OFF</span></code> for device mode)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">ON</span></code> for Emulation mode. <code class="docutils literal notranslate"><span class="pre">-D_DEVICEEMU</span></code> is defined for CUDA C files
+when <code class="docutils literal notranslate"><span class="pre">CUDA_BUILD_EMULATION</span></code> is <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_LINK_LIBRARIES_KEYWORD</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>)</dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;PRIVATE|PUBLIC|INTERFACE&gt;</span></code> keyword to use for internal
+<span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> calls. The default is to use no keyword which
+uses the old &quot;plain&quot; form of <span class="target" id="index-1-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>. Note that is matters
+because whatever is used inside the <code class="docutils literal notranslate"><span class="pre">FindCUDA</span></code> module must also be used
+outside - the two forms of <span class="target" id="index-2-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> cannot be mixed.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_GENERATED_OUTPUT_DIR</span></code> (Default: <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>)</dt><dd><p>Set to the path you wish to have the generated files placed.  If it is
+blank output files will be placed in <span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>.
+Intermediate files will always be placed in
+<code class="docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR/CMakeFiles</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_HOST_COMPILATION_CPP</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">ON</span></code>)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">OFF</span></code> for C compilation of host code.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_HOST_COMPILER</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">CMAKE_C_COMPILER</span></code>)</dt><dd><p>Set the host compiler to be used by nvcc.  Ignored if <code class="docutils literal notranslate"><span class="pre">-ccbin</span></code> or
+<code class="docutils literal notranslate"><span class="pre">--compiler-bindir</span></code> is already present in the <code class="docutils literal notranslate"><span class="pre">CUDA_NVCC_FLAGS</span></code> or
+<code class="docutils literal notranslate"><span class="pre">CUDA_NVCC_FLAGS_&lt;CONFIG&gt;</span></code> variables.  For Visual Studio targets,
+the host compiler is constructed with one or more visual studio macros
+such as <code class="docutils literal notranslate"><span class="pre">$(VCInstallDir)</span></code>, that expands out to the path when
+the command is run from within VS.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13: </span>If the <span class="target" id="index-0-envvar:CUDAHOSTCXX"></span><a class="reference internal" href="../envvar/CUDAHOSTCXX.html#envvar:CUDAHOSTCXX" title="CUDAHOSTCXX"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CUDAHOSTCXX</span></code></a> environment variable is set it will
+be used as the default.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_NVCC_FLAGS</span></code>, <code class="docutils literal notranslate"><span class="pre">CUDA_NVCC_FLAGS_&lt;CONFIG&gt;</span></code></dt><dd><p>Additional NVCC command line arguments.  NOTE: multiple arguments must be
+semi-colon delimited (e.g. <code class="docutils literal notranslate"><span class="pre">--compiler-options;-Wall</span></code>)</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Contents of these variables may use
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_PROPAGATE_HOST_FLAGS</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">ON</span></code>)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to propagate <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS.html#variable:CMAKE_&lt;LANG&gt;_FLAGS" title="CMAKE_&lt;LANG&gt;_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_{C,CXX}_FLAGS</span></code></a> and their configuration
+dependent counterparts (e.g. <code class="docutils literal notranslate"><span class="pre">CMAKE_C_FLAGS_DEBUG</span></code>) automatically to the
+host compiler through nvcc's <code class="docutils literal notranslate"><span class="pre">-Xcompiler</span></code> flag.  This helps make the
+generated host code match the rest of the system better.  Sometimes
+certain flags give nvcc problems, and this will help you turn the flag
+propagation off.  This does not affect the flags supplied directly to nvcc
+via <code class="docutils literal notranslate"><span class="pre">CUDA_NVCC_FLAGS</span></code> or through the <code class="docutils literal notranslate"><span class="pre">OPTION</span></code> flags specified through
+<code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code>, or <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code>.  Flags used for
+shared library compilation are not affected by this flag.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_SEPARABLE_COMPILATION</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">OFF</span></code>)</dt><dd><p>If set this will enable separable compilation for all CUDA runtime object
+files.  If used outside of <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code> and <code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>
+(e.g. calling <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code> directly),
+<code class="docutils literal notranslate"><span class="pre">cuda_compute_separable_compilation_object_file_name()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cuda_link_separable_compilation_objects()</span></code> should be called.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_SOURCE_PROPERTY_FORMAT</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>If this source file property is set, it can override the format specified
+to <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code> (<code class="docutils literal notranslate"><span class="pre">OBJ</span></code>, <code class="docutils literal notranslate"><span class="pre">PTX</span></code>, <code class="docutils literal notranslate"><span class="pre">CUBIN</span></code>, or <code class="docutils literal notranslate"><span class="pre">FATBIN</span></code>).  If an input source file
+is not a <code class="docutils literal notranslate"><span class="pre">.cu</span></code> file, setting this file will cause it to be treated as a <code class="docutils literal notranslate"><span class="pre">.cu</span></code>
+file. See documentation for set_source_files_properties on how to set
+this property.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_USE_STATIC_CUDA_RUNTIME</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">ON</span></code>)</dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>When enabled the static version of the CUDA runtime library will be used
+in <code class="docutils literal notranslate"><span class="pre">CUDA_LIBRARIES</span></code>.  If the version of CUDA configured doesn't support
+this option, then it will be silently disabled.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_VERBOSE_BUILD</span></code> (Default: <code class="docutils literal notranslate"><span class="pre">OFF</span></code>)</dt><dd><p>Set to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to see all the commands used when building the CUDA file.  When
+using a Makefile generator the value defaults to <code class="docutils literal notranslate"><span class="pre">VERBOSE</span></code> (run
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">VERBOSE=1</span></code> to see output), although setting <code class="docutils literal notranslate"><span class="pre">CUDA_VERBOSE_BUILD</span></code> to <code class="docutils literal notranslate"><span class="pre">ON</span></code> will
+always print the output.</p>
+</dd>
+</dl>
+</section>
+<section id="commands">
+<h3>Commands<a class="headerlink" href="#commands" title="Permalink to this heading">¶</a></h3>
+<p>The script creates the following functions and macros (in alphabetical order):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_add_cufft_to_target(</span><span class="nv">&lt;cuda_target&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Adds the cufft library to the target (can be any target).  Handles whether
+you are in emulation mode or not.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_add_cublas_to_target(</span><span class="nv">&lt;cuda_target&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Adds the cublas library to the target (can be any target).  Handles
+whether you are in emulation mode or not.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_add_executable(</span><span class="nv">&lt;cuda_target&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span>
+<span class="w">                    </span><span class="p">[</span><span class="no">WIN32</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">MACOSX_BUNDLE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Creates an executable <code class="docutils literal notranslate"><span class="pre">&lt;cuda_target&gt;</span></code> which is made up of the files
+specified.  All of the non CUDA C files are compiled using the standard
+build rules specified by CMake and the CUDA files are compiled to object
+files using nvcc and the host compiler.  In addition <code class="docutils literal notranslate"><span class="pre">CUDA_INCLUDE_DIRS</span></code> is
+added automatically to <span class="target" id="index-0-command:include_directories"></span><a class="reference internal" href="../command/include_directories.html#command:include_directories" title="include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">include_directories()</span></code></a>.  Some standard CMake target
+calls can be used on the target after calling this macro
+(e.g. <span class="target" id="index-0-command:set_target_properties"></span><a class="reference internal" href="../command/set_target_properties.html#command:set_target_properties" title="set_target_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_target_properties()</span></code></a> and <span class="target" id="index-3-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>), but setting
+properties that adjust compilation flags will not affect code compiled by
+nvcc.  Such flags should be modified before calling <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code> or <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_add_library(</span><span class="nv">&lt;cuda_target&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span>
+<span class="w">                 </span><span class="p">[</span><span class="no">STATIC</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">SHARED</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">MODULE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Same as <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code> except that a library is created.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_build_clean_target()</span>
+</pre></div>
+</div>
+<p>Creates a convenience target that deletes all the dependency files
+generated.  You should make clean after running this target to ensure the
+dependency files get regenerated.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_compile(</span><span class="nv">&lt;generated_files&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span><span class="w"> </span><span class="p">[</span><span class="no">STATIC</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">SHARED</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">MODULE</span><span class="p">]</span>
+<span class="w">             </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Returns a list of generated files from the input source files to be used
+with <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> or <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="../command/add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_compile_ptx(</span><span class="nv">&lt;generated_files&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Returns a list of <code class="docutils literal notranslate"><span class="pre">PTX</span></code> files generated from the input source files.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_compile_fatbin(</span><span class="nv">&lt;generated_files&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Returns a list of <code class="docutils literal notranslate"><span class="pre">FATBIN</span></code> files generated from the input source files.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_compile_cubin(</span><span class="nv">&lt;generated_files&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Returns a list of <code class="docutils literal notranslate"><span class="pre">CUBIN</span></code> files generated from the input source files.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_compute_separable_compilation_object_file_name(</span><span class="nv">&lt;output_file_var&gt;</span>
+<span class="w">                                                    </span><span class="nv">&lt;cuda_target&gt;</span>
+<span class="w">                                                    </span><span class="nv">&lt;object_files&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Compute the name of the intermediate link file used for separable
+compilation.  This file name is typically passed into
+<code class="docutils literal notranslate"><span class="pre">CUDA_LINK_SEPARABLE_COMPILATION_OBJECTS</span></code>.  output_file_var is produced
+based on cuda_target the list of objects files that need separable
+compilation as specified by <code class="docutils literal notranslate"><span class="pre">&lt;object_files&gt;</span></code>.  If the <code class="docutils literal notranslate"><span class="pre">&lt;object_files&gt;</span></code> list is
+empty, then <code class="docutils literal notranslate"><span class="pre">&lt;output_file_var&gt;</span></code> will be empty.  This function is called
+automatically for <code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code> and <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code>.  Note that
+this is a function and not a macro.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_include_directories(</span><span class="nb">path0</span><span class="w"> </span><span class="nb">path1</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Sets the directories that should be passed to nvcc
+(e.g. <code class="docutils literal notranslate"><span class="pre">nvcc</span> <span class="pre">-Ipath0</span> <span class="pre">-Ipath1</span> <span class="pre">...</span></code>). These paths usually contain other <code class="docutils literal notranslate"><span class="pre">.cu</span></code>
+files.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_link_separable_compilation_objects(</span><span class="nv">&lt;output_file_var&gt;</span><span class="w"> </span><span class="nv">&lt;cuda_target&gt;</span>
+<span class="w">                                        </span><span class="nv">&lt;nvcc_flags&gt;</span><span class="w"> </span><span class="nv">&lt;object_files&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Generates the link object required by separable compilation from the given
+object files.  This is called automatically for <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>, but can be called manually when using <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code>
+directly.  When called from <code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code> or <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code> the
+<code class="docutils literal notranslate"><span class="pre">&lt;nvcc_flags&gt;</span></code> passed in are the same as the flags passed in via the <code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code>
+argument.  The only nvcc flag added automatically is the bitness flag as
+specified by <code class="docutils literal notranslate"><span class="pre">CUDA_64_BIT_DEVICE_CODE</span></code>.  Note that this is a function
+instead of a macro.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_select_nvcc_arch_flags(</span><span class="nv">&lt;out_variable&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;target_CUDA_architecture&gt;</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Selects GPU arch flags for nvcc based on <code class="docutils literal notranslate"><span class="pre">target_CUDA_architecture</span></code>.</p>
+<p>Values for <code class="docutils literal notranslate"><span class="pre">target_CUDA_architecture</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Auto</span></code>: detects local machine GPU compute arch at runtime.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Common</span></code> and <code class="docutils literal notranslate"><span class="pre">All</span></code>: cover common and entire subsets of architectures.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>: one of <code class="docutils literal notranslate"><span class="pre">Fermi</span></code>, <code class="docutils literal notranslate"><span class="pre">Kepler</span></code>, <code class="docutils literal notranslate"><span class="pre">Maxwell</span></code>, <code class="docutils literal notranslate"><span class="pre">Kepler+Tegra</span></code>, <code class="docutils literal notranslate"><span class="pre">Kepler+Tesla</span></code>, <code class="docutils literal notranslate"><span class="pre">Maxwell+Tegra</span></code>, <code class="docutils literal notranslate"><span class="pre">Pascal</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;ver&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;ver&gt;(&lt;ver&gt;)</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;ver&gt;+PTX</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;ver&gt;</span></code> is one of
+<code class="docutils literal notranslate"><span class="pre">2.0</span></code>, <code class="docutils literal notranslate"><span class="pre">2.1</span></code>, <code class="docutils literal notranslate"><span class="pre">3.0</span></code>, <code class="docutils literal notranslate"><span class="pre">3.2</span></code>, <code class="docutils literal notranslate"><span class="pre">3.5</span></code>, <code class="docutils literal notranslate"><span class="pre">3.7</span></code>, <code class="docutils literal notranslate"><span class="pre">5.0</span></code>, <code class="docutils literal notranslate"><span class="pre">5.2</span></code>, <code class="docutils literal notranslate"><span class="pre">5.3</span></code>, <code class="docutils literal notranslate"><span class="pre">6.0</span></code>, <code class="docutils literal notranslate"><span class="pre">6.2</span></code>.</p></li>
+</ul>
+<p>Returns list of flags to be added to <code class="docutils literal notranslate"><span class="pre">CUDA_NVCC_FLAGS</span></code> in <code class="docutils literal notranslate"><span class="pre">&lt;out_variable&gt;</span></code>.
+Additionally, sets <code class="docutils literal notranslate"><span class="pre">&lt;out_variable&gt;_readable</span></code> to the resulting numeric list.</p>
+<p>Example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cuda_select_nvcc_arch_flags(ARCH_FLAGS 3.0 3.5+PTX 5.2(5.0) Maxwell)
+list(APPEND CUDA_NVCC_FLAGS ${ARCH_FLAGS})
+</pre></div>
+</div>
+<p>More info on CUDA architectures: <a class="reference external" href="https://en.wikipedia.org/wiki/CUDA">https://en.wikipedia.org/wiki/CUDA</a>.
+Note that this is a function instead of a macro.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_wrap_srcs(</span><span class="nv">&lt;cuda_target&gt;</span><span class="w"> </span><span class="nv">&lt;format&gt;</span><span class="w"> </span><span class="nv">&lt;generated_files&gt;</span><span class="w"> </span><span class="nv">&lt;file&gt;...</span>
+<span class="w">               </span><span class="p">[</span><span class="no">STATIC</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">SHARED</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">MODULE</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This is where all the magic happens.  <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>, <code class="docutils literal notranslate"><span class="pre">cuda_compile()</span></code>, and <code class="docutils literal notranslate"><span class="pre">cuda_compile_ptx()</span></code> all call this
+function under the hood.</p>
+<p>Given the list of files <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;...</span></code> this macro generates
+custom commands that generate either PTX or linkable objects (use <code class="docutils literal notranslate"><span class="pre">PTX</span></code> or
+<code class="docutils literal notranslate"><span class="pre">OBJ</span></code> for the <code class="docutils literal notranslate"><span class="pre">&lt;format&gt;</span></code> argument to switch).  Files that don't end with <code class="docutils literal notranslate"><span class="pre">.cu</span></code>
+or have the <code class="docutils literal notranslate"><span class="pre">HEADER_FILE_ONLY</span></code> property are ignored.</p>
+<p>The arguments passed in after <code class="docutils literal notranslate"><span class="pre">OPTIONS</span></code> are extra command line options to
+give to nvcc.  You can also specify per configuration options by
+specifying the name of the configuration followed by the options.  General
+options must precede configuration specific options.  Not all
+configurations need to be specified, only the ones provided will be used.
+For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cuda_add_executable(</span><span class="p">...</span>
+<span class="w">  </span><span class="no">OPTIONS</span><span class="w"> </span><span class="p">-</span><span class="no">DFLAG</span><span class="p">=</span><span class="m">2</span><span class="w"> </span><span class="s">&quot;-DFLAG_OTHER=space in flag&quot;</span>
+<span class="w">  </span><span class="no">DEBUG</span><span class="w"> </span><span class="p">-</span><span class="nb">g</span>
+<span class="w">  </span><span class="no">RELEASE</span><span class="w"> </span><span class="p">--</span><span class="nb">use_fast_math</span>
+<span class="w">  </span><span class="no">RELWITHDEBINFO</span><span class="w"> </span><span class="p">--</span><span class="nb">use_fast_math</span><span class="p">;-</span><span class="nb">g</span>
+<span class="w">  </span><span class="no">MINSIZEREL</span><span class="w"> </span><span class="p">--</span><span class="nb">use_fast_math</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>For certain configurations (namely VS generating object files with
+<code class="docutils literal notranslate"><span class="pre">CUDA_ATTACH_VS_BUILD_RULE_TO_CUDA_FILE</span></code> set to <code class="docutils literal notranslate"><span class="pre">ON</span></code>), no generated file will
+be produced for the given cuda file.  This is because when you add the
+cuda file to Visual Studio it knows that this file produces an object file
+and will link in the resulting object file automatically.</p>
+<p>This script will also generate a separate cmake script that is used at
+build time to invoke nvcc.  This is for several reasons:</p>
+<ul class="simple">
+<li><p>nvcc can return negative numbers as return values which confuses
+Visual Studio into thinking that the command succeeded.  The script now
+checks the error codes and produces errors when there was a problem.</p></li>
+<li><p>nvcc has been known to not delete incomplete results when it
+encounters problems.  This confuses build systems into thinking the
+target was generated when in fact an unusable file exists.  The script
+now deletes the output files if there was an error.</p></li>
+<li><p>By putting all the options that affect the build into a file and then
+make the build rule dependent on the file, the output files will be
+regenerated when the options change.</p></li>
+</ul>
+<p>This script also looks at optional arguments <code class="docutils literal notranslate"><span class="pre">STATIC</span></code>, <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>, or <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> to
+determine when to target the object compilation for a shared library.
+<span class="target" id="index-0-variable:BUILD_SHARED_LIBS"></span><a class="reference internal" href="../variable/BUILD_SHARED_LIBS.html#variable:BUILD_SHARED_LIBS" title="BUILD_SHARED_LIBS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">BUILD_SHARED_LIBS</span></code></a> is ignored in <code class="docutils literal notranslate"><span class="pre">cuda_wrap_srcs()</span></code>, but it is respected in
+<code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>.  On some systems special flags are added for building
+objects intended for shared libraries.  A preprocessor macro,
+<code class="docutils literal notranslate"><span class="pre">&lt;target_name&gt;_EXPORTS</span></code> is defined when a shared library compilation is
+detected.</p>
+<p>Flags passed into add_definitions with <code class="docutils literal notranslate"><span class="pre">-D</span></code> or <code class="docutils literal notranslate"><span class="pre">/D</span></code> are passed along to nvcc.</p>
+</section>
+<section id="result-variables">
+<h3>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this heading">¶</a></h3>
+<p>The script defines the following variables:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_VERSION_MAJOR</span></code></dt><dd><p>The major version of cuda as reported by nvcc.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_VERSION_MINOR</span></code></dt><dd><p>The minor version.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_VERSION</span></code>, <code class="docutils literal notranslate"><span class="pre">CUDA_VERSION_STRING</span></code></dt><dd><p>Full version in the <code class="docutils literal notranslate"><span class="pre">X.Y</span></code> format.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_HAS_FP16</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Whether a short float (<code class="docutils literal notranslate"><span class="pre">float16</span></code>, <code class="docutils literal notranslate"><span class="pre">fp16</span></code>) is supported.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_TOOLKIT_ROOT_DIR</span></code></dt><dd><p>Path to the CUDA Toolkit (defined if not set).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_SDK_ROOT_DIR</span></code></dt><dd><p>Path to the CUDA SDK.  Use this to find files in the SDK.  This script will
+not directly support finding specific libraries or headers, as that isn't
+supported by NVIDIA.  If you want to change libraries when the path changes
+see the <code class="docutils literal notranslate"><span class="pre">FindCUDA.cmake</span></code> script for an example of how to clear these
+variables.  There are also examples of how to use the <code class="docutils literal notranslate"><span class="pre">CUDA_SDK_ROOT_DIR</span></code>
+to locate headers or libraries, if you so choose (at your own risk).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_INCLUDE_DIRS</span></code></dt><dd><p>Include directory for cuda headers.  Added automatically
+for <code class="docutils literal notranslate"><span class="pre">cuda_add_executable()</span></code> and <code class="docutils literal notranslate"><span class="pre">cuda_add_library()</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_LIBRARIES</span></code></dt><dd><p>Cuda RT library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_CUFFT_LIBRARIES</span></code></dt><dd><p>Device or emulation library for the Cuda FFT implementation (alternative to
+<code class="docutils literal notranslate"><span class="pre">cuda_add_cufft_to_target()</span></code> macro)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_CUBLAS_LIBRARIES</span></code></dt><dd><p>Device or emulation library for the Cuda BLAS implementation (alternative to
+<code class="docutils literal notranslate"><span class="pre">cuda_add_cublas_to_target()</span></code> macro).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_cudart_static_LIBRARY</span></code></dt><dd><p>Statically linkable cuda runtime library.
+Only available for CUDA version 5.5+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_cudadevrt_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7: </span>Device runtime library.  Required for separable compilation.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_cupti_LIBRARY</span></code></dt><dd><p>CUDA Profiling Tools Interface library.
+Only available for CUDA version 4.0+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_curand_LIBRARY</span></code></dt><dd><p>CUDA Random Number Generation library.
+Only available for CUDA version 3.2+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_cusolver_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2: </span>CUDA Direct Solver library.
+Only available for CUDA version 7.0+.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_cusparse_LIBRARY</span></code></dt><dd><p>CUDA Sparse Matrix library.
+Only available for CUDA version 3.2+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_npp_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib.
+Only available for CUDA version 4.0+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppc_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (core).
+Only available for CUDA version 5.5+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppi_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 5.5 - 8.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppial_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppicc_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppicom_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0 - 10.2.
+Replaced by nvjpeg.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppidei_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppif_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppig_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppim_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppist_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppisu_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nppitc_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (image processing).
+Only available for CUDA version 9.0.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_npps_LIBRARY</span></code></dt><dd><p>NVIDIA Performance Primitives lib (signal processing).
+Only available for CUDA version 5.5+.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nvcuvenc_LIBRARY</span></code></dt><dd><p>CUDA Video Encoder library.
+Only available for CUDA version 3.2+.
+Windows only.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nvcuvid_LIBRARY</span></code></dt><dd><p>CUDA Video Decoder library.
+Only available for CUDA version 3.2+.
+Windows only.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_nvToolsExt_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>NVIDA CUDA Tools Extension library.
+Available for CUDA version 5+.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CUDA_OpenCL_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>NVIDA CUDA OpenCL library.
+Available for CUDA version 5+.</p>
+</div>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">FindCUDA</a><ul>
+<li><a class="reference internal" href="#documentation-of-deprecated-usage">Documentation of Deprecated Usage</a><ul>
+<li><a class="reference internal" href="#input-variables">Input Variables</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="WriteCompilerDetectionHeader.html"
+                          title="previous chapter">WriteCompilerDetectionHeader</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindDart.html"
+                          title="next chapter">FindDart</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/FindCUDA.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="FindDart.html" title="FindDart"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="WriteCompilerDetectionHeader.html" title="WriteCompilerDetectionHeader"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindCUDA</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

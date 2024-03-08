@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>create_test_sourcelist &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="define_property" href="define_property.html" />
+    <link rel="prev" title="cmake_file_api" href="cmake_file_api.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="define_property.html" title="define_property"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cmake_file_api.html" title="cmake_file_api"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">create_test_sourcelist</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="create-test-sourcelist">
+<span id="command:create_test_sourcelist"></span><h1>create_test_sourcelist<a class="headerlink" href="#create-test-sourcelist" title="Permalink to this heading">¶</a></h1>
+<p>Create a test driver program that links together many small tests into a
+single executable.  This is useful when building static executables with
+large libraries to shrink the total required size.</p>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="original">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">create_test_sourcelist(</span></span><span class="nv"><span class="pre">&lt;sourceListName&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;driverName&gt;</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;test&gt;...</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;options&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#original" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a test driver source file from a list of individual test sources
+and provide a combined list of sources that can be built as an executable.</p>
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;sourceListName&gt;</span></code></dt><dd><p>The name of a variable in which to store the list of source files needed
+to build the test driver.  The list will contain the <code class="docutils literal notranslate"><span class="pre">&lt;test&gt;...</span></code> sources
+and the generated <code class="docutils literal notranslate"><span class="pre">&lt;driverName&gt;</span></code> source.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.29: </span>The test driver source is listed by absolute path in the build tree.
+Previously it was listed only as <code class="docutils literal notranslate"><span class="pre">&lt;driverName&gt;</span></code>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;driverName&gt;</span></code></dt><dd><p>Name of the test driver source file to be generated into the build tree.
+The source file will contain a <code class="docutils literal notranslate"><span class="pre">main()</span></code> program entry point that
+dispatches to whatever test is named on the command line.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;test&gt;...</span></code></dt><dd><p>Test source files to be added to the driver binary.  Each test source
+file must have a function in it that is the same name as the file with the
+extension removed.  For example, a <code class="docutils literal notranslate"><span class="pre">foo.cxx</span></code> test source might contain:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="n">foo</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">**</span><span class="w"> </span><span class="n">argv</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXTRA_INCLUDE</span> <span class="pre">&lt;header&gt;</span></code></dt><dd><p>Specify a header file to <code class="docutils literal notranslate"><span class="pre">#include</span></code> in the generated test driver source.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FUNCTION</span> <span class="pre">&lt;function&gt;</span></code></dt><dd><p>Specify a function to be called with pointers to <code class="docutils literal notranslate"><span class="pre">argc</span></code> and <code class="docutils literal notranslate"><span class="pre">argv</span></code>.
+The function may be provided in the <code class="docutils literal notranslate"><span class="pre">EXTRA_INCLUDE</span></code> header:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="n">function</span><span class="p">(</span><span class="kt">int</span><span class="o">*</span><span class="w"> </span><span class="n">pargc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="o">***</span><span class="w"> </span><span class="n">pargv</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This can be used to add extra command line processing to each test.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Additionally, some CMake variables affect test driver generation:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CMAKE_TESTDRIVER_BEFORE_TESTMAIN">
+<span class="sig-name descname"><span class="pre">CMAKE_TESTDRIVER_BEFORE_TESTMAIN</span></span><a class="headerlink" href="#variable:CMAKE_TESTDRIVER_BEFORE_TESTMAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Code to be placed directly before calling each test's function.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CMAKE_TESTDRIVER_AFTER_TESTMAIN">
+<span class="sig-name descname"><span class="pre">CMAKE_TESTDRIVER_AFTER_TESTMAIN</span></span><a class="headerlink" href="#variable:CMAKE_TESTDRIVER_AFTER_TESTMAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Code to be placed directly after the call to each test's function.</p>
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cmake_file_api.html"
+                          title="previous chapter">cmake_file_api</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="define_property.html"
+                          title="next chapter">define_property</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/create_test_sourcelist.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="define_property.html" title="define_property"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cmake_file_api.html" title="cmake_file_api"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">create_test_sourcelist</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

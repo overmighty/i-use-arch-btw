@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>cmake-configure-log(7) &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmake-cxxmodules(7)" href="cmake-cxxmodules.7.html" />
+    <link rel="prev" title="cmake-compile-features(7)" href="cmake-compile-features.7.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cmake-cxxmodules.7.html" title="cmake-cxxmodules(7)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cmake-compile-features.7.html" title="cmake-compile-features(7)"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">cmake-configure-log(7)</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="manual:cmake-configure-log(7)"></span><section id="cmake-configure-log-7">
+<h1><a class="toc-backref" href="#id4" role="doc-backlink">cmake-configure-log(7)</a><a class="headerlink" href="#cmake-configure-log-7" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.26.</span></p>
+</div>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#cmake-configure-log-7" id="id4">cmake-configure-log(7)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id5">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#log-structure" id="id6">Log Structure</a></p>
+<ul>
+<li><p><a class="reference internal" href="#log-versioning" id="id7">Log Versioning</a></p></li>
+<li><p><a class="reference internal" href="#text-block-encoding" id="id8">Text Block Encoding</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#event-kinds" id="id9">Event Kinds</a></p>
+<ul>
+<li><p><a class="reference internal" href="#event-kind-message" id="id10">Event Kind <code class="docutils literal notranslate"><span class="pre">message</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#message-v1-event" id="id11"><code class="docutils literal notranslate"><span class="pre">message-v1</span></code> Event</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#event-kind-try-compile" id="id12">Event Kind <code class="docutils literal notranslate"><span class="pre">try_compile</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#try-compile-v1-event" id="id13"><code class="docutils literal notranslate"><span class="pre">try_compile-v1</span></code> Event</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#event-kind-try-run" id="id14">Event Kind <code class="docutils literal notranslate"><span class="pre">try_run</span></code></a></p>
+<ul>
+<li><p><a class="reference internal" href="#try-run-v1-event" id="id15"><code class="docutils literal notranslate"><span class="pre">try_run-v1</span></code> Event</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>CMake writes a running log, known as the <em>configure log</em>,
+of certain events that occur during the Configure step.
+The configure log does <em>not</em> contain a log of all output, errors,
+or messages printed while configuring a project.  It is a log of
+detailed information about specific events, such as toolchain inspection
+by <span class="target" id="index-0-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a>, meant for use in debugging the configuration
+of a build tree.</p>
+<p>For human use, this version of CMake writes the configure log to the file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>${CMAKE_BINARY_DIR}/CMakeFiles/CMakeConfigureLog.yaml
+</pre></div>
+</div>
+<p>However, the <em>location and name of the log file may change</em> in future
+versions of CMake.  Tools that read the configure log should get its
+location using a <a class="reference internal" href="cmake-file-api.7.html#file-api-configurelog"><span class="std std-ref">configureLog</span></a> query to
+the <span class="target" id="index-0-manual:cmake-file-api(7)"></span><a class="reference internal" href="cmake-file-api.7.html#manual:cmake-file-api(7)" title="cmake-file-api(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-file-api(7)</span></code></a>.
+See the <a class="reference internal" href="#log-versioning">Log Versioning</a> section below for details.</p>
+</section>
+<section id="log-structure">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Log Structure</a><a class="headerlink" href="#log-structure" title="Permalink to this heading">¶</a></h2>
+<p>The configure log is designed to be both machine- and human-readable.</p>
+<p>The log file is a YAML document stream containing zero or more YAML
+documents separated by document markers.  Each document begins
+with a <code class="docutils literal notranslate"><span class="pre">---</span></code> document marker line, contains a single YAML mapping
+that logs events from one CMake &quot;configure&quot; step, and, if the configure
+step finished normally, ends with a <code class="docutils literal notranslate"><span class="pre">...</span></code> document marker line:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="nt">events</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;try_compile-v1&quot;</span>
+<span class="w">    </span><span class="c1"># (other fields omitted)</span>
+<span class="w">  </span><span class="p p-Indicator">-</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;try_compile-v1&quot;</span>
+<span class="w">    </span><span class="c1"># (other fields omitted)</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>A new document is appended to the log every time CMake configures
+the build tree and logs new events.</p>
+<p>The keys of the each document root mapping are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">events</span></code></dt><dd><p>A YAML block sequence of nodes corresponding to events logged during
+one CMake &quot;configure&quot; step.  Each event is a YAML node containing one
+of the <a class="reference internal" href="#event-kinds">Event Kinds</a> documented below.</p>
+</dd>
+</dl>
+<section id="log-versioning">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Log Versioning</a><a class="headerlink" href="#log-versioning" title="Permalink to this heading">¶</a></h3>
+<p>Each of the <a class="reference internal" href="#event-kinds">Event Kinds</a> is versioned independently.  The set of
+keys an event's log entry provides is specific to its major version.
+When an event is logged, the latest version of its event kind that is
+known to the running version of CMake is always written to the log.</p>
+<p>Tools reading the configure log must ignore event kinds and versions
+they do not understand:</p>
+<ul class="simple">
+<li><p>A future version of CMake may introduce a new event kind or version.</p></li>
+<li><p>If an existing build tree is re-configured with a different version of
+CMake, the log may contain different versions of the same event kind.</p></li>
+<li><p>If <span class="target" id="index-1-manual:cmake-file-api(7)"></span><a class="reference internal" href="cmake-file-api.7.html#manual:cmake-file-api(7)" title="cmake-file-api(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-file-api(7)</span></code></a> queries request one or more
+<a class="reference internal" href="cmake-file-api.7.html#file-api-configurelog"><span class="std std-ref">configureLog</span></a> object versions,
+the log may contain multiple entries for the same event, each
+with a different version of its event kind.</p></li>
+</ul>
+<p>IDEs should write a <span class="target" id="index-2-manual:cmake-file-api(7)"></span><a class="reference internal" href="cmake-file-api.7.html#manual:cmake-file-api(7)" title="cmake-file-api(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-file-api(7)</span></code></a> query requesting a
+specific <a class="reference internal" href="cmake-file-api.7.html#file-api-configurelog"><span class="std std-ref">configureLog</span></a> object version,
+before running CMake, and then read the configure log only as described
+by the file-api reply.</p>
+</section>
+<section id="text-block-encoding">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Text Block Encoding</a><a class="headerlink" href="#text-block-encoding" title="Permalink to this heading">¶</a></h3>
+<p>In order to make the log human-readable, text blocks are always
+represented using YAML literal block scalars (<code class="docutils literal notranslate"><span class="pre">|</span></code>).
+Since literal block scalars do not support escaping, backslashes
+and non-printable characters are encoded at the application layer:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">\\</span></code> encodes a backslash.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">\xXX</span></code> encodes a byte using two hexadecimal digits, <code class="docutils literal notranslate"><span class="pre">XX</span></code>.</p></li>
+</ul>
+</section>
+</section>
+<section id="event-kinds">
+<span id="configure-log-event-kinds"></span><h2><a class="toc-backref" href="#id9" role="doc-backlink">Event Kinds</a><a class="headerlink" href="#event-kinds" title="Permalink to this heading">¶</a></h2>
+<p>Every event kind is represented by a YAML mapping of the form:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;kind&gt;-v&lt;major&gt;&quot;</span>
+<span class="nt">backtrace</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;&lt;file&gt;:&lt;line&gt;</span><span class="nv"> </span><span class="s">(&lt;function&gt;)&quot;</span>
+<span class="nt">checks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Checking</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">something&quot;</span>
+<span class="c1">#...event-specific keys...</span>
+</pre></div>
+</div>
+<p>The keys common to all events are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">kind</span></code></dt><dd><p>A string identifying the event kind and major version.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">backtrace</span></code></dt><dd><p>A YAML block sequence reporting the call stack of CMake source
+locations at which the event occurred, from most-recent to
+least-recent.  Each node is a string specifying one location
+formatted as <code class="docutils literal notranslate"><span class="pre">&lt;file&gt;:&lt;line&gt;</span> <span class="pre">(&lt;function&gt;)</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">checks</span></code></dt><dd><p>An optional key that is present when the event occurred with
+at least one pending <span class="target" id="index-0-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message(check_start)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message(CHECK_START)</span></code></a>.  Its value
+is a YAML block sequence reporting the stack of pending checks,
+from most-recent to least-recent.  Each node is a string containing
+a pending check message.</p>
+</dd>
+</dl>
+<p>Additional mapping keys are specific to each (versioned) event kind,
+described below.</p>
+<section id="event-kind-message">
+<span id="message-configure-log-event"></span><h3><a class="toc-backref" href="#id10" role="doc-backlink">Event Kind <code class="docutils literal notranslate"><span class="pre">message</span></code></a><a class="headerlink" href="#event-kind-message" title="Permalink to this heading">¶</a></h3>
+<p>The <span class="target" id="index-1-command:message"></span><a class="reference internal" href="../command/message.html#command:message" title="message(configure_log)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message(CONFIGURE_LOG)</span></code></a> command logs <code class="docutils literal notranslate"><span class="pre">message</span></code> events.</p>
+<p>There is only one <code class="docutils literal notranslate"><span class="pre">message</span></code> event major version, version 1.</p>
+<section id="message-v1-event">
+<span id="id1"></span><h4><a class="toc-backref" href="#id11" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">message-v1</span></code> Event</a><a class="headerlink" href="#message-v1-event" title="Permalink to this heading">¶</a></h4>
+<p>A <code class="docutils literal notranslate"><span class="pre">message-v1</span></code> event is a YAML mapping:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;message-v1&quot;</span>
+<span class="nt">backtrace</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;CMakeLists.txt:123</span><span class="nv"> </span><span class="s">(message)&quot;</span>
+<span class="nt">checks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Checking</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">something&quot;</span>
+<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no"># ...</span>
+</pre></div>
+</div>
+<p>The keys specific to <code class="docutils literal notranslate"><span class="pre">message-v1</span></code> mappings are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">message</span></code></dt><dd><p>A YAML literal block scalar containing the message text,
+represented using our <a class="reference internal" href="#text-block-encoding">Text Block Encoding</a>.</p>
+</dd>
+</dl>
+</section>
+</section>
+<section id="event-kind-try-compile">
+<span id="try-compile-configure-log-event"></span><h3><a class="toc-backref" href="#id12" role="doc-backlink">Event Kind <code class="docutils literal notranslate"><span class="pre">try_compile</span></code></a><a class="headerlink" href="#event-kind-try-compile" title="Permalink to this heading">¶</a></h3>
+<p>The <span class="target" id="index-1-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> command logs <code class="docutils literal notranslate"><span class="pre">try_compile</span></code> events.</p>
+<p>There is only one <code class="docutils literal notranslate"><span class="pre">try_compile</span></code> event major version, version 1.</p>
+<section id="try-compile-v1-event">
+<span id="id2"></span><h4><a class="toc-backref" href="#id13" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">try_compile-v1</span></code> Event</a><a class="headerlink" href="#try-compile-v1-event" title="Permalink to this heading">¶</a></h4>
+<p>A <code class="docutils literal notranslate"><span class="pre">try_compile-v1</span></code> event is a YAML mapping:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;try_compile-v1&quot;</span>
+<span class="nt">backtrace</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;CMakeLists.txt:123</span><span class="nv"> </span><span class="s">(try_compile)&quot;</span>
+<span class="nt">checks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Checking</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">something&quot;</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Explicit</span><span class="nv"> </span><span class="s">LOG_DESCRIPTION&quot;</span>
+<span class="nt">directories</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/.../TryCompile-01234&quot;</span>
+<span class="w">  </span><span class="nt">binary</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/.../TryCompile-01234&quot;</span>
+<span class="nt">cmakeVariables</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">SOME_VARIABLE</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Some</span><span class="nv"> </span><span class="s">Value&quot;</span>
+<span class="nt">buildResult</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">variable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COMPILE_RESULT&quot;</span>
+<span class="w">  </span><span class="nt">cached</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">stdout</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no"># ...</span>
+<span class="w">  </span><span class="nt">exitCode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</pre></div>
+</div>
+<p>The keys specific to <code class="docutils literal notranslate"><span class="pre">try_compile-v1</span></code> mappings are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">description</span></code></dt><dd><p>An optional key that is present when the <code class="docutils literal notranslate"><span class="pre">LOG_DESCRIPTION</span> <span class="pre">&lt;text&gt;</span></code> option
+was used.  Its value is a string containing the description <code class="docutils literal notranslate"><span class="pre">&lt;text&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">directories</span></code></dt><dd><p>A mapping describing the directories associated with the
+compilation attempt.  It has the following keys:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">source</span></code></dt><dd><p>String specifying the source directory of the
+<span class="target" id="index-2-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">binary</span></code></dt><dd><p>String specifying the binary directory of the
+<span class="target" id="index-3-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> project.
+For non-project invocations, this is often the same as
+the source directory.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cmakeVariables</span></code></dt><dd><p>An optional key that is present when CMake propagates variables
+into the test project, either automatically or due to the
+<span class="target" id="index-0-variable:CMAKE_TRY_COMPILE_PLATFORM_VARIABLES"></span><a class="reference internal" href="../variable/CMAKE_TRY_COMPILE_PLATFORM_VARIABLES.html#variable:CMAKE_TRY_COMPILE_PLATFORM_VARIABLES" title="CMAKE_TRY_COMPILE_PLATFORM_VARIABLES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TRY_COMPILE_PLATFORM_VARIABLES</span></code></a> variable.
+Its value is a mapping from variable names to their values.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">buildResult</span></code></dt><dd><p>A mapping describing the result of compiling the test code.
+It has the following keys:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">variable</span></code></dt><dd><p>A string specifying the name of the CMake variable
+storing the result of trying to build the test project.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cached</span></code></dt><dd><p>A boolean indicating whether the above result <code class="docutils literal notranslate"><span class="pre">variable</span></code>
+is stored in the CMake cache.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">stdout</span></code></dt><dd><p>A YAML literal block scalar containing the output from building
+the test project, represented using our <a class="reference internal" href="#text-block-encoding">Text Block Encoding</a>.
+This contains build output from both stdout and stderr.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">exitCode</span></code></dt><dd><p>An integer specifying the build tool exit code from trying
+to build the test project.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</section>
+<section id="event-kind-try-run">
+<span id="try-run-configure-log-event"></span><h3><a class="toc-backref" href="#id14" role="doc-backlink">Event Kind <code class="docutils literal notranslate"><span class="pre">try_run</span></code></a><a class="headerlink" href="#event-kind-try-run" title="Permalink to this heading">¶</a></h3>
+<p>The <span class="target" id="index-0-command:try_run"></span><a class="reference internal" href="../command/try_run.html#command:try_run" title="try_run"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_run()</span></code></a> command logs <code class="docutils literal notranslate"><span class="pre">try_run</span></code> events.</p>
+<p>There is only one <code class="docutils literal notranslate"><span class="pre">try_run</span></code> event major version, version 1.</p>
+<section id="try-run-v1-event">
+<span id="id3"></span><h4><a class="toc-backref" href="#id15" role="doc-backlink"><code class="docutils literal notranslate"><span class="pre">try_run-v1</span></code> Event</a><a class="headerlink" href="#try-run-v1-event" title="Permalink to this heading">¶</a></h4>
+<p>A <code class="docutils literal notranslate"><span class="pre">try_run-v1</span></code> event is a YAML mapping:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;try_run-v1&quot;</span>
+<span class="nt">backtrace</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;CMakeLists.txt:456</span><span class="nv"> </span><span class="s">(try_run)&quot;</span>
+<span class="nt">checks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Checking</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">something&quot;</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Explicit</span><span class="nv"> </span><span class="s">LOG_DESCRIPTION&quot;</span>
+<span class="nt">directories</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/.../TryCompile-56789&quot;</span>
+<span class="w">  </span><span class="nt">binary</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/.../TryCompile-56789&quot;</span>
+<span class="nt">buildResult</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">variable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COMPILE_RESULT&quot;</span>
+<span class="w">  </span><span class="nt">cached</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">stdout</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no"># ...</span>
+<span class="w">  </span><span class="nt">exitCode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="nt">runResult</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">variable</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;RUN_RESULT&quot;</span>
+<span class="w">  </span><span class="nt">cached</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">stdout</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no"># ...</span>
+<span class="w">  </span><span class="nt">stderr</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no"># ...</span>
+<span class="w">  </span><span class="nt">exitCode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</pre></div>
+</div>
+<p>The keys specific to <code class="docutils literal notranslate"><span class="pre">try_run-v1</span></code> mappings include those
+documented by the <a class="reference internal" href="#try-compile-v1-event">try_compile-v1 event</a>, plus:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">runResult</span></code></dt><dd><p>A mapping describing the result of running the test code.
+It has the following keys:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">variable</span></code></dt><dd><p>A string specifying the name of the CMake variable
+storing the result of trying to run the test executable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">cached</span></code></dt><dd><p>A boolean indicating whether the above result <code class="docutils literal notranslate"><span class="pre">variable</span></code>
+is stored in the CMake cache.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">stdout</span></code></dt><dd><p>An optional key that is present when the test project built successfully.
+Its value is a YAML literal block scalar containing output from running
+the test executable, represented using our <a class="reference internal" href="#text-block-encoding">Text Block Encoding</a>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">RUN_OUTPUT_VARIABLE</span></code> was used, stdout and stderr are captured
+together, so this will contain both.  Otherwise, this will contain
+only the stdout output.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">stderr</span></code></dt><dd><p>An optional key that is present when the test project built successfully
+and the <code class="docutils literal notranslate"><span class="pre">RUN_OUTPUT_VARIABLE</span></code> option was not used.
+Its value is a YAML literal block scalar containing output from running
+the test executable, represented using our <a class="reference internal" href="#text-block-encoding">Text Block Encoding</a>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">RUN_OUTPUT_VARIABLE</span></code> was used, stdout and stderr are captured
+together in the <code class="docutils literal notranslate"><span class="pre">stdout</span></code> key, and this key will not be present.
+Otherwise, this will contain the stderr output.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">exitCode</span></code></dt><dd><p>An optional key that is present when the test project built successfully.
+Its value is an integer specifying the exit code, or a string containing
+an error message, from trying to run the test executable.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">cmake-configure-log(7)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#log-structure">Log Structure</a><ul>
+<li><a class="reference internal" href="#log-versioning">Log Versioning</a></li>
+<li><a class="reference internal" href="#text-block-encoding">Text Block Encoding</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-kinds">Event Kinds</a><ul>
+<li><a class="reference internal" href="#event-kind-message">Event Kind <code class="docutils literal notranslate"><span class="pre">message</span></code></a><ul>
+<li><a class="reference internal" href="#message-v1-event"><code class="docutils literal notranslate"><span class="pre">message-v1</span></code> Event</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-kind-try-compile">Event Kind <code class="docutils literal notranslate"><span class="pre">try_compile</span></code></a><ul>
+<li><a class="reference internal" href="#try-compile-v1-event"><code class="docutils literal notranslate"><span class="pre">try_compile-v1</span></code> Event</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-kind-try-run">Event Kind <code class="docutils literal notranslate"><span class="pre">try_run</span></code></a><ul>
+<li><a class="reference internal" href="#try-run-v1-event"><code class="docutils literal notranslate"><span class="pre">try_run-v1</span></code> Event</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cmake-compile-features.7.html"
+                          title="previous chapter">cmake-compile-features(7)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cmake-cxxmodules.7.html"
+                          title="next chapter">cmake-cxxmodules(7)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/manual/cmake-configure-log.7.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cmake-cxxmodules.7.html" title="cmake-cxxmodules(7)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cmake-compile-features.7.html" title="cmake-compile-features(7)"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">cmake-configure-log(7)</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

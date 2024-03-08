@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Ninja Multi-Config &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Visual Studio 6" href="Visual%20Studio%206.html" />
+    <link rel="prev" title="Ninja" href="Ninja.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Visual%20Studio%206.html" title="Visual Studio 6"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Ninja.html" title="Ninja"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Ninja Multi-Config</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ninja-multi-config">
+<span id="generator:Ninja Multi-Config"></span><h1>Ninja Multi-Config<a class="headerlink" href="#ninja-multi-config" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
+<p>Generates multiple <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> files.</p>
+<p>This generator is very much like the <span class="target" id="index-0-generator:Ninja"></span><a class="reference internal" href="Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator, but with
+some key differences. Only these differences will be discussed in this
+document.</p>
+<p>Unlike the <span class="target" id="index-1-generator:Ninja"></span><a class="reference internal" href="Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a> generator, <code class="docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code> generates
+multiple configurations at once with <span class="target" id="index-0-variable:CMAKE_CONFIGURATION_TYPES"></span><a class="reference internal" href="../variable/CMAKE_CONFIGURATION_TYPES.html#variable:CMAKE_CONFIGURATION_TYPES" title="CMAKE_CONFIGURATION_TYPES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CONFIGURATION_TYPES</span></code></a>
+instead of only one configuration with <span class="target" id="index-0-variable:CMAKE_BUILD_TYPE"></span><a class="reference internal" href="../variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE" title="CMAKE_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code></a>. One
+<code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> file will be generated for each of these
+configurations (with <code class="docutils literal notranslate"><span class="pre">&lt;Config&gt;</span></code> being the configuration name.) These files
+are intended to be run with <code class="docutils literal notranslate"><span class="pre">ninja</span> <span class="pre">-f</span> <span class="pre">build-&lt;Config&gt;.ninja</span></code>. A
+<code class="docutils literal notranslate"><span class="pre">build.ninja</span></code> file is also generated, using the configuration from either
+<span class="target" id="index-0-variable:CMAKE_DEFAULT_BUILD_TYPE"></span><a class="reference internal" href="../variable/CMAKE_DEFAULT_BUILD_TYPE.html#variable:CMAKE_DEFAULT_BUILD_TYPE" title="CMAKE_DEFAULT_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_DEFAULT_BUILD_TYPE</span></code></a> or the first item from
+<span class="target" id="index-1-variable:CMAKE_CONFIGURATION_TYPES"></span><a class="reference internal" href="../variable/CMAKE_CONFIGURATION_TYPES.html#variable:CMAKE_CONFIGURATION_TYPES" title="CMAKE_CONFIGURATION_TYPES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CONFIGURATION_TYPES</span></code></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span> <span class="pre">--config</span> <span class="pre">&lt;Config&gt;</span></code> will always use <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code>
+to build. If no <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-build-config"><code class="xref std std-option docutils literal notranslate"><span class="pre">--config</span></code></a> argument is
+specified, <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-build"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span></code></a> will use <code class="docutils literal notranslate"><span class="pre">build.ninja</span></code>.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> file contains <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> targets as well as
+<code class="docutils literal notranslate"><span class="pre">&lt;target&gt;:&lt;Config&gt;</span></code> targets, where <code class="docutils literal notranslate"><span class="pre">&lt;Config&gt;</span></code> is the same as the
+configuration specified in <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> Additionally, if
+cross-config mode is enabled, <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> may contain
+<code class="docutils literal notranslate"><span class="pre">&lt;target&gt;:&lt;OtherConfig&gt;</span></code> targets, where <code class="docutils literal notranslate"><span class="pre">&lt;OtherConfig&gt;</span></code> is a cross-config,
+as well as <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;:all</span></code>, which builds the target in all cross-configs. See
+below for how to enable cross-config mode.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code> generator recognizes the following variables:</p>
+<dl class="simple">
+<dt><span class="target" id="index-2-variable:CMAKE_CONFIGURATION_TYPES"></span><a class="reference internal" href="../variable/CMAKE_CONFIGURATION_TYPES.html#variable:CMAKE_CONFIGURATION_TYPES" title="CMAKE_CONFIGURATION_TYPES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CONFIGURATION_TYPES</span></code></a></dt><dd><p>Specifies the total set of configurations to build. Unlike with other
+multi-config generators, this variable has a value of
+<code class="docutils literal notranslate"><span class="pre">Debug;Release;RelWithDebInfo</span></code> by default.</p>
+</dd>
+<dt><span class="target" id="index-0-variable:CMAKE_CROSS_CONFIGS"></span><a class="reference internal" href="../variable/CMAKE_CROSS_CONFIGS.html#variable:CMAKE_CROSS_CONFIGS" title="CMAKE_CROSS_CONFIGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CROSS_CONFIGS</span></code></a></dt><dd><p>Specifies a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of
+configurations available from all <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> files.</p>
+</dd>
+<dt><span class="target" id="index-1-variable:CMAKE_DEFAULT_BUILD_TYPE"></span><a class="reference internal" href="../variable/CMAKE_DEFAULT_BUILD_TYPE.html#variable:CMAKE_DEFAULT_BUILD_TYPE" title="CMAKE_DEFAULT_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_DEFAULT_BUILD_TYPE</span></code></a></dt><dd><p>Specifies the configuration to use by default in a <code class="docutils literal notranslate"><span class="pre">build.ninja</span></code> file.</p>
+</dd>
+<dt><span class="target" id="index-0-variable:CMAKE_DEFAULT_CONFIGS"></span><a class="reference internal" href="../variable/CMAKE_DEFAULT_CONFIGS.html#variable:CMAKE_DEFAULT_CONFIGS" title="CMAKE_DEFAULT_CONFIGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_DEFAULT_CONFIGS</span></code></a></dt><dd><p>Specifies a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of
+configurations to build for a target in <code class="docutils literal notranslate"><span class="pre">build.ninja</span></code>
+if no <code class="docutils literal notranslate"><span class="pre">:&lt;Config&gt;</span></code> suffix is specified.</p>
+</dd>
+</dl>
+<p>Consider the following example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.16</span><span class="nf">)</span>
+<span class="nf">project(</span><span class="nb">MultiConfigNinja</span><span class="w"> </span><span class="no">C</span><span class="nf">)</span>
+
+<span class="nf">add_executable(</span><span class="nb">generator</span><span class="w"> </span><span class="nb">generator.c</span><span class="nf">)</span>
+<span class="nf">add_custom_command(</span><span class="no">OUTPUT</span><span class="w"> </span><span class="nb">generated.c</span><span class="w"> </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">generator</span><span class="w"> </span><span class="nb">generated.c</span><span class="nf">)</span>
+<span class="nf">add_library(</span><span class="nb">generated</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="na">/generated.c</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Now assume you configure the project with <code class="docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code> and run one of
+the following commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ninja<span class="w"> </span>-f<span class="w"> </span>build-Debug.ninja<span class="w"> </span>generated
+<span class="c1"># OR</span>
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--config<span class="w"> </span>Debug<span class="w"> </span>--target<span class="w"> </span>generated
+</pre></div>
+</div>
+<p>This would build the <code class="docutils literal notranslate"><span class="pre">Debug</span></code> configuration of <code class="docutils literal notranslate"><span class="pre">generator</span></code>, which would be
+used to generate <code class="docutils literal notranslate"><span class="pre">generated.c</span></code>, which would be used to build the <code class="docutils literal notranslate"><span class="pre">Debug</span></code>
+configuration of <code class="docutils literal notranslate"><span class="pre">generated</span></code>.</p>
+<p>But if <span class="target" id="index-1-variable:CMAKE_CROSS_CONFIGS"></span><a class="reference internal" href="../variable/CMAKE_CROSS_CONFIGS.html#variable:CMAKE_CROSS_CONFIGS" title="CMAKE_CROSS_CONFIGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CROSS_CONFIGS</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">all</span></code>, and you run the
+following instead:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ninja<span class="w"> </span>-f<span class="w"> </span>build-Release.ninja<span class="w"> </span>generated:Debug
+<span class="c1"># OR</span>
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--config<span class="w"> </span>Release<span class="w"> </span>--target<span class="w"> </span>generated:Debug
+</pre></div>
+</div>
+<p>This would build the <code class="docutils literal notranslate"><span class="pre">Release</span></code> configuration of <code class="docutils literal notranslate"><span class="pre">generator</span></code>, which would be
+used to generate <code class="docutils literal notranslate"><span class="pre">generated.c</span></code>, which would be used to build the <code class="docutils literal notranslate"><span class="pre">Debug</span></code>
+configuration of <code class="docutils literal notranslate"><span class="pre">generated</span></code>. This is useful for running a release-optimized
+version of a generator utility while still building the debug version of the
+targets built with the generated code.</p>
+<section id="custom-commands">
+<h2>Custom Commands<a class="headerlink" href="#custom-commands" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code> generator adds extra capabilities to
+<span class="target" id="index-0-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> and <span class="target" id="index-0-command:add_custom_target"></span><a class="reference internal" href="../command/add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_target()</span></code></a> through its
+cross-config mode. The <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code>, <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code>, and <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code>
+arguments can be evaluated in the context of either the &quot;command config&quot; (the
+&quot;native&quot; configuration of the <code class="docutils literal notranslate"><span class="pre">build-&lt;Config&gt;.ninja</span></code> file in use) or the
+&quot;output config&quot; (the configuration used to evaluate the <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and
+<code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code>).</p>
+<p>If either <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> or <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> names a path that is common to
+more than one configuration (e.g. it does not use any generator expressions),
+all arguments are evaluated in the command config by default.
+If all <code class="docutils literal notranslate"><span class="pre">OUTPUT</span></code> and <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> paths are unique to each configuration
+(e.g. by using the <span class="target" id="index-0-genex:CONFIG"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:CONFIG" title="CONFIG"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;CONFIG&gt;</span></code></a> generator expression), the first argument of
+<code class="docutils literal notranslate"><span class="pre">COMMAND</span></code> is still evaluated in the command config by default, while all
+subsequent arguments, as well as the arguments to <code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code> and
+<code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code>, are evaluated in the output config. These defaults can
+be overridden with the <span class="target" id="index-0-genex:OUTPUT_CONFIG"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:OUTPUT_CONFIG" title="OUTPUT_CONFIG"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;OUTPUT_CONFIG:...&gt;</span></code></a> and <span class="target" id="index-0-genex:COMMAND_CONFIG"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:COMMAND_CONFIG" title="COMMAND_CONFIG"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;COMMAND_CONFIG:...&gt;</span></code></a>
+generator-expressions. Note that if a target is specified by its name in
+<code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code>, or as the first argument of <code class="docutils literal notranslate"><span class="pre">COMMAND</span></code>, it is always evaluated
+in the command config, even if it is wrapped in <span class="target" id="index-1-genex:OUTPUT_CONFIG"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:OUTPUT_CONFIG" title="OUTPUT_CONFIG"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;OUTPUT_CONFIG:...&gt;</span></code></a>
+(because its plain name is not a generator expression).</p>
+<p>As an example, consider the following:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_custom_command(</span>
+<span class="w">  </span><span class="no">OUTPUT</span><span class="w"> </span><span class="s">&quot;$&lt;CONFIG&gt;.txt&quot;</span>
+<span class="w">  </span><span class="no">COMMAND</span>
+<span class="w">    </span><span class="nb">generator</span><span class="w"> </span><span class="s">&quot;$&lt;CONFIG&gt;.txt&quot;</span>
+<span class="w">              </span><span class="s">&quot;$&lt;OUTPUT_CONFIG:$&lt;CONFIG&gt;&gt;&quot;</span>
+<span class="w">              </span><span class="s">&quot;$&lt;COMMAND_CONFIG:$&lt;CONFIG&gt;&gt;&quot;</span>
+<span class="w">  </span><span class="no">DEPENDS</span>
+<span class="w">    </span><span class="nb">tgt1</span>
+<span class="w">    </span><span class="s">&quot;$&lt;TARGET_FILE:tgt2&gt;&quot;</span>
+<span class="w">    </span><span class="s">&quot;$&lt;OUTPUT_CONFIG:$&lt;TARGET_FILE:tgt3&gt;&gt;&quot;</span>
+<span class="w">    </span><span class="s">&quot;$&lt;COMMAND_CONFIG:$&lt;TARGET_FILE:tgt4&gt;&gt;&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Assume that <code class="docutils literal notranslate"><span class="pre">generator</span></code>, <code class="docutils literal notranslate"><span class="pre">tgt1</span></code>, <code class="docutils literal notranslate"><span class="pre">tgt2</span></code>, <code class="docutils literal notranslate"><span class="pre">tgt3</span></code>, and <code class="docutils literal notranslate"><span class="pre">tgt4</span></code> are all
+executable targets, and assume that <code class="docutils literal notranslate"><span class="pre">$&lt;CONFIG&gt;.txt</span></code> is built in the <code class="docutils literal notranslate"><span class="pre">Debug</span></code>
+output config using the <code class="docutils literal notranslate"><span class="pre">Release</span></code> command config. The <code class="docutils literal notranslate"><span class="pre">Release</span></code> build of
+the <code class="docutils literal notranslate"><span class="pre">generator</span></code> target is called with <code class="docutils literal notranslate"><span class="pre">Debug.txt</span> <span class="pre">Debug</span> <span class="pre">Release</span></code> as
+arguments. The command depends on the <code class="docutils literal notranslate"><span class="pre">Release</span></code> builds of <code class="docutils literal notranslate"><span class="pre">tgt1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tgt4</span></code>, and the <code class="docutils literal notranslate"><span class="pre">Debug</span></code> builds of <code class="docutils literal notranslate"><span class="pre">tgt2</span></code> and <code class="docutils literal notranslate"><span class="pre">tgt3</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PRE_BUILD</span></code>, <code class="docutils literal notranslate"><span class="pre">PRE_LINK</span></code>, and <code class="docutils literal notranslate"><span class="pre">POST_BUILD</span></code> custom commands for targets
+only get run in their &quot;native&quot; configuration (the <code class="docutils literal notranslate"><span class="pre">Release</span></code> configuration in
+the <code class="docutils literal notranslate"><span class="pre">build-Release.ninja</span></code> file) unless they have no <code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> or their
+<code class="docutils literal notranslate"><span class="pre">BYPRODUCTS</span></code> are unique per config. Consider the following example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">exe</span><span class="w"> </span><span class="nb">main.c</span><span class="nf">)</span>
+<span class="nf">add_custom_command(</span>
+<span class="w">  </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span>
+<span class="w">  </span><span class="no">POST_BUILD</span>
+<span class="w">  </span><span class="no">COMMAND</span>
+<span class="w">    </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s">&quot;Running no-byproduct command&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">add_custom_command(</span>
+<span class="w">  </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span>
+<span class="w">  </span><span class="no">POST_BUILD</span>
+<span class="w">  </span><span class="no">COMMAND</span>
+<span class="w">    </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">echo</span>
+<span class="w">    </span><span class="s">&quot;Running separate-byproduct command for $&lt;CONFIG&gt;&quot;</span>
+<span class="w">  </span><span class="no">BYPRODUCTS</span><span class="w"> </span><span class="o">$&lt;</span><span class="no">CONFIG</span><span class="o">&gt;</span><span class="p">.</span><span class="nb">txt</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">add_custom_command(</span>
+<span class="w">  </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">exe</span>
+<span class="w">  </span><span class="no">POST_BUILD</span>
+<span class="w">  </span><span class="no">COMMAND</span>
+<span class="w">    </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span><span class="w"> </span><span class="p">-</span><span class="no">E</span><span class="w"> </span><span class="nb">echo</span>
+<span class="w">    </span><span class="s">&quot;Running common-byproduct command for $&lt;CONFIG&gt;&quot;</span>
+<span class="w">  </span><span class="no">BYPRODUCTS</span><span class="w"> </span><span class="nb">exe.txt</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>In this example, if you build <code class="docutils literal notranslate"><span class="pre">exe:Debug</span></code> in <code class="docutils literal notranslate"><span class="pre">build-Release.ninja</span></code>, the
+first and second custom commands get run, since their byproducts are unique
+per-config, but the last custom command does not. However, if you build
+<code class="docutils literal notranslate"><span class="pre">exe:Release</span></code> in <code class="docutils literal notranslate"><span class="pre">build-Release.ninja</span></code>, all three custom commands get run.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Ninja Multi-Config</a><ul>
+<li><a class="reference internal" href="#custom-commands">Custom Commands</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Ninja.html"
+                          title="previous chapter">Ninja</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Visual%20Studio%206.html"
+                          title="next chapter">Visual Studio 6</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/generator/Ninja Multi-Config.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Visual%20Studio%206.html" title="Visual Studio 6"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Ninja.html" title="Ninja"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Ninja Multi-Config</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

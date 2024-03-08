@@ -1,0 +1,253 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 8: Adding a Custom Command and Generated File &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 9: Packaging an Installer" href="Packaging%20an%20Installer.html" />
+    <link rel="prev" title="Step 7: Adding System Introspection" href="Adding%20System%20Introspection.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Packaging%20an%20Installer.html" title="Step 9: Packaging an Installer"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20System%20Introspection.html" title="Step 7: Adding System Introspection"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 8: Adding a Custom Command and Generated File</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-8-adding-a-custom-command-and-generated-file">
+<span id="guide:tutorial/Adding a Custom Command and Generated File"></span><h1>Step 8: Adding a Custom Command and Generated File<a class="headerlink" href="#step-8-adding-a-custom-command-and-generated-file" title="Permalink to this heading">¶</a></h1>
+<p>Suppose, for the purpose of this tutorial, we decide that we never want to use
+the platform <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> functions and instead would like to
+generate a table of precomputed values to use in the <code class="docutils literal notranslate"><span class="pre">mysqrt</span></code> function.
+In this section, we will create the table as part of the build process,
+and then compile that table into our application.</p>
+<p>First, let's remove the check for the <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> functions in
+<code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code>. Then remove the check for <code class="docutils literal notranslate"><span class="pre">HAVE_LOG</span></code> and
+<code class="docutils literal notranslate"><span class="pre">HAVE_EXP</span></code> from <code class="docutils literal notranslate"><span class="pre">mysqrt.cxx</span></code>. At the same time, we can remove
+<code class="code docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&lt;cmath&gt;</span></code>.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> subdirectory, a new source file named
+<code class="docutils literal notranslate"><span class="pre">MakeTable.cxx</span></code> has been provided to generate the table.</p>
+<p>After reviewing the file, we can see that the table is produced as valid C++
+code and that the output filename is passed in as an argument.</p>
+<p>The next step is to create <code class="docutils literal notranslate"><span class="pre">MathFunctions/MakeTable.cmake</span></code>. Then, add the
+appropriate commands to the file to build the <code class="docutils literal notranslate"><span class="pre">MakeTable</span></code> executable and
+then run it as part of the build process. A few commands are needed to
+accomplish this.</p>
+<p>First, we add an executable for <code class="docutils literal notranslate"><span class="pre">MakeTable</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-maketable-cmake-add-executable-maketable">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/MakeTable.cmake</span><a class="headerlink" href="#mathfunctions-maketable-cmake-add-executable-maketable" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">MakeTable</span><span class="w"> </span><span class="nb">MakeTable.cxx</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>After creating the executable, we add the <code class="docutils literal notranslate"><span class="pre">tutorial_compiler_flags</span></code> to our
+executable using <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="../../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>.</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-maketable-cmake-link-tutorial-compiler-flags">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/MakeTable.cmake</span><a class="headerlink" href="#mathfunctions-maketable-cmake-link-tutorial-compiler-flags" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="nb">MakeTable</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Then we add a custom command that specifies how to produce <code class="docutils literal notranslate"><span class="pre">Table.h</span></code>
+by running MakeTable.</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-maketable-cmake-add-custom-command-table-h">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/MakeTable.cmake</span><a class="headerlink" href="#mathfunctions-maketable-cmake-add-custom-command-table-h" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_custom_command(</span>
+<span class="w">  </span><span class="no">OUTPUT</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/Table.h</span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">MakeTable</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/Table.h</span>
+<span class="w">  </span><span class="no">DEPENDS</span><span class="w"> </span><span class="nb">MakeTable</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next we have to let CMake know that <code class="docutils literal notranslate"><span class="pre">mysqrt.cxx</span></code> depends on the generated
+file <code class="docutils literal notranslate"><span class="pre">Table.h</span></code>. This is done by adding the generated <code class="docutils literal notranslate"><span class="pre">Table.h</span></code> to the list
+of sources for the library <code class="docutils literal notranslate"><span class="pre">SqrtLibrary</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-add-library-table-h">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-add-library-table-h" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">add_library(</span><span class="nb">SqrtLibrary</span><span class="w"> </span><span class="no">STATIC</span>
+<span class="w">              </span><span class="nb">mysqrt.cxx</span>
+<span class="w">              </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/Table.h</span>
+<span class="w">              </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>We also have to add the current binary directory to the list of include
+directories so that <code class="docutils literal notranslate"><span class="pre">Table.h</span></code> can be found and included by <code class="docutils literal notranslate"><span class="pre">mysqrt.cxx</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-target-include-directories-table-h">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-target-include-directories-table-h" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">target_include_directories(</span><span class="nb">SqrtLibrary</span><span class="w"> </span><span class="no">PRIVATE</span>
+<span class="w">                             </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span>
+<span class="w">                             </span><span class="nf">)</span>
+
+<span class="w">  </span><span class="c"># link SqrtLibrary to tutorial_compiler_flags</span>
+</pre></div>
+</div>
+</div>
+<p>As the last step, we need to include
+<code class="docutils literal notranslate"><span class="pre">MakeTable.cmake</span></code> at the top of the <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code>.</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-include-maketable-cmake">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-include-maketable-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">include(</span><span class="nb">MakeTable.cmake</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now let's use the generated table. First, modify <code class="docutils literal notranslate"><span class="pre">mysqrt.cxx</span></code> to include
+<code class="docutils literal notranslate"><span class="pre">Table.h</span></code>. Next, we can rewrite the <code class="docutils literal notranslate"><span class="pre">mysqrt</span></code> function to use the table:</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-mysqrt-cxx">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/mysqrt.cxx</span><a class="headerlink" href="#mathfunctions-mysqrt-cxx" title="Permalink to this code">¶</a></div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">double</span><span class="w"> </span><span class="nf">mysqrt</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// use the table to help find an initial value</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Use the table to help find an initial value &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrtTable</span><span class="p">[</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">x</span><span class="p">)];</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// do ten iterations</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Computing sqrt of &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; to be &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Run the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a> executable or the
+<span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="../../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui</span></code></a> to configure the project and then build it
+with your chosen build tool.</p>
+<p>When this project is built it will first build the <code class="docutils literal notranslate"><span class="pre">MakeTable</span></code> executable.
+It will then run <code class="docutils literal notranslate"><span class="pre">MakeTable</span></code> to produce <code class="docutils literal notranslate"><span class="pre">Table.h</span></code>. Finally, it will
+compile <code class="docutils literal notranslate"><span class="pre">mysqrt.cxx</span></code> which includes <code class="docutils literal notranslate"><span class="pre">Table.h</span></code> to produce the
+<code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> library.</p>
+<p>Run the Tutorial executable and verify that it is using the table.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Adding%20System%20Introspection.html"
+                          title="previous chapter">Step 7: Adding System Introspection</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Packaging%20an%20Installer.html"
+                          title="next chapter">Step 9: Packaging an Installer</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Adding a Custom Command and Generated File.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Packaging%20an%20Installer.html" title="Step 9: Packaging an Installer"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20System%20Introspection.html" title="Step 7: Adding System Introspection"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 8: Adding a Custom Command and Generated File</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

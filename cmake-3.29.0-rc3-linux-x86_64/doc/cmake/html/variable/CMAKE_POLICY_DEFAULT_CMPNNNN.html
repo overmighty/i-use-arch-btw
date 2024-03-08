@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt; &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;" href="CMAKE_POLICY_WARNING_CMPNNNN.html" />
+    <link rel="prev" title="CMAKE_MODULE_PATH" href="CMAKE_MODULE_PATH.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_POLICY_WARNING_CMPNNNN.html" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_MODULE_PATH.html" title="CMAKE_MODULE_PATH"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-policy-default-cmp-nnnn">
+<span id="variable:CMAKE_POLICY_DEFAULT_CMP<NNNN>"></span><h1>CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;<a class="headerlink" href="#cmake-policy-default-cmp-nnnn" title="Permalink to this heading">¶</a></h1>
+<p>Default for CMake Policy <code class="docutils literal notranslate"><span class="pre">CMP&lt;NNNN&gt;</span></code> when it is otherwise left unset.</p>
+<p>Commands <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required(version)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required(VERSION)</span></code></a> and
+<span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#version" title="cmake_policy(version)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy(VERSION)</span></code></a> by default leave policies introduced after
+the given version unset.  Set <code class="docutils literal notranslate"><span class="pre">CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">OLD</span></code>
+or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> to specify the default for policy <code class="docutils literal notranslate"><span class="pre">CMP&lt;NNNN&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;NNNN&gt;</span></code>
+is the policy number.</p>
+<p>This variable should not be set by a project in CMake code as a way to
+set its own policies; use <span class="target" id="index-1-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#set" title="cmake_policy(set)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy(SET)</span></code></a> instead.  This
+variable is meant to externally set policies for which a project has
+not itself been updated:</p>
+<ul class="simple">
+<li><p>Users running CMake may set this variable in the cache
+(e.g. <code class="docutils literal notranslate"><span class="pre">-DCMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;=&lt;OLD|NEW&gt;</span></code>).  Set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code>
+to quiet a policy warning while using old behavior or to <code class="docutils literal notranslate"><span class="pre">NEW</span></code> to
+try building the project with new behavior.</p></li>
+<li><p>Projects may set this variable before a call to <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>
+that adds a third-party project in order to set its policies without
+modifying third-party code.</p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_MODULE_PATH.html"
+                          title="previous chapter">CMAKE_MODULE_PATH</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_POLICY_WARNING_CMPNNNN.html"
+                          title="next chapter">CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_POLICY_DEFAULT_CMPNNNN.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_POLICY_WARNING_CMPNNNN.html" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_MODULE_PATH.html" title="CMAKE_MODULE_PATH"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

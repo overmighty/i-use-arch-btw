@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 3: Adding Usage Requirements for a Library &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 4: Adding Generator Expressions" href="Adding%20Generator%20Expressions.html" />
+    <link rel="prev" title="Step 2: Adding a Library" href="Adding%20a%20Library.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Adding%20Generator%20Expressions.html" title="Step 4: Adding Generator Expressions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20a%20Library.html" title="Step 2: Adding a Library"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 3: Adding Usage Requirements for a Library</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-3-adding-usage-requirements-for-a-library">
+<span id="guide:tutorial/Adding Usage Requirements for a Library"></span><h1>Step 3: Adding Usage Requirements for a Library<a class="headerlink" href="#step-3-adding-usage-requirements-for-a-library" title="Permalink to this heading">¶</a></h1>
+<section id="exercise-1-adding-usage-requirements-for-a-library">
+<h2>Exercise 1 - Adding Usage Requirements for a Library<a class="headerlink" href="#exercise-1-adding-usage-requirements-for-a-library" title="Permalink to this heading">¶</a></h2>
+<p><a class="reference internal" href="../../manual/cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">Usage requirements</span></a> of a target parameters
+allow for far better control over a library or executable's link and include
+line while also giving more control over the transitive property of targets
+inside CMake. The primary commands that
+leverage usage requirements are:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-command:target_compile_definitions"></span><a class="reference internal" href="../../command/target_compile_definitions.html#command:target_compile_definitions" title="target_compile_definitions"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_definitions()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_compile_options"></span><a class="reference internal" href="../../command/target_compile_options.html#command:target_compile_options" title="target_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_options()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_link_directories"></span><a class="reference internal" href="../../command/target_link_directories.html#command:target_link_directories" title="target_link_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_directories()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_link_options"></span><a class="reference internal" href="../../command/target_link_options.html#command:target_link_options" title="target_link_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_options()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_precompile_headers"></span><a class="reference internal" href="../../command/target_precompile_headers.html#command:target_precompile_headers" title="target_precompile_headers"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_precompile_headers()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_sources"></span><a class="reference internal" href="../../command/target_sources.html#command:target_sources" title="target_sources"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_sources()</span></code></a></p></li>
+</ul>
+<section id="goal">
+<h3>Goal<a class="headerlink" href="#goal" title="Permalink to this heading">¶</a></h3>
+<p>Add usage requirements for a library.</p>
+</section>
+<section id="helpful-materials">
+<h3>Helpful Materials<a class="headerlink" href="#helpful-materials" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><span class="target" id="index-0-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a></p></li>
+</ul>
+</section>
+<section id="files-to-edit">
+<h3>Files to Edit<a class="headerlink" href="#files-to-edit" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
+</ul>
+</section>
+<section id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h3>
+<p>In this exercise, we will refactor our code from
+<a class="reference internal" href="Adding%20a%20Library.html#guide:tutorial/Adding a Library" title="tutorial/Adding a Library"><code class="xref cmake cmake-guide docutils literal notranslate"><span class="pre">Adding</span> <span class="pre">a</span> <span class="pre">Library</span></code></a> to use the modern CMake approach. We will
+let our library define its own usage requirements so they are passed
+transitively to other targets as necessary. In this case, <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code>
+will specify any needed include directories itself. Then, the consuming target
+<code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> simply needs to link to <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> and not worry about
+any additional include directories.</p>
+<p>The starting source code is provided in the <code class="docutils literal notranslate"><span class="pre">Step3</span></code> directory. In this
+exercise, complete <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">1</span></code> through <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">3</span></code>.</p>
+<p>First, add a call to <span class="target" id="index-1-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> in
+<code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists</span></code>. Remember that
+<span class="target" id="index-1-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a> is the path to the source directory
+currently being processed.</p>
+<p>Then, update (and simplify!) the call to
+<span class="target" id="index-2-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> in the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.</p>
+</section>
+<section id="build-and-run">
+<h3>Build and Run<a class="headerlink" href="#build-and-run" title="Permalink to this heading">¶</a></h3>
+<p>Make a new directory called <code class="docutils literal notranslate"><span class="pre">Step3_build</span></code>, run the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a> executable or the <span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="../../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui</span></code></a> to
+configure the project and then build it with your chosen build tool or by
+using <a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake-build"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--build</span> <span class="pre">.</span></code></a> from the build directory.
+Here's a refresher of what that looks like from the command line:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir Step3_build</span>
+<span class="go">cd Step3_build</span>
+<span class="go">cmake ../Step3</span>
+<span class="go">cmake --build .</span>
+</pre></div>
+</div>
+<p>Next, use the newly built <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> and verify that it is working as
+expected.</p>
+</section>
+<section id="solution">
+<h3>Solution<a class="headerlink" href="#solution" title="Permalink to this heading">¶</a></h3>
+<p>Let's update the code from the previous step to use the modern CMake
+approach of usage requirements.</p>
+<p>We want to state that anybody linking to <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> needs to include
+the current source directory, while <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> itself doesn't. This
+can be expressed with an <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> usage requirement. Remember
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> means things that consumers require but the producer doesn't.</p>
+<p>At the end of <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code>, use
+<span class="target" id="index-3-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> with the <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> keyword, as
+follows:</p>
+<details><summary>TODO 1: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-target-include-directories-interface">
+<div class="code-block-caption"><span class="caption-text">TODO 1: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-target-include-directories-interface" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_include_directories(</span><span class="nb">MathFunctions</span>
+<span class="w">                           </span><span class="no">INTERFACE</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span>
+<span class="w">                           </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Now that we've specified usage requirements for <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> we can
+safely remove our uses of the <code class="docutils literal notranslate"><span class="pre">EXTRA_INCLUDES</span></code> variable from the top-level
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>.</p>
+<p>Remove this line:</p>
+<details><summary>TODO 2: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-remove-extra-includes">
+<div class="code-block-caption"><span class="caption-text">TODO 2: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-remove-extra-includes" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="no">EXTRA_INCLUDES</span><span class="w"> </span><span class="s">&quot;${PROJECT_SOURCE_DIR}/MathFunctions&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>And remove <code class="docutils literal notranslate"><span class="pre">EXTRA_INCLUDES</span></code> from <code class="docutils literal notranslate"><span class="pre">target_include_directories</span></code>:</p>
+<details><summary>TODO 3: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-target-include-directories-remove-extra-includes">
+<div class="code-block-caption"><span class="caption-text">TODO 3: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-target-include-directories-remove-extra-includes" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_include_directories(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="no">PUBLIC</span>
+<span class="w">                           </span><span class="s">&quot;${PROJECT_BINARY_DIR}&quot;</span>
+<span class="w">                           </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Notice that with this technique, the only thing our executable target does to
+use our library is call <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="../../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> with the name
+of the library target. In larger projects, the classic method of specifying
+library dependencies manually becomes very complicated very quickly.</p>
+</section>
+</section>
+<section id="exercise-2-setting-the-c-standard-with-interface-libraries">
+<h2>Exercise 2 - Setting the C++ Standard with Interface Libraries<a class="headerlink" href="#exercise-2-setting-the-c-standard-with-interface-libraries" title="Permalink to this heading">¶</a></h2>
+<p>Now that we have switched our code to a more modern approach, let's demonstrate
+a modern technique to set properties to multiple targets.</p>
+<p>Let's refactor our existing code to use an <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> library. We will
+use that library in the next step to demonstrate a common use for
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<section id="id1">
+<h3>Goal<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<p>Add an <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> library target to specify the required C++ standard.</p>
+</section>
+<section id="helpful-resources">
+<h3>Helpful Resources<a class="headerlink" href="#helpful-resources" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_compile_features"></span><a class="reference internal" href="../../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a></p></li>
+<li><p><span class="target" id="index-1-command:target_link_libraries"></span><a class="reference internal" href="../../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a></p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Files to Edit<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code></p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Getting Started<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<p>In this exercise, we will refactor our code to use an <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> library to
+specify the C++ standard.</p>
+<p>Start this exercise from what we left at the end of Step3 exercise 1. You will
+have to complete <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">4</span></code> through <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">7</span></code>.</p>
+<p>Start by editing the top level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file. Construct an
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> library target called <code class="docutils literal notranslate"><span class="pre">tutorial_compiler_flags</span></code> and
+specify <code class="docutils literal notranslate"><span class="pre">cxx_std_11</span></code> as a target compiler feature.</p>
+<p>Modify <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code> so that all
+targets have a <span class="target" id="index-2-command:target_link_libraries"></span><a class="reference internal" href="../../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> call to
+<code class="docutils literal notranslate"><span class="pre">tutorial_compiler_flags</span></code>.</p>
+</section>
+<section id="id4">
+<h3>Build and Run<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<p>Since we have our build directory already configured from Exercise 1, simply
+rebuild our code by calling the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd Step3_build</span>
+<span class="go">cmake --build .</span>
+</pre></div>
+</div>
+<p>Next, use the newly built <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> and verify that it is working as
+expected.</p>
+</section>
+<section id="id5">
+<h3>Solution<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<p>Let's update our code from the previous step to use interface libraries
+to set our C++ requirements.</p>
+<p>To start, we need to remove the two <span class="target" id="index-0-command:set"></span><a class="reference internal" href="../../command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> calls on the variables
+<span class="target" id="index-0-variable:CMAKE_CXX_STANDARD"></span><a class="reference internal" href="../../variable/CMAKE_CXX_STANDARD.html#variable:CMAKE_CXX_STANDARD" title="CMAKE_CXX_STANDARD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_STANDARD</span></code></a> and <span class="target" id="index-0-variable:CMAKE_CXX_STANDARD_REQUIRED"></span><a class="reference internal" href="../../variable/CMAKE_CXX_STANDARD_REQUIRED.html#variable:CMAKE_CXX_STANDARD_REQUIRED" title="CMAKE_CXX_STANDARD_REQUIRED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_STANDARD_REQUIRED</span></code></a>.
+The specific lines to remove are as follows:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-cxx-standard-variable-remove">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-cxx-standard-variable-remove" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="m">11</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">CMAKE_CXX_STANDARD_REQUIRED</span><span class="w"> </span><span class="nb">True</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we need to create an interface library, <code class="docutils literal notranslate"><span class="pre">tutorial_compiler_flags</span></code>. And
+then use <span class="target" id="index-1-command:target_compile_features"></span><a class="reference internal" href="../../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a> to add the compiler feature
+<code class="docutils literal notranslate"><span class="pre">cxx_std_11</span></code>.</p>
+<details><summary>TODO 4: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-cxx-std-feature">
+<div class="code-block-caption"><span class="caption-text">TODO 4: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-cxx-std-feature" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">tutorial_compiler_flags</span><span class="w"> </span><span class="no">INTERFACE</span><span class="nf">)</span>
+<span class="nf">target_compile_features(</span><span class="nb">tutorial_compiler_flags</span><span class="w"> </span><span class="no">INTERFACE</span><span class="w"> </span><span class="nb">cxx_std_11</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Finally, with our interface library set up, we need to link our
+executable <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code>, our <code class="docutils literal notranslate"><span class="pre">SqrtLibrary</span></code> library and our <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code>
+library to our new <code class="docutils literal notranslate"><span class="pre">tutorial_compiler_flags</span></code> library. Respectively, the code
+will look like this:</p>
+<details><summary>TODO 5: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-target-link-libraries-step4">
+<div class="code-block-caption"><span class="caption-text">TODO 5: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-target-link-libraries-step4" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>this:</p>
+<details><summary>TODO 6: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-target-link-libraries-step4">
+<div class="code-block-caption"><span class="caption-text">TODO 6: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-target-link-libraries-step4" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">target_link_libraries(</span><span class="nb">SqrtLibrary</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>and this:</p>
+<details><summary>TODO 7: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-sqrtlibrary-target-link-libraries-step4">
+<div class="code-block-caption"><span class="caption-text">TODO 7: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-sqrtlibrary-target-link-libraries-step4" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>With this, all of our code still requires C++ 11 to build. Notice
+though that with this method, it gives us the ability to be specific about
+which targets get specific requirements. In addition, we create a single
+source of truth in our interface library.</p>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Step 3: Adding Usage Requirements for a Library</a><ul>
+<li><a class="reference internal" href="#exercise-1-adding-usage-requirements-for-a-library">Exercise 1 - Adding Usage Requirements for a Library</a><ul>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+<li><a class="reference internal" href="#helpful-materials">Helpful Materials</a></li>
+<li><a class="reference internal" href="#files-to-edit">Files to Edit</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#build-and-run">Build and Run</a></li>
+<li><a class="reference internal" href="#solution">Solution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercise-2-setting-the-c-standard-with-interface-libraries">Exercise 2 - Setting the C++ Standard with Interface Libraries</a><ul>
+<li><a class="reference internal" href="#id1">Goal</a></li>
+<li><a class="reference internal" href="#helpful-resources">Helpful Resources</a></li>
+<li><a class="reference internal" href="#id2">Files to Edit</a></li>
+<li><a class="reference internal" href="#id3">Getting Started</a></li>
+<li><a class="reference internal" href="#id4">Build and Run</a></li>
+<li><a class="reference internal" href="#id5">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Adding%20a%20Library.html"
+                          title="previous chapter">Step 2: Adding a Library</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Adding%20Generator%20Expressions.html"
+                          title="next chapter">Step 4: Adding Generator Expressions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Adding Usage Requirements for a Library.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Adding%20Generator%20Expressions.html" title="Step 4: Adding Generator Expressions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20a%20Library.html" title="Step 2: Adding a Library"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 3: Adding Usage Requirements for a Library</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 5: Installing and Testing &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 6: Adding Support for a Testing Dashboard" href="Adding%20Support%20for%20a%20Testing%20Dashboard.html" />
+    <link rel="prev" title="Step 4: Adding Generator Expressions" href="Adding%20Generator%20Expressions.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Adding%20Support%20for%20a%20Testing%20Dashboard.html" title="Step 6: Adding Support for a Testing Dashboard"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20Generator%20Expressions.html" title="Step 4: Adding Generator Expressions"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 5: Installing and Testing</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-5-installing-and-testing">
+<span id="guide:tutorial/Installing and Testing"></span><h1>Step 5: Installing and Testing<a class="headerlink" href="#step-5-installing-and-testing" title="Permalink to this heading">¶</a></h1>
+<section id="exercise-1-install-rules">
+<h2>Exercise 1 - Install Rules<a class="headerlink" href="#exercise-1-install-rules" title="Permalink to this heading">¶</a></h2>
+<p>Often, it is not enough to only build an executable, it should also be
+installable. With CMake, we can specify install rules using the
+<span class="target" id="index-0-command:install"></span><a class="reference internal" href="../../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> command. Supporting local installations for your builds in
+CMake is often as simple as specifying an install location and the targets and
+files to be installed.</p>
+<section id="goal">
+<h3>Goal<a class="headerlink" href="#goal" title="Permalink to this heading">¶</a></h3>
+<p>Install the <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> executable and the <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> library.</p>
+</section>
+<section id="helpful-materials">
+<h3>Helpful Materials<a class="headerlink" href="#helpful-materials" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><span class="target" id="index-1-command:install"></span><a class="reference internal" href="../../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a></p></li>
+</ul>
+</section>
+<section id="files-to-edit">
+<h3>Files to Edit<a class="headerlink" href="#files-to-edit" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
+</ul>
+</section>
+<section id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h3>
+<p>The starting code is provided in the <code class="docutils literal notranslate"><span class="pre">Step5</span></code> directory. In this
+exercise, complete <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">1</span></code> through <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">4</span></code>.</p>
+<p>First, update <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code> to install the
+<code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> and <code class="docutils literal notranslate"><span class="pre">tutorial_compiler_flags</span></code> libraries to the <code class="docutils literal notranslate"><span class="pre">lib</span></code>
+directory. In that same file, specify the install rules needed to install
+<code class="docutils literal notranslate"><span class="pre">MathFunctions.h</span></code> to the <code class="docutils literal notranslate"><span class="pre">include</span></code> directory.</p>
+<p>Then, update the top level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> to install
+the <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> executable to the <code class="docutils literal notranslate"><span class="pre">bin</span></code> directory. Lastly, any header files
+should be installed to the <code class="docutils literal notranslate"><span class="pre">include</span></code> directory. Remember that
+<code class="docutils literal notranslate"><span class="pre">TutorialConfig.h</span></code> is in the <span class="target" id="index-0-variable:PROJECT_BINARY_DIR"></span><a class="reference internal" href="../../variable/PROJECT_BINARY_DIR.html#variable:PROJECT_BINARY_DIR" title="PROJECT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">PROJECT_BINARY_DIR</span></code></a>.</p>
+</section>
+<section id="build-and-run">
+<h3>Build and Run<a class="headerlink" href="#build-and-run" title="Permalink to this heading">¶</a></h3>
+<p>Make a new directory called <code class="docutils literal notranslate"><span class="pre">Step5_build</span></code>. Run the
+<span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a> executable or the
+<span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="../../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui</span></code></a> to configure the project and then build it
+with your chosen build tool.</p>
+<p>Then, run the install step by using the <a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake-install"><code class="xref std std-option docutils literal notranslate"><span class="pre">--install</span></code></a>
+option of the <span class="target" id="index-1-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a> command (introduced in 3.15, older
+versions of CMake must use <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">install</span></code>) from the command line. This step
+will install the appropriate header files, libraries, and executables.
+For example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake --install .</span>
+</pre></div>
+</div>
+<p>For multi-configuration tools, don't forget to use the
+<a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake-build-config"><code class="xref std std-option docutils literal notranslate"><span class="pre">--config</span></code></a> argument to specify the configuration.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake --install . --config Release</span>
+</pre></div>
+</div>
+<p>If using an IDE, simply build the <code class="docutils literal notranslate"><span class="pre">INSTALL</span></code> target. You can build the same
+install target from the command line like the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake --build . --target install --config Debug</span>
+</pre></div>
+</div>
+<p>The CMake variable <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> is used to determine the
+root of where the files will be installed. If using the <a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake-install"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span></code></a>
+command, the installation prefix can be overridden via the
+<a class="reference internal" href="../../manual/cmake.1.html#cmdoption-cmake--install-0"><code class="xref std std-option docutils literal notranslate"><span class="pre">--prefix</span></code></a> argument. For example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cmake --install . --prefix &quot;/home/myuser/installdir&quot;</span>
+</pre></div>
+</div>
+<p>Navigate to the install directory and verify that the installed <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code>
+runs.</p>
+</section>
+<section id="solution">
+<h3>Solution<a class="headerlink" href="#solution" title="Permalink to this heading">¶</a></h3>
+<p>The install rules for our project are fairly simple:</p>
+<ul class="simple">
+<li><p>For <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code>, we want to install the libraries and header file to
+the <code class="docutils literal notranslate"><span class="pre">lib</span></code> and <code class="docutils literal notranslate"><span class="pre">include</span></code> directories respectively.</p></li>
+<li><p>For the <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> executable, we want to install the executable and
+configured header file to the <code class="docutils literal notranslate"><span class="pre">bin</span></code> and <code class="docutils literal notranslate"><span class="pre">include</span></code> directories
+respectively.</p></li>
+</ul>
+<p>So to the end of <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code> we add:</p>
+<details><summary>TODO 1: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-install-targets">
+<div class="code-block-caption"><span class="caption-text">TODO 1: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-install-targets" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">installable_libs</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">SqrtLibrary</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="nb">installable_libs</span><span class="w"> </span><span class="nb">SqrtLibrary</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+<span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="o">${</span><span class="nt">installable_libs</span><span class="o">}</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>and</p>
+<details><summary>TODO 2: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-install-headers">
+<div class="code-block-caption"><span class="caption-text">TODO 2: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-install-headers" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="nb">MathFunctions.h</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>The install rules for the <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> executable and configured header file
+are similar. To the end of the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> we add:</p>
+<details><summary>TODO 3,4: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="todo-3-4-cmakelists-txt-install-targets">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#todo-3-4-cmakelists-txt-install-targets" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nb">Tutorial</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">bin</span><span class="nf">)</span>
+<span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="s">&quot;${PROJECT_BINARY_DIR}/TutorialConfig.h&quot;</span>
+<span class="w">  </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>That is all that is needed to create a basic local
+install of the tutorial.</p>
+</section>
+</section>
+<section id="exercise-2-testing-support">
+<span id="tutorial-testing-support"></span><h2>Exercise 2 - Testing Support<a class="headerlink" href="#exercise-2-testing-support" title="Permalink to this heading">¶</a></h2>
+<p>CTest offers a way to easily manage tests for your project. Tests can be
+added through the <span class="target" id="index-0-command:add_test"></span><a class="reference internal" href="../../command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> command. Although it is not
+explicitly covered in this tutorial, there is a lot of compatibility
+between CTest and other testing frameworks such as <span class="target" id="index-0-module:GoogleTest"></span><a class="reference internal" href="../../module/GoogleTest.html#module:GoogleTest" title="GoogleTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">GoogleTest</span></code></a>.</p>
+<section id="id1">
+<h3>Goal<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<p>Create unit tests for our executable using CTest.</p>
+</section>
+<section id="id2">
+<h3>Helpful Materials<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><span class="target" id="index-0-command:enable_testing"></span><a class="reference internal" href="../../command/enable_testing.html#command:enable_testing" title="enable_testing"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_testing()</span></code></a></p></li>
+<li><p><span class="target" id="index-1-command:add_test"></span><a class="reference internal" href="../../command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:function"></span><a class="reference internal" href="../../command/function.html#command:function" title="function"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">function()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:set_tests_properties"></span><a class="reference internal" href="../../command/set_tests_properties.html#command:set_tests_properties" title="set_tests_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_tests_properties()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-manual:ctest(1)"></span><a class="reference internal" href="../../manual/ctest.1.html#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest</span></code></a></p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Files to Edit<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Getting Started<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<p>The starting source code is provided in the <code class="docutils literal notranslate"><span class="pre">Step5</span></code> directory. In this
+exercise, complete <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">5</span></code> through <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">9</span></code>.</p>
+<p>First, we need to enable testing. Next, begin adding tests to our project
+using <span class="target" id="index-2-command:add_test"></span><a class="reference internal" href="../../command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a>. We will work through adding 3 simple tests and
+then you can add additional testing as you see fit.</p>
+</section>
+<section id="id5">
+<h3>Build and Run<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<p>Navigate to the build directory and rebuild the application. Then, run the
+<strong class="program">ctest</strong> executable: <a class="reference internal" href="../../manual/ctest.1.html#cmdoption-ctest-N"><code class="xref std std-option docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-N</span></code></a> and <a class="reference internal" href="../../manual/ctest.1.html#cmdoption-ctest-VV"><code class="xref std std-option docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-VV</span></code></a>. For
+multi-config generators (e.g. Visual Studio), the configuration type must be
+specified with the <a class="reference internal" href="../../manual/ctest.1.html#cmdoption-ctest-C"><code class="xref std std-option docutils literal notranslate"><span class="pre">-C</span> <span class="pre">&lt;mode&gt;</span></code></a> flag.  For example, to run tests in Debug
+mode use <code class="docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-C</span> <span class="pre">Debug</span> <span class="pre">-VV</span></code> from the build directory
+(not the Debug subdirectory!). Release mode would be executed from the same
+location but with a <code class="docutils literal notranslate"><span class="pre">-C</span> <span class="pre">Release</span></code>. Alternatively, build the <code class="docutils literal notranslate"><span class="pre">RUN_TESTS</span></code>
+target from the IDE.</p>
+</section>
+<section id="id6">
+<h3>Solution<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<p>Let's test our application. At the end of the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>
+file we first need to enable testing with the
+<span class="target" id="index-1-command:enable_testing"></span><a class="reference internal" href="../../command/enable_testing.html#command:enable_testing" title="enable_testing"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_testing()</span></code></a> command.</p>
+<details><summary>TODO 5: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-enable-testing">
+<div class="code-block-caption"><span class="caption-text">TODO 5: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-enable-testing" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">enable_testing()</span>
+</pre></div>
+</div>
+</div>
+</details><p>With testing enabled, we will add a number of basic tests to verify
+that the application is working correctly. First, we create a test using
+<span class="target" id="index-3-command:add_test"></span><a class="reference internal" href="../../command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> which runs the <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> executable with the
+parameter 25 passed in. For this test, we are not going to check the
+executable's computed answer. This test will verify that
+application runs, does not segfault or otherwise crash, and has a zero
+return value. This is the basic form of a CTest test.</p>
+<details><summary>TODO 6: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-test-runs">
+<div class="code-block-caption"><span class="caption-text">TODO 6: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-test-runs" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_test(</span><span class="no">NAME</span><span class="w"> </span><span class="nb">Runs</span><span class="w"> </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">25</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Next, let's use the <span class="target" id="index-0-prop_test:PASS_REGULAR_EXPRESSION"></span><a class="reference internal" href="../../prop_test/PASS_REGULAR_EXPRESSION.html#prop_test:PASS_REGULAR_EXPRESSION" title="PASS_REGULAR_EXPRESSION"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">PASS_REGULAR_EXPRESSION</span></code></a> test property to
+verify that the output of the test contains certain strings. In this case,
+verifying that the usage message is printed when an incorrect number of
+arguments are provided.</p>
+<details><summary>TODO 7: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-test-usage">
+<div class="code-block-caption"><span class="caption-text">TODO 7: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-test-usage" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_test(</span><span class="no">NAME</span><span class="w"> </span><span class="nb">Usage</span><span class="w"> </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">Tutorial</span><span class="nf">)</span>
+<span class="nf">set_tests_properties(</span><span class="nb">Usage</span>
+<span class="w">  </span><span class="no">PROPERTIES</span><span class="w"> </span><span class="no">PASS_REGULAR_EXPRESSION</span><span class="w"> </span><span class="s">&quot;Usage:.*number&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>The next test we will add verifies the computed value is truly the
+square root.</p>
+<details><summary>TODO 8: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-test-standard">
+<div class="code-block-caption"><span class="caption-text">TODO 8: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-test-standard" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_test(</span><span class="no">NAME</span><span class="w"> </span><span class="nb">StandardUse</span><span class="w"> </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">4</span><span class="nf">)</span>
+<span class="nf">set_tests_properties(</span><span class="nb">StandardUse</span>
+<span class="w">  </span><span class="no">PROPERTIES</span><span class="w"> </span><span class="no">PASS_REGULAR_EXPRESSION</span><span class="w"> </span><span class="s">&quot;4 is 2&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>This one test is not enough to give us confidence that it will
+work for all values passed in. We should add more tests to verify this.
+To easily add more tests, we make a function called <code class="docutils literal notranslate"><span class="pre">do_test</span></code> that runs the
+application and verifies that the computed square root is correct for
+given input. For each invocation of <code class="docutils literal notranslate"><span class="pre">do_test</span></code>, another test is added to
+the project with a name, input, and expected results based on the passed
+arguments.</p>
+<details><summary>TODO 9: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-generalized-tests">
+<div class="code-block-caption"><span class="caption-text">TODO 9: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-generalized-tests" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">function(</span><span class="nb">do_test</span><span class="w"> </span><span class="nb">target</span><span class="w"> </span><span class="nb">arg</span><span class="w"> </span><span class="nb">result</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">add_test(</span><span class="no">NAME</span><span class="w"> </span><span class="nb">Comp</span><span class="o">${</span><span class="nt">arg</span><span class="o">}</span><span class="w"> </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">target</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">arg</span><span class="o">}</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set_tests_properties(</span><span class="nb">Comp</span><span class="o">${</span><span class="nt">arg</span><span class="o">}</span>
+<span class="w">    </span><span class="no">PROPERTIES</span><span class="w"> </span><span class="no">PASS_REGULAR_EXPRESSION</span><span class="w"> </span><span class="o">${</span><span class="nt">result</span><span class="o">}</span>
+<span class="w">    </span><span class="nf">)</span>
+<span class="nf">endfunction()</span>
+
+<span class="c"># do a bunch of result based tests</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="s">&quot;4 is 2&quot;</span><span class="nf">)</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">9</span><span class="w"> </span><span class="s">&quot;9 is 3&quot;</span><span class="nf">)</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="s">&quot;5 is 2.236&quot;</span><span class="nf">)</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">7</span><span class="w"> </span><span class="s">&quot;7 is 2.645&quot;</span><span class="nf">)</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">25</span><span class="w"> </span><span class="s">&quot;25 is 5&quot;</span><span class="nf">)</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="p">-</span><span class="m">25</span><span class="w"> </span><span class="s">&quot;-25 is (-nan|nan|0)&quot;</span><span class="nf">)</span>
+<span class="nf">do_test(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="m">0.0001</span><span class="w"> </span><span class="s">&quot;0.0001 is 0.01&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Step 5: Installing and Testing</a><ul>
+<li><a class="reference internal" href="#exercise-1-install-rules">Exercise 1 - Install Rules</a><ul>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+<li><a class="reference internal" href="#helpful-materials">Helpful Materials</a></li>
+<li><a class="reference internal" href="#files-to-edit">Files to Edit</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#build-and-run">Build and Run</a></li>
+<li><a class="reference internal" href="#solution">Solution</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exercise-2-testing-support">Exercise 2 - Testing Support</a><ul>
+<li><a class="reference internal" href="#id1">Goal</a></li>
+<li><a class="reference internal" href="#id2">Helpful Materials</a></li>
+<li><a class="reference internal" href="#id3">Files to Edit</a></li>
+<li><a class="reference internal" href="#id4">Getting Started</a></li>
+<li><a class="reference internal" href="#id5">Build and Run</a></li>
+<li><a class="reference internal" href="#id6">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Adding%20Generator%20Expressions.html"
+                          title="previous chapter">Step 4: Adding Generator Expressions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Adding%20Support%20for%20a%20Testing%20Dashboard.html"
+                          title="next chapter">Step 6: Adding Support for a Testing Dashboard</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Installing and Testing.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Adding%20Support%20for%20a%20Testing%20Dashboard.html" title="Step 6: Adding Support for a Testing Dashboard"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20Generator%20Expressions.html" title="Step 4: Adding Generator Expressions"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 5: Installing and Testing</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

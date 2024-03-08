@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 11: Adding Export Configuration &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 12: Packaging Debug and Release" href="Packaging%20Debug%20and%20Release.html" />
+    <link rel="prev" title="Step 10: Selecting Static or Shared Libraries" href="Selecting%20Static%20or%20Shared%20Libraries.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Packaging%20Debug%20and%20Release.html" title="Step 12: Packaging Debug and Release"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Selecting%20Static%20or%20Shared%20Libraries.html" title="Step 10: Selecting Static or Shared Libraries"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 11: Adding Export Configuration</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-11-adding-export-configuration">
+<span id="guide:tutorial/Adding Export Configuration"></span><h1>Step 11: Adding Export Configuration<a class="headerlink" href="#step-11-adding-export-configuration" title="Permalink to this heading">¶</a></h1>
+<p>During <a class="reference internal" href="Installing%20and%20Testing.html#guide:tutorial/Installing and Testing" title="tutorial/Installing and Testing"><code class="xref cmake cmake-guide docutils literal notranslate"><span class="pre">Installing</span> <span class="pre">and</span> <span class="pre">Testing</span></code></a> of the tutorial we added the
+ability for CMake to install the library and headers of the project. During
+<a class="reference internal" href="Packaging%20an%20Installer.html#guide:tutorial/Packaging an Installer" title="tutorial/Packaging an Installer"><code class="xref cmake cmake-guide docutils literal notranslate"><span class="pre">Packaging</span> <span class="pre">an</span> <span class="pre">Installer</span></code></a> we added the ability to package up
+this information so it could be distributed to other people.</p>
+<p>The next step is to add the necessary information so that other CMake projects
+can use our project, be it from a build directory, a local install or when
+packaged.</p>
+<p>The first step is to update our <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../../command/install.html#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> commands to not
+only specify a <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> but also an <code class="docutils literal notranslate"><span class="pre">EXPORT</span></code>. The <code class="docutils literal notranslate"><span class="pre">EXPORT</span></code> keyword
+generates a CMake file containing code to import all targets listed in the
+install command from the installation tree. So let's go ahead and explicitly
+<code class="docutils literal notranslate"><span class="pre">EXPORT</span></code> the <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> library by updating the <code class="docutils literal notranslate"><span class="pre">install</span></code> command
+in <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code> to look like:</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-install-targets-export">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-install-targets-export" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">installable_libs</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">SqrtLibrary</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="nb">installable_libs</span><span class="w"> </span><span class="nb">SqrtLibrary</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+<span class="nf">install(</span><span class="no">TARGETS</span><span class="w"> </span><span class="o">${</span><span class="nt">installable_libs</span><span class="o">}</span>
+<span class="w">        </span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span>
+<span class="w">        </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">lib</span><span class="nf">)</span>
+<span class="c"># install include headers</span>
+<span class="nf">install(</span><span class="no">FILES</span><span class="w"> </span><span class="nb">MathFunctions.h</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="nb">include</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Now that we have <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> being exported, we also need to explicitly
+install the generated <code class="docutils literal notranslate"><span class="pre">MathFunctionsTargets.cmake</span></code> file. This is done by
+adding the following to the bottom of the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-install-export">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-install-export" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span>
+<span class="w">  </span><span class="no">FILE</span><span class="w"> </span><span class="nb">MathFunctionsTargets.cmake</span>
+<span class="w">  </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>At this point you should try and run CMake. If everything is setup properly
+you will see that CMake will generate an error that looks like:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">Target &quot;MathFunctions&quot; INTERFACE_INCLUDE_DIRECTORIES property contains</span>
+<span class="go">path:</span>
+
+<span class="go">  &quot;/Users/robert/Documents/CMakeClass/Tutorial/Step11/MathFunctions&quot;</span>
+
+<span class="go">which is prefixed in the source directory.</span>
+</pre></div>
+</div>
+<p>What CMake is trying to say is that during generating the export information
+it will export a path that is intrinsically tied to the current machine and
+will not be valid on other machines. The solution to this is to update the
+<code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> <span class="target" id="index-0-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> to understand that it
+needs different <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> locations when being used from within the build
+directory and from an install / package. This means converting the
+<span class="target" id="index-1-command:target_include_directories"></span><a class="reference internal" href="../../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> call for <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> to look like:</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-target-include-directories">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-target-include-directories" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_include_directories(</span><span class="nb">MathFunctions</span>
+<span class="w">                           </span><span class="no">INTERFACE</span>
+<span class="w">                            </span><span class="o">$&lt;</span><span class="no">BUILD_INTERFACE</span><span class="o">:${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}&gt;</span>
+<span class="w">                            </span><span class="o">$&lt;</span><span class="no">INSTALL_INTERFACE</span><span class="o">:</span><span class="nb">include</span><span class="o">&gt;</span>
+<span class="w">                           </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Once this has been updated, we can re-run CMake and verify that it doesn't
+warn anymore.</p>
+<p>At this point, we have CMake properly packaging the target information that is
+required but we will still need to generate a <code class="docutils literal notranslate"><span class="pre">MathFunctionsConfig.cmake</span></code> so
+that the CMake <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command can find our project. So let's go
+ahead and add a new file to the top-level of the project called
+<code class="docutils literal notranslate"><span class="pre">Config.cmake.in</span></code> with the following contents:</p>
+<div class="literal-block-wrapper docutils container" id="config-cmake-in">
+<div class="code-block-caption"><span class="caption-text">Config.cmake.in</span><a class="headerlink" href="#config-cmake-in" title="Permalink to this code">¶</a></div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>
+@PACKAGE_INIT@
+
+include ( &quot;${CMAKE_CURRENT_LIST_DIR}/MathFunctionsTargets.cmake&quot; )
+</pre></div>
+</div>
+</div>
+<p>Then, to properly configure and install that file, add the following to the
+bottom of the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-install-config-cmake">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-install-config-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span>
+<span class="w">  </span><span class="no">FILE</span><span class="w"> </span><span class="nb">MathFunctionsTargets.cmake</span>
+<span class="w">  </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span>
+<span class="nf">)</span>
+
+<span class="nf">include(</span><span class="nb">CMakePackageConfigHelpers</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Next, we execute the <span class="target" id="index-0-command:configure_package_config_file"></span><a class="reference internal" href="../../module/CMakePackageConfigHelpers.html#command:configure_package_config_file" title="configure_package_config_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_package_config_file()</span></code></a>.  This command
+will configure a provided file but with a few specific differences from the
+standard <span class="target" id="index-0-command:configure_file"></span><a class="reference internal" href="../../command/configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> way.
+To properly utilize this function, the input file should have a single line
+with the text <code class="docutils literal notranslate"><span class="pre">&#64;PACKAGE_INIT&#64;</span></code> in addition to the content that is desired.
+That variable will be replaced with a block of code which turns set values into
+relative paths.  These values which are new can be referenced by the same name
+but prepended with a <code class="docutils literal notranslate"><span class="pre">PACKAGE_</span></code> prefix.</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-configure-package-config-cmake">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-configure-package-config-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span>
+<span class="w">  </span><span class="no">FILE</span><span class="w"> </span><span class="nb">MathFunctionsTargets.cmake</span>
+<span class="w">  </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span>
+<span class="nf">)</span>
+
+<span class="nf">include(</span><span class="nb">CMakePackageConfigHelpers</span><span class="nf">)</span>
+<span class="c"># generate the config file that includes the exports</span>
+<span class="nf">configure_package_config_file(</span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/Config.cmake.in</span>
+<span class="w">  </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfig.cmake&quot;</span>
+<span class="w">  </span><span class="no">INSTALL_DESTINATION</span><span class="w"> </span><span class="s">&quot;lib/cmake/MathFunctions&quot;</span>
+<span class="w">  </span><span class="no">NO_SET_AND_CHECK_MACRO</span>
+<span class="w">  </span><span class="no">NO_CHECK_REQUIRED_COMPONENTS_MACRO</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>The <span class="target" id="index-0-command:write_basic_package_version_file"></span><a class="reference internal" href="../../module/CMakePackageConfigHelpers.html#command:write_basic_package_version_file" title="write_basic_package_version_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">write_basic_package_version_file()</span></code></a> is next.  This command writes
+a file which is used by <span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="../../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>, documenting the version and
+compatibility of the desired package.  Here, we use the <code class="docutils literal notranslate"><span class="pre">Tutorial_VERSION_*</span></code>
+variables and say that it is compatible with <code class="docutils literal notranslate"><span class="pre">AnyNewerVersion</span></code>, which
+denotes that this version or any higher one are compatible with the requested
+version.</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-basic-version-file-cmake">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-basic-version-file-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">write_basic_package_version_file(</span>
+<span class="w">  </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsConfigVersion.cmake&quot;</span>
+<span class="w">  </span><span class="no">VERSION</span><span class="w"> </span><span class="s">&quot;${Tutorial_VERSION_MAJOR}.${Tutorial_VERSION_MINOR}&quot;</span>
+<span class="w">  </span><span class="no">COMPATIBILITY</span><span class="w"> </span><span class="nb">AnyNewerVersion</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Finally, set both generated files to be installed:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-install-configured-files-cmake">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-install-configured-files-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">install(</span><span class="no">FILES</span>
+<span class="w">  </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/MathFunctionsConfig.cmake</span>
+<span class="w">  </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/MathFunctionsConfigVersion.cmake</span>
+<span class="w">  </span><span class="no">DESTINATION</span><span class="w"> </span><span class="na">lib/cmake/MathFunctions</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>At this point, we have generated a relocatable CMake Configuration for our
+project that can be used after the project has been installed or packaged. If
+we want our project to also be used from a build directory we only have to add
+the following to the bottom of the top level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-export">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-export" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nb">MathFunctionsTargets</span>
+<span class="w">  </span><span class="no">FILE</span><span class="w"> </span><span class="s">&quot;${CMAKE_CURRENT_BINARY_DIR}/MathFunctionsTargets.cmake&quot;</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>With this export call we now generate a <code class="docutils literal notranslate"><span class="pre">MathFunctionsTargets.cmake</span></code>, allowing the
+configured <code class="docutils literal notranslate"><span class="pre">MathFunctionsConfig.cmake</span></code> in the build directory to be used by
+other projects, without needing it to be installed.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Selecting%20Static%20or%20Shared%20Libraries.html"
+                          title="previous chapter">Step 10: Selecting Static or Shared Libraries</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Packaging%20Debug%20and%20Release.html"
+                          title="next chapter">Step 12: Packaging Debug and Release</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Adding Export Configuration.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Packaging%20Debug%20and%20Release.html" title="Step 12: Packaging Debug and Release"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Selecting%20Static%20or%20Shared%20Libraries.html" title="Step 10: Selecting Static or Shared Libraries"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 11: Adding Export Configuration</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

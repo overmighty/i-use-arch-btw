@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>FOLDER &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fortran_BUILDING_INSTRINSIC_MODULES" href="Fortran_BUILDING_INSTRINSIC_MODULES.html" />
+    <link rel="prev" title="EXPORT_PROPERTIES" href="EXPORT_PROPERTIES.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Fortran_BUILDING_INSTRINSIC_MODULES.html" title="Fortran_BUILDING_INSTRINSIC_MODULES"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="EXPORT_PROPERTIES.html" title="EXPORT_PROPERTIES"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FOLDER</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="folder">
+<span id="prop_tgt:FOLDER"></span><h1>FOLDER<a class="headerlink" href="#folder" title="Permalink to this heading">¶</a></h1>
+<p>For IDEs that present targets using a folder hierarchy, this property
+specifies the name of the folder to place the target under.
+To nest folders, use <code class="docutils literal notranslate"><span class="pre">FOLDER</span></code> values such as <code class="docutils literal notranslate"><span class="pre">GUI/Dialogs</span></code> with <code class="docutils literal notranslate"><span class="pre">/</span></code>
+characters separating folder levels.  Targets with no <code class="docutils literal notranslate"><span class="pre">FOLDER</span></code> property
+will appear as top level entities.  Targets with the same <code class="docutils literal notranslate"><span class="pre">FOLDER</span></code>
+property value will appear in the same folder as siblings.</p>
+<p>Only some CMake generators honor the <code class="docutils literal notranslate"><span class="pre">FOLDER</span></code> property
+(e.g. <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> or any of the
+<a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio</span></a> generators).
+Those generators that don't will simply ignore it.</p>
+<p>This property is initialized by the value of the variable
+<span class="target" id="index-0-variable:CMAKE_FOLDER"></span><a class="reference internal" href="../variable/CMAKE_FOLDER.html#variable:CMAKE_FOLDER" title="CMAKE_FOLDER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FOLDER</span></code></a> if it is set when a target is created.</p>
+<p>The global property <span class="target" id="index-0-prop_gbl:USE_FOLDERS"></span><a class="reference internal" href="../prop_gbl/USE_FOLDERS.html#prop_gbl:USE_FOLDERS" title="USE_FOLDERS"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">USE_FOLDERS</span></code></a> must be set to true, otherwise
+the <code class="docutils literal notranslate"><span class="pre">FOLDER</span></code> property is ignored.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="EXPORT_PROPERTIES.html"
+                          title="previous chapter">EXPORT_PROPERTIES</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Fortran_BUILDING_INSTRINSIC_MODULES.html"
+                          title="next chapter">Fortran_BUILDING_INSTRINSIC_MODULES</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/FOLDER.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Fortran_BUILDING_INSTRINSIC_MODULES.html" title="Fortran_BUILDING_INSTRINSIC_MODULES"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="EXPORT_PROPERTIES.html" title="EXPORT_PROPERTIES"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FOLDER</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

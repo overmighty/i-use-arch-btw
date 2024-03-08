@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>UseSWIG &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="UsewxWidgets" href="UsewxWidgets.html" />
+    <link rel="prev" title="UseJava" href="UseJava.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="UsewxWidgets.html" title="UsewxWidgets"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="UseJava.html" title="UseJava"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">UseSWIG</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="useswig">
+<span id="module:UseSWIG"></span><h1><a class="toc-backref" href="#id1" role="doc-backlink">UseSWIG</a><a class="headerlink" href="#useswig" title="Permalink to this heading">¶</a></h1>
+<p>This file provides support for <code class="docutils literal notranslate"><span class="pre">SWIG</span></code>. It is assumed that <span class="target" id="index-0-module:FindSWIG"></span><a class="reference internal" href="FindSWIG.html#module:FindSWIG" title="FindSWIG"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindSWIG</span></code></a>
+module has already been loaded.</p>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#useswig" id="id1">UseSWIG</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cmake-commands" id="id2">CMake Commands</a></p></li>
+<li><p><a class="reference internal" href="#properties-on-source-files" id="id3">Properties on Source Files</a></p></li>
+<li><p><a class="reference internal" href="#properties-on-targets" id="id4">Properties on Targets</a></p>
+<ul>
+<li><p><a class="reference internal" href="#read-only-target-properties" id="id5">Read-only Target Properties</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#cmake-variables" id="id6">CMake Variables</a></p></li>
+<li><p><a class="reference internal" href="#deprecated-commands" id="id7">Deprecated Commands</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="cmake-commands">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">CMake Commands</a><a class="headerlink" href="#cmake-commands" title="Permalink to this heading">¶</a></h2>
+<p>The following command is defined for use with <code class="docutils literal notranslate"><span class="pre">SWIG</span></code>:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:swig_add_library">
+<span class="sig-name descname"><span class="pre">swig_add_library</span></span><a class="headerlink" href="#command:swig_add_library" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>Define swig module with given name and specified language:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>swig_add_library(&lt;name&gt;
+                 [TYPE &lt;SHARED|MODULE|STATIC|USE_BUILD_SHARED_LIBS&gt;]
+                 LANGUAGE &lt;language&gt;
+                 [NO_PROXY]
+                 [OUTPUT_DIR &lt;directory&gt;]
+                 [OUTFILE_DIR &lt;directory&gt;]
+                 SOURCES &lt;file&gt;...
+                )
+</pre></div>
+</div>
+<p>Targets created with the <code class="docutils literal notranslate"><span class="pre">swig_add_library</span></code> command have the same
+capabilities as targets created with the <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> command, so
+those targets can be used with any command expecting a target (e.g.
+<span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>).</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.13: </span>This command creates a target with the specified <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> when
+policy <span class="target" id="index-0-policy:CMP0078"></span><a class="reference internal" href="../policy/CMP0078.html#policy:CMP0078" title="CMP0078"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0078</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.  Otherwise, the legacy
+behavior will choose a different target name and store it in the
+<code class="docutils literal notranslate"><span class="pre">SWIG_MODULE_&lt;name&gt;_REAL_NAME</span></code> variable.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.15: </span>Alternate library name (set with the <span class="target" id="index-0-prop_tgt:OUTPUT_NAME"></span><a class="reference internal" href="../prop_tgt/OUTPUT_NAME.html#prop_tgt:OUTPUT_NAME" title="OUTPUT_NAME"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OUTPUT_NAME</span></code></a> property,
+for example) will be passed on to <code class="docutils literal notranslate"><span class="pre">Python</span></code> and <code class="docutils literal notranslate"><span class="pre">CSharp</span></code> wrapper
+libraries.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.21: </span>Generated library use standard naming conventions for <code class="docutils literal notranslate"><span class="pre">CSharp</span></code> language
+when policy <span class="target" id="index-0-policy:CMP0122"></span><a class="reference internal" href="../policy/CMP0122.html#policy:CMP0122" title="CMP0122"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0122</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>. Otherwise, the legacy
+behavior is applied.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For multi-config generators, this module does not support
+configuration-specific files generated by <code class="docutils literal notranslate"><span class="pre">SWIG</span></code>. All build
+configurations must result in the same generated source file.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For <a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>, if, for some sources, the
+<code class="docutils literal notranslate"><span class="pre">USE_SWIG_DEPENDENCIES</span></code> property is <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, <code class="docutils literal notranslate"><span class="pre">swig_add_library</span></code> does
+not track file dependencies, so depending on the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_swig_compilation</span></code>
+custom target is required for targets which require the <code class="docutils literal notranslate"><span class="pre">swig</span></code>-generated
+files to exist. Other generators may depend on the source files that would
+be generated by SWIG.</p>
+</div>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">TYPE</span></code></dt><dd><p><code class="docutils literal notranslate"><span class="pre">SHARED</span></code>, <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> and <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> have the same semantic as for the
+<span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> command. If <code class="docutils literal notranslate"><span class="pre">USE_BUILD_SHARED_LIBS</span></code> is specified,
+the library type will be <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> or <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> based on whether the
+current value of the <span class="target" id="index-0-variable:BUILD_SHARED_LIBS"></span><a class="reference internal" href="../variable/BUILD_SHARED_LIBS.html#variable:BUILD_SHARED_LIBS" title="BUILD_SHARED_LIBS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">BUILD_SHARED_LIBS</span></code></a> variable is <code class="docutils literal notranslate"><span class="pre">ON</span></code>. If
+no type is specified, <code class="docutils literal notranslate"><span class="pre">MODULE</span></code> will be used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LANGUAGE</span></code></dt><dd><p>Specify the target language.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1: </span>Go and Lua language support.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.2: </span>R language support.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Fortran language support.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">NO_PROXY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Prevent the generation of the wrapper layer (swig <code class="docutils literal notranslate"><span class="pre">-noproxy</span></code> option).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Specify where to write the language specific files (swig <code class="docutils literal notranslate"><span class="pre">-outdir</span></code>
+option). If not given, the <code class="docutils literal notranslate"><span class="pre">CMAKE_SWIG_OUTDIR</span></code> variable will be used.
+If neither is specified, the default depends on the value of the
+<code class="docutils literal notranslate"><span class="pre">UseSWIG_MODULE_VERSION</span></code> variable as follows:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">UseSWIG_MODULE_VERSION</span></code> is 1 or is undefined, output is written to
+the <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a> directory.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">UseSWIG_MODULE_VERSION</span></code> is 2, a dedicated directory will be used.
+The path of this directory can be retrieved from the
+<code class="docutils literal notranslate"><span class="pre">SWIG_SUPPORT_FILES_DIRECTORY</span></code> target property.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OUTFILE_DIR</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Specify an output directory name where the generated source file will be
+placed (swig <code class="docutils literal notranslate"><span class="pre">-o</span></code> option). If not specified, the <code class="docutils literal notranslate"><span class="pre">SWIG_OUTFILE_DIR</span></code>
+variable will be used. If neither is specified, <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code> or
+<code class="docutils literal notranslate"><span class="pre">CMAKE_SWIG_OUTDIR</span></code> is used instead.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SOURCES</span></code></dt><dd><p>List of sources for the library. Files with extension <code class="docutils literal notranslate"><span class="pre">.i</span></code> will be
+identified as sources for the <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> tool. Other files will be handled in
+the standard way.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>This behavior can be overridden by specifying the variable
+<code class="docutils literal notranslate"><span class="pre">SWIG_SOURCE_FILE_EXTENSIONS</span></code>.</p>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">UseSWIG_MODULE_VERSION</span></code> is set to 2, it is <strong>strongly</strong> recommended
+to use a dedicated directory unique to the target when either the
+<code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code> option or the <code class="docutils literal notranslate"><span class="pre">CMAKE_SWIG_OUTDIR</span></code> variable are specified.
+The output directory contents are erased as part of the target build, so
+to prevent interference between targets or losing other important files,
+each target should have its own dedicated output directory.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="properties-on-source-files">
+<h2><a class="toc-backref" href="#id3" role="doc-backlink">Properties on Source Files</a><a class="headerlink" href="#properties-on-source-files" title="Permalink to this heading">¶</a></h2>
+<p>Source file properties on module files <strong>must</strong> be set before the invocation
+of the <code class="docutils literal notranslate"><span class="pre">swig_add_library</span></code> command to specify special behavior of SWIG and
+ensure generated files will receive the required settings.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CPLUSPLUS</span></code></dt><dd><p>Call SWIG in c++ mode.  For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nb">mymod.i</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">CPLUSPLUS</span><span class="w"> </span><span class="no">ON</span><span class="nf">)</span>
+<span class="nf">swig_add_library(</span><span class="nb">mymod</span><span class="w"> </span><span class="no">LANGUAGE</span><span class="w"> </span><span class="nb">python</span><span class="w"> </span><span class="no">SOURCES</span><span class="w"> </span><span class="nb">mymod.i</span><span class="nf">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_FLAGS</span></code></dt><dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.12: </span>Replaced with the fine-grained properties that follow.</p>
+</div>
+<p>Pass custom flags to the SWIG executable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code>, <code class="docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code> and <code class="docutils literal notranslate"><span class="pre">COMPILE_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Add custom flags to SWIG compiler and have same semantic as properties
+<span class="target" id="index-0-prop_sf:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_sf/INCLUDE_DIRECTORIES.html#prop_sf:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>, <span class="target" id="index-0-prop_sf:COMPILE_DEFINITIONS"></span><a class="reference internal" href="../prop_sf/COMPILE_DEFINITIONS.html#prop_sf:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code></a> and
+<span class="target" id="index-0-prop_sf:COMPILE_OPTIONS"></span><a class="reference internal" href="../prop_sf/COMPILE_OPTIONS.html#prop_sf:COMPILE_OPTIONS" title="COMPILE_OPTIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_OPTIONS</span></code></a>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">USE_TARGET_INCLUDE_DIRECTORIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>If set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, contents of target property
+<span class="target" id="index-0-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> will be forwarded to <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> compiler.
+If set to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> target property <span class="target" id="index-1-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> will be
+ignored. If not set, target property <code class="docutils literal notranslate"><span class="pre">SWIG_USE_TARGET_INCLUDE_DIRECTORIES</span></code>
+will be considered.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GENERATED_INCLUDE_DIRECTORIES</span></code>, <code class="docutils literal notranslate"><span class="pre">GENERATED_COMPILE_DEFINITIONS</span></code> and <code class="docutils literal notranslate"><span class="pre">GENERATED_COMPILE_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Add custom flags to the C/C++ generated source. They will fill, respectively,
+properties <span class="target" id="index-1-prop_sf:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_sf/INCLUDE_DIRECTORIES.html#prop_sf:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>, <span class="target" id="index-1-prop_sf:COMPILE_DEFINITIONS"></span><a class="reference internal" href="../prop_sf/COMPILE_DEFINITIONS.html#prop_sf:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code></a> and
+<span class="target" id="index-1-prop_sf:COMPILE_OPTIONS"></span><a class="reference internal" href="../prop_sf/COMPILE_OPTIONS.html#prop_sf:COMPILE_OPTIONS" title="COMPILE_OPTIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_OPTIONS</span></code></a> of generated C/C++ file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DEPENDS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Specify additional dependencies to the source file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">USE_SWIG_DEPENDENCIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>If set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, implicit dependencies are generated by the <code class="docutils literal notranslate"><span class="pre">swig</span></code> tool
+itself. This property is only meaningful for
+<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile</span></a>,
+<a class="reference internal" href="../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja</span></a>, <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>, and
+<a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio</span></a>
+(<span class="target" id="index-0-generator:Visual Studio 12 2013"></span><a class="reference internal" href="../generator/Visual%20Studio%2012%202013.html#generator:Visual Studio 12 2013" title="Visual Studio 12 2013"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Visual</span> <span class="pre">Studio</span> <span class="pre">12</span> <span class="pre">2013</span></code></a> and above) generators. Default value is
+<code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21: </span>Added the support of <span class="target" id="index-1-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22: </span>Added the support of <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_MODULE_NAME</span></code></dt><dd><p>Specify the actual import name of the module in the target language.
+This is required if it cannot be scanned automatically from source
+or different from the module file basename.  For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nb">mymod.i</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SWIG_MODULE_NAME</span><span class="w"> </span><span class="nb">mymod_realname</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.14: </span>If policy <span class="target" id="index-0-policy:CMP0086"></span><a class="reference internal" href="../policy/CMP0086.html#policy:CMP0086" title="CMP0086"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0086</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, <code class="docutils literal notranslate"><span class="pre">-module</span> <span class="pre">&lt;module_name&gt;</span></code>
+is passed to <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> compiler.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>Specify where to write the language specific files (swig <code class="docutils literal notranslate"><span class="pre">-outdir</span></code> option)
+for the considered source file. If not specified, the other ways to define
+the output directory applies (see <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code> option of
+<code class="docutils literal notranslate"><span class="pre">swig_add_library()</span></code> command).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OUTFILE_DIR</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>Specify an output directory where the generated source file will be placed
+(swig <code class="docutils literal notranslate"><span class="pre">-o</span></code> option) for the considered source file. If not specified,
+<code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code> source property will be used. If neither are specified, the
+other ways to define output file directory applies (see <code class="docutils literal notranslate"><span class="pre">OUTFILE_DIR</span></code>
+option of <code class="docutils literal notranslate"><span class="pre">swig_add_library()</span></code> command).</p>
+</dd>
+</dl>
+</section>
+<section id="properties-on-targets">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Properties on Targets</a><a class="headerlink" href="#properties-on-targets" title="Permalink to this heading">¶</a></h2>
+<p>Target library properties can be set to apply same configuration to all SWIG
+input files.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_INCLUDE_DIRECTORIES</span></code>, <code class="docutils literal notranslate"><span class="pre">SWIG_COMPILE_DEFINITIONS</span></code> and <code class="docutils literal notranslate"><span class="pre">SWIG_COMPILE_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>These properties will be applied to all SWIG input files and have same
+semantic as target properties <span class="target" id="index-2-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>,
+<span class="target" id="index-0-prop_tgt:COMPILE_DEFINITIONS"></span><a class="reference internal" href="../prop_tgt/COMPILE_DEFINITIONS.html#prop_tgt:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code></a> and <span class="target" id="index-0-prop_tgt:COMPILE_OPTIONS"></span><a class="reference internal" href="../prop_tgt/COMPILE_OPTIONS.html#prop_tgt:COMPILE_OPTIONS" title="COMPILE_OPTIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">COMPILE_OPTIONS</span></code></a>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set</span> <span class="nf">(</span><span class="nb">UseSWIG_TARGET_NAME_PREFERENCE</span><span class="w"> </span><span class="no">STANDARD</span><span class="nf">)</span>
+<span class="nf">swig_add_library(</span><span class="nb">mymod</span><span class="w"> </span><span class="no">LANGUAGE</span><span class="w"> </span><span class="nb">python</span><span class="w"> </span><span class="no">SOURCES</span><span class="w"> </span><span class="nb">mymod.i</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">mymod</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SWIG_COMPILE_DEFINITIONS</span><span class="w"> </span><span class="no">MY_DEF1</span><span class="w"> </span><span class="no">MY_DEF2</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">mymod</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SWIG_COMPILE_OPTIONS</span><span class="w"> </span><span class="p">-</span><span class="nb">bla</span><span class="w"> </span><span class="p">-</span><span class="nb">blb</span><span class="nf">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_USE_TARGET_INCLUDE_DIRECTORIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>If set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, contents of target property
+<span class="target" id="index-3-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> will be forwarded to <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> compiler.
+If set to <code class="docutils literal notranslate"><span class="pre">FALSE</span></code> or not defined, target property
+<span class="target" id="index-4-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> will be ignored. This behavior can be
+overridden by specifying source property <code class="docutils literal notranslate"><span class="pre">USE_TARGET_INCLUDE_DIRECTORIES</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_GENERATED_INCLUDE_DIRECTORIES</span></code>, <code class="docutils literal notranslate"><span class="pre">SWIG_GENERATED_COMPILE_DEFINITIONS</span></code> and <code class="docutils literal notranslate"><span class="pre">SWIG_GENERATED_COMPILE_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>These properties will populate, respectively, properties
+<span class="target" id="index-2-prop_sf:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_sf/INCLUDE_DIRECTORIES.html#prop_sf:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a>, <span class="target" id="index-2-prop_sf:COMPILE_DEFINITIONS"></span><a class="reference internal" href="../prop_sf/COMPILE_DEFINITIONS.html#prop_sf:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code></a> and
+<span class="target" id="index-0-prop_sf:COMPILE_FLAGS"></span><a class="reference internal" href="../prop_sf/COMPILE_FLAGS.html#prop_sf:COMPILE_FLAGS" title="COMPILE_FLAGS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">COMPILE_FLAGS</span></code></a> of all generated C/C++ files.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_DEPENDS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Add dependencies to all SWIG input files.</p>
+</dd>
+</dl>
+<section id="read-only-target-properties">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Read-only Target Properties</a><a class="headerlink" href="#read-only-target-properties" title="Permalink to this heading">¶</a></h3>
+<p>The following target properties are output properties and can be used to get
+information about support files generated by <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> interface compilation.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_SUPPORT_FILES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>This output property list of wrapper files generated during SWIG compilation.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set</span> <span class="nf">(</span><span class="nb">UseSWIG_TARGET_NAME_PREFERENCE</span><span class="w"> </span><span class="no">STANDARD</span><span class="nf">)</span>
+<span class="nf">swig_add_library(</span><span class="nb">mymod</span><span class="w"> </span><span class="no">LANGUAGE</span><span class="w"> </span><span class="nb">python</span><span class="w"> </span><span class="no">SOURCES</span><span class="w"> </span><span class="nb">mymod.i</span><span class="nf">)</span>
+<span class="nf">get_property(</span><span class="nb">support_files</span><span class="w"> </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">mymod</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SWIG_SUPPORT_FILES</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only most principal support files are listed. In case some advanced
+features of <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> are used (for example <code class="docutils literal notranslate"><span class="pre">%template</span></code>), associated
+support files may not be listed. Prefer to use the
+<code class="docutils literal notranslate"><span class="pre">SWIG_SUPPORT_FILES_DIRECTORY</span></code> property to handle support files.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_SUPPORT_FILES_DIRECTORY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>This output property specifies the directory where support files will be
+generated.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When source property <code class="docutils literal notranslate"><span class="pre">OUTPUT_DIR</span></code> is defined, multiple directories can be
+specified as part of <code class="docutils literal notranslate"><span class="pre">SWIG_SUPPORT_FILES_DIRECTORY</span></code>.</p>
+</div>
+</dd>
+</dl>
+</section>
+</section>
+<section id="cmake-variables">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">CMake Variables</a><a class="headerlink" href="#cmake-variables" title="Permalink to this heading">¶</a></h2>
+<p>Some variables can be set to customize the behavior of <code class="docutils literal notranslate"><span class="pre">swig_add_library</span></code>
+as well as <code class="docutils literal notranslate"><span class="pre">SWIG</span></code>:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">UseSWIG_MODULE_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>Specify different behaviors for <code class="docutils literal notranslate"><span class="pre">UseSWIG</span></code> module.</p>
+<ul class="simple">
+<li><p>Set to 1 or undefined: Legacy behavior is applied.</p></li>
+<li><p>Set to 2: A new strategy is applied regarding support files: the output
+directory of support files is erased before <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> interface compilation.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_SWIG_FLAGS</span></code></dt><dd><p>Add flags to all swig calls.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_SWIG_OUTDIR</span></code></dt><dd><p>Specify where to write the language specific files (swig <code class="docutils literal notranslate"><span class="pre">-outdir</span></code> option).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_OUTFILE_DIR</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>Specify an output directory name where the generated source file will be
+placed.  If not specified, <code class="docutils literal notranslate"><span class="pre">CMAKE_SWIG_OUTDIR</span></code> is used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_MODULE_&lt;name&gt;_EXTRA_DEPS</span></code></dt><dd><p>Specify extra dependencies for the generated module for <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_SOURCE_FILE_EXTENSIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p>Specify a list of source file extensions to override the default
+behavior of considering only <code class="docutils literal notranslate"><span class="pre">.i</span></code> files as sources for the <code class="docutils literal notranslate"><span class="pre">SWIG</span></code>
+tool. For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">SWIG_SOURCE_FILE_EXTENSIONS</span><span class="w"> </span><span class="s">&quot;.i&quot;</span><span class="w"> </span><span class="s">&quot;.swg&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SWIG_USE_SWIG_DEPENDENCIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>If set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, implicit dependencies are generated by the <code class="docutils literal notranslate"><span class="pre">swig</span></code> tool
+itself. This variable is only meaningful for
+<a class="reference internal" href="../manual/cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile</span></a>,
+<a class="reference internal" href="../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja</span></a>, <span class="target" id="index-2-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>, and
+<a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio</span></a>
+(<span class="target" id="index-1-generator:Visual Studio 12 2013"></span><a class="reference internal" href="../generator/Visual%20Studio%2012%202013.html#generator:Visual Studio 12 2013" title="Visual Studio 12 2013"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Visual</span> <span class="pre">Studio</span> <span class="pre">12</span> <span class="pre">2013</span></code></a> and above) generators. Default value is
+<code class="docutils literal notranslate"><span class="pre">FALSE</span></code>.</p>
+<p>Source file property <code class="docutils literal notranslate"><span class="pre">USE_SWIG_DEPENDENCIES</span></code>, if not defined, will be
+initialized with the value of this variable.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21: </span>Added the support of <span class="target" id="index-3-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22: </span>Added the support of <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>.</p>
+</div>
+</dd>
+</dl>
+</section>
+<section id="deprecated-commands">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Deprecated Commands</a><a class="headerlink" href="#deprecated-commands" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:swig_link_libraries">
+<span class="sig-name descname"><span class="pre">swig_link_libraries</span></span><a class="headerlink" href="#command:swig_link_libraries" title="Permalink to this definition">¶</a></dt>
+<dd><div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.13: </span>Use <span class="target" id="index-1-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> with the standard target name,
+or with <code class="docutils literal notranslate"><span class="pre">${SWIG_MODULE_&lt;name&gt;_REAL_NAME}</span></code> for legacy target naming.</p>
+</div>
+<p>Link libraries to swig module:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>swig_link_libraries(&lt;name&gt; &lt;item&gt;...)
+</pre></div>
+</div>
+<p>This command has same capabilities as <span class="target" id="index-2-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>
+command.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When policy <span class="target" id="index-1-policy:CMP0078"></span><a class="reference internal" href="../policy/CMP0078.html#policy:CMP0078" title="CMP0078"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0078</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>,
+<span class="target" id="index-0-command:swig_add_library"></span><a class="reference internal" href="#command:swig_add_library" title="swig_add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">swig_add_library()</span></code></a> creates a standard target with the
+specified <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> and <span class="target" id="index-3-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a> must be used
+instead of this command.</p>
+<p>With the legacy behavior (when <span class="target" id="index-2-policy:CMP0078"></span><a class="reference internal" href="../policy/CMP0078.html#policy:CMP0078" title="CMP0078"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0078</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> and
+the <code class="docutils literal notranslate"><span class="pre">UseSWIG_TARGET_NAME_PREFERENCE</span></code> variable is set to <code class="docutils literal notranslate"><span class="pre">&quot;LEGACY&quot;</span></code>,
+or in CMake versions prior to 3.12), it is preferable to use
+<code class="docutils literal notranslate"><span class="pre">target_link_libraries(${SWIG_MODULE_&lt;name&gt;_REAL_NAME}</span> <span class="pre">...)</span></code>
+instead of this command.</p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">UseSWIG</a><ul>
+<li><a class="reference internal" href="#cmake-commands">CMake Commands</a></li>
+<li><a class="reference internal" href="#properties-on-source-files">Properties on Source Files</a></li>
+<li><a class="reference internal" href="#properties-on-targets">Properties on Targets</a><ul>
+<li><a class="reference internal" href="#read-only-target-properties">Read-only Target Properties</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cmake-variables">CMake Variables</a></li>
+<li><a class="reference internal" href="#deprecated-commands">Deprecated Commands</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="UseJava.html"
+                          title="previous chapter">UseJava</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="UsewxWidgets.html"
+                          title="next chapter">UsewxWidgets</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/UseSWIG.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="UsewxWidgets.html" title="UsewxWidgets"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="UseJava.html" title="UseJava"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">UseSWIG</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

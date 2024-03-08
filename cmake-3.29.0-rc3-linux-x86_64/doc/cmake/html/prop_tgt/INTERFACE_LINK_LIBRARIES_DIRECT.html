@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>INTERFACE_LINK_LIBRARIES_DIRECT &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE" href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html" />
+    <link rel="prev" title="INTERFACE_LINK_LIBRARIES" href="INTERFACE_LINK_LIBRARIES.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html" title="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="INTERFACE_LINK_LIBRARIES.html" title="INTERFACE_LINK_LIBRARIES"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">INTERFACE_LINK_LIBRARIES_DIRECT</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="interface-link-libraries-direct">
+<span id="prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT"></span><h1>INTERFACE_LINK_LIBRARIES_DIRECT<a class="headerlink" href="#interface-link-libraries-direct" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>List of libraries that consumers of this library should treat
+as direct link dependencies.</p>
+<p>This target property may be set to <em>include</em> items in a dependent
+target's final set of direct link dependencies.  See the
+<span class="target" id="index-0-prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html#prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE" title="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code></a> target property
+to exclude items.</p>
+<p>The initial set of a dependent target's direct link dependencies is
+specified by its <span class="target" id="index-0-prop_tgt:LINK_LIBRARIES"></span><a class="reference internal" href="LINK_LIBRARIES.html#prop_tgt:LINK_LIBRARIES" title="LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINK_LIBRARIES</span></code></a> target property.  Indirect
+link dependencies are specified by the transitive closure of the direct
+link dependencies' <span class="target" id="index-0-prop_tgt:INTERFACE_LINK_LIBRARIES"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a> properties.
+Any link dependency may specify additional direct link dependencies
+using the <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> target property.
+The set of direct link dependencies is then filtered to exclude items named
+by any dependency's <span class="target" id="index-1-prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html#prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE" title="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code></a>
+target property.</p>
+<p>The value of <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> may use
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> target property is intended for
+advanced use cases such as injection of static plugins into a consuming
+executable.  It should not be used as a substitute for organizing
+normal calls to <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>.</p>
+</div>
+<section id="direct-link-dependencies-as-usage-requirements">
+<h2>Direct Link Dependencies as Usage Requirements<a class="headerlink" href="#direct-link-dependencies-as-usage-requirements" title="Permalink to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> and
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> target properties
+are <a class="reference internal" href="../manual/cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">usage requirements</span></a>.
+Their effects propagate to dependent targets transitively, and can
+therefore affect the direct link dependencies of every target in a
+chain of dependent libraries.  Whenever some library target <code class="docutils literal notranslate"><span class="pre">X</span></code> links
+to another library target <code class="docutils literal notranslate"><span class="pre">Y</span></code> whose direct or transitive usage
+requirements contain <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> or
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code>, the properties may affect
+<code class="docutils literal notranslate"><span class="pre">X</span></code>'s list of direct link dependencies:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">X</span></code> is a shared library or executable, its dependencies are linked.
+They also affect the usage requirements with which <code class="docutils literal notranslate"><span class="pre">X</span></code>'s sources are
+compiled.</p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">X</span></code> is a static library or object library, it does not actually
+link, so its dependencies at most affect the usage requirements with
+which <code class="docutils literal notranslate"><span class="pre">X</span></code>'s sources are compiled.</p></li>
+</ul>
+<p>The properties may also affect the list of direct link dependencies
+on <code class="docutils literal notranslate"><span class="pre">X</span></code>'s dependents:</p>
+<ul>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">X</span></code> links <code class="docutils literal notranslate"><span class="pre">Y</span></code> publicly:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="no">X</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="no">Y</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>then <code class="docutils literal notranslate"><span class="pre">Y</span></code> is placed in <code class="docutils literal notranslate"><span class="pre">X</span></code>'s <span class="target" id="index-1-prop_tgt:INTERFACE_LINK_LIBRARIES"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a>,
+so <code class="docutils literal notranslate"><span class="pre">Y</span></code>'s usage requirements, including <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code>, and the usage requirements
+declared by the direct link dependencies they add, are propagated to
+<code class="docutils literal notranslate"><span class="pre">X</span></code>'s dependents.</p>
+</li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">X</span></code> is a static library or object library, and links <code class="docutils literal notranslate"><span class="pre">Y</span></code> privately:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="no">X</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="no">Y</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>then <code class="docutils literal notranslate"><span class="pre">$&lt;LINK_ONLY:Y&gt;</span></code> is placed in <code class="docutils literal notranslate"><span class="pre">X</span></code>'s
+<span class="target" id="index-2-prop_tgt:INTERFACE_LINK_LIBRARIES"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a>.  <code class="docutils literal notranslate"><span class="pre">Y</span></code>'s linking requirements,
+including <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code>,
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code>, and the transitive link
+dependencies declared by the direct link dependencies they add, are
+propagated to <code class="docutils literal notranslate"><span class="pre">X</span></code>'s dependents.  However, <code class="docutils literal notranslate"><span class="pre">Y</span></code>'s non-linking
+usage requirements are blocked by the <span class="target" id="index-0-genex:LINK_ONLY"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:LINK_ONLY" title="LINK_ONLY"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">LINK_ONLY</span></code></a> generator
+expression, and are not propagated to <code class="docutils literal notranslate"><span class="pre">X</span></code>'s dependents.</p>
+</li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">X</span></code> is a shared library or executable, and links <code class="docutils literal notranslate"><span class="pre">Y</span></code> privately:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_link_libraries(</span><span class="no">X</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="no">Y</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>then <code class="docutils literal notranslate"><span class="pre">Y</span></code> is not placed in <code class="docutils literal notranslate"><span class="pre">X</span></code>'s <span class="target" id="index-3-prop_tgt:INTERFACE_LINK_LIBRARIES"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a>,
+so <code class="docutils literal notranslate"><span class="pre">Y</span></code>'s usage requirements, even <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code>
+and <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code>, are not propagated to
+<code class="docutils literal notranslate"><span class="pre">X</span></code>'s dependents.</p>
+</li>
+<li><p>In all cases, the content of <code class="docutils literal notranslate"><span class="pre">X</span></code>'s <span class="target" id="index-4-prop_tgt:INTERFACE_LINK_LIBRARIES"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a>
+is not affected by <code class="docutils literal notranslate"><span class="pre">Y</span></code>'s <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> or
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code>.</p></li>
+</ul>
+<p>One may limit the effects of <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> and
+<code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> to a subset of dependent
+targets by using the <span class="target" id="index-0-genex:TARGET_PROPERTY"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:TARGET_PROPERTY" title="TARGET_PROPERTY"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">TARGET_PROPERTY</span></code></a> generator expression.
+For example, to limit the effects to executable targets, use an
+entry of the form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;$&lt;$&lt;STREQUAL:$&lt;TARGET_PROPERTY:TYPE&gt;,EXECUTABLE&gt;:...&gt;&quot;
+</pre></div>
+</div>
+<p>Similarly, to limit the effects to specific targets, use an entry
+of the form:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;$&lt;$&lt;BOOL:$&lt;TARGET_PROPERTY:USE_IT&gt;&gt;:...&gt;&quot;
+</pre></div>
+</div>
+<p>This entry will only affect targets that set their <code class="docutils literal notranslate"><span class="pre">USE_IT</span></code>
+target property to a true value.</p>
+</section>
+<section id="direct-link-dependency-ordering">
+<h2>Direct Link Dependency Ordering<a class="headerlink" href="#direct-link-dependency-ordering" title="Permalink to this heading">¶</a></h2>
+<p>The list of direct link dependencies for a target is computed from an
+initial ordered list in its <span class="target" id="index-1-prop_tgt:LINK_LIBRARIES"></span><a class="reference internal" href="LINK_LIBRARIES.html#prop_tgt:LINK_LIBRARIES" title="LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINK_LIBRARIES</span></code></a> target property.
+For each item, additional direct link dependencies are discovered from
+its direct and transitive <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> usage
+requirements.  Each discovered item is injected before the item that
+specified it.  However, a discovered item is added at most once,
+and only if it did not appear anywhere in the initial list.
+This gives <span class="target" id="index-2-prop_tgt:LINK_LIBRARIES"></span><a class="reference internal" href="LINK_LIBRARIES.html#prop_tgt:LINK_LIBRARIES" title="LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINK_LIBRARIES</span></code></a> control over ordering of
+those direct link dependencies that it explicitly specifies.</p>
+<p>Once all direct link dependencies have been collected, items named by
+all of their <span class="target" id="index-2-prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"></span><a class="reference internal" href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html#prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE" title="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code></a>
+usage requirements are removed from the final list.  This does not
+affect the order of the items that remain.</p>
+</section>
+<section id="example-static-plugins">
+<h2>Example: Static Plugins<a class="headerlink" href="#example-static-plugins" title="Permalink to this heading">¶</a></h2>
+<p>Consider a static library <code class="docutils literal notranslate"><span class="pre">Foo</span></code> that provides a static plugin
+<code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code> to consuming application executables, where the
+implementation of the plugin depends on <code class="docutils literal notranslate"><span class="pre">Foo</span></code> and other things.
+In this case, the application should link to <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code> directly,
+before <code class="docutils literal notranslate"><span class="pre">Foo</span></code>.  However, the application author only knows about <code class="docutils literal notranslate"><span class="pre">Foo</span></code>.
+We can express this as follows:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Core library used by other components.</span>
+<span class="nf">add_library(</span><span class="nb">Core</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">core.cpp</span><span class="nf">)</span>
+
+<span class="c"># Foo is a static library for use by applications.</span>
+<span class="c"># Implementation of Foo depends on Core.</span>
+<span class="nf">add_library(</span><span class="nb">Foo</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">foo.cpp</span><span class="w"> </span><span class="nb">foo_plugin_helper.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">Foo</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Core</span><span class="nf">)</span>
+
+<span class="c"># Extra parts of Foo for use by its static plugins.</span>
+<span class="c"># Implementation of Foo&#39;s extra parts depends on both Core and Foo.</span>
+<span class="nf">add_library(</span><span class="nb">FooExtras</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">foo_extras.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">FooExtras</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Core</span><span class="w"> </span><span class="nb">Foo</span><span class="nf">)</span>
+
+<span class="c"># The Foo library has an associated static plugin</span>
+<span class="c"># that should be linked into the final executable.</span>
+<span class="c"># Implementation of the plugin depends on Core, Foo, and FooExtras.</span>
+<span class="nf">add_library(</span><span class="nb">FooPlugin</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">foo_plugin.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">FooPlugin</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Core</span><span class="w"> </span><span class="nb">Foo</span><span class="w"> </span><span class="nb">FooExtras</span><span class="nf">)</span>
+
+<span class="c"># An app that links Foo should link Foo&#39;s plugin directly.</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">Foo</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">INTERFACE_LINK_LIBRARIES_DIRECT</span><span class="w"> </span><span class="nb">FooPlugin</span><span class="nf">)</span>
+
+<span class="c"># An app does not need to link Foo directly because the plugin links it.</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">Foo</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span><span class="w"> </span><span class="nb">Foo</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>An application <code class="docutils literal notranslate"><span class="pre">app</span></code> only needs to specify that it links to <code class="docutils literal notranslate"><span class="pre">Foo</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">app</span><span class="w"> </span><span class="nb">main.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">app</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Foo</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code> target property on <code class="docutils literal notranslate"><span class="pre">Foo</span></code> tells
+CMake to pretend that <code class="docutils literal notranslate"><span class="pre">app</span></code> also links directly to <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> target property on <code class="docutils literal notranslate"><span class="pre">Foo</span></code>
+tells CMake to pretend that <code class="docutils literal notranslate"><span class="pre">app</span></code> did <em>not</em> link directly to <code class="docutils literal notranslate"><span class="pre">Foo</span></code>.
+Instead, <code class="docutils literal notranslate"><span class="pre">Foo</span></code> will be linked as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>.  The
+final link line for <code class="docutils literal notranslate"><span class="pre">app</span></code> will link the libraries in the following
+order:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code> as a direct link dependency of <code class="docutils literal notranslate"><span class="pre">app</span></code>
+(via <code class="docutils literal notranslate"><span class="pre">Foo</span></code>'s usage requirements).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FooExtras</span></code> as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Foo</span></code> as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code> and <code class="docutils literal notranslate"><span class="pre">FooExtras</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Core</span></code> as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>, <code class="docutils literal notranslate"><span class="pre">FooExtras</span></code>, and <code class="docutils literal notranslate"><span class="pre">Foo</span></code>.</p></li>
+</ul>
+<p>Note that without the <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> target
+property, <code class="docutils literal notranslate"><span class="pre">Foo</span></code> would be linked twice: once as a direct dependency
+of <code class="docutils literal notranslate"><span class="pre">app</span></code>, and once as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>.</p>
+</section>
+<section id="example-opt-in-static-plugins">
+<h2>Example: Opt-In Static Plugins<a class="headerlink" href="#example-opt-in-static-plugins" title="Permalink to this heading">¶</a></h2>
+<p>In the above <a class="reference internal" href="#example-static-plugins">Example: Static Plugins</a>, the <code class="docutils literal notranslate"><span class="pre">app</span></code> executable specifies
+that it links directly to <code class="docutils literal notranslate"><span class="pre">Foo</span></code>.  In a real application, there might
+be an intermediate library:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">app_impl</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="nb">app_impl.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">app_impl</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">Foo</span><span class="nf">)</span>
+
+<span class="nf">add_executable(</span><span class="nb">app</span><span class="w"> </span><span class="nb">main.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">app</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">app_impl</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>In this case we do not want <code class="docutils literal notranslate"><span class="pre">Foo</span></code>'s <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code>
+and <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> target properties to affect
+the direct dependencies of <code class="docutils literal notranslate"><span class="pre">app_impl</span></code>.  To avoid this, we can revise
+the property values to make their effects opt-in:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># An app that links Foo should link Foo&#39;s plugin directly.</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">Foo</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">INTERFACE_LINK_LIBRARIES_DIRECT</span>
+<span class="w">  </span><span class="s">&quot;$&lt;$&lt;BOOL:$&lt;TARGET_PROPERTY:FOO_STATIC_PLUGINS&gt;&gt;:FooPlugin&gt;&quot;</span>
+<span class="nf">)</span>
+
+<span class="c"># An app does not need to link Foo directly because the plugin links it.</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">Foo</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span>
+<span class="w">  </span><span class="s">&quot;$&lt;$&lt;BOOL:$&lt;TARGET_PROPERTY:FOO_STATIC_PLUGINS&gt;&gt;:Foo&gt;&quot;</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>Now, the <code class="docutils literal notranslate"><span class="pre">app</span></code> executable can opt-in to get <code class="docutils literal notranslate"><span class="pre">Foo</span></code>'s plugin(s):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">app</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">FOO_STATIC_PLUGINS</span><span class="w"> </span><span class="m">1</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The final link line for <code class="docutils literal notranslate"><span class="pre">app</span></code> will now link the libraries in the following
+order:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code> as a direct link dependency of <code class="docutils literal notranslate"><span class="pre">app</span></code>
+(via <code class="docutils literal notranslate"><span class="pre">Foo</span></code>'s usage requirements).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">app_impl</span></code> as a direct link dependency of <code class="docutils literal notranslate"><span class="pre">app</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FooExtras</span></code> as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Foo</span></code> as a dependency of <code class="docutils literal notranslate"><span class="pre">app_impl</span></code>, <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>, and <code class="docutils literal notranslate"><span class="pre">FooExtras</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Core</span></code> as a dependency of <code class="docutils literal notranslate"><span class="pre">FooPlugin</span></code>, <code class="docutils literal notranslate"><span class="pre">FooExtras</span></code>, and <code class="docutils literal notranslate"><span class="pre">Foo</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">INTERFACE_LINK_LIBRARIES_DIRECT</a><ul>
+<li><a class="reference internal" href="#direct-link-dependencies-as-usage-requirements">Direct Link Dependencies as Usage Requirements</a></li>
+<li><a class="reference internal" href="#direct-link-dependency-ordering">Direct Link Dependency Ordering</a></li>
+<li><a class="reference internal" href="#example-static-plugins">Example: Static Plugins</a></li>
+<li><a class="reference internal" href="#example-opt-in-static-plugins">Example: Opt-In Static Plugins</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="INTERFACE_LINK_LIBRARIES.html"
+                          title="previous chapter">INTERFACE_LINK_LIBRARIES</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html"
+                          title="next chapter">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/INTERFACE_LINK_LIBRARIES_DIRECT.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE.html" title="INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="INTERFACE_LINK_LIBRARIES.html" title="INTERFACE_LINK_LIBRARIES"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">INTERFACE_LINK_LIBRARIES_DIRECT</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

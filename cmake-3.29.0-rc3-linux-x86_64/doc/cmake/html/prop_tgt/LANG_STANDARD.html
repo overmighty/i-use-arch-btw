@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>&lt;LANG&gt;_STANDARD &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="&lt;LANG&gt;_STANDARD_REQUIRED" href="LANG_STANDARD_REQUIRED.html" />
+    <link rel="prev" title="&lt;LANG&gt;_LINKER_LAUNCHER" href="LANG_LINKER_LAUNCHER.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="LANG_STANDARD_REQUIRED.html" title="&lt;LANG&gt;_STANDARD_REQUIRED"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="LANG_LINKER_LAUNCHER.html" title="&lt;LANG&gt;_LINKER_LAUNCHER"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">&lt;LANG&gt;_STANDARD</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="lang-standard">
+<span id="prop_tgt:<LANG>_STANDARD"></span><h1>&lt;LANG&gt;_STANDARD<a class="headerlink" href="#lang-standard" title="Permalink to this heading">¶</a></h1>
+<p>The variations are:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-prop_tgt:C_STANDARD"></span><a class="reference internal" href="C_STANDARD.html#prop_tgt:C_STANDARD" title="C_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">C_STANDARD</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:CXX_STANDARD"></span><a class="reference internal" href="CXX_STANDARD.html#prop_tgt:CXX_STANDARD" title="CXX_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_STANDARD</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:CUDA_STANDARD"></span><a class="reference internal" href="CUDA_STANDARD.html#prop_tgt:CUDA_STANDARD" title="CUDA_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_STANDARD</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:HIP_STANDARD"></span><a class="reference internal" href="HIP_STANDARD.html#prop_tgt:HIP_STANDARD" title="HIP_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">HIP_STANDARD</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:OBJC_STANDARD"></span><a class="reference internal" href="OBJC_STANDARD.html#prop_tgt:OBJC_STANDARD" title="OBJC_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OBJC_STANDARD</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:OBJCXX_STANDARD"></span><a class="reference internal" href="OBJCXX_STANDARD.html#prop_tgt:OBJCXX_STANDARD" title="OBJCXX_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">OBJCXX_STANDARD</span></code></a></p></li>
+</ul>
+<p>These properties specify language standard versions which are requested. When a
+newer standard is specified than is supported by the compiler, then it will
+fallback to the latest supported standard. This &quot;decay&quot; behavior may be
+controlled with the <span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_STANDARD_REQUIRED"></span><a class="reference internal" href="LANG_STANDARD_REQUIRED.html#prop_tgt:&lt;LANG&gt;_STANDARD_REQUIRED" title="&lt;LANG&gt;_STANDARD_REQUIRED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD_REQUIRED</span></code></a> target property.</p>
+<p>Note that the actual language standard used may be higher than that specified
+by <code class="docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code>, regardless of the value of
+<span class="target" id="index-1-prop_tgt:&lt;LANG&gt;_STANDARD_REQUIRED"></span><a class="reference internal" href="LANG_STANDARD_REQUIRED.html#prop_tgt:&lt;LANG&gt;_STANDARD_REQUIRED" title="&lt;LANG&gt;_STANDARD_REQUIRED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD_REQUIRED</span></code></a>.  In particular,
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">transitive usage requirements</span></a> or the use of
+<span class="target" id="index-0-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">compile</span> <span class="pre">features</span></code></a> can raise the required
+language standard above what <code class="docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code> specifies.</p>
+<p>These properties are initialized by the value of the
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../variable/CMAKE_LANG_STANDARD.html#variable:CMAKE_&lt;LANG&gt;_STANDARD" title="CMAKE_&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_STANDARD</span></code></a> variable if it is set when a target is
+created.</p>
+<p>For supported values and CMake versions see the respective pages.
+To control compiler-specific extensions see <span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a>.</p>
+<p>See the <span class="target" id="index-1-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a> manual for information on
+compile features and a list of supported compilers.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="LANG_LINKER_LAUNCHER.html"
+                          title="previous chapter">&lt;LANG&gt;_LINKER_LAUNCHER</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="LANG_STANDARD_REQUIRED.html"
+                          title="next chapter">&lt;LANG&gt;_STANDARD_REQUIRED</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/LANG_STANDARD.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="LANG_STANDARD_REQUIRED.html" title="&lt;LANG&gt;_STANDARD_REQUIRED"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="LANG_LINKER_LAUNCHER.html" title="&lt;LANG&gt;_LINKER_LAUNCHER"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">&lt;LANG&gt;_STANDARD</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

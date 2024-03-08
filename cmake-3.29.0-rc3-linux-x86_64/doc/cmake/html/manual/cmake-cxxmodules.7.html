@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>cmake-cxxmodules(7) &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmake-developer(7)" href="cmake-developer.7.html" />
+    <link rel="prev" title="cmake-configure-log(7)" href="cmake-configure-log.7.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cmake-developer.7.html" title="cmake-developer(7)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cmake-configure-log.7.html" title="cmake-configure-log(7)"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">cmake-cxxmodules(7)</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="manual:cmake-cxxmodules(7)"></span><section id="cmake-cxxmodules-7">
+<h1>cmake-cxxmodules(7)<a class="headerlink" href="#cmake-cxxmodules-7" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28.</span></p>
+</div>
+<p>C++ 20 introduced the concept of &quot;modules&quot; to the language.  The design
+requires build systems to order compilations among each other to satisfy
+<code class="docutils literal notranslate"><span class="pre">import</span></code> statements reliably.  CMake's implementation asks the compiler
+to scan source files for module dependencies during the build, collates
+scanning results to infer ordering constraints, and tells the build tool
+how to dynamically update the build graph.</p>
+<section id="scanning-control">
+<h2>Scanning Control<a class="headerlink" href="#scanning-control" title="Permalink to this heading">¶</a></h2>
+<p>Whether or not sources get scanned for C++ module usage is dependent on the
+following queries. The first query that provides a yes/no answer is used.</p>
+<ul class="simple">
+<li><p>If the source file belongs to a file set of type <code class="docutils literal notranslate"><span class="pre">CXX_MODULES</span></code>, it will
+be scanned.</p></li>
+<li><p>If the target does not use at least C++ 20, it will not be scanned.</p></li>
+<li><p>If the source file is not the language <code class="docutils literal notranslate"><span class="pre">CXX</span></code>, it will not be scanned.</p></li>
+<li><p>If the <span class="target" id="index-0-prop_sf:CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="../prop_sf/CXX_SCAN_FOR_MODULES.html#prop_sf:CXX_SCAN_FOR_MODULES" title="CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">CXX_SCAN_FOR_MODULES</span></code></a> source file property is set, its
+value will be used.</p></li>
+<li><p>If the <span class="target" id="index-0-prop_tgt:CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="../prop_tgt/CXX_SCAN_FOR_MODULES.html#prop_tgt:CXX_SCAN_FOR_MODULES" title="CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_SCAN_FOR_MODULES</span></code></a> target property is set, its value
+will be used.  Set the <span class="target" id="index-0-variable:CMAKE_CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="../variable/CMAKE_CXX_SCAN_FOR_MODULES.html#variable:CMAKE_CXX_SCAN_FOR_MODULES" title="CMAKE_CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_SCAN_FOR_MODULES</span></code></a> variable
+to initialize this property on all targets as they are created.</p></li>
+<li><p>Otherwise, the source file will be scanned if the compiler and generator
+support scanning.  See policy <span class="target" id="index-0-policy:CMP0155"></span><a class="reference internal" href="../policy/CMP0155.html#policy:CMP0155" title="CMP0155"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0155</span></code></a>.</p></li>
+</ul>
+<p>Note that any scanned source will be excluded from any unity build (see
+<span class="target" id="index-0-prop_tgt:UNITY_BUILD"></span><a class="reference internal" href="../prop_tgt/UNITY_BUILD.html#prop_tgt:UNITY_BUILD" title="UNITY_BUILD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">UNITY_BUILD</span></code></a>) because module-related statements can only happen at
+one place within a C++ translation unit.</p>
+</section>
+<section id="compiler-support">
+<h2>Compiler Support<a class="headerlink" href="#compiler-support" title="Permalink to this heading">¶</a></h2>
+<p>Compilers which CMake natively supports module dependency scanning include:</p>
+<ul class="simple">
+<li><p>MSVC toolset 14.34 and newer (provided with Visual Studio 17.4 and newer)</p></li>
+<li><p>LLVM/Clang 16.0 and newer</p></li>
+<li><p>GCC 14 (for the in-development branch, after 2023-09-20) and newer</p></li>
+</ul>
+</section>
+<section id="generator-support">
+<h2>Generator Support<a class="headerlink" href="#generator-support" title="Permalink to this heading">¶</a></h2>
+<p>The list of generators which support scanning sources for C++ modules include:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-generator:Ninja"></span><a class="reference internal" href="../generator/Ninja.html#generator:Ninja" title="Ninja"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span></code></a></p></li>
+<li><p><span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja%20Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a></p></li>
+<li><p><span class="target" id="index-0-generator:Visual Studio 17 2022"></span><a class="reference internal" href="../generator/Visual%20Studio%2017%202022.html#generator:Visual Studio 17 2022" title="Visual Studio 17 2022"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Visual</span> <span class="pre">Studio</span> <span class="pre">17</span> <span class="pre">2022</span></code></a></p></li>
+</ul>
+<section id="limitations">
+<h3>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading">¶</a></h3>
+<p>There are a number of known limitations of the current C++ module support in
+CMake.  This does not document known limitations or bugs in compilers as these
+can change over time.</p>
+<p>For all generators:</p>
+<ul class="simple">
+<li><p>Header units are not supported.</p></li>
+<li><p>No builtin support for <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">std;</span></code> or other compiler-provided modules.</p></li>
+</ul>
+<p>For the Ninja Generators:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ninja</span></code> 1.11 or newer is required.</p></li>
+</ul>
+<p>For the <a class="reference internal" href="cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>:</p>
+<ul class="simple">
+<li><p>Only Visual Studio 2022 and MSVC toolsets 14.34 (Visual Studio
+17.4) and newer.</p></li>
+<li><p>No support for exporting or installing BMI or module information.</p></li>
+<li><p>No support for compiling BMIs from <code class="docutils literal notranslate"><span class="pre">IMPORTED</span></code> targets with C++ modules.</p></li>
+<li><p>No diagnosis of using modules provided by <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> sources from
+<code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> module sources.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">cmake-cxxmodules(7)</a><ul>
+<li><a class="reference internal" href="#scanning-control">Scanning Control</a></li>
+<li><a class="reference internal" href="#compiler-support">Compiler Support</a></li>
+<li><a class="reference internal" href="#generator-support">Generator Support</a><ul>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cmake-configure-log.7.html"
+                          title="previous chapter">cmake-configure-log(7)</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cmake-developer.7.html"
+                          title="next chapter">cmake-developer(7)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/manual/cmake-cxxmodules.7.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cmake-developer.7.html" title="cmake-developer(7)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cmake-configure-log.7.html" title="cmake-configure-log(7)"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">cmake-cxxmodules(7)</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

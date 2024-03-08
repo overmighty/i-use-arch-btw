@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>IMPORTED_OBJECTS &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;" href="IMPORTED_OBJECTS_CONFIG.html" />
+    <link rel="prev" title="IMPORTED_NO_SONAME_&lt;CONFIG&gt;" href="IMPORTED_NO_SONAME_CONFIG.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="IMPORTED_OBJECTS_CONFIG.html" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IMPORTED_NO_SONAME_CONFIG.html" title="IMPORTED_NO_SONAME_&lt;CONFIG&gt;"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">IMPORTED_OBJECTS</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="imported-objects">
+<span id="prop_tgt:IMPORTED_OBJECTS"></span><h1>IMPORTED_OBJECTS<a class="headerlink" href="#imported-objects" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of absolute paths
+to the object files on disk for an <a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">imported</span></a>
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#object-libraries"><span class="std std-ref">object library</span></a>.</p>
+<p>Ignored for non-imported targets.</p>
+<p>Projects may skip <code class="docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code> if the configuration-specific
+property <span class="target" id="index-0-prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;"></span><a class="reference internal" href="IMPORTED_OBJECTS_CONFIG.html#prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS_&lt;CONFIG&gt;</span></code></a> is set instead, except in
+situations as noted in the section below.</p>
+<section id="xcode-generator-considerations">
+<h2>Xcode Generator Considerations<a class="headerlink" href="#xcode-generator-considerations" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>For Apple platforms, a project may be built for more than one architecture.
+This is controlled by the <span class="target" id="index-0-variable:CMAKE_OSX_ARCHITECTURES"></span><a class="reference internal" href="../variable/CMAKE_OSX_ARCHITECTURES.html#variable:CMAKE_OSX_ARCHITECTURES" title="CMAKE_OSX_ARCHITECTURES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_ARCHITECTURES</span></code></a> variable.
+For all but the <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator, CMake invokes compilers once
+per source file and passes multiple <code class="docutils literal notranslate"><span class="pre">-arch</span></code> flags, leading to a single
+object file which will be a universal binary.  Such object files work well
+when listed in the <code class="docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code> of a separate CMake build, even for
+the <span class="target" id="index-1-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator.  But producing such object files with the
+<span class="target" id="index-2-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator is more difficult, since it invokes the compiler
+once per architecture for each source file.  Unlike the other generators,
+it does not generate universal object file binaries.</p>
+<p>A further complication with the <span class="target" id="index-3-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator is that when
+targeting device platforms (iOS, tvOS, visionOS or watchOS), the <span class="target" id="index-4-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>
+generator has the ability to use either the device or simulator SDK without
+needing CMake to be re-run.  The SDK can be selected at build time.
+But since some architectures can be supported by both the device and the
+simulator SDKs (e.g. <code class="docutils literal notranslate"><span class="pre">arm64</span></code> with Xcode 12 or later), not all combinations
+can be represented in a single universal binary.  The only solution in this
+case is to have multiple object files.</p>
+<p><code class="docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code> doesn't support generator expressions, so every file
+it lists needs to be valid for every architecture and SDK.  If incorporating
+object files that are not universal binaries, the path and/or file name of
+each object file has to somehow encapsulate the different architectures and
+SDKs.  With the <span class="target" id="index-5-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generator, Xcode variables of the form
+<code class="docutils literal notranslate"><span class="pre">$(...)</span></code> can be used to represent these aspects and Xcode will substitute
+the appropriate values at build time.  CMake doesn't interpret these
+variables and embeds them unchanged in the Xcode project file.
+<code class="docutils literal notranslate"><span class="pre">$(CURRENT_ARCH)</span></code> can be used to represent the architecture, while
+<code class="docutils literal notranslate"><span class="pre">$(EFFECTIVE_PLATFORM_NAME)</span></code> can be used to differentiate between SDKs.</p>
+<p>The following shows one example of how these two variables can be used to
+refer to an object file whose location depends on both the SDK and the
+architecture:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">someObjs</span><span class="w"> </span><span class="no">OBJECT</span><span class="w"> </span><span class="no">IMPORTED</span><span class="nf">)</span>
+
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">someObjs</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">IMPORTED_OBJECTS</span>
+<span class="w">  </span><span class="c"># Quotes are required because of the ()</span>
+<span class="w">  </span><span class="s">&quot;/path/to/somewhere/objects$(EFFECTIVE_PLATFORM_NAME)/$(CURRENT_ARCH)/func.o&quot;</span>
+<span class="nf">)</span>
+
+<span class="c"># Example paths:</span>
+<span class="c">#   /path/to/somewhere/objects-iphoneos/arm64/func.o</span>
+<span class="c">#   /path/to/somewhere/objects-iphonesimulator/x86_64/func.o</span>
+</pre></div>
+</div>
+<p>In some cases, you may want to have configuration-specific object files
+as well.  The <code class="docutils literal notranslate"><span class="pre">$(CONFIGURATION)</span></code> Xcode variable is often used for this and
+can be used in conjunction with the others mentioned above:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">someObjs</span><span class="w"> </span><span class="no">OBJECT</span><span class="w"> </span><span class="no">IMPORTED</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">someObjs</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">IMPORTED_OBJECTS</span>
+<span class="w">  </span><span class="s">&quot;/path/to/somewhere/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/$(CURRENT_ARCH)/func.o&quot;</span>
+<span class="nf">)</span>
+
+<span class="c"># Example paths:</span>
+<span class="c">#   /path/to/somewhere/Release-iphoneos/arm64/func.o</span>
+<span class="c">#   /path/to/somewhere/Debug-iphonesimulator/x86_64/func.o</span>
+</pre></div>
+</div>
+<p>When any Xcode variable is used, CMake is not able to fully evaluate the
+path(s) at configure time.  One consequence of this is that the
+configuration-specific <span class="target" id="index-1-prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;"></span><a class="reference internal" href="IMPORTED_OBJECTS_CONFIG.html#prop_tgt:IMPORTED_OBJECTS_&lt;CONFIG&gt;" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS_&lt;CONFIG&gt;</span></code></a> properties cannot
+be used, since CMake cannot determine whether an object file exists at a
+particular <code class="docutils literal notranslate"><span class="pre">&lt;CONFIG&gt;</span></code> location.  The <code class="docutils literal notranslate"><span class="pre">IMPORTED_OBJECTS</span></code> property must be
+used for these situations and the configuration-specific aspects of the path
+should be handled by the <code class="docutils literal notranslate"><span class="pre">$(CONFIGURATION)</span></code> Xcode variable.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">IMPORTED_OBJECTS</a><ul>
+<li><a class="reference internal" href="#xcode-generator-considerations">Xcode Generator Considerations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="IMPORTED_NO_SONAME_CONFIG.html"
+                          title="previous chapter">IMPORTED_NO_SONAME_&lt;CONFIG&gt;</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="IMPORTED_OBJECTS_CONFIG.html"
+                          title="next chapter">IMPORTED_OBJECTS_&lt;CONFIG&gt;</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/IMPORTED_OBJECTS.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="IMPORTED_OBJECTS_CONFIG.html" title="IMPORTED_OBJECTS_&lt;CONFIG&gt;"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IMPORTED_NO_SONAME_CONFIG.html" title="IMPORTED_NO_SONAME_&lt;CONFIG&gt;"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">IMPORTED_OBJECTS</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

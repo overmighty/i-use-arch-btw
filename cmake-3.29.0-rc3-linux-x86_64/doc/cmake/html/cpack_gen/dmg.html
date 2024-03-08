@@ -1,0 +1,353 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CPack DragNDrop Generator &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CPack External Generator" href="external.html" />
+    <link rel="prev" title="CPack DEB Generator" href="deb.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="external.html" title="CPack External Generator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="deb.html" title="CPack DEB Generator"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack DragNDrop Generator</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cpack-dragndrop-generator">
+<span id="cpack_gen:CPack DragNDrop Generator"></span><h1>CPack DragNDrop Generator<a class="headerlink" href="#cpack-dragndrop-generator" title="Permalink to this heading">¶</a></h1>
+<p>The DragNDrop CPack generator (macOS) creates a DMG image.</p>
+<section id="variables-specific-to-cpack-dragndrop-generator">
+<h2>Variables specific to CPack DragNDrop generator<a class="headerlink" href="#variables-specific-to-cpack-dragndrop-generator" title="Permalink to this heading">¶</a></h2>
+<p>The following variables are specific to the DragNDrop installers built
+on macOS:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_VOLUME_NAME">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_VOLUME_NAME</span></span><a class="headerlink" href="#variable:CPACK_DMG_VOLUME_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>The volume name of the generated disk image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="target" id="index-0-variable:CPACK_PACKAGE_FILE_NAME"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_FILE_NAME" title="CPACK_PACKAGE_FILE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_FILE_NAME</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_FORMAT">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_FORMAT</span></span><a class="headerlink" href="#variable:CPACK_DMG_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The disk image format.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">UDZO</span></code></p>
+</dd>
+</dl>
+<p>Common values are <code class="docutils literal notranslate"><span class="pre">UDRO</span></code> (UDIF read-only), <code class="docutils literal notranslate"><span class="pre">UDZO</span></code> (UDIF
+zlib-compressed) or <code class="docutils literal notranslate"><span class="pre">UDBZ</span></code> (UDIF bzip2-compressed). Refer to <code class="docutils literal notranslate"><span class="pre">hdiutil(1)</span></code> for
+more information on other available formats.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_DS_STORE">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_DS_STORE</span></span><a class="headerlink" href="#variable:CPACK_DMG_DS_STORE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to a custom <code class="docutils literal notranslate"><span class="pre">.DS_Store</span></code> file. This <code class="docutils literal notranslate"><span class="pre">.DS_Store</span></code> file can be used to
+specify the Finder window position/geometry and layout (such as hidden
+toolbars, placement of the icons etc.). This file has to be generated by
+the Finder (either manually or through AppleScript) using a normal folder
+from which the <code class="docutils literal notranslate"><span class="pre">.DS_Store</span></code> file can then be extracted.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_DS_STORE_SETUP_SCRIPT">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_DS_STORE_SETUP_SCRIPT</span></span><a class="headerlink" href="#variable:CPACK_DMG_DS_STORE_SETUP_SCRIPT" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
+</div>
+<p>Path to a custom AppleScript file.  This AppleScript is used to generate
+a <code class="docutils literal notranslate"><span class="pre">.DS_Store</span></code> file which specifies the Finder window position/geometry and
+layout (such as hidden toolbars, placement of the icons etc.).
+By specifying a custom AppleScript there is no need to use
+<code class="docutils literal notranslate"><span class="pre">CPACK_DMG_DS_STORE</span></code>, as the <code class="docutils literal notranslate"><span class="pre">.DS_Store</span></code> that is generated by the AppleScript
+will be packaged.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_BACKGROUND_IMAGE">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_BACKGROUND_IMAGE</span></span><a class="headerlink" href="#variable:CPACK_DMG_BACKGROUND_IMAGE" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+<p>Path to an image file to be used as the background.  This file will be
+copied to <code class="docutils literal notranslate"><span class="pre">.background</span></code>/<code class="docutils literal notranslate"><span class="pre">background.&lt;ext&gt;</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;ext&gt;</span></code> is the original image file
+extension.  The background image is installed into the image before
+<code class="docutils literal notranslate"><span class="pre">CPACK_DMG_DS_STORE_SETUP_SCRIPT</span></code> is executed or <code class="docutils literal notranslate"><span class="pre">CPACK_DMG_DS_STORE</span></code> is
+installed.  By default no background image is set.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK</span></span><a class="headerlink" href="#variable:CPACK_DMG_DISABLE_APPLICATIONS_SYMLINK" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Default behavior is to include a symlink to <code class="docutils literal notranslate"><span class="pre">/Applications</span></code> in the DMG.
+Set this option to <code class="docutils literal notranslate"><span class="pre">ON</span></code> to avoid adding the symlink.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE</span></span><a class="headerlink" href="#variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.23.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p>
+</dd>
+</dl>
+<p>Control whether <span class="target" id="index-0-variable:CPACK_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_RESOURCE_FILE_LICENSE" title="CPACK_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RESOURCE_FILE_LICENSE</span></code></a>, if set to a
+non-default value, is used as the license agreement provided when
+mounting the DMG.  If <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE</span></code> is
+not set, <span class="target" id="index-0-manual:cpack(1)"></span><a class="reference internal" href="../manual/cpack.1.html#manual:cpack(1)" title="cpack(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack(1)</span></code></a> defaults to off.</p>
+<p>In a CMake project that uses the <span class="target" id="index-0-module:CPack"></span><a class="reference internal" href="../module/CPack.html#module:CPack" title="CPack"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPack</span></code></a> module to generate
+<code class="docutils literal notranslate"><span class="pre">CPackConfig.cmake</span></code>, <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE</span></code>
+must be explicitly enabled by the project to activate the SLA.
+See policy <span class="target" id="index-0-policy:CMP0133"></span><a class="reference internal" href="../policy/CMP0133.html#policy:CMP0133" title="CMP0133"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0133</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This option was added in response to macOS 12.0's deprecation of
+the <code class="docutils literal notranslate"><span class="pre">hdiutil</span> <span class="pre">udifrez</span></code> command to make its use optional.
+CPack 3.22 and below always use <span class="target" id="index-1-variable:CPACK_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_RESOURCE_FILE_LICENSE" title="CPACK_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RESOURCE_FILE_LICENSE</span></code></a>,
+if set to a non-default value, as the DMG license.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_SLA_DIR">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_SLA_DIR</span></span><a class="headerlink" href="#variable:CPACK_DMG_SLA_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
+</div>
+<p>Directory where license and menu files for different languages are stored.
+Setting this causes CPack to look for a <code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.menu.txt</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.license.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.license.rtf</span></code> file for every
+language defined in <span class="target" id="index-0-variable:CPACK_DMG_SLA_LANGUAGES"></span><a class="reference internal" href="#variable:CPACK_DMG_SLA_LANGUAGES" title="CPACK_DMG_SLA_LANGUAGES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_LANGUAGES</span></code></a>.  If both this variable and
+<span class="target" id="index-2-variable:CPACK_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_RESOURCE_FILE_LICENSE" title="CPACK_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RESOURCE_FILE_LICENSE</span></code></a> are set, CPack will only look for the menu
+files and use the same license file for all languages.  If both
+<code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.license.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.license.rtf</span></code> exist, the <code class="docutils literal notranslate"><span class="pre">.txt</span></code>
+file will be used.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17: </span>RTF support.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_SLA_LANGUAGES">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_SLA_LANGUAGES</span></span><a class="headerlink" href="#variable:CPACK_DMG_SLA_LANGUAGES" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
+</div>
+<p>Languages for which a license agreement is provided when mounting the
+generated DMG. A menu file consists of 9 lines of text. The first line is
+is the name of the language itself, uppercase, in English (e.g. German).
+The other lines are translations of the following strings:</p>
+<ul class="simple">
+<li><p>Agree</p></li>
+<li><p>Disagree</p></li>
+<li><p>Print</p></li>
+<li><p>Save...</p></li>
+<li><p>You agree to the terms of the License Agreement when you click the
+&quot;Agree&quot; button.</p></li>
+<li><p>Software License Agreement</p></li>
+<li><p>This text cannot be saved. The disk may be full or locked, or the file
+may be locked.</p></li>
+<li><p>Unable to print. Make sure you have selected a printer.</p></li>
+</ul>
+<p>For every language in this list, CPack will try to find files
+<code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.menu.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;language&gt;.license.txt</span></code> in the directory
+specified by the <span class="target" id="index-0-variable:CPACK_DMG_SLA_DIR"></span><a class="reference internal" href="#variable:CPACK_DMG_SLA_DIR" title="CPACK_DMG_SLA_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_DIR</span></code></a> variable.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_&lt;component&gt;_FILE_NAME">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_&lt;component&gt;_FILE_NAME</span></span><a class="headerlink" href="#variable:CPACK_DMG_<component>_FILE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.17.</span></p>
+</div>
+<p>File name when packaging <code class="docutils literal notranslate"><span class="pre">&lt;component&gt;</span></code> as its own DMG
+(<span class="target" id="index-0-variable:CPACK_COMPONENTS_GROUPING"></span><a class="reference internal" href="../module/CPackComponent.html#variable:CPACK_COMPONENTS_GROUPING" title="CPACK_COMPONENTS_GROUPING"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENTS_GROUPING</span></code></a> set to <code class="docutils literal notranslate"><span class="pre">IGNORE</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">CPACK_PACKAGE_FILE_NAME-&lt;component&gt;</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DMG_FILESYSTEM">
+<span class="sig-name descname"><span class="pre">CPACK_DMG_FILESYSTEM</span></span><a class="headerlink" href="#variable:CPACK_DMG_FILESYSTEM" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">HFS+</span></code></p>
+</dd>
+</dl>
+<p>The filesystem format. Common values are <code class="docutils literal notranslate"><span class="pre">APFS</span></code> and <code class="docutils literal notranslate"><span class="pre">HFS+</span></code>.
+See <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">hdiutil</span></code> for a full list of supported formats.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_COMMAND_HDIUTIL">
+<span class="sig-name descname"><span class="pre">CPACK_COMMAND_HDIUTIL</span></span><a class="headerlink" href="#variable:CPACK_COMMAND_HDIUTIL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the <code class="docutils literal notranslate"><span class="pre">hdiutil(1)</span></code> command used to operate on disk image files on
+macOS. This variable can be used to override the automatically detected
+command (or specify its location if the auto-detection fails to find it).</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_COMMAND_SETFILE">
+<span class="sig-name descname"><span class="pre">CPACK_COMMAND_SETFILE</span></span><a class="headerlink" href="#variable:CPACK_COMMAND_SETFILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the <code class="docutils literal notranslate"><span class="pre">SetFile(1)</span></code> command used to set extended attributes on files and
+directories on macOS. This variable can be used to override the
+automatically detected command (or specify its location if the
+auto-detection fails to find it).</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_COMMAND_REZ">
+<span class="sig-name descname"><span class="pre">CPACK_COMMAND_REZ</span></span><a class="headerlink" href="#variable:CPACK_COMMAND_REZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the <code class="docutils literal notranslate"><span class="pre">Rez(1)</span></code> command used to compile resources on macOS. This
+variable can be used to override the automatically detected command (or
+specify its location if the auto-detection fails to find it).</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CPack DragNDrop Generator</a><ul>
+<li><a class="reference internal" href="#variables-specific-to-cpack-dragndrop-generator">Variables specific to CPack DragNDrop generator</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="deb.html"
+                          title="previous chapter">CPack DEB Generator</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="external.html"
+                          title="next chapter">CPack External Generator</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cpack_gen/dmg.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="external.html" title="CPack External Generator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="deb.html" title="CPack DEB Generator"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack DragNDrop Generator</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,1252 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>FetchContent &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FindPackageHandleStandardArgs" href="FindPackageHandleStandardArgs.html" />
+    <link rel="prev" title="FeatureSummary" href="FeatureSummary.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="FindPackageHandleStandardArgs.html" title="FindPackageHandleStandardArgs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FeatureSummary.html" title="FeatureSummary"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FetchContent</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="fetchcontent">
+<span id="module:FetchContent"></span><h1><a class="toc-backref" href="#id5" role="doc-backlink">FetchContent</a><a class="headerlink" href="#fetchcontent" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11.</span></p>
+</div>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#fetchcontent" id="id5">FetchContent</a></p>
+<ul>
+<li><p><a class="reference internal" href="#overview" id="id6">Overview</a></p></li>
+<li><p><a class="reference internal" href="#commands" id="id7">Commands</a></p></li>
+<li><p><a class="reference internal" href="#variables" id="id8">Variables</a></p></li>
+<li><p><a class="reference internal" href="#examples" id="id9">Examples</a></p>
+<ul>
+<li><p><a class="reference internal" href="#typical-case" id="id10">Typical Case</a></p></li>
+<li><p><a class="reference internal" href="#integrating-with-find-package" id="id11">Integrating With find_package()</a></p></li>
+<li><p><a class="reference internal" href="#overriding-where-to-find-cmakelists-txt" id="id12">Overriding Where To Find CMakeLists.txt</a></p></li>
+<li><p><a class="reference internal" href="#complex-dependency-hierarchies" id="id13">Complex Dependency Hierarchies</a></p></li>
+<li><p><a class="reference internal" href="#populating-content-without-adding-it-to-the-build" id="id14">Populating Content Without Adding It To The Build</a></p></li>
+<li><p><a class="reference internal" href="#populating-content-in-cmake-script-mode" id="id15">Populating Content In CMake Script Mode</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <span class="target" id="index-0-guide:Using Dependencies Guide"></span><a class="reference internal" href="../guide/using-dependencies/index.html#guide:Using Dependencies Guide" title="Using Dependencies Guide"><code class="xref cmake cmake-guide docutils literal notranslate"><span class="pre">Using</span> <span class="pre">Dependencies</span> <span class="pre">Guide</span></code></a> provides a high-level
+introduction to this general topic. It provides a broader overview of
+where the <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> module fits into the bigger picture,
+including its relationship to the <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command.
+The guide is recommended pre-reading before moving on to the details below.</p>
+</div>
+<section id="overview">
+<h2><a class="toc-backref" href="#id6" role="doc-backlink">Overview</a><a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
+<p>This module enables populating content at configure time via any method
+supported by the <span class="target" id="index-0-module:ExternalProject"></span><a class="reference internal" href="ExternalProject.html#module:ExternalProject" title="ExternalProject"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">ExternalProject</span></code></a> module.  Whereas
+<span class="target" id="index-0-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> downloads at build time, the
+<code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> module makes content available immediately, allowing the
+configure step to use the content in commands like <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>,
+<span class="target" id="index-0-command:include"></span><a class="reference internal" href="../command/include.html#command:include" title="include"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">include()</span></code></a> or <span class="target" id="index-0-command:file"></span><a class="reference internal" href="../command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file()</span></code></a> operations.</p>
+<p>Content population details should be defined separately from the command that
+performs the actual population.  This separation ensures that all the
+dependency details are defined before anything might try to use them to
+populate content.  This is particularly important in more complex project
+hierarchies where dependencies may be shared between multiple projects.</p>
+<p>The following shows a typical example of declaring content details for some
+dependencies and then ensuring they are populated with a separate call:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">googletest</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/google/googletest.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">703</span><span class="nb">bd9caab50b139428cea1aaff9974ebee5742e</span><span class="w"> </span><span class="c"># release-1.10.0</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">myCompanyIcons</span>
+<span class="w">  </span><span class="no">URL</span><span class="w">      </span><span class="na">https://intranet.mycompany.com/assets/iconset_1.12.tar.gz</span>
+<span class="w">  </span><span class="no">URL_HASH</span><span class="w"> </span><span class="no">MD5</span><span class="p">=</span><span class="m">5588</span><span class="nb">a7b18261c20068beabfb4f530b87</span>
+<span class="nf">)</span>
+
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="w"> </span><span class="nb">myCompanyIcons</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The <span class="target" id="index-0-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> command ensures the named
+dependencies have been populated, either by an earlier call or by populating
+them itself.  When performing the population, it will also add them to the
+main build, if possible, so that the main build can use the populated
+projects' targets, etc.  See the command's documentation for how these steps
+are performed.</p>
+<p>When using a hierarchical project arrangement, projects at higher levels in
+the hierarchy are able to override the declared details of content specified
+anywhere lower in the project hierarchy.  The first details to be declared
+for a given dependency take precedence, regardless of where in the project
+hierarchy that occurs.  Similarly, the first call that tries to populate a
+dependency &quot;wins&quot;, with subsequent populations reusing the result of the
+first instead of repeating the population again.
+See the <a class="reference internal" href="#fetch-content-examples"><span class="std std-ref">Examples</span></a> which demonstrate
+this scenario.</p>
+<p>In some cases, the main project may need to have more precise control over
+the population, or it may be required to explicitly define the population
+steps in a way that cannot be captured by the declared details alone.
+For such situations, the lower level <span class="target" id="index-0-command:fetchcontent_getproperties"></span><a class="reference internal" href="#command:fetchcontent_getproperties" title="fetchcontent_getproperties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_GetProperties()</span></code></a> and
+<span class="target" id="index-0-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a> commands can be used.  These lack the richer
+features provided by <span class="target" id="index-1-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> though, so their
+direct use should be considered a last resort.  The typical pattern of such
+custom steps looks like this:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># NOTE: Where possible, prefer to use FetchContent_MakeAvailable()</span>
+<span class="c">#       instead of custom logic like this</span>
+
+<span class="c"># Check if population has already been performed</span>
+<span class="nf">FetchContent_GetProperties(</span><span class="nb">depname</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="nb">depname_POPULATED</span><span class="nf">)</span>
+<span class="w">  </span><span class="c"># Fetch the content using previously declared details</span>
+<span class="w">  </span><span class="nf">FetchContent_Populate(</span><span class="nb">depname</span><span class="nf">)</span>
+
+<span class="w">  </span><span class="c"># Set custom variables, policies, etc.</span>
+<span class="w">  </span><span class="c"># ...</span>
+
+<span class="w">  </span><span class="c"># Bring the populated content into the build</span>
+<span class="w">  </span><span class="nf">add_subdirectory(</span><span class="o">${</span><span class="nt">depname_SOURCE_DIR</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">depname_BINARY_DIR</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> module also supports defining and populating
+content in a single call, with no check for whether the content has been
+populated elsewhere already.  This should not be done in projects, but may
+be appropriate for populating content in CMake's script mode.
+See <span class="target" id="index-1-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a> for details.</p>
+</section>
+<section id="commands">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Commands</a><a class="headerlink" href="#commands" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:fetchcontent_declare">
+<span class="sig-name descname"><span class="pre">FetchContent_Declare</span></span><a class="headerlink" href="#command:fetchcontent_declare" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nv">&lt;name&gt;</span>
+<span class="w">  </span><span class="nv">&lt;contentOptions&gt;...</span>
+<span class="w">  </span><span class="p">[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">SYSTEM</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">OVERRIDE_FIND_PACKAGE</span><span class="w"> </span><span class="p">|</span>
+<span class="w">   </span><span class="no">FIND_PACKAGE_ARGS</span><span class="w"> </span><span class="nb">args...</span><span class="p">]</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code> function records the options that describe
+how to populate the specified content.  If such details have already
+been recorded earlier in this project (regardless of where in the project
+hierarchy), this and all later calls for the same content <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> are
+ignored.  This &quot;first to record, wins&quot; approach is what allows hierarchical
+projects to have parent projects override content details of child projects.</p>
+<p>The content <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> can be any string without spaces, but good practice
+would be to use only letters, numbers and underscores.  The name will be
+treated case-insensitively and it should be obvious for the content it
+represents, often being the name of the child project or the value given
+to its top level <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> command (if it is a CMake project).
+For well-known public projects, the name should generally be the official
+name of the project.  Choosing an unusual name makes it unlikely that other
+projects needing that same content will use the same name, leading to
+the content being populated multiple times.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;contentOptions&gt;</span></code> can be any of the download, update or patch options
+that the <span class="target" id="index-1-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> command understands.  The configure,
+build, install and test steps are explicitly disabled and therefore options
+related to them will be ignored.  The <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option is an
+exception, see <span class="target" id="index-2-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> for details on how that
+affects behavior.</p>
+<p>In most cases, <code class="docutils literal notranslate"><span class="pre">&lt;contentOptions&gt;</span></code> will just be a couple of options defining
+the download method and method-specific details like a commit tag or archive
+hash.  For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">googletest</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/google/googletest.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">703</span><span class="nb">bd9caab50b139428cea1aaff9974ebee5742e</span><span class="w"> </span><span class="c"># release-1.10.0</span>
+<span class="nf">)</span>
+
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">myCompanyIcons</span>
+<span class="w">  </span><span class="no">URL</span><span class="w">      </span><span class="na">https://intranet.mycompany.com/assets/iconset_1.12.tar.gz</span>
+<span class="w">  </span><span class="no">URL_HASH</span><span class="w"> </span><span class="no">MD5</span><span class="p">=</span><span class="m">5588</span><span class="nb">a7b18261c20068beabfb4f530b87</span>
+<span class="nf">)</span>
+
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">myCompanyCertificates</span>
+<span class="w">  </span><span class="no">SVN_REPOSITORY</span><span class="w"> </span><span class="nb">svn+ssh</span><span class="o">:</span><span class="na">//svn.mycompany.com/srv/svn/trunk/certs</span>
+<span class="w">  </span><span class="no">SVN_REVISION</span><span class="w">   </span><span class="p">-</span><span class="nb">r12345</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>Where contents are being fetched from a remote location and you do not
+control that server, it is advisable to use a hash for <code class="docutils literal notranslate"><span class="pre">GIT_TAG</span></code> rather
+than a branch or tag name.  A commit hash is more secure and helps to
+confirm that the downloaded contents are what you expected.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.14: </span>Commands for the download, update or patch steps can access the terminal.
+This may be needed for things like password prompts or real-time display
+of command progress.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22: </span>The <span class="target" id="index-0-variable:CMAKE_TLS_VERIFY"></span><a class="reference internal" href="../variable/CMAKE_TLS_VERIFY.html#variable:CMAKE_TLS_VERIFY" title="CMAKE_TLS_VERIFY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_VERIFY</span></code></a>, <span class="target" id="index-0-variable:CMAKE_TLS_CAINFO"></span><a class="reference internal" href="../variable/CMAKE_TLS_CAINFO.html#variable:CMAKE_TLS_CAINFO" title="CMAKE_TLS_CAINFO"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TLS_CAINFO</span></code></a>,
+<span class="target" id="index-0-variable:CMAKE_NETRC"></span><a class="reference internal" href="../variable/CMAKE_NETRC.html#variable:CMAKE_NETRC" title="CMAKE_NETRC"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_NETRC</span></code></a> and <span class="target" id="index-0-variable:CMAKE_NETRC_FILE"></span><a class="reference internal" href="../variable/CMAKE_NETRC_FILE.html#variable:CMAKE_NETRC_FILE" title="CMAKE_NETRC_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_NETRC_FILE</span></code></a> variables now
+provide the defaults for their corresponding content options, just like
+they do for <span class="target" id="index-2-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>. Previously, these variables
+were ignored by the <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> module.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24: </span></p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code></dt><dd><p>This option is for scenarios where the
+<span class="target" id="index-3-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> command may first try a call to
+<span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> to satisfy the dependency for <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.
+By default, such a call would be simply <code class="docutils literal notranslate"><span class="pre">find_package(&lt;name&gt;)</span></code>, but
+<code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> can be used to provide additional arguments to be
+appended after the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> can also be given
+with nothing after it, which indicates that <span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> can
+still be called if <span class="target" id="index-0-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> is
+set to <code class="docutils literal notranslate"><span class="pre">OPT_IN</span></code> or is not set.</p>
+<p>It would not normally be appropriate to specify <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> as one of
+the additional arguments after <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code>.  Doing so would
+mean the <span class="target" id="index-3-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call must succeed, so none of the other
+details specified in the <code class="docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code> call would get a
+chance to be used as a fall-back.</p>
+<p>Everything after the <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> keyword is appended to the
+<span class="target" id="index-4-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call, so all other <code class="docutils literal notranslate"><span class="pre">&lt;contentOptions&gt;</span></code> must
+come before the <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> keyword.  If the
+<span class="target" id="index-0-variable:CMAKE_FIND_PACKAGE_TARGETS_GLOBAL"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_TARGETS_GLOBAL.html#variable:CMAKE_FIND_PACKAGE_TARGETS_GLOBAL" title="CMAKE_FIND_PACKAGE_TARGETS_GLOBAL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_TARGETS_GLOBAL</span></code></a> variable is set to true
+at the time <code class="docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code> is called, a <code class="docutils literal notranslate"><span class="pre">GLOBAL</span></code> keyword
+will be appended to the <span class="target" id="index-5-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> arguments if it was
+not already specified.  It will also be appended if
+<code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> was not given, but
+<span class="target" id="index-1-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> was set to <code class="docutils literal notranslate"><span class="pre">ALWAYS</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> cannot be used when <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> is
+given.</p>
+<p><a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">Dependency Providers</span></a> discusses another way that
+<span class="target" id="index-4-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> calls can be redirected.
+<code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> is intended for project control, whereas
+dependency providers allow users to override project behavior.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code></dt><dd><p>When a <code class="docutils literal notranslate"><span class="pre">FetchContent_Declare(&lt;name&gt;</span> <span class="pre">...)</span></code> call includes this option,
+subsequent calls to <code class="docutils literal notranslate"><span class="pre">find_package(&lt;name&gt;</span> <span class="pre">...)</span></code> will ensure that
+<code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable(&lt;name&gt;)</span></code> has been called, then use the
+config package files in the <span class="target" id="index-0-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a>
+directory (which are usually created by <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code>).
+This effectively makes <span class="target" id="index-5-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> override
+<span class="target" id="index-6-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> for the named dependency, allowing the former to
+satisfy the package requirements of the latter.  <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code>
+cannot be used when <code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> is given.</p>
+<p>If a <a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency provider</span></a> has been set
+and the project calls <span class="target" id="index-7-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> for the <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>
+dependency, <code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> will not prevent the provider
+from seeing that call.  Dependency providers always have the opportunity
+to intercept any direct call to <span class="target" id="index-8-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>, except if that
+call contains the <code class="docutils literal notranslate"><span class="pre">BYPASS_PROVIDER</span></code> option.</p>
+</dd>
+</dl>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25: </span></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code></dt><dd><p>If the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> argument is provided, the <span class="target" id="index-0-prop_dir:SYSTEM"></span><a class="reference internal" href="../prop_dir/SYSTEM.html#prop_dir:SYSTEM" title="SYSTEM"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">SYSTEM</span></code></a> directory
+property of a subdirectory added by
+<span class="target" id="index-6-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> will be set to true.  This will
+affect non-imported targets created as part of that command.
+See the <span class="target" id="index-0-prop_tgt:SYSTEM"></span><a class="reference internal" href="../prop_tgt/SYSTEM.html#prop_tgt:SYSTEM" title="SYSTEM"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SYSTEM</span></code></a> target property documentation for a more
+detailed discussion of the effects.</p>
+</dd>
+</dl>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28: </span></p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code></dt><dd><p>If the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> argument is provided, then targets in the
+subdirectory added by <span class="target" id="index-7-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> will not be
+included in the <code class="docutils literal notranslate"><span class="pre">ALL</span></code> target by default, and may be excluded from IDE
+project files. See the <span class="target" id="index-1-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code>
+argument documentation for a more detailed discussion of the effects.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:fetchcontent_makeavailable">
+<span class="sig-name descname"><span class="pre">FetchContent_MakeAvailable</span></span><a class="headerlink" href="#command:fetchcontent_makeavailable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_MakeAvailable(</span><span class="nv">&lt;name1&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;name2&gt;...</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This command ensures that each of the named dependencies are made available
+to the project by the time it returns.  There must have been a call to
+<span class="target" id="index-0-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> for each dependency, and the first such call
+will control how that dependency will be made available, as described below.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code> is not set:</p>
+<ul>
+<li><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24: </span>If a <a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency provider</span></a> is set, call the
+provider's command with <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_MAKEAVAILABLE_SERIAL</span></code> as the
+first argument, followed by the arguments of the first call to
+<span class="target" id="index-1-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> for <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  If <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> or
+<code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> were not part of the original declared arguments, they
+will be added with their default values.
+If <span class="target" id="index-2-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> was set to <code class="docutils literal notranslate"><span class="pre">NEVER</span></code>
+when the details were declared, any <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> will be
+omitted.  The <code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> keyword is also always omitted.
+If the provider fulfilled the request, <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code>
+will consider that dependency handled, skip the remaining steps below
+and move on to the next dependency in the list.</p>
+</div>
+</li>
+<li><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24: </span>If permitted, <span class="target" id="index-9-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;name&gt;</span> <span class="pre">[&lt;args&gt;...])</span></code></a>
+will be called, where <code class="docutils literal notranslate"><span class="pre">&lt;args&gt;...</span></code> may be provided by the
+<code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> option in <span class="target" id="index-2-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.
+The value of the <span class="target" id="index-3-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> variable
+at the time <span class="target" id="index-3-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> was called determines whether
+<code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code> can call <span class="target" id="index-10-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>.
+If the <span class="target" id="index-1-variable:CMAKE_FIND_PACKAGE_TARGETS_GLOBAL"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_TARGETS_GLOBAL.html#variable:CMAKE_FIND_PACKAGE_TARGETS_GLOBAL" title="CMAKE_FIND_PACKAGE_TARGETS_GLOBAL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_TARGETS_GLOBAL</span></code></a> variable is set to
+true when <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code> is called, it still affects
+any imported targets created when that in turn calls
+<span class="target" id="index-11-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>, even if that variable was false when the
+corresponding details were declared.</p>
+</div>
+</li>
+</ul>
+<p>If the dependency was not satisfied by a provider or a
+<span class="target" id="index-12-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call, <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code> then uses
+the following logic to make the dependency available:</p>
+<ul>
+<li><p>If the dependency has already been populated earlier in this run, set
+the <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_POPULATED</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_BINARY_DIR</span></code> variables in the same way as a call to
+<span class="target" id="index-1-command:fetchcontent_getproperties"></span><a class="reference internal" href="#command:fetchcontent_getproperties" title="fetchcontent_getproperties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_GetProperties()</span></code></a>, then skip the remaining steps
+below and move on to the next dependency in the list.</p></li>
+<li><p>Call <span class="target" id="index-2-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a> to populate the dependency using
+the details recorded by an earlier call to <span class="target" id="index-4-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.
+Halt with a fatal error if no such details have been recorded.
+<span class="target" id="index-0-variable:FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;"></span><a class="reference internal" href="#variable:FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;" title="FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;</span></code></a> can be used to override
+the declared details and use content provided at the specified location
+instead.</p></li>
+<li><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24: </span>Ensure the <span class="target" id="index-1-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a> directory
+contains a <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;-config.cmake</span></code> and a
+<code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;-config-version.cmake</span></code> file (or equivalently
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;Config.cmake</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;ConfigVersion.cmake</span></code>).
+The directory that the <span class="target" id="index-2-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a>
+variable points to is cleared at the start of every CMake run.
+If no config file exists when <span class="target" id="index-3-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a> returns,
+a minimal one will be written which <span class="target" id="index-1-command:include"></span><a class="reference internal" href="../command/include.html#command:include" title="include"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">includes</span></code></a> any
+<code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;-extra.cmake</span></code> or <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;Extra.cmake</span></code> file with the
+<code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code> flag (so the files can be missing and won't generate a
+warning).  Similarly, if no config version file exists, a very simple
+one will be written which sets <code class="docutils literal notranslate"><span class="pre">PACKAGE_VERSION_COMPATIBLE</span></code> and
+<code class="docutils literal notranslate"><span class="pre">PACKAGE_VERSION_EXACT</span></code> to true.  This ensures all future calls to
+<span class="target" id="index-13-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> for the dependency will use the redirected
+config file, regardless of any version requirements.
+CMake cannot automatically determine an arbitrary dependency's version,
+so it cannot set <code class="docutils literal notranslate"><span class="pre">PACKAGE_VERSION</span></code>.
+When a dependency is pulled in via <span class="target" id="index-2-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> in the
+next step, it may choose to overwrite the generated config version file
+in <span class="target" id="index-3-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a> with one that also sets
+<code class="docutils literal notranslate"><span class="pre">PACKAGE_VERSION</span></code>.
+The dependency may also write a <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;-extra.cmake</span></code> or
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;Extra.cmake</span></code> file to perform custom processing or define any
+variables that their normal (installed) package config file would
+otherwise usually define (many projects don't do any custom processing
+or set any variables and therefore have no need to do this).
+If required, the main project can write these files instead if the
+dependency project doesn't do so.  This allows the main project to
+add missing details from older dependencies that haven't or can't be
+updated to support this functionality.
+See <a class="reference internal" href="#integrating-with-find-package">Integrating With find_package()</a> for examples.</p>
+</div>
+</li>
+<li><p>If the top directory of the populated content contains a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>
+file, call <span class="target" id="index-3-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> to add it to the main build.
+It is not an error for there to be no <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file, which
+allows the command to be used for dependencies that make downloaded
+content available at a known location, but which do not need or support
+being added directly to the build.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>The <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option can be given in the declared details to
+look somewhere below the top directory instead (i.e. the same way that
+<code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> is used by the <span class="target" id="index-3-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>
+command).  The path provided with <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> must be relative
+and will be treated as relative to the top directory.  It can also
+point to a directory that does not contain a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file
+or even to a directory that doesn't exist.  This can be used to avoid
+adding a project that contains a <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file in its top
+directory.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25: </span>If the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> keyword was included in the call to
+<span class="target" id="index-5-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> keyword will be
+added to the <span class="target" id="index-4-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command as well.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28: </span>If the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> keyword was included in the call to
+<span class="target" id="index-6-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>, the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> keyword will
+be added to the <span class="target" id="index-5-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command as well.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29: </span><span class="target" id="index-0-variable:CMAKE_EXPORT_FIND_PACKAGE_NAME"></span><a class="reference internal" href="../variable/CMAKE_EXPORT_FIND_PACKAGE_NAME.html#variable:CMAKE_EXPORT_FIND_PACKAGE_NAME" title="CMAKE_EXPORT_FIND_PACKAGE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_EXPORT_FIND_PACKAGE_NAME</span></code></a> is set to the dependency name
+before calling <span class="target" id="index-6-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>.</p>
+</div>
+</li>
+</ul>
+<p>Projects should aim to declare the details of all dependencies they might
+use before they call <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code> for any of them.
+This ensures that if any of the dependencies are also sub-dependencies of
+one or more of the others, the main project still controls the details
+that will be used (because it will declare them first before the
+dependencies get a chance to).  In the following code samples, assume that
+the <code class="docutils literal notranslate"><span class="pre">uses_other</span></code> dependency also uses <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code> to add the <code class="docutils literal notranslate"><span class="pre">other</span></code>
+dependency internally:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># WRONG: Should declare all details first</span>
+<span class="nf">FetchContent_Declare(</span><span class="nb">uses_other</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">uses_other</span><span class="nf">)</span>
+
+<span class="nf">FetchContent_Declare(</span><span class="nb">other</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w">    </span><span class="c"># Will be ignored, uses_other beat us to it</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">other</span><span class="nf">)</span><span class="w">  </span><span class="c"># Would use details declared by uses_other</span>
+</pre></div>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># CORRECT: All details declared first, so they will take priority</span>
+<span class="nf">FetchContent_Declare(</span><span class="nb">uses_other</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span><span class="nb">other</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">uses_other</span><span class="w"> </span><span class="nb">other</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Note that <span class="target" id="index-0-variable:CMAKE_VERIFY_INTERFACE_HEADER_SETS"></span><a class="reference internal" href="../variable/CMAKE_VERIFY_INTERFACE_HEADER_SETS.html#variable:CMAKE_VERIFY_INTERFACE_HEADER_SETS" title="CMAKE_VERIFY_INTERFACE_HEADER_SETS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VERIFY_INTERFACE_HEADER_SETS</span></code></a> is explicitly set
+to false upon entry to <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code>, and is restored to
+its original value before the command returns.  Developers typically only
+want to verify header sets from the main project, not those from any
+dependencies.  This local manipulation of the
+<span class="target" id="index-1-variable:CMAKE_VERIFY_INTERFACE_HEADER_SETS"></span><a class="reference internal" href="../variable/CMAKE_VERIFY_INTERFACE_HEADER_SETS.html#variable:CMAKE_VERIFY_INTERFACE_HEADER_SETS" title="CMAKE_VERIFY_INTERFACE_HEADER_SETS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VERIFY_INTERFACE_HEADER_SETS</span></code></a> variable provides that
+intuitive behavior.  You can use variables like
+<span class="target" id="index-0-variable:CMAKE_PROJECT_INCLUDE"></span><a class="reference internal" href="../variable/CMAKE_PROJECT_INCLUDE.html#variable:CMAKE_PROJECT_INCLUDE" title="CMAKE_PROJECT_INCLUDE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_INCLUDE</span></code></a> or
+<span class="target" id="index-0-variable:CMAKE_PROJECT_&lt;PROJECT-NAME&gt;_INCLUDE"></span><a class="reference internal" href="../variable/CMAKE_PROJECT_PROJECT-NAME_INCLUDE.html#variable:CMAKE_PROJECT_&lt;PROJECT-NAME&gt;_INCLUDE" title="CMAKE_PROJECT_&lt;PROJECT-NAME&gt;_INCLUDE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_&lt;PROJECT-NAME&gt;_INCLUDE</span></code></a> to turn verification back
+on for all or some dependencies.  You can also set the
+<span class="target" id="index-0-prop_tgt:VERIFY_INTERFACE_HEADER_SETS"></span><a class="reference internal" href="../prop_tgt/VERIFY_INTERFACE_HEADER_SETS.html#prop_tgt:VERIFY_INTERFACE_HEADER_SETS" title="VERIFY_INTERFACE_HEADER_SETS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">VERIFY_INTERFACE_HEADER_SETS</span></code></a> property of individual targets.</p>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:fetchcontent_populate">
+<span class="sig-name descname"><span class="pre">FetchContent_Populate</span></span><a class="headerlink" href="#command:fetchcontent_populate" title="Permalink to this definition">¶</a></dt>
+<dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Where possible, prefer to use <span class="target" id="index-8-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>
+instead of implementing population manually with this command.</p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_Populate(</span><span class="nv">&lt;name&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>In most cases, the only argument given to <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> is the
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code>.  When used this way, the command assumes the content details have
+been recorded by an earlier call to <span class="target" id="index-7-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.  The
+details are stored in a global property, so they are unaffected by things
+like variable or directory scope.  Therefore, it doesn't matter where in the
+project the details were previously declared, as long as they have been
+declared before the call to <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code>.  Those saved details
+are then used to construct a call to <span class="target" id="index-4-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> in a
+private sub-build to perform the content population immediately.  The
+implementation of <code class="docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code> ensures that if the content has
+already been populated in a previous CMake run, that content will be reused
+rather than repopulating them again.  For the common case where population
+involves downloading content, the cost of the download is only paid once.</p>
+<p>An internal global property records when a particular content population
+request has been processed.  If <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> is called more
+than once for the same content name within a configure run, the second call
+will halt with an error.  Projects can and should check whether content
+population has already been processed with the
+<span class="target" id="index-2-command:fetchcontent_getproperties"></span><a class="reference internal" href="#command:fetchcontent_getproperties" title="fetchcontent_getproperties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_GetProperties()</span></code></a> command before calling
+<code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> will set three variables in the scope of the
+caller:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_POPULATED</span></code></dt><dd><p>This will always be set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> by the call.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code></dt><dd><p>The location where the populated content can be found upon return.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_BINARY_DIR</span></code></dt><dd><p>A directory intended for use as a corresponding build directory.</p>
+</dd>
+</dl>
+<p>The main use case for the <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_BINARY_DIR</span></code> variables is to call
+<span class="target" id="index-7-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> immediately after population:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_Populate(</span><span class="nb">FooBar</span><span class="nf">)</span>
+<span class="nf">add_subdirectory(</span><span class="o">${</span><span class="nt">foobar_SOURCE_DIR</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">foobar_BINARY_DIR</span><span class="o">}</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The values of the three variables can also be retrieved from anywhere in the
+project hierarchy using the <span class="target" id="index-3-command:fetchcontent_getproperties"></span><a class="reference internal" href="#command:fetchcontent_getproperties" title="fetchcontent_getproperties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_GetProperties()</span></code></a> command.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> command also supports a syntax allowing the
+content details to be specified directly rather than using any saved
+details.  This is more low-level and use of this form is generally to be
+avoided in favor of using saved content details as outlined above.
+Nevertheless, in certain situations it can be useful to invoke the content
+population as an isolated operation (typically as part of implementing some
+other higher level feature or when using CMake in script mode):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_Populate(</span>
+<span class="w">  </span><span class="nv">&lt;name&gt;</span>
+<span class="w">  </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">SUBBUILD_DIR</span><span class="w"> </span><span class="nv">&lt;subBuildDir&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">SOURCE_DIR</span><span class="w"> </span><span class="nv">&lt;srcDir&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">BINARY_DIR</span><span class="w"> </span><span class="nv">&lt;binDir&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">...</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>This form has a number of key differences to that where only <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> is
+provided:</p>
+<ul class="simple">
+<li><p>All required population details are assumed to have been provided directly
+in the call to <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code>. Any saved details for
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> are ignored.</p></li>
+<li><p>No check is made for whether content for <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> has already been
+populated.</p></li>
+<li><p>No global property is set to record that the population has occurred.</p></li>
+<li><p>No global properties record the source or binary directories used for the
+populated content.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_FULLY_DISCONNECTED</span></code> and
+<code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_UPDATES_DISCONNECTED</span></code> cache variables are ignored.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_BINARY_DIR</span></code>
+variables are still returned to the caller, but since these locations are
+not stored as global properties when this form is used, they are only
+available to the calling scope and below rather than the entire project
+hierarchy.  No <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_POPULATED</span></code> variable is set in the caller's
+scope with this form.</p>
+<p>The supported options for <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> are the same as those
+for <span class="target" id="index-8-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>.  Those few options shown just
+above are either specific to <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> or their behavior is
+slightly modified from how <span class="target" id="index-5-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> treats them:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">QUIET</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">QUIET</span></code> option can be given to hide the output associated with
+populating the specified content.  If the population fails, the output will
+be shown regardless of whether this option was given or not so that the
+cause of the failure can be diagnosed.  The global <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_QUIET</span></code>
+cache variable has no effect on <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> calls where the
+content details are provided directly.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SUBBUILD_DIR</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">SUBBUILD_DIR</span></code> argument can be provided to change the location of the
+sub-build created to perform the population.  The default value is
+<code class="docutils literal notranslate"><span class="pre">${CMAKE_CURRENT_BINARY_DIR}/&lt;lowercaseName&gt;-subbuild</span></code> and it would be
+unusual to need to override this default.  If a relative path is specified,
+it will be interpreted as relative to <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>.
+This option should not be confused with the <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option which
+only affects the <span class="target" id="index-9-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> command.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> arguments are supported by
+<span class="target" id="index-6-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a>, but different default values are used by
+<code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code>.  <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> defaults to
+<code class="docutils literal notranslate"><span class="pre">${CMAKE_CURRENT_BINARY_DIR}/&lt;lowercaseName&gt;-src</span></code> and <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code>
+defaults to <code class="docutils literal notranslate"><span class="pre">${CMAKE_CURRENT_BINARY_DIR}/&lt;lowercaseName&gt;-build</span></code>.
+If a relative path is specified, it will be interpreted as relative to
+<span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>.</p>
+</dd>
+</dl>
+<p>In addition to the above explicit options, any other unrecognized options are
+passed through unmodified to <span class="target" id="index-7-command:externalproject_add"></span><a class="reference internal" href="ExternalProject.html#command:externalproject_add" title="externalproject_add"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ExternalProject_Add()</span></code></a> to perform the
+download, patch and update steps.  The following options are explicitly
+prohibited (they are disabled by the <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> command):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CONFIGURE_COMMAND</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">BUILD_COMMAND</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">INSTALL_COMMAND</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEST_COMMAND</span></code></p></li>
+</ul>
+<p>If using <code class="docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code> within CMake's script mode, be aware
+that the implementation sets up a sub-build which therefore requires a CMake
+generator and build tool to be available. If these cannot be found by
+default, then the <span class="target" id="index-0-variable:CMAKE_GENERATOR"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR.html#variable:CMAKE_GENERATOR" title="CMAKE_GENERATOR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR</span></code></a> and/or
+<span class="target" id="index-0-variable:CMAKE_MAKE_PROGRAM"></span><a class="reference internal" href="../variable/CMAKE_MAKE_PROGRAM.html#variable:CMAKE_MAKE_PROGRAM" title="CMAKE_MAKE_PROGRAM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MAKE_PROGRAM</span></code></a> variables will need to be set appropriately
+on the command line invoking the script.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Added support for the <code class="docutils literal notranslate"><span class="pre">DOWNLOAD_NO_EXTRACT</span></code> option.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:fetchcontent_getproperties">
+<span class="sig-name descname"><span class="pre">FetchContent_GetProperties</span></span><a class="headerlink" href="#command:fetchcontent_getproperties" title="Permalink to this definition">¶</a></dt>
+<dd><p>When using saved content details, a call to
+<span class="target" id="index-10-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> or <span class="target" id="index-4-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a>
+records information in global properties which can be queried at any time.
+This information may include the source and binary directories associated with
+the content and also whether or not the content population has been processed
+during the current configure run.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_GetProperties(</span>
+<span class="w">  </span><span class="nv">&lt;name&gt;</span>
+<span class="w">  </span><span class="p">[</span><span class="no">SOURCE_DIR</span><span class="w"> </span><span class="nv">&lt;srcDirVar&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">BINARY_DIR</span><span class="w"> </span><span class="nv">&lt;binDirVar&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">POPULATED</span><span class="w"> </span><span class="nv">&lt;doneVar&gt;</span><span class="p">]</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code>, <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">POPULATED</span></code> options can be used to
+specify which properties should be retrieved.  Each option accepts a value
+which is the name of the variable in which to store that property.  Most of
+the time though, only <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> is given, in which case the call will then
+set the same variables as a call to
+<span class="target" id="index-11-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable(name)</span></code></a> or
+<span class="target" id="index-5-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate(name)</span></code></a>.
+Note that the <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> values can be empty if the
+call is fulfilled by a <a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency provider</span></a>.</p>
+<p>This command is rarely needed when using
+<span class="target" id="index-12-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>.  It is more commonly used as part of
+implementing the following pattern with <span class="target" id="index-6-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a>,
+which ensures that the relevant variables will always be defined regardless
+of whether or not the population has been performed elsewhere in the project
+already:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Check if population has already been performed</span>
+<span class="nf">FetchContent_GetProperties(</span><span class="nb">depname</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="nb">depname_POPULATED</span><span class="nf">)</span>
+<span class="w">  </span><span class="c"># Fetch the content using previously declared details</span>
+<span class="w">  </span><span class="nf">FetchContent_Populate(</span><span class="nb">depname</span><span class="nf">)</span>
+
+<span class="w">  </span><span class="c"># Set custom variables, policies, etc.</span>
+<span class="w">  </span><span class="c"># ...</span>
+
+<span class="w">  </span><span class="c"># Bring the populated content into the build</span>
+<span class="w">  </span><span class="nf">add_subdirectory(</span><span class="o">${</span><span class="nt">depname_SOURCE_DIR</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">depname_BINARY_DIR</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:fetchcontent_setpopulated">
+<span class="sig-name descname"><span class="pre">FetchContent_SetPopulated</span></span><a class="headerlink" href="#command:fetchcontent_setpopulated" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command should only be called by
+<a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency providers</span></a>.  Calling it in any
+other context is unsupported and future CMake versions may halt with a
+fatal error in such cases.</p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_SetPopulated(</span>
+<span class="w">  </span><span class="nv">&lt;name&gt;</span>
+<span class="w">  </span><span class="p">[</span><span class="no">SOURCE_DIR</span><span class="w"> </span><span class="nv">&lt;srcDir&gt;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">BINARY_DIR</span><span class="w"> </span><span class="nv">&lt;binDir&gt;</span><span class="p">]</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>If a provider command fulfills a <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_MAKEAVAILABLE_SERIAL</span></code>
+request, it must call this function before returning.  The <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code>
+and <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> arguments can be used to specify the values that
+<span class="target" id="index-4-command:fetchcontent_getproperties"></span><a class="reference internal" href="#command:fetchcontent_getproperties" title="fetchcontent_getproperties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_GetProperties()</span></code></a> should return for its corresponding
+arguments.  Only provide <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> if they have
+the same meaning as if they had been populated by the built-in
+<span class="target" id="index-13-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> implementation.</p>
+</dd></dl>
+
+</section>
+<section id="variables">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Variables</a><a class="headerlink" href="#variables" title="Permalink to this heading">¶</a></h2>
+<p>A number of cache variables can influence the behavior where details from a
+<span class="target" id="index-9-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> call are used to populate content.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All of these variables are intended for the developer to customize behavior.
+They should not normally be set by the project.</p>
+</div>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_BASE_DIR">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_BASE_DIR</span></span><a class="headerlink" href="#variable:FETCHCONTENT_BASE_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>In most cases, the saved details do not specify any options relating to the
+directories to use for the internal sub-build, final source and build areas.
+It is generally best to leave these decisions up to the <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code>
+module to handle on the project's behalf.  The <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_BASE_DIR</span></code>
+cache variable controls the point under which all content population
+directories are collected, but in most cases, developers would not need to
+change this.  The default location is <code class="docutils literal notranslate"><span class="pre">${CMAKE_BINARY_DIR}/_deps</span></code>, but if
+developers change this value, they should aim to keep the path short and
+just below the top level of the build tree to avoid running into path
+length problems on Windows.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_QUIET">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_QUIET</span></span><a class="headerlink" href="#variable:FETCHCONTENT_QUIET" title="Permalink to this definition">¶</a></dt>
+<dd><p>The logging output during population can be quite verbose, making the
+configure stage quite noisy.  This cache option (<code class="docutils literal notranslate"><span class="pre">ON</span></code> by default) hides
+all population output unless an error is encountered.  If experiencing
+problems with hung downloads, temporarily switching this option off may
+help diagnose which content population is causing the issue.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_FULLY_DISCONNECTED">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_FULLY_DISCONNECTED</span></span><a class="headerlink" href="#variable:FETCHCONTENT_FULLY_DISCONNECTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>When this option is enabled, no attempt is made to download or update
+any content.  It is assumed that all content has already been populated in
+a previous run or the source directories have been pointed at existing
+contents the developer has provided manually (using options described
+further below).  When the developer knows that no changes have been made to
+any content details, turning this option <code class="docutils literal notranslate"><span class="pre">ON</span></code> can significantly speed up
+the configure stage.  It is <code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_FULLY_DISCONNECTED</span></code> variable is not an appropriate way
+to prevent any network access on the first run in a build directory.
+Doing so can break projects, lead to misleading error messages, and hide
+subtle population failures.  This variable is specifically intended to
+only be turned on <em>after</em> the first time CMake has been run.
+If you want to prevent network access even on the first run, use a
+<a class="reference internal" href="../command/cmake_language.html#dependency-providers"><span class="std std-ref">dependency provider</span></a> and populate the
+dependency from local content instead.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_UPDATES_DISCONNECTED">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_UPDATES_DISCONNECTED</span></span><a class="headerlink" href="#variable:FETCHCONTENT_UPDATES_DISCONNECTED" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a less severe download/update control compared to
+<span class="target" id="index-0-variable:FETCHCONTENT_FULLY_DISCONNECTED"></span><a class="reference internal" href="#variable:FETCHCONTENT_FULLY_DISCONNECTED" title="FETCHCONTENT_FULLY_DISCONNECTED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_FULLY_DISCONNECTED</span></code></a>.  Instead of bypassing all
+download and update logic, <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_UPDATES_DISCONNECTED</span></code> only
+prevents the update step from making connections to remote servers
+when using the git or hg download methods.  Updates still occur if details
+about the update step change, but the update is attempted with only the
+information already available locally (so switching to a different tag or
+commit that is already fetched locally will succeed, but switching to an
+unknown commit hash will fail).  The download step is not affected, so if
+content has not been downloaded previously, it will still be downloaded
+when this option is enabled.  This can speed up the configure step, but
+not as much as <span class="target" id="index-1-variable:FETCHCONTENT_FULLY_DISCONNECTED"></span><a class="reference internal" href="#variable:FETCHCONTENT_FULLY_DISCONNECTED" title="FETCHCONTENT_FULLY_DISCONNECTED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_FULLY_DISCONNECTED</span></code></a>.
+<code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_UPDATES_DISCONNECTED</span></code> is <code class="docutils literal notranslate"><span class="pre">OFF</span></code> by default.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></span><a class="headerlink" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>This variable modifies the details that <span class="target" id="index-10-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>
+records for a given dependency.  While it ultimately controls the behavior
+of <span class="target" id="index-14-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>, it is the variable's value when
+<span class="target" id="index-11-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> is called that gets used.  It makes no
+difference what the variable is set to when
+<span class="target" id="index-15-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> is called.  Since the variable should
+only be set by the user and not by projects directly, it will typically have
+the same value throughout anyway, so this distinction is not usually
+noticeable.</p>
+<p><code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code> ultimately controls whether
+<span class="target" id="index-16-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> is allowed to call
+<span class="target" id="index-14-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> to satisfy a dependency.  The variable can be set
+to one of the following values:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OPT_IN</span></code></dt><dd><p><span class="target" id="index-17-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> will only call
+<span class="target" id="index-15-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> if the <span class="target" id="index-12-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> call
+included a <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> keyword.  This is also the default
+behavior if <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code> is not set.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ALWAYS</span></code></dt><dd><p><span class="target" id="index-16-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> can be called by
+<span class="target" id="index-18-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> regardless of whether the
+<span class="target" id="index-13-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> call included a <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code>
+keyword or not.  If no <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> keyword was given, the
+behavior will be as though <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> had been provided,
+with no additional arguments after it.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">NEVER</span></code></dt><dd><p><span class="target" id="index-19-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> will not call
+<span class="target" id="index-17-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>.  Any <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> given to the
+<span class="target" id="index-14-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> call will be ignored.</p>
+</dd>
+</dl>
+<p>As a special case, if the <span class="target" id="index-1-variable:FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;"></span><a class="reference internal" href="#variable:FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;" title="FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;</span></code></a>
+variable has a non-empty value for a dependency, it is assumed that the
+user is overriding all other methods of making that dependency available.
+<code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code> will have no effect on that
+dependency and <span class="target" id="index-20-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> will not try to call
+<span class="target" id="index-18-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> for it.</p>
+</dd></dl>
+
+<p>In addition to the above, the following variables are also defined for each
+content name:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_SOURCE_DIR_&lt;uppercaseName&gt;</span></span><a class="headerlink" href="#variable:FETCHCONTENT_SOURCE_DIR_<uppercaseName>" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this is set, no download or update steps are performed for the specified
+content and the <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_SOURCE_DIR</span></code> variable returned to the
+caller is pointed at this location.  This gives developers a way to have a
+separate checkout of the content that they can modify freely without
+interference from the build.  The build simply uses that existing source,
+but it still defines <code class="docutils literal notranslate"><span class="pre">&lt;lowercaseName&gt;_BINARY_DIR</span></code> to point inside its own
+build area.  Developers are strongly encouraged to use this mechanism rather
+than editing the sources populated in the default location, as changes to
+sources in the default location can be lost when content population details
+are changed by the project.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:FETCHCONTENT_UPDATES_DISCONNECTED_&lt;uppercaseName&gt;">
+<span class="sig-name descname"><span class="pre">FETCHCONTENT_UPDATES_DISCONNECTED_&lt;uppercaseName&gt;</span></span><a class="headerlink" href="#variable:FETCHCONTENT_UPDATES_DISCONNECTED_<uppercaseName>" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the per-content equivalent of
+<span class="target" id="index-0-variable:FETCHCONTENT_UPDATES_DISCONNECTED"></span><a class="reference internal" href="#variable:FETCHCONTENT_UPDATES_DISCONNECTED" title="FETCHCONTENT_UPDATES_DISCONNECTED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_UPDATES_DISCONNECTED</span></code></a>.  If the global option or
+this option is <code class="docutils literal notranslate"><span class="pre">ON</span></code>, then updates for the git and hg methods will not
+contact any remote for the named content.  They will only use information
+already available locally.  Disabling updates for individual content can
+be useful for content whose details rarely change, while still leaving
+other frequently changing content with updates enabled.</p>
+</dd></dl>
+
+</section>
+<section id="examples">
+<span id="fetch-content-examples"></span><h2><a class="toc-backref" href="#id9" role="doc-backlink">Examples</a><a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<section id="typical-case">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Typical Case</a><a class="headerlink" href="#typical-case" title="Permalink to this heading">¶</a></h3>
+<p>This first fairly straightforward example ensures that some popular testing
+frameworks are available to the main build:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">googletest</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/google/googletest.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">703</span><span class="nb">bd9caab50b139428cea1aaff9974ebee5742e</span><span class="w"> </span><span class="c"># release-1.10.0</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">Catch2</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/catchorg/Catch2.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">605</span><span class="nb">a34765aa5d5ecbf476b4598a862ada971b0cc</span><span class="w"> </span><span class="c"># v3.0.1</span>
+<span class="nf">)</span>
+
+<span class="c"># After the following call, the CMake targets defined by googletest and</span>
+<span class="c"># Catch2 will be available to the rest of the build</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="w"> </span><span class="nb">Catch2</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+<section id="integrating-with-find-package">
+<span id="fetchcontent-find-package-integration-examples"></span><h3><a class="toc-backref" href="#id11" role="doc-backlink">Integrating With find_package()</a><a class="headerlink" href="#integrating-with-find-package" title="Permalink to this heading">¶</a></h3>
+<p>For the previous example, if the user wanted to try to find <code class="docutils literal notranslate"><span class="pre">googletest</span></code>
+and <code class="docutils literal notranslate"><span class="pre">Catch2</span></code> via <span class="target" id="index-19-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> first before trying to download
+and build them from source, they could set the
+<span class="target" id="index-4-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> variable to <code class="docutils literal notranslate"><span class="pre">ALWAYS</span></code>.
+This would also affect any other calls to <span class="target" id="index-15-command:fetchcontent_declare"></span><a class="reference internal" href="#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>
+throughout the project, which might not be acceptable.  The behavior can be
+enabled for just these two dependencies instead by adding <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code>
+to the declared details and leaving
+<span class="target" id="index-5-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> unset, or set to <code class="docutils literal notranslate"><span class="pre">OPT_IN</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">googletest</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/google/googletest.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">703</span><span class="nb">bd9caab50b139428cea1aaff9974ebee5742e</span><span class="w"> </span><span class="c"># release-1.10.0</span>
+<span class="w">  </span><span class="no">FIND_PACKAGE_ARGS</span><span class="w"> </span><span class="no">NAMES</span><span class="w"> </span><span class="nb">GTest</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">Catch2</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/catchorg/Catch2.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">605</span><span class="nb">a34765aa5d5ecbf476b4598a862ada971b0cc</span><span class="w"> </span><span class="c"># v3.0.1</span>
+<span class="w">  </span><span class="no">FIND_PACKAGE_ARGS</span>
+<span class="nf">)</span>
+
+<span class="c"># This will try calling find_package() first for both dependencies</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="w"> </span><span class="nb">Catch2</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>For <code class="docutils literal notranslate"><span class="pre">Catch2</span></code>, no additional arguments to <span class="target" id="index-20-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> are needed,
+so no additional arguments are provided after the <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code>
+keyword.  For <code class="docutils literal notranslate"><span class="pre">googletest</span></code>, its package is more commonly called <code class="docutils literal notranslate"><span class="pre">GTest</span></code>,
+so arguments are added to support it being found by that name.</p>
+<p>If the user wanted to disable <span class="target" id="index-21-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> from
+calling <span class="target" id="index-21-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> for any dependency, even if it provided
+<code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> in its declared details, they could set
+<span class="target" id="index-6-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> to <code class="docutils literal notranslate"><span class="pre">NEVER</span></code>.</p>
+<p>If the project wanted to indicate that these two dependencies should be
+downloaded and built from source and that <span class="target" id="index-22-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> calls
+should be redirected to use the built dependencies, the
+<code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> option should be used when declaring the content
+details:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">googletest</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/google/googletest.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">703</span><span class="nb">bd9caab50b139428cea1aaff9974ebee5742e</span><span class="w"> </span><span class="c"># release-1.10.0</span>
+<span class="w">  </span><span class="no">OVERRIDE_FIND_PACKAGE</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">Catch2</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/catchorg/Catch2.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">605</span><span class="nb">a34765aa5d5ecbf476b4598a862ada971b0cc</span><span class="w"> </span><span class="c"># v3.0.1</span>
+<span class="w">  </span><span class="no">OVERRIDE_FIND_PACKAGE</span>
+<span class="nf">)</span>
+
+<span class="c"># The following will automatically forward through to FetchContent_MakeAvailable()</span>
+<span class="nf">find_package(</span><span class="nb">googletest</span><span class="nf">)</span>
+<span class="nf">find_package(</span><span class="nb">Catch2</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>CMake provides a FindGTest module which defines some variables that older
+projects may use instead of linking to the imported targets.  To support
+those cases, we can provide an extra file.  In keeping with the
+&quot;first to define, wins&quot; philosophy of <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code>, we only write out
+that file if something else hasn't already done so.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="no">EXISTS</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/googletest-extra.cmake</span><span class="w"> </span><span class="no">AND</span>
+<span class="w">   </span><span class="no">NOT</span><span class="w"> </span><span class="no">EXISTS</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/googletestExtra.cmake</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">file(</span><span class="no">WRITE</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/googletest-extra.cmake</span>
+<span class="p">[=[</span>
+<span class="nf">if(</span><span class="s">&quot;${GTEST_LIBRARIES}&quot;</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">GTest</span><span class="o">::</span><span class="nb">gtest</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set(</span><span class="no">GTEST_LIBRARIES</span><span class="w"> </span><span class="nb">GTest</span><span class="o">::</span><span class="nb">gtest</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+<span class="nf">if(</span><span class="s">&quot;${GTEST_MAIN_LIBRARIES}&quot;</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">TARGET</span><span class="w"> </span><span class="nb">GTest</span><span class="o">::</span><span class="nb">gtest_main</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set(</span><span class="no">GTEST_MAIN_LIBRARIES</span><span class="w"> </span><span class="nb">GTest</span><span class="o">::</span><span class="nb">gtest_main</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+<span class="nf">if(</span><span class="s">&quot;${GTEST_BOTH_LIBRARIES}&quot;</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set(</span><span class="no">GTEST_BOTH_LIBRARIES</span><span class="w"> </span><span class="o">${</span><span class="nt">GTEST_LIBRARIES</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">GTEST_MAIN_LIBRARIES</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+<span class="p">]=]</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p>Projects will also likely be using <code class="docutils literal notranslate"><span class="pre">find_package(GTest)</span></code> rather than
+<code class="docutils literal notranslate"><span class="pre">find_package(googletest)</span></code>, but it is possible to make use of the
+<span class="target" id="index-4-variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR"></span><a class="reference internal" href="../variable/CMAKE_FIND_PACKAGE_REDIRECTS_DIR.html#variable:CMAKE_FIND_PACKAGE_REDIRECTS_DIR" title="CMAKE_FIND_PACKAGE_REDIRECTS_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span></code></a> area to pull in the latter as
+a dependency of the former.  This is likely to be sufficient to satisfy
+a typical <code class="docutils literal notranslate"><span class="pre">find_package(GTest)</span></code> call.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="no">EXISTS</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/gtest-config.cmake</span><span class="w"> </span><span class="no">AND</span>
+<span class="w">   </span><span class="no">NOT</span><span class="w"> </span><span class="no">EXISTS</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/GTestConfig.cmake</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">file(</span><span class="no">WRITE</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/gtest-config.cmake</span>
+<span class="p">[=[</span>
+<span class="nf">include(</span><span class="nb">CMakeFindDependencyMacro</span><span class="nf">)</span>
+<span class="nf">find_dependency(</span><span class="nb">googletest</span><span class="nf">)</span>
+<span class="p">]=]</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="no">EXISTS</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/gtest-config-version.cmake</span><span class="w"> </span><span class="no">AND</span>
+<span class="w">   </span><span class="no">NOT</span><span class="w"> </span><span class="no">EXISTS</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/GTestConfigVersion.cmake</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">file(</span><span class="no">WRITE</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/gtest-config-version.cmake</span>
+<span class="p">[=[</span>
+<span class="nf">include(</span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/googletest-config-version.cmake</span><span class="w"> </span><span class="no">OPTIONAL</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="no">PACKAGE_VERSION_COMPATIBLE</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">include(</span><span class="o">${</span><span class="nt">CMAKE_FIND_PACKAGE_REDIRECTS_DIR</span><span class="o">}</span><span class="na">/googletestConfigVersion.cmake</span><span class="w"> </span><span class="no">OPTIONAL</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+<span class="p">]=]</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</section>
+<section id="overriding-where-to-find-cmakelists-txt">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Overriding Where To Find CMakeLists.txt</a><a class="headerlink" href="#overriding-where-to-find-cmakelists-txt" title="Permalink to this heading">¶</a></h3>
+<p>If the sub-project's <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file is not at the top level of its
+source tree, the <code class="docutils literal notranslate"><span class="pre">SOURCE_SUBDIR</span></code> option can be used to tell <code class="docutils literal notranslate"><span class="pre">FetchContent</span></code>
+where to find it.  The following example shows how to use that option, and
+it also sets a variable which is meaningful to the subproject before pulling
+it into the main build (set as an <code class="docutils literal notranslate"><span class="pre">INTERNAL</span></code> cache variable to avoid
+problems with policy <span class="target" id="index-0-policy:CMP0077"></span><a class="reference internal" href="../policy/CMP0077.html#policy:CMP0077" title="CMP0077"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0077</span></code></a>):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">protobuf</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/protocolbuffers/protobuf.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">ae50d9b9902526efd6c7a1907d09739f959c6297</span><span class="w"> </span><span class="c"># v3.15.0</span>
+<span class="w">  </span><span class="no">SOURCE_SUBDIR</span><span class="w">  </span><span class="nb">cmake</span>
+<span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">protobuf_BUILD_TESTS</span><span class="w"> </span><span class="no">OFF</span><span class="w"> </span><span class="no">CACHE</span><span class="w"> </span><span class="no">INTERNAL</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="nf">)</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">protobuf</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+<section id="complex-dependency-hierarchies">
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Complex Dependency Hierarchies</a><a class="headerlink" href="#complex-dependency-hierarchies" title="Permalink to this heading">¶</a></h3>
+<p>In more complex project hierarchies, the dependency relationships can be more
+complicated.  Consider a hierarchy where <code class="docutils literal notranslate"><span class="pre">projA</span></code> is the top level project and
+it depends directly on projects <code class="docutils literal notranslate"><span class="pre">projB</span></code> and <code class="docutils literal notranslate"><span class="pre">projC</span></code>.  Both <code class="docutils literal notranslate"><span class="pre">projB</span></code> and
+<code class="docutils literal notranslate"><span class="pre">projC</span></code> can be built standalone and they also both depend on another project
+<code class="docutils literal notranslate"><span class="pre">projD</span></code>.  <code class="docutils literal notranslate"><span class="pre">projB</span></code> additionally depends on <code class="docutils literal notranslate"><span class="pre">projE</span></code>.  This example assumes
+that all five projects are available on a company git server.  The
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> of each project might have sections like the following:</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text"><em>projA</em></span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projB</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projB.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">4</span><span class="nb">a89dc7e24ff212a7b5167bef7ab079d</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projC</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projC.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">4</span><span class="nb">ad4016bd1d8d5412d135cf8ceea1bb9</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projD</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projD.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="na">origin/integrationBranch</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projE</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projE.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">v2.3-rc1</span>
+<span class="nf">)</span>
+
+<span class="c"># Order is important, see notes in the discussion further below</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">projD</span><span class="w"> </span><span class="nb">projB</span><span class="w"> </span><span class="nb">projC</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text"><em>projB</em></span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projD</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projD.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">20</span><span class="nb">b415f9034bbd2a2e8216e9a5c9e632</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projE</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projE.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">68</span><span class="nb">e20f674a48be38d60e129f600faf7d</span>
+<span class="nf">)</span>
+
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">projD</span><span class="w"> </span><span class="nb">projE</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text"><em>projC</em></span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">projD</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">git@mycompany.com:git/projD.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="m">7</span><span class="nb">d9a17ad2c962aa13e2fbb8043fb6b8a</span>
+<span class="nf">)</span>
+
+<span class="c"># This particular version of projD requires workarounds</span>
+<span class="nf">FetchContent_GetProperties(</span><span class="nb">projD</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">NOT</span><span class="w"> </span><span class="nb">projd_POPULATED</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">FetchContent_Populate(</span><span class="nb">projD</span><span class="nf">)</span>
+
+<span class="w">  </span><span class="c"># Copy an additional/replacement file into the populated source</span>
+<span class="w">  </span><span class="nf">file(</span><span class="no">COPY</span><span class="w"> </span><span class="nb">someFile.c</span><span class="w"> </span><span class="no">DESTINATION</span><span class="w"> </span><span class="o">${</span><span class="nt">projd_SOURCE_DIR</span><span class="o">}</span><span class="na">/src</span><span class="nf">)</span>
+
+<span class="w">  </span><span class="nf">add_subdirectory(</span><span class="o">${</span><span class="nt">projd_SOURCE_DIR</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">projd_BINARY_DIR</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</div>
+<p>A few key points should be noted in the above:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">projB</span></code> and <code class="docutils literal notranslate"><span class="pre">projC</span></code> define different content details for <code class="docutils literal notranslate"><span class="pre">projD</span></code>,
+but <code class="docutils literal notranslate"><span class="pre">projA</span></code> also defines a set of content details for <code class="docutils literal notranslate"><span class="pre">projD</span></code>.
+Because <code class="docutils literal notranslate"><span class="pre">projA</span></code> will define them first, the details from <code class="docutils literal notranslate"><span class="pre">projB</span></code> and
+<code class="docutils literal notranslate"><span class="pre">projC</span></code> will not be used.  The override details defined by <code class="docutils literal notranslate"><span class="pre">projA</span></code>
+are not required to match either of those from <code class="docutils literal notranslate"><span class="pre">projB</span></code> or <code class="docutils literal notranslate"><span class="pre">projC</span></code>, but
+it is up to the higher level project to ensure that the details it does
+define still make sense for the child projects.</p></li>
+<li><p>In the <code class="docutils literal notranslate"><span class="pre">projA</span></code> call to <span class="target" id="index-22-command:fetchcontent_makeavailable"></span><a class="reference internal" href="#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>, <code class="docutils literal notranslate"><span class="pre">projD</span></code>
+is listed ahead of <code class="docutils literal notranslate"><span class="pre">projB</span></code> and <code class="docutils literal notranslate"><span class="pre">projC</span></code> to ensure that <code class="docutils literal notranslate"><span class="pre">projA</span></code> is in
+control of how <code class="docutils literal notranslate"><span class="pre">projD</span></code> is populated.</p></li>
+<li><p>While <code class="docutils literal notranslate"><span class="pre">projA</span></code> defines content details for <code class="docutils literal notranslate"><span class="pre">projE</span></code>, it does not need
+to explicitly call <code class="docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable(projE)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">FetchContent_Populate(projD)</span></code> itself.  Instead, it leaves that to the
+child <code class="docutils literal notranslate"><span class="pre">projB</span></code>.  For higher level projects, it is often enough to just
+define the override content details and leave the actual population to the
+child projects.  This saves repeating the same thing at each level of the
+project hierarchy unnecessarily.</p></li>
+</ul>
+</section>
+<section id="populating-content-without-adding-it-to-the-build">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Populating Content Without Adding It To The Build</a><a class="headerlink" href="#populating-content-without-adding-it-to-the-build" title="Permalink to this heading">¶</a></h3>
+<p>Projects don't always need to add the populated content to the build.
+Sometimes the project just wants to make the downloaded content available at
+a predictable location.  The next example ensures that a set of standard
+company toolchain files (and potentially even the toolchain binaries
+themselves) is available early enough to be used for that same build.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.14</span><span class="nf">)</span>
+
+<span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">mycom_toolchains</span>
+<span class="w">  </span><span class="no">URL</span><span class="w">  </span><span class="na">https://intranet.mycompany.com//toolchains_1.3.2.tar.gz</span>
+<span class="nf">)</span>
+<span class="nf">FetchContent_MakeAvailable(</span><span class="nb">mycom_toolchains</span><span class="nf">)</span>
+
+<span class="nf">project(</span><span class="nb">CrossCompileExample</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The project could be configured to use one of the downloaded toolchains like
+so:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>cmake<span class="w"> </span>-DCMAKE_TOOLCHAIN_FILE<span class="o">=</span>_deps/mycom_toolchains-src/toolchain_arm.cmake<span class="w"> </span>/path/to/src
+</pre></div>
+</div>
+<p>When CMake processes the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file, it will download and unpack
+the tarball into <code class="docutils literal notranslate"><span class="pre">_deps/mycompany_toolchains-src</span></code> relative to the build
+directory.  The <span class="target" id="index-0-variable:CMAKE_TOOLCHAIN_FILE"></span><a class="reference internal" href="../variable/CMAKE_TOOLCHAIN_FILE.html#variable:CMAKE_TOOLCHAIN_FILE" title="CMAKE_TOOLCHAIN_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code></a> variable is not used until
+the <span class="target" id="index-1-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> command is reached, at which point CMake looks for the
+named toolchain file relative to the build directory.  Because the tarball has
+already been downloaded and unpacked by then, the toolchain file will be in
+place, even the very first time that <strong class="program">cmake</strong> is run in the build directory.</p>
+</section>
+<section id="populating-content-in-cmake-script-mode">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Populating Content In CMake Script Mode</a><a class="headerlink" href="#populating-content-in-cmake-script-mode" title="Permalink to this heading">¶</a></h3>
+<p>This last example demonstrates how one might download and unpack a
+firmware tarball using CMake's <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">script</span> <span class="pre">mode</span></code></a>.  The call to
+<span class="target" id="index-7-command:fetchcontent_populate"></span><a class="reference internal" href="#command:fetchcontent_populate" title="fetchcontent_populate"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Populate()</span></code></a> specifies all the content details and the
+unpacked firmware will be placed in a <code class="docutils literal notranslate"><span class="pre">firmware</span></code> directory below the
+current working directory.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text"><code class="file docutils literal notranslate"><span class="pre">getFirmware.cmake</span></code></span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># NOTE: Intended to be run in script mode with cmake -P</span>
+<span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Populate(</span>
+<span class="w">  </span><span class="nb">firmware</span>
+<span class="w">  </span><span class="no">URL</span><span class="w">        </span><span class="na">https://mycompany.com/assets/firmware-1.23-arm.tar.gz</span>
+<span class="w">  </span><span class="no">URL_HASH</span><span class="w">   </span><span class="no">MD5</span><span class="p">=</span><span class="m">68247684</span><span class="nb">da89b608d466253762b0ff11</span>
+<span class="w">  </span><span class="no">SOURCE_DIR</span><span class="w"> </span><span class="nb">firmware</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">FetchContent</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#commands">Commands</a></li>
+<li><a class="reference internal" href="#variables">Variables</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#typical-case">Typical Case</a></li>
+<li><a class="reference internal" href="#integrating-with-find-package">Integrating With find_package()</a></li>
+<li><a class="reference internal" href="#overriding-where-to-find-cmakelists-txt">Overriding Where To Find CMakeLists.txt</a></li>
+<li><a class="reference internal" href="#complex-dependency-hierarchies">Complex Dependency Hierarchies</a></li>
+<li><a class="reference internal" href="#populating-content-without-adding-it-to-the-build">Populating Content Without Adding It To The Build</a></li>
+<li><a class="reference internal" href="#populating-content-in-cmake-script-mode">Populating Content In CMake Script Mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="FeatureSummary.html"
+                          title="previous chapter">FeatureSummary</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindPackageHandleStandardArgs.html"
+                          title="next chapter">FindPackageHandleStandardArgs</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/FetchContent.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="FindPackageHandleStandardArgs.html" title="FindPackageHandleStandardArgs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FeatureSummary.html" title="FeatureSummary"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FetchContent</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

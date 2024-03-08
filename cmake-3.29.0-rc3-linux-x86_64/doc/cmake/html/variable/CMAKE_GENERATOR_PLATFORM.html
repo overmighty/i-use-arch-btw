@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_GENERATOR_PLATFORM &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_GENERATOR_TOOLSET" href="CMAKE_GENERATOR_TOOLSET.html" />
+    <link rel="prev" title="CMAKE_GENERATOR_INSTANCE" href="CMAKE_GENERATOR_INSTANCE.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_GENERATOR_TOOLSET.html" title="CMAKE_GENERATOR_TOOLSET"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_GENERATOR_INSTANCE.html" title="CMAKE_GENERATOR_INSTANCE"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_GENERATOR_PLATFORM</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-generator-platform">
+<span id="variable:CMAKE_GENERATOR_PLATFORM"></span><h1>CMAKE_GENERATOR_PLATFORM<a class="headerlink" href="#cmake-generator-platform" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Generator-specific target platform specification provided by user.</p>
+<p>Some CMake generators support a target platform name to be given
+to the native build system to choose a compiler toolchain.
+If the user specifies a platform name (e.g. via the <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-A"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-A</span></code></a>
+option or via the <span class="target" id="index-0-envvar:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="../envvar/CMAKE_GENERATOR_PLATFORM.html#envvar:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a> environment variable)
+the value will be available in this variable.</p>
+<p>The value of this variable should never be modified by project code.
+A toolchain file specified by the <span class="target" id="index-0-variable:CMAKE_TOOLCHAIN_FILE"></span><a class="reference internal" href="CMAKE_TOOLCHAIN_FILE.html#variable:CMAKE_TOOLCHAIN_FILE" title="CMAKE_TOOLCHAIN_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_TOOLCHAIN_FILE</span></code></a>
+variable may initialize <code class="docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code>.  Once a given
+build tree has been initialized with a particular value for this
+variable, changing the value has undefined behavior.</p>
+<p>Platform specification is supported only on specific generators:</p>
+<ul class="simple">
+<li><p>For <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> with VS 2005 and above this
+specifies the target architecture.</p></li>
+<li><p>For <span class="target" id="index-0-generator:Green Hills MULTI"></span><a class="reference internal" href="../generator/Green%20Hills%20MULTI.html#generator:Green Hills MULTI" title="Green Hills MULTI"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Green</span> <span class="pre">Hills</span> <span class="pre">MULTI</span></code></a> this specifies the target architecture.</p></li>
+</ul>
+<p>See native build system documentation for allowed platform names.</p>
+<section id="visual-studio-platform-selection">
+<span id="id1"></span><h2>Visual Studio Platform Selection<a class="headerlink" href="#visual-studio-platform-selection" title="Permalink to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> support platform specification
+using one of these forms:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">platform</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">platform[,key=value]*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key=value[,key=value]*</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">platform</span></code> specifies the target platform (VS target architecture),
+such as <code class="docutils literal notranslate"><span class="pre">x64</span></code>, <code class="docutils literal notranslate"><span class="pre">ARM64</span></code>, or <code class="docutils literal notranslate"><span class="pre">Win32</span></code>.  The selected platform
+name is provided in the <span class="target" id="index-0-variable:CMAKE_VS_PLATFORM_NAME"></span><a class="reference internal" href="CMAKE_VS_PLATFORM_NAME.html#variable:CMAKE_VS_PLATFORM_NAME" title="CMAKE_VS_PLATFORM_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VS_PLATFORM_NAME</span></code></a> variable.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">key=value</span></code> pairs form a comma-separated list of options to
+specify generator-specific details of the platform selection.
+Supported pairs are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">version=&lt;version&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.27.</span></p>
+</div>
+<p>Specify the Windows SDK version to use.  This is supported by VS 2015 and
+above when targeting Windows or Windows Store.  CMake will set the
+<span class="target" id="index-0-variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION"></span><a class="reference internal" href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION.html#variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION</span></code></a> variable to the
+selected SDK version.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> may be one of:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">10.0</span></code></dt><dd><p>Specify that any 10.0 SDK version may be used, and let Visual Studio
+pick one.  This is supported by VS 2019 and above.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">10.0.&lt;build&gt;.&lt;increment&gt;</span></code></dt><dd><p>Specify the exact 4-component SDK version, e.g., <code class="docutils literal notranslate"><span class="pre">10.0.19041.0</span></code>.
+The specified version of the SDK must be installed.  It may not exceed
+the value of <span class="target" id="index-0-variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM"></span><a class="reference internal" href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM.html#variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM</span></code></a>,
+if that variable is set.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">8.1</span></code></dt><dd><p>Specify the 8.1 SDK version.  This is always supported by VS 2015.
+On VS 2017 and above the 8.1 SDK must be installed.</p>
+</dd>
+</dl>
+<p>If the <code class="docutils literal notranslate"><span class="pre">version</span></code> field is not specified, CMake selects a version as
+described in the <span class="target" id="index-1-variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION"></span><a class="reference internal" href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION.html#variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION</span></code></a>
+variable documentation.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CMAKE_GENERATOR_PLATFORM</a><ul>
+<li><a class="reference internal" href="#visual-studio-platform-selection">Visual Studio Platform Selection</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_GENERATOR_INSTANCE.html"
+                          title="previous chapter">CMAKE_GENERATOR_INSTANCE</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_GENERATOR_TOOLSET.html"
+                          title="next chapter">CMAKE_GENERATOR_TOOLSET</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_GENERATOR_PLATFORM.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_GENERATOR_TOOLSET.html" title="CMAKE_GENERATOR_TOOLSET"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_GENERATOR_INSTANCE.html" title="CMAKE_GENERATOR_INSTANCE"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_GENERATOR_PLATFORM</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMP0116 &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMP0115" href="CMP0115.html" />
+    <link rel="prev" title="CMP0117" href="CMP0117.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMP0115.html" title="CMP0115"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMP0117.html" title="CMP0117"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0116</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmp0116">
+<span id="policy:CMP0116"></span><h1>CMP0116<a class="headerlink" href="#cmp0116" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>Ninja generators transform <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> s from <span class="target" id="index-0-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a>.</p>
+<p>In CMake 3.19 and below, files given to the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> argument of
+<span class="target" id="index-1-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> were passed directly to Ninja's <code class="docutils literal notranslate"><span class="pre">depfile</span></code>
+variable without any path resolution. This meant that if
+<span class="target" id="index-2-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> was called from a subdirectory (created by
+<span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>), the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> argument would have to be either
+an absolute path or a path relative to <span class="target" id="index-0-variable:CMAKE_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>, rather
+than <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>. In addition, no transformation was
+done on the file listed in <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code>, which meant that the paths within the
+<code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> had the same restrictions.</p>
+<p>Starting with CMake 3.20, the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> argument is relative to
+<span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a> (unless it is absolute), and the paths in
+the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> are also relative to <span class="target" id="index-2-variable:CMAKE_CURRENT_BINARY_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>.
+CMake automatically transforms the paths in the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> (unless they are
+absolute) after the custom command is run. The file listed in <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> is
+not modified in any way. Instead, CMake writes the transformation to its own
+internal file, and passes this internal file to Ninja's <code class="docutils literal notranslate"><span class="pre">depfile</span></code> variable.
+This transformation happens regardless of whether or not <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> is
+relative, and regardless of whether or not <span class="target" id="index-3-command:add_custom_command"></span><a class="reference internal" href="../command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> is
+called from a subdirectory.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to pass the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> to Ninja
+unaltered. The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior for this policy is to transform the <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code>
+after running the custom command. The status of <code class="docutils literal notranslate"><span class="pre">CMP0116</span></code> is recorded at the
+time of the custom command's creation, and you can have custom commands in the
+same directory with different values for <code class="docutils literal notranslate"><span class="pre">CMP0116</span></code> by setting the policy
+before each custom command.</p>
+<p>This policy was introduced in CMake version 3.20.
+It may be set by <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> or <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required()</span></code></a>.
+If it is not set, CMake does <em>not</em> warn by default (unless <code class="docutils literal notranslate"><span class="pre">DEPFILE</span></code> is used in a subdirectory), and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<p>See documentation of the
+<span class="target" id="index-0-variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"></span><a class="reference internal" href="../variable/CMAKE_POLICY_WARNING_CMPNNNN.html#variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_WARNING_CMP0116</span></code></a>
+variable to control the warning.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"></span><a class="reference internal" href="../manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMP0117.html"
+                          title="previous chapter">CMP0117</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMP0115.html"
+                          title="next chapter">CMP0115</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/policy/CMP0116.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMP0115.html" title="CMP0115"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMP0117.html" title="CMP0117"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0116</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

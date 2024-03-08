@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMP0120 &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMP0119" href="CMP0119.html" />
+    <link rel="prev" title="CMP0121" href="CMP0121.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMP0119.html" title="CMP0119"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMP0121.html" title="CMP0121"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0120</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmp0120">
+<span id="policy:CMP0120"></span><h1>CMP0120<a class="headerlink" href="#cmp0120" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>The <span class="target" id="index-0-module:WriteCompilerDetectionHeader"></span><a class="reference internal" href="../module/WriteCompilerDetectionHeader.html#module:WriteCompilerDetectionHeader" title="WriteCompilerDetectionHeader"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">WriteCompilerDetectionHeader</span></code></a> module is removed.</p>
+<p>CMake versions 3.1 through 3.19 provide this module to generate a
+C++ compatibility layer by re-using information from CMake's table of
+preprocessor checks for <span class="target" id="index-0-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a>.  However:</p>
+<ul class="simple">
+<li><p>Those granular features have been superseded by meta-features for
+<a class="reference internal" href="../manual/cmake-compile-features.7.html#requiring-language-standards"><span class="std std-ref">Requiring Language Standards</span></a> such as <code class="docutils literal notranslate"><span class="pre">cxx_std_11</span></code>.  Therefore
+no new granular feature checks will be added and projects will need to
+use other means to conditionally use new C++ features.</p></li>
+<li><p>The module exposes some of CMake's implementation details directly
+to C++ translation units.</p></li>
+<li><p>The module's approach effectively provides a header file with CMake,
+thus tying the version of the header to the version of CMake.
+Many projects found that the <span class="target" id="index-1-module:WriteCompilerDetectionHeader"></span><a class="reference internal" href="../module/WriteCompilerDetectionHeader.html#module:WriteCompilerDetectionHeader" title="WriteCompilerDetectionHeader"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">WriteCompilerDetectionHeader</span></code></a> was
+best used by manually generating its header locally with a recent version
+of CMake and then bundling it with the project source so that it could
+be used with older CMake versions.</p></li>
+</ul>
+<p>For reasons including the above, CMake 3.20 and above prefer to not
+provide the <span class="target" id="index-2-module:WriteCompilerDetectionHeader"></span><a class="reference internal" href="../module/WriteCompilerDetectionHeader.html#module:WriteCompilerDetectionHeader" title="WriteCompilerDetectionHeader"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">WriteCompilerDetectionHeader</span></code></a> module.  This policy
+provides compatibility for projects that have not been ported away from
+it.  Projects using the module should be updated to stop using it.
+Alternatives include:</p>
+<ul class="simple">
+<li><p>Bundle a copy of the generated header in the project's source.</p></li>
+<li><p>Use a third-party alternative, such as the CC0-licensed <a class="reference external" href="https://nemequ.github.io/hedley/">Hedley</a>.</p></li>
+<li><p>Drop support for compilers too old to provide the features natively.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of this policy is for inclusion of the deprecated
+<span class="target" id="index-3-module:WriteCompilerDetectionHeader"></span><a class="reference internal" href="../module/WriteCompilerDetectionHeader.html#module:WriteCompilerDetectionHeader" title="WriteCompilerDetectionHeader"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">WriteCompilerDetectionHeader</span></code></a> module to work.  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+behavior is for inclusion of the module to fail as if it does not exist.</p>
+<p>This policy was introduced in CMake version 3.20.
+It may be set by <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> or <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required()</span></code></a>.
+If it is not set, CMake warns, and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"></span><a class="reference internal" href="../manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMP0121.html"
+                          title="previous chapter">CMP0121</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMP0119.html"
+                          title="next chapter">CMP0119</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/policy/CMP0120.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMP0119.html" title="CMP0119"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMP0121.html" title="CMP0121"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0120</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

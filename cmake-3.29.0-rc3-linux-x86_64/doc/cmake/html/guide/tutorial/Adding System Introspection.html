@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 7: Adding System Introspection &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 8: Adding a Custom Command and Generated File" href="Adding%20a%20Custom%20Command%20and%20Generated%20File.html" />
+    <link rel="prev" title="Step 6: Adding Support for a Testing Dashboard" href="Adding%20Support%20for%20a%20Testing%20Dashboard.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Adding%20a%20Custom%20Command%20and%20Generated%20File.html" title="Step 8: Adding a Custom Command and Generated File"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20Support%20for%20a%20Testing%20Dashboard.html" title="Step 6: Adding Support for a Testing Dashboard"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 7: Adding System Introspection</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-7-adding-system-introspection">
+<span id="guide:tutorial/Adding System Introspection"></span><h1>Step 7: Adding System Introspection<a class="headerlink" href="#step-7-adding-system-introspection" title="Permalink to this heading">¶</a></h1>
+<p>Let us consider adding some code to our project that depends on features the
+target platform may not have. For this example, we will add some code that
+depends on whether or not the target platform has the <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code>
+functions. Of course almost every platform has these functions but for this
+tutorial assume that they are not common.</p>
+<section id="exercise-1-assessing-dependency-availability">
+<h2>Exercise 1 - Assessing Dependency Availability<a class="headerlink" href="#exercise-1-assessing-dependency-availability" title="Permalink to this heading">¶</a></h2>
+<section id="goal">
+<h3>Goal<a class="headerlink" href="#goal" title="Permalink to this heading">¶</a></h3>
+<p>Change implementation based on available system dependencies.</p>
+</section>
+<section id="helpful-resources">
+<h3>Helpful Resources<a class="headerlink" href="#helpful-resources" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><span class="target" id="index-0-module:CheckCXXSourceCompiles"></span><a class="reference internal" href="../../module/CheckCXXSourceCompiles.html#module:CheckCXXSourceCompiles" title="CheckCXXSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckCXXSourceCompiles</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_compile_definitions"></span><a class="reference internal" href="../../command/target_compile_definitions.html#command:target_compile_definitions" title="target_compile_definitions"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_definitions()</span></code></a></p></li>
+</ul>
+</section>
+<section id="files-to-edit">
+<h3>Files to Edit<a class="headerlink" href="#files-to-edit" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MathFunctions/mysqrt.cxx</span></code></p></li>
+</ul>
+</section>
+<section id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h3>
+<p>The starting source code is provided in the <code class="docutils literal notranslate"><span class="pre">Step7</span></code> directory. In this
+exercise, complete <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">1</span></code> through <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">5</span></code>.</p>
+<p>Start by editing <code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code>. Include the
+<span class="target" id="index-1-module:CheckCXXSourceCompiles"></span><a class="reference internal" href="../../module/CheckCXXSourceCompiles.html#module:CheckCXXSourceCompiles" title="CheckCXXSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckCXXSourceCompiles</span></code></a> module. Then, use
+<code class="docutils literal notranslate"><span class="pre">check_cxx_source_compiles</span></code> to determine whether <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> are
+available from <code class="docutils literal notranslate"><span class="pre">cmath</span></code>. If they are available, use
+<span class="target" id="index-1-command:target_compile_definitions"></span><a class="reference internal" href="../../command/target_compile_definitions.html#command:target_compile_definitions" title="target_compile_definitions"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_definitions()</span></code></a> to specify <code class="docutils literal notranslate"><span class="pre">HAVE_LOG</span></code> and <code class="docutils literal notranslate"><span class="pre">HAVE_EXP</span></code>
+as compile definitions.</p>
+<p>In the <code class="docutils literal notranslate"><span class="pre">MathFunctions/mysqrt.cxx</span></code>, include <code class="docutils literal notranslate"><span class="pre">cmath</span></code>. Then, if the system has
+<code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code>, use them to compute the square root.</p>
+</section>
+<section id="build-and-run">
+<h3>Build and Run<a class="headerlink" href="#build-and-run" title="Permalink to this heading">¶</a></h3>
+<p>Make a new directory called <code class="docutils literal notranslate"><span class="pre">Step7_build</span></code>. Run the
+<span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a> executable or the
+<span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="../../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui</span></code></a> to configure the project and then build it
+with your chosen build tool and run the <code class="docutils literal notranslate"><span class="pre">Tutorial</span></code> executable.</p>
+<p>This can look like the following:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir Step7_build</span>
+<span class="go">cd Step7_build</span>
+<span class="go">cmake ../Step7</span>
+<span class="go">cmake --build .</span>
+</pre></div>
+</div>
+<p>Which function gives better results now, <code class="docutils literal notranslate"><span class="pre">sqrt</span></code> or <code class="docutils literal notranslate"><span class="pre">mysqrt</span></code>?</p>
+</section>
+<section id="solution">
+<h3>Solution<a class="headerlink" href="#solution" title="Permalink to this heading">¶</a></h3>
+<p>In this exercise we will use functions from the
+<span class="target" id="index-2-module:CheckCXXSourceCompiles"></span><a class="reference internal" href="../../module/CheckCXXSourceCompiles.html#module:CheckCXXSourceCompiles" title="CheckCXXSourceCompiles"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CheckCXXSourceCompiles</span></code></a> module so first we must include it in
+<code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code>.</p>
+<details><summary>TODO 1: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-include-check-cxx-source-compiles">
+<div class="code-block-caption"><span class="caption-text">TODO 1: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-include-check-cxx-source-compiles" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">include(</span><span class="nb">CheckCXXSourceCompiles</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Then test for the availability of
+<code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> using <code class="docutils literal notranslate"><span class="pre">check_cxx_compiles_source</span></code>. This function
+lets us try compiling simple code with the required dependency prior to
+the true source code compilation. The resulting variables <code class="docutils literal notranslate"><span class="pre">HAVE_LOG</span></code>
+and <code class="docutils literal notranslate"><span class="pre">HAVE_EXP</span></code> represent whether those dependencies are available.</p>
+<details><summary>TODO 2: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-check-cxx-source-compiles">
+<div class="code-block-caption"><span class="caption-text">TODO 2: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-check-cxx-source-compiles" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">check_cxx_source_compiles(</span><span class="s">&quot;</span>
+<span class="s">    #include &lt;cmath&gt;</span>
+<span class="s">    int main() {</span>
+<span class="s">      std::log(1.0);</span>
+<span class="s">      return 0;</span>
+<span class="s">    }</span>
+<span class="s">  &quot;</span><span class="w"> </span><span class="no">HAVE_LOG</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">check_cxx_source_compiles(</span><span class="s">&quot;</span>
+<span class="s">    #include &lt;cmath&gt;</span>
+<span class="s">    int main() {</span>
+<span class="s">      std::exp(1.0);</span>
+<span class="s">      return 0;</span>
+<span class="s">    }</span>
+<span class="s">  &quot;</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details><p>Next, we need to pass these CMake variables to our source code. This way,
+our source code can tell what resources are available. If both <code class="docutils literal notranslate"><span class="pre">log</span></code> and
+<code class="docutils literal notranslate"><span class="pre">exp</span></code> are available, use <span class="target" id="index-2-command:target_compile_definitions"></span><a class="reference internal" href="../../command/target_compile_definitions.html#command:target_compile_definitions" title="target_compile_definitions"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_definitions()</span></code></a> to specify
+<code class="docutils literal notranslate"><span class="pre">HAVE_LOG</span></code> and <code class="docutils literal notranslate"><span class="pre">HAVE_EXP</span></code> as <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> compile definitions.</p>
+<details><summary>TODO 3: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-target-compile-definitions">
+<div class="code-block-caption"><span class="caption-text">TODO 3: MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-target-compile-definitions" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="nf">if(</span><span class="no">HAVE_LOG</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">HAVE_EXP</span><span class="nf">)</span>
+<span class="w">    </span><span class="nf">target_compile_definitions(</span><span class="nb">SqrtLibrary</span>
+<span class="w">                               </span><span class="no">PRIVATE</span><span class="w"> </span><span class="s">&quot;HAVE_LOG&quot;</span><span class="w"> </span><span class="s">&quot;HAVE_EXP&quot;</span>
+<span class="w">                               </span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">endif()</span>
+
+<span class="w">  </span><span class="nf">target_link_libraries(</span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">SqrtLibrary</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</div>
+</details><p>Since we may be using <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code>, we need to modify
+<code class="docutils literal notranslate"><span class="pre">mysqrt.cxx</span></code> to include <code class="docutils literal notranslate"><span class="pre">cmath</span></code>.</p>
+<details><summary>TODO 4: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-mysqrt-cxx-include-cmath">
+<div class="code-block-caption"><span class="caption-text">TODO 4: MathFunctions/mysqrt.cxx</span><a class="headerlink" href="#mathfunctions-mysqrt-cxx-include-cmath" title="Permalink to this code">¶</a></div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cmath&gt;</span>
+</pre></div>
+</div>
+</div>
+</details><p>If <code class="docutils literal notranslate"><span class="pre">log</span></code> and <code class="docutils literal notranslate"><span class="pre">exp</span></code> are available on the system, then use them to
+compute the square root in the <code class="docutils literal notranslate"><span class="pre">mysqrt</span></code> function. The <code class="docutils literal notranslate"><span class="pre">mysqrt</span></code> function in
+<code class="docutils literal notranslate"><span class="pre">MathFunctions/mysqrt.cxx</span></code> will look as follows:</p>
+<details><summary>TODO 5: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="mathfunctions-mysqrt-cxx-ifdef">
+<div class="code-block-caption"><span class="caption-text">TODO 5: MathFunctions/mysqrt.cxx</span><a class="headerlink" href="#mathfunctions-mysqrt-cxx-ifdef" title="Permalink to this code">¶</a></div>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#if defined(HAVE_LOG) &amp;&amp; defined(HAVE_EXP)</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">exp</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">0.5</span><span class="p">);</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Computing sqrt of &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; to be &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">result</span>
+<span class="w">            </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; using log and exp&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="cp">#else</span>
+<span class="w">  </span><span class="kt">double</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// do ten iterations</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Computing sqrt of &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; to be &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Step 7: Adding System Introspection</a><ul>
+<li><a class="reference internal" href="#exercise-1-assessing-dependency-availability">Exercise 1 - Assessing Dependency Availability</a><ul>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+<li><a class="reference internal" href="#helpful-resources">Helpful Resources</a></li>
+<li><a class="reference internal" href="#files-to-edit">Files to Edit</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#build-and-run">Build and Run</a></li>
+<li><a class="reference internal" href="#solution">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Adding%20Support%20for%20a%20Testing%20Dashboard.html"
+                          title="previous chapter">Step 6: Adding Support for a Testing Dashboard</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Adding%20a%20Custom%20Command%20and%20Generated%20File.html"
+                          title="next chapter">Step 8: Adding a Custom Command and Generated File</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Adding System Introspection.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Adding%20a%20Custom%20Command%20and%20Generated%20File.html" title="Step 8: Adding a Custom Command and Generated File"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20Support%20for%20a%20Testing%20Dashboard.html" title="Step 6: Adding Support for a Testing Dashboard"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 7: Adding System Introspection</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

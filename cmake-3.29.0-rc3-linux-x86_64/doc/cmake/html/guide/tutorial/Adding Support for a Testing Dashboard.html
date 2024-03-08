@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 6: Adding Support for a Testing Dashboard &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 7: Adding System Introspection" href="Adding%20System%20Introspection.html" />
+    <link rel="prev" title="Step 5: Installing and Testing" href="Installing%20and%20Testing.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Adding%20System%20Introspection.html" title="Step 7: Adding System Introspection"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Installing%20and%20Testing.html" title="Step 5: Installing and Testing"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 6: Adding Support for a Testing Dashboard</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-6-adding-support-for-a-testing-dashboard">
+<span id="guide:tutorial/Adding Support for a Testing Dashboard"></span><h1>Step 6: Adding Support for a Testing Dashboard<a class="headerlink" href="#step-6-adding-support-for-a-testing-dashboard" title="Permalink to this heading">¶</a></h1>
+<p>Adding support for submitting our test results to a dashboard is simple. We
+already defined a number of tests for our project in
+<a class="reference internal" href="Installing%20and%20Testing.html#tutorial-testing-support"><span class="std std-ref">Testing Support</span></a>. Now we just have to run
+those tests and submit them to CDash.</p>
+<section id="exercise-1-send-results-to-a-testing-dashboard">
+<h2>Exercise 1 - Send Results to a Testing Dashboard<a class="headerlink" href="#exercise-1-send-results-to-a-testing-dashboard" title="Permalink to this heading">¶</a></h2>
+<section id="goal">
+<h3>Goal<a class="headerlink" href="#goal" title="Permalink to this heading">¶</a></h3>
+<p>Display our CTest results with CDash.</p>
+</section>
+<section id="helpful-resources">
+<h3>Helpful Resources<a class="headerlink" href="#helpful-resources" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><span class="target" id="index-0-manual:ctest(1)"></span><a class="reference internal" href="../../manual/ctest.1.html#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest(1)</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:include"></span><a class="reference internal" href="../../command/include.html#command:include" title="include"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">include()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-module:CTest"></span><a class="reference internal" href="../../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a></p></li>
+</ul>
+</section>
+<section id="files-to-edit">
+<h3>Files to Edit<a class="headerlink" href="#files-to-edit" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code></p></li>
+</ul>
+</section>
+<section id="getting-started">
+<h3>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this heading">¶</a></h3>
+<p>For this exercise, complete <code class="docutils literal notranslate"><span class="pre">TODO</span> <span class="pre">1</span></code> in the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> by
+including the <span class="target" id="index-1-module:CTest"></span><a class="reference internal" href="../../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module. This will enable testing with CTest as
+well as dashboard submissions to CDash, so we can safely remove the call to
+<span class="target" id="index-0-command:enable_testing"></span><a class="reference internal" href="../../command/enable_testing.html#command:enable_testing" title="enable_testing"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_testing()</span></code></a>.</p>
+<p>We will also need to acquire a <code class="docutils literal notranslate"><span class="pre">CTestConfig.cmake</span></code> file to be placed in the
+top-level directory. When run, the <span class="target" id="index-1-manual:ctest(1)"></span><a class="reference internal" href="../../manual/ctest.1.html#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest</span></code></a> executable will
+read this file to gather information about the testing dashboard. It contains:</p>
+<ul class="simple">
+<li><p>The project name</p></li>
+<li><p>The project &quot;Nightly&quot; start time</p>
+<ul>
+<li><p>The time when a 24 hour &quot;day&quot; starts for this project.</p></li>
+</ul>
+</li>
+<li><p>The URL of the CDash instance where the submission's generated documents
+will be sent</p></li>
+</ul>
+<p>For this tutorial, a public dashboard server is used and its corresponding
+<code class="docutils literal notranslate"><span class="pre">CTestConfig.cmake</span></code> file is provided for you in this step's root directory.
+In practice, this file would be downloaded from a project's <code class="docutils literal notranslate"><span class="pre">Settings</span></code> page
+on the CDash instance intended to host the test results. Once downloaded from
+CDash, the file should not be modified locally.</p>
+<div class="literal-block-wrapper docutils container" id="ctestconfig-cmake">
+<div class="code-block-caption"><span class="caption-text">CTestConfig.cmake</span><a class="headerlink" href="#ctestconfig-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CTEST_PROJECT_NAME</span><span class="w"> </span><span class="s">&quot;CMakeTutorial&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">CTEST_NIGHTLY_START_TIME</span><span class="w"> </span><span class="s">&quot;00:00:00 EST&quot;</span><span class="nf">)</span>
+
+<span class="nf">set(</span><span class="no">CTEST_DROP_METHOD</span><span class="w"> </span><span class="s">&quot;http&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">CTEST_DROP_SITE</span><span class="w"> </span><span class="s">&quot;my.cdash.org&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">CTEST_DROP_LOCATION</span><span class="w"> </span><span class="s">&quot;/submit.php?project=CMakeTutorial&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">CTEST_DROP_SITE_CDASH</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="build-and-run">
+<h3>Build and Run<a class="headerlink" href="#build-and-run" title="Permalink to this heading">¶</a></h3>
+<p>Note that as part of the CDash submission some information about your
+development system (e.g. site name or full pathnames) may displayed publicly.</p>
+<p>To create a simple test dashboard, run the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a>
+executable or the <span class="target" id="index-0-manual:cmake-gui(1)"></span><a class="reference internal" href="../../manual/cmake-gui.1.html#manual:cmake-gui(1)" title="cmake-gui(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-gui</span></code></a> to configure the project
+but do not build it yet. Instead, navigate to the build directory and run:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ctest [-VV] -D Experimental</span>
+</pre></div>
+</div>
+<p>Remember, for multi-config generators (e.g. Visual Studio), the configuration
+type must be specified:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">ctest [-VV] -C Debug -D Experimental</span>
+</pre></div>
+</div>
+<p>Or, from an IDE, build the <code class="docutils literal notranslate"><span class="pre">Experimental</span></code> target.</p>
+<p>The <span class="target" id="index-2-manual:ctest(1)"></span><a class="reference internal" href="../../manual/ctest.1.html#manual:ctest(1)" title="ctest(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">ctest</span></code></a> executable will build the project, run any
+tests, and submit the results to Kitware's public dashboard:
+<a class="reference external" href="https://my.cdash.org/index.php?project=CMakeTutorial">https://my.cdash.org/index.php?project=CMakeTutorial</a>.</p>
+</section>
+<section id="solution">
+<h3>Solution<a class="headerlink" href="#solution" title="Permalink to this heading">¶</a></h3>
+<p>The only CMake code changed needed in this step was to enable dashboard
+submissions to CDash by including the <span class="target" id="index-2-module:CTest"></span><a class="reference internal" href="../../module/CTest.html#module:CTest" title="CTest"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CTest</span></code></a> module in our top-level
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code>:</p>
+<details><summary>TODO 1: Click to show/hide answer</summary><div class="literal-block-wrapper docutils container" id="cmakelists-txt-include-ctest">
+<div class="code-block-caption"><span class="caption-text">TODO 1: CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-include-ctest" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="nb">CTest</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Step 6: Adding Support for a Testing Dashboard</a><ul>
+<li><a class="reference internal" href="#exercise-1-send-results-to-a-testing-dashboard">Exercise 1 - Send Results to a Testing Dashboard</a><ul>
+<li><a class="reference internal" href="#goal">Goal</a></li>
+<li><a class="reference internal" href="#helpful-resources">Helpful Resources</a></li>
+<li><a class="reference internal" href="#files-to-edit">Files to Edit</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li><a class="reference internal" href="#build-and-run">Build and Run</a></li>
+<li><a class="reference internal" href="#solution">Solution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Installing%20and%20Testing.html"
+                          title="previous chapter">Step 5: Installing and Testing</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="Adding%20System%20Introspection.html"
+                          title="next chapter">Step 7: Adding System Introspection</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Adding Support for a Testing Dashboard.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Adding%20System%20Introspection.html" title="Step 7: Adding System Introspection"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Installing%20and%20Testing.html" title="Step 5: Installing and Testing"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 6: Adding Support for a Testing Dashboard</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

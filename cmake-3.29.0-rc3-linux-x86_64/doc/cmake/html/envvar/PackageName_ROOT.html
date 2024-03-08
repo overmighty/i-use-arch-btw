@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>&lt;PackageName&gt;_ROOT &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="VERBOSE" href="VERBOSE.html" />
+    <link rel="prev" title="MACOSX_DEPLOYMENT_TARGET" href="MACOSX_DEPLOYMENT_TARGET.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="VERBOSE.html" title="VERBOSE"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="MACOSX_DEPLOYMENT_TARGET.html" title="MACOSX_DEPLOYMENT_TARGET"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-env-variables.7.html" accesskey="U">cmake-env-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">&lt;PackageName&gt;_ROOT</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="packagename-root">
+<span id="envvar:<PackageName>_ROOT"></span><h1>&lt;PackageName&gt;_ROOT<a class="headerlink" href="#packagename-root" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>This is a CMake <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-environment-variables"><span class="std std-ref">Environment Variable</span></a>. Its initial value is taken from
+the calling process environment.</p>
+<p>Calls to <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package(&lt;packagename&gt;)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;PackageName&gt;)</span></code></a> will search in prefixes
+specified by the <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_ROOT</span></code> environment variable, where
+<code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;</span></code> is the (case-preserved) name given to the
+<span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call and <code class="docutils literal notranslate"><span class="pre">_ROOT</span></code> is literal.
+For example, <code class="docutils literal notranslate"><span class="pre">find_package(Foo)</span></code> will search prefixes specified in the
+<code class="docutils literal notranslate"><span class="pre">Foo_ROOT</span></code> environment variable (if set).  See policy <span class="target" id="index-0-policy:CMP0074"></span><a class="reference internal" href="../policy/CMP0074.html#policy:CMP0074" title="CMP0074"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0074</span></code></a>.</p>
+<p>This variable may hold a single prefix or a list of prefixes separated
+by <code class="docutils literal notranslate"><span class="pre">:</span></code> on UNIX or <code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows (the same as the <code class="docutils literal notranslate"><span class="pre">PATH</span></code> environment
+variable convention on those platforms).</p>
+<p>See also the <span class="target" id="index-0-variable:&lt;PackageName&gt;_ROOT"></span><a class="reference internal" href="../variable/PackageName_ROOT.html#variable:&lt;PackageName&gt;_ROOT" title="&lt;PackageName&gt;_ROOT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_ROOT</span></code></a> CMake variable.</p>
+<dl class="cmake envvar">
+<dt class="sig sig-object cmake" id="envvar:&lt;PACKAGENAME&gt;_ROOT">
+<span class="sig-name descname"><span class="pre">&lt;PACKAGENAME&gt;_ROOT</span></span><a class="headerlink" href="#envvar:<PACKAGENAME>_ROOT" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.27.</span></p>
+</div>
+<p>Calls to <span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="../command/find_package.html#command:find_package" title="find_package(&lt;packagename&gt;)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package(&lt;PackageName&gt;)</span></code></a> will also search in
+prefixes specified by the upper-case <code class="docutils literal notranslate"><span class="pre">&lt;PACKAGENAME&gt;_ROOT</span></code> environment
+variable.  See policy <span class="target" id="index-0-policy:CMP0144"></span><a class="reference internal" href="../policy/CMP0144.html#policy:CMP0144" title="CMP0144"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0144</span></code></a>.</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;_ROOT</span></code> and <code class="docutils literal notranslate"><span class="pre">&lt;PACKAGENAME&gt;_ROOT</span></code>
+environment variables are distinct only on platforms that have
+case-sensitive environments.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="MACOSX_DEPLOYMENT_TARGET.html"
+                          title="previous chapter">MACOSX_DEPLOYMENT_TARGET</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="VERBOSE.html"
+                          title="next chapter">VERBOSE</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/envvar/PackageName_ROOT.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="VERBOSE.html" title="VERBOSE"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="MACOSX_DEPLOYMENT_TARGET.html" title="MACOSX_DEPLOYMENT_TARGET"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-env-variables.7.html" >cmake-env-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">&lt;PackageName&gt;_ROOT</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

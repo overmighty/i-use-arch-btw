@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>function &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="get_cmake_property" href="get_cmake_property.html" />
+    <link rel="prev" title="foreach" href="foreach.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="get_cmake_property.html" title="get_cmake_property"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="foreach.html" title="foreach"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">function</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="function">
+<span id="command:function"></span><h1>function<a class="headerlink" href="#function" title="Permalink to this heading">¶</a></h1>
+<p>Start recording a function for later invocation as a command.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">function(</span><span class="nv">&lt;name&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;arg1&gt;</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+<span class="w">  </span><span class="nv">&lt;commands&gt;</span>
+<span class="nf">endfunction()</span>
+</pre></div>
+</div>
+<p>Defines a function named <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> that takes arguments named
+<code class="docutils literal notranslate"><span class="pre">&lt;arg1&gt;</span></code>, ...  The <code class="docutils literal notranslate"><span class="pre">&lt;commands&gt;</span></code> in the function definition
+are recorded; they are not executed until the function is invoked.</p>
+<p>Per legacy, the <span class="target" id="index-0-command:endfunction"></span><a class="reference internal" href="endfunction.html#command:endfunction" title="endfunction"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">endfunction()</span></code></a> command admits an optional
+<code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> argument. If used, it must be a verbatim repeat of the
+argument of the opening <code class="docutils literal notranslate"><span class="pre">function</span></code> command.</p>
+<p>A function opens a new scope: see <span class="target" id="index-0-command:set"></span><a class="reference internal" href="set.html#command:set" title="set(var parent_scope)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set(var</span> <span class="pre">PARENT_SCOPE)</span></code></a> for
+details.</p>
+<p>See the <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command documentation for the behavior
+of policies inside functions.</p>
+<p>See the <span class="target" id="index-0-command:macro"></span><a class="reference internal" href="macro.html#command:macro" title="macro"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">macro()</span></code></a> command documentation for differences
+between CMake functions and macros.</p>
+<section id="invocation">
+<h2>Invocation<a class="headerlink" href="#invocation" title="Permalink to this heading">¶</a></h2>
+<p>The function invocation is case-insensitive. A function defined as</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">function(</span><span class="nb">foo</span><span class="nf">)</span>
+<span class="w">  </span><span class="nv">&lt;commands&gt;</span>
+<span class="nf">endfunction()</span>
+</pre></div>
+</div>
+<p>can be invoked through any of</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">foo()</span>
+<span class="nf">Foo()</span>
+<span class="nf">FOO()</span>
+<span class="nf">cmake_language(</span><span class="no">CALL</span><span class="w"> </span><span class="nb">foo</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>and so on. However, it is strongly recommended to stay with the
+case chosen in the function definition. Typically functions use
+all-lowercase names.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>The <span class="target" id="index-0-command:cmake_language"></span><a class="reference internal" href="cmake_language.html#command:cmake_language" title="cmake_language(call ...)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_language(CALL</span> <span class="pre">...)</span></code></a> command can also be used to
+invoke the function.</p>
+</div>
+</section>
+<section id="arguments">
+<h2>Arguments<a class="headerlink" href="#arguments" title="Permalink to this heading">¶</a></h2>
+<p>When the function is invoked, the recorded <code class="docutils literal notranslate"><span class="pre">&lt;commands&gt;</span></code> are first
+modified by replacing formal parameters (<code class="docutils literal notranslate"><span class="pre">${arg1}</span></code>, ...) with the
+arguments passed, and then invoked as normal commands.</p>
+<p>In addition to referencing the formal parameters you can reference the
+<code class="docutils literal notranslate"><span class="pre">ARGC</span></code> variable which will be set to the number of arguments passed
+into the function as well as <code class="docutils literal notranslate"><span class="pre">ARGV0</span></code>, <code class="docutils literal notranslate"><span class="pre">ARGV1</span></code>, <code class="docutils literal notranslate"><span class="pre">ARGV2</span></code>, ...  which
+will have the actual values of the arguments passed in.  This facilitates
+creating functions with optional arguments.</p>
+<p>Furthermore, <code class="docutils literal notranslate"><span class="pre">ARGV</span></code> holds the list of all arguments given to the
+function and <code class="docutils literal notranslate"><span class="pre">ARGN</span></code> holds the list of arguments past the last expected
+argument.  Referencing to <code class="docutils literal notranslate"><span class="pre">ARGV#</span></code> arguments beyond <code class="docutils literal notranslate"><span class="pre">ARGC</span></code> have
+undefined behavior.  Checking that <code class="docutils literal notranslate"><span class="pre">ARGC</span></code> is greater than <code class="docutils literal notranslate"><span class="pre">#</span></code> is
+the only way to ensure that <code class="docutils literal notranslate"><span class="pre">ARGV#</span></code> was passed to the function as an
+extra argument.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-0-command:cmake_parse_arguments"></span><a class="reference internal" href="cmake_parse_arguments.html#command:cmake_parse_arguments" title="cmake_parse_arguments"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_parse_arguments()</span></code></a></p></li>
+<li><p><span class="target" id="index-1-command:endfunction"></span><a class="reference internal" href="endfunction.html#command:endfunction" title="endfunction"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">endfunction()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:return"></span><a class="reference internal" href="return.html#command:return" title="return"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">return()</span></code></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">function</a><ul>
+<li><a class="reference internal" href="#invocation">Invocation</a></li>
+<li><a class="reference internal" href="#arguments">Arguments</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="foreach.html"
+                          title="previous chapter">foreach</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="get_cmake_property.html"
+                          title="next chapter">get_cmake_property</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/function.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="get_cmake_property.html" title="get_cmake_property"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="foreach.html" title="foreach"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">function</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

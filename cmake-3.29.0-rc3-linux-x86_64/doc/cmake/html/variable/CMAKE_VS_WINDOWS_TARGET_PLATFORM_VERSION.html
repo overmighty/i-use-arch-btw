@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM" href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM.html" />
+    <link rel="prev" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION" href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM.html" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION.html" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-vs-windows-target-platform-version">
+<span id="variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION"></span><h1>CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION<a class="headerlink" href="#cmake-vs-windows-target-platform-version" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>Visual Studio Windows Target Platform Version.</p>
+<p>When targeting Windows 10 and above, <a class="reference internal" href="../manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> for
+VS 2015 and above support specification of a Windows SDK version:</p>
+<ul>
+<li><p>If <span class="target" id="index-0-variable:CMAKE_GENERATOR_PLATFORM"></span><a class="reference internal" href="CMAKE_GENERATOR_PLATFORM.html#variable:CMAKE_GENERATOR_PLATFORM" title="CMAKE_GENERATOR_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_PLATFORM</span></code></a> specifies a <code class="docutils literal notranslate"><span class="pre">version=</span></code> field,
+as documented by <a class="reference internal" href="CMAKE_GENERATOR_PLATFORM.html#visual-studio-platform-selection"><span class="std std-ref">Visual Studio Platform Selection</span></a>, that SDK
+version is selected.</p></li>
+<li><p>Otherwise, if the <code class="docutils literal notranslate"><span class="pre">WindowsSDKVersion</span></code> environment variable
+is set to an available SDK version, that version is selected.
+This is intended for use in environments established by <code class="docutils literal notranslate"><span class="pre">vcvarsall.bat</span></code>
+or similar scripts.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.27: </span>This is enabled by policy <span class="target" id="index-0-policy:CMP0149"></span><a class="reference internal" href="../policy/CMP0149.html#policy:CMP0149" title="CMP0149"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0149</span></code></a>.</p>
+</div>
+</li>
+<li><p>Otherwise, if <span class="target" id="index-0-variable:CMAKE_SYSTEM_VERSION"></span><a class="reference internal" href="CMAKE_SYSTEM_VERSION.html#variable:CMAKE_SYSTEM_VERSION" title="CMAKE_SYSTEM_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SYSTEM_VERSION</span></code></a> is set to an available
+SDK version, that version is selected.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.27: </span>This is disabled by policy <span class="target" id="index-1-policy:CMP0149"></span><a class="reference internal" href="../policy/CMP0149.html#policy:CMP0149" title="CMP0149"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0149</span></code></a>.</p>
+</div>
+</li>
+<li><p>Otherwise, CMake uses the latest Windows SDK version available.</p></li>
+</ul>
+<p>The chosen Windows target version number is provided
+in <code class="docutils literal notranslate"><span class="pre">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION</span></code>.  If no Windows 10 SDK
+is available this value will be empty.</p>
+<p>One may set a <code class="docutils literal notranslate"><span class="pre">CMAKE_WINDOWS_KITS_10_DIR</span></code> <em>environment variable</em>
+to an absolute path to tell CMake to look for Windows 10 SDKs in
+a custom location.  The specified directory is expected to contain
+<code class="docutils literal notranslate"><span class="pre">Include/10.0.*</span></code> directories.</p>
+<p>See also <span class="target" id="index-0-variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM"></span><a class="reference internal" href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM.html#variable:CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM</span></code></a>.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION.html"
+                          title="previous chapter">CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM.html"
+                          title="next chapter">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM.html" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION_MAXIMUM"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION.html" title="CMAKE_VS_WINDOWS_TARGET_PLATFORM_MIN_VERSION"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

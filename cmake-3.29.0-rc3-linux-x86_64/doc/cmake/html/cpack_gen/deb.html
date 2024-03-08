@@ -1,0 +1,1076 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CPack DEB Generator &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CPack DragNDrop Generator" href="dmg.html" />
+    <link rel="prev" title="CPack Cygwin Generator" href="cygwin.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="dmg.html" title="CPack DragNDrop Generator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cygwin.html" title="CPack Cygwin Generator"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack DEB Generator</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cpack-deb-generator">
+<span id="cpack_gen:CPack DEB Generator"></span><h1>CPack DEB Generator<a class="headerlink" href="#cpack-deb-generator" title="Permalink to this heading">¶</a></h1>
+<p>The built in (binary) CPack DEB generator (Unix only)</p>
+<section id="variables-specific-to-cpack-debian-deb-generator">
+<h2>Variables specific to CPack Debian (DEB) generator<a class="headerlink" href="#variables-specific-to-cpack-debian-deb-generator" title="Permalink to this heading">¶</a></h2>
+<p>The CPack DEB generator may be used to create DEB package using <span class="target" id="index-0-module:CPack"></span><a class="reference internal" href="../module/CPack.html#module:CPack" title="CPack"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPack</span></code></a>.
+The CPack DEB generator is a <span class="target" id="index-1-module:CPack"></span><a class="reference internal" href="../module/CPack.html#module:CPack" title="CPack"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPack</span></code></a> generator thus it uses the
+<code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_XXX</span></code> variables used by <span class="target" id="index-2-module:CPack"></span><a class="reference internal" href="../module/CPack.html#module:CPack" title="CPack"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPack</span></code></a>.</p>
+<p>The CPack DEB generator should work on any Linux host but it will produce
+better deb package when Debian specific tools <code class="docutils literal notranslate"><span class="pre">dpkg-xxx</span></code> are usable on
+the build system.</p>
+<p>The CPack DEB generator has specific features which are controlled by the
+specifics <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_XXX</span></code> variables.</p>
+<p><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_XXXX</span></code> variables may be used in order to have
+<strong>component</strong> specific values.  Note however that <code class="docutils literal notranslate"><span class="pre">&lt;COMPONENT&gt;</span></code> refers to
+the <strong>grouping name</strong> written in upper case. It may be either a component name
+or a component GROUP name.</p>
+<p>Here are some CPack DEB generator wiki resources that are here for historic
+reasons and are no longer maintained but may still prove useful:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/Configuration">https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/Configuration</a></p></li>
+<li><p><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/PackageGenerators#deb-unix-only">https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/PackageGenerators#deb-unix-only</a></p></li>
+</ul>
+</div></blockquote>
+<p>List of CPack DEB generator specific variables:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEB_COMPONENT_INSTALL">
+<span class="sig-name descname"><span class="pre">CPACK_DEB_COMPONENT_INSTALL</span></span><a class="headerlink" href="#variable:CPACK_DEB_COMPONENT_INSTALL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable component packaging for CPackDEB</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p>
+</dd>
+</dl>
+<p>If enabled (<code class="docutils literal notranslate"><span class="pre">ON</span></code>) multiple packages are generated. By default a single package
+containing files of all components is generated.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_NAME">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_NAME</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_NAME" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_NAME">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_NAME</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Package control field (variable is automatically transformed to lower
+case).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span class="target" id="index-0-variable:CPACK_PACKAGE_NAME"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_NAME" title="CPACK_PACKAGE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_NAME</span></code></a> for non-component based
+installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_NAME"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_NAME" title="CPACK_DEBIAN_PACKAGE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_NAME</span></code></a> suffixed with <code class="docutils literal notranslate"><span class="pre">-&lt;COMPONENT&gt;</span></code>
+for component-based installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_NAME</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-source">https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-source</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_FILE_NAME">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_FILE_NAME</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_FILE_NAME" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_FILE_NAME">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_FILE_NAME</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_FILE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Package file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">&lt;CPACK_PACKAGE_FILE_NAME&gt;[-&lt;component&gt;].deb</span></code></p>
+</dd>
+</dl>
+<p>This may be set to:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">DEB-DEFAULT</span></code></dt><dd><p>Tell CPack to automatically generate the package file name in deb format:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;PackageName&gt;_&lt;VersionNumber&gt;-&lt;DebianRevisionNumber&gt;_&lt;DebianArchitecture&gt;.deb
+</pre></div>
+</div>
+<p>This setting recommended as the preferred behavior, but for backward
+compatibility with the CPack DEB generator in CMake prior to version 3.6,
+this is not the default.   Without this, duplicate names may occur.
+Duplicate files get overwritten and it is up to the packager to set
+the variables in a manner that will prevent such errors.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;file-name&gt;[.deb]</span></code></dt><dd><p>Use the given file name.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.29: </span>The <code class="docutils literal notranslate"><span class="pre">.deb</span></code> suffix will be automatically added if the file name does
+not end in <code class="docutils literal notranslate"><span class="pre">.deb</span></code> or <code class="docutils literal notranslate"><span class="pre">.ipk</span></code>.  Previously the suffix was required.</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;file-name&gt;.ipk</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
+<p>Use the given file name.
+The <code class="docutils literal notranslate"><span class="pre">.ipk</span></code> suffix is used by the OPKG packaging system.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_EPOCH">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_EPOCH</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_EPOCH" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
+<p>The Debian package epoch</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p>Optional number that should be incremented when changing versioning schemas
+or fixing mistakes in the version numbers of older packages.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_VERSION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_VERSION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_VERSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Debian package version</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="target" id="index-0-variable:CPACK_PACKAGE_VERSION"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_VERSION" title="CPACK_PACKAGE_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_VERSION</span></code></a></p>
+</dd>
+</dl>
+<p>This variable may contain only alphanumerics (A-Za-z0-9) and the characters
+. + - ~ (full stop, plus, hyphen, tilde) and should start with a digit. If
+<span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_RELEASE"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_RELEASE" title="CPACK_DEBIAN_PACKAGE_RELEASE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_RELEASE</span></code></a> is not set then hyphens are not
+allowed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For backward compatibility with CMake 3.9 and lower a failed test of this
+variable's content is not a hard error when both
+<span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_RELEASE"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_RELEASE" title="CPACK_DEBIAN_PACKAGE_RELEASE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_RELEASE</span></code></a> and
+<span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_EPOCH"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_EPOCH" title="CPACK_DEBIAN_PACKAGE_EPOCH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_EPOCH</span></code></a> variables are not set. An author
+warning is reported instead.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_RELEASE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_RELEASE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_RELEASE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>The Debian package release - Debian revision number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p>This is the numbering of the DEB package itself, i.e. the version of the
+packaging and not the version of the content (see
+<span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_VERSION"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_VERSION" title="CPACK_DEBIAN_PACKAGE_VERSION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_VERSION</span></code></a>). One may change the default value
+if the previous packaging was buggy and/or you want to put here a fancy Linux
+distro specific numbering.</p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_ARCHITECTURE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_ARCHITECTURE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_ARCHITECTURE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ARCHITECTURE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ARCHITECTURE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_ARCHITECTURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Debian package architecture</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output of <code class="docutils literal notranslate"><span class="pre">dpkg</span> <span class="pre">--print-architecture</span></code> (or <code class="docutils literal notranslate"><span class="pre">i386</span></code>
+if <code class="docutils literal notranslate"><span class="pre">dpkg</span></code> is not found)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ARCHITECTURE</span></code> variables.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_DEPENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_DEPENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_DEPENDS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_DEPENDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the Debian dependencies of this package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_DEPENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_DEPENDS" title="CPACK_DEBIAN_PACKAGE_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_DEPENDS</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS</span></code> variables.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS" title="CPACK_DEBIAN_PACKAGE_SHLIBDEPS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS</span></code></a> or
+more specifically <span class="target" id="index-0-variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS" title="CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS</span></code></a>
+is set for this component, the discovered dependencies will be appended
+to <span class="target" id="index-0-variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS" title="CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS</span></code></a> instead of
+<span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_DEPENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_DEPENDS" title="CPACK_DEBIAN_PACKAGE_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_DEPENDS</span></code></a>. If
+<span class="target" id="index-1-variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS" title="CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_DEPENDS</span></code></a> is an empty string,
+only the automatically discovered dependencies will be set for this
+component.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CPACK_DEBIAN_PACKAGE_DEPENDS</span><span class="w"> </span><span class="s">&quot;libc6 (&gt;= 2.3.1-6), libc6 (&lt; 2.4)&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_ENABLE_COMPONENT_DEPENDS" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Sets inter-component dependencies if listed with
+<span class="target" id="index-0-variable:CPACK_COMPONENT_&lt;compName&gt;_DEPENDS"></span><a class="reference internal" href="../module/CPackComponent.html#variable:CPACK_COMPONENT_&lt;compName&gt;_DEPENDS" title="CPACK_COMPONENT_&lt;compName&gt;_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DEPENDS</span></code></a> variables.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_MAINTAINER">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_MAINTAINER</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_MAINTAINER" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Debian package maintainer</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_CONTACT</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_DESCRIPTION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_DESCRIPTION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_DESCRIPTION" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_DESCRIPTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Debian package description</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION" title="CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION</span></code></a> (component
+based installers only) if set, or <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_DESCRIPTION"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_DESCRIPTION" title="CPACK_DEBIAN_PACKAGE_DESCRIPTION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_DESCRIPTION</span></code></a> if set, or</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION"></span><a class="reference internal" href="../module/CPackComponent.html#variable:CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION" title="CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION</span></code></a> (component
+based installers only) if set, or <span class="target" id="index-0-variable:CPACK_PACKAGE_DESCRIPTION"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION" title="CPACK_PACKAGE_DESCRIPTION"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION</span></code></a> if set, or</p></li>
+<li><p>content of the file specified in <span class="target" id="index-0-variable:CPACK_PACKAGE_DESCRIPTION_FILE"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION_FILE" title="CPACK_PACKAGE_DESCRIPTION_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_FILE</span></code></a> if set</p></li>
+</ul>
+</dd>
+</dl>
+<p>If after that description is not set, <span class="target" id="index-0-variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY" title="CPACK_PACKAGE_DESCRIPTION_SUMMARY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_SUMMARY</span></code></a> going to be
+used if set. Otherwise, <span class="target" id="index-1-variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_DESCRIPTION_SUMMARY" title="CPACK_PACKAGE_DESCRIPTION_SUMMARY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_SUMMARY</span></code></a> will be added as the first
+line of description as defined in <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#description">Debian Policy Manual</a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_COMPONENT_&lt;compName&gt;_DESCRIPTION</span></code> variables.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_DESCRIPTION</span></code> variables.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16: </span>The <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_DESCRIPTION_FILE</span></code> variable.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_SECTION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_SECTION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SECTION" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SECTION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SECTION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_SECTION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Section control field e.g. admin, devel, doc, ...</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">devel</span></code></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SECTION</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-archive.html#s-subsections">https://www.debian.org/doc/debian-policy/ch-archive.html#s-subsections</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_ARCHIVE_TYPE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_ARCHIVE_TYPE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_ARCHIVE_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.14.</span></p>
+</div>
+<p>The archive format used for creating the Debian package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">gnutar</span></code></p>
+</dd>
+</dl>
+<p>Possible value is: <code class="docutils literal notranslate"><span class="pre">gnutar</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This variable previously defaulted to the <code class="docutils literal notranslate"><span class="pre">paxr</span></code> value, but <code class="docutils literal notranslate"><span class="pre">dpkg</span></code>
+has never supported that tar format. For backwards compatibility the
+<code class="docutils literal notranslate"><span class="pre">paxr</span></code> value will be mapped to <code class="docutils literal notranslate"><span class="pre">gnutar</span></code> and a deprecation message
+will be emitted.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_COMPRESSION_TYPE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_COMPRESSION_TYPE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_COMPRESSION_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>The compression used for creating the Debian package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">gzip</span></code></p>
+</dd>
+</dl>
+<p>Possible values are:</p>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">lzma</span></code></dt><dd><p>Lempel–Ziv–Markov chain algorithm</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">xz</span></code></dt><dd><p>XZ Utils compression</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">bzip2</span></code></dt><dd><p>bzip2 Burrows–Wheeler algorithm</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">gzip</span></code></dt><dd><p>GNU Gzip compression</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">zstd</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
+</div>
+<p>Zstandard compression</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_PRIORITY">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_PRIORITY</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_PRIORITY" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PRIORITY">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PRIORITY</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_PRIORITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Priority control field e.g. required, important, standard, optional,
+extra</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">optional</span></code></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PRIORITY</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-archive.html#s-priorities">https://www.debian.org/doc/debian-policy/ch-archive.html#s-priorities</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_HOMEPAGE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_HOMEPAGE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_HOMEPAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The URL of the web site for this package, preferably (when applicable) the
+site from which the original source can be obtained and any additional
+upstream documentation or information may be found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="target" id="index-0-variable:CMAKE_PROJECT_HOMEPAGE_URL"></span><a class="reference internal" href="../variable/CMAKE_PROJECT_HOMEPAGE_URL.html#variable:CMAKE_PROJECT_HOMEPAGE_URL" title="CMAKE_PROJECT_HOMEPAGE_URL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_HOMEPAGE_URL</span></code></a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span>The <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_HOMEPAGE_URL</span></code> variable.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The content of this field is a simple URL without any surrounding
+characters such as &lt;&gt;.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_SHLIBDEPS" title="Permalink to this definition">¶</a></dt>
+<dd><p>May be set to ON in order to use <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code> to generate
+better package dependency list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS" title="CPACK_DEBIAN_PACKAGE_SHLIBDEPS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS</span></code></a> if set or</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may need set <span class="target" id="index-0-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a> to an appropriate value
+if you use this feature, because if you don't <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>
+may fail to find your own shared libs.
+See <a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling">https://gitlab.kitware.com/cmake/community/-/wikis/doc/cmake/RPATH-handling</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also set <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS" title="CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS</span></code></a>
+to an appropriate value if you use this feature, in order to please
+<code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>. However, you should only do this for private
+shared libraries that could not get resolved otherwise.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SHLIBDEPS</span></code> variables.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6: </span>Correct handling of <code class="docutils literal notranslate"><span class="pre">$ORIGIN</span></code> in <span class="target" id="index-1-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a>.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>May be set to a list of directories that will be given to <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>
+via its <code class="docutils literal notranslate"><span class="pre">-l</span></code> option. These will be searched by <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code> in order
+to find private shared library dependencies.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You should prefer to set <span class="target" id="index-2-variable:CMAKE_INSTALL_RPATH"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_RPATH.html#variable:CMAKE_INSTALL_RPATH" title="CMAKE_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_RPATH</span></code></a> to an appropriate
+value if you use <code class="docutils literal notranslate"><span class="pre">dpkg-shlibdeps</span></code>. The current option is really only
+needed for private shared library dependencies.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_DEBUG">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_DEBUG</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>May be set when invoking cpack in order to trace debug information
+during the CPack DEB generator run.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_PREDEPENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_PREDEPENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_PREDEPENDS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PREDEPENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PREDEPENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_PREDEPENDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <cite>Pre-Depends</cite> field of the Debian package.
+Like <span class="target" id="index-2-variable:CPACK_DEBIAN_PACKAGE_DEPENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_DEPENDS" title="CPACK_DEBIAN_PACKAGE_DEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">Depends</span></code></a>, except that it
+also forces <code class="docutils literal notranslate"><span class="pre">dpkg</span></code> to complete installation of the packages named
+before even starting the installation of the package which declares the
+pre-dependency.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_PREDEPENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_PREDEPENDS" title="CPACK_DEBIAN_PACKAGE_PREDEPENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_PREDEPENDS</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PREDEPENDS</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_ENHANCES">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_ENHANCES</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_ENHANCES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ENHANCES">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ENHANCES</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_ENHANCES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <code class="docutils literal notranslate"><span class="pre">Enhances</span></code> field of the Debian package.
+Similar to <span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_SUGGESTS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SUGGESTS" title="CPACK_DEBIAN_PACKAGE_SUGGESTS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">Suggests</span></code></a> but works
+in the opposite direction: declares that a package can enhance the
+functionality of another package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_ENHANCES"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_ENHANCES" title="CPACK_DEBIAN_PACKAGE_ENHANCES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_ENHANCES</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_ENHANCES</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_BREAKS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_BREAKS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_BREAKS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_BREAKS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_BREAKS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_BREAKS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <code class="docutils literal notranslate"><span class="pre">Breaks</span></code> field of the Debian package.
+When a binary package (P) declares that it breaks other packages (B),
+<code class="docutils literal notranslate"><span class="pre">dpkg</span></code> will not allow the package (P) which declares <code class="docutils literal notranslate"><span class="pre">Breaks</span></code> be
+<strong>unpacked</strong> unless the packages that will be broken (B) are deconfigured
+first.
+As long as the package (P) is configured, the previously deconfigured
+packages (B) cannot be reconfigured again.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_BREAKS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_BREAKS" title="CPACK_DEBIAN_PACKAGE_BREAKS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_BREAKS</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_BREAKS</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-breaks">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-breaks</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_CONFLICTS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_CONFLICTS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_CONFLICTS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONFLICTS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONFLICTS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_CONFLICTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <cite>Conflicts</cite> field of the Debian package.
+When one binary package declares a conflict with another using a <cite>Conflicts</cite>
+field, <code class="docutils literal notranslate"><span class="pre">dpkg</span></code> will not allow them to be unpacked on the system at
+the same time.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_CONFLICTS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_CONFLICTS" title="CPACK_DEBIAN_PACKAGE_CONFLICTS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_CONFLICTS</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONFLICTS</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-conflicts">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-conflicts</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is a stronger restriction than
+<span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_BREAKS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_BREAKS" title="CPACK_DEBIAN_PACKAGE_BREAKS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">Breaks</span></code></a>, which prevents the
+broken package from being configured while the breaking package is in
+the &quot;Unpacked&quot; state but allows both packages to be unpacked at the same
+time.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_PROVIDES">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_PROVIDES</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_PROVIDES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PROVIDES">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PROVIDES</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_PROVIDES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <cite>Provides</cite> field of the Debian package.
+A virtual package is one which appears in the <cite>Provides</cite> control field of
+another package.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_PROVIDES"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_PROVIDES" title="CPACK_DEBIAN_PACKAGE_PROVIDES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_PROVIDES</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_PROVIDES</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-virtual">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-virtual</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_REPLACES">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_REPLACES</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_REPLACES" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_REPLACES">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_REPLACES</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_REPLACES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <cite>Replaces</cite> field of the Debian package.
+Packages can declare in their control file that they should overwrite
+files in certain other packages, or completely replace other packages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_REPLACES"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_REPLACES" title="CPACK_DEBIAN_PACKAGE_REPLACES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_REPLACES</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_REPLACES</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_RECOMMENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_RECOMMENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_RECOMMENDS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_RECOMMENDS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_RECOMMENDS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_RECOMMENDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <code class="docutils literal notranslate"><span class="pre">Recommends</span></code> field of the Debian package.
+Allows packages to declare a strong, but not absolute, dependency on other
+packages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_RECOMMENDS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_RECOMMENDS" title="CPACK_DEBIAN_PACKAGE_RECOMMENDS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_RECOMMENDS</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_RECOMMENDS</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_SUGGESTS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_SUGGESTS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SUGGESTS" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SUGGESTS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SUGGESTS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_SUGGESTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the <cite>Suggests</cite> field of the Debian package.
+Allows packages to declare a suggested package install grouping.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-1-variable:CPACK_DEBIAN_PACKAGE_SUGGESTS"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SUGGESTS" title="CPACK_DEBIAN_PACKAGE_SUGGESTS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SUGGESTS</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SUGGESTS</span></code> variables.</p>
+</div>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps">https://www.debian.org/doc/debian-policy/ch-relationships.html#s-binarydeps</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p>
+</dd>
+</dl>
+<p>Allows to generate shlibs control file automatically. Compatibility is defined by
+<span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY" title="CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY</span></code></a> variable value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Libraries are only considered if they have both library name and version
+set. This can be done by setting SOVERSION property with
+<span class="target" id="index-0-command:set_target_properties"></span><a class="reference internal" href="../command/set_target_properties.html#command:set_target_properties" title="set_target_properties"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_target_properties()</span></code></a> command.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_GENERATE_SHLIBS_POLICY" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Compatibility policy for auto-generated shlibs control file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">=</span></code></p>
+</dd>
+</dl>
+<p>Defines compatibility policy for auto-generated shlibs control file.
+Possible values: <code class="docutils literal notranslate"><span class="pre">=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code></p>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-sharedlibs.html#s-sharedlibs-shlibdeps">https://www.debian.org/doc/debian-policy/ch-sharedlibs.html#s-sharedlibs-shlibdeps</a></p>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_EXTRA">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_EXTRA</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_CONTROL_EXTRA" title="Permalink to this definition">¶</a></dt>
+<dd><p>This variable allow advanced user to add custom script to the
+control.tar.gz.
+Typical usage is for conffiles, postinst, postrm, prerm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p>Usage:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA</span>
+<span class="w">    </span><span class="s">&quot;${CMAKE_CURRENT_SOURCE_DIR}/prerm;${CMAKE_CURRENT_SOURCE_DIR}/postrm&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4: </span>Per-component <code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_EXTRA</span></code> variables.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_STRICT_PERMISSION">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_CONTROL_STRICT_PERMISSION</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_CONTROL_STRICT_PERMISSION" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>This variable indicates if the Debian policy on control files should be
+strictly followed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">FALSE</span></code></p>
+</dd>
+</dl>
+<p>Usage:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CPACK_DEBIAN_PACKAGE_CONTROL_STRICT_PERMISSION</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This overrides the permissions on the original files, following the rules
+set by Debian policy
+<a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-files.html#s-permissions-owners">https://www.debian.org/doc/debian-policy/ch-files.html#s-permissions-owners</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The original permissions of the files will be used in the final
+package unless this variable is set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>.
+In particular, the scripts should have the proper executable
+flag prior to the generation of the package.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_PACKAGE_SOURCE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_PACKAGE_SOURCE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_PACKAGE_SOURCE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SOURCE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;COMPONENT&gt;_PACKAGE_SOURCE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<COMPONENT>_PACKAGE_SOURCE" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.5.</span></p>
+</div>
+<p>Sets the <code class="docutils literal notranslate"><span class="pre">Source</span></code> field of the binary Debian package.
+When the binary package name is not the same as the source package name
+(in particular when several components/binaries are generated from one
+source) the source from which the binary has been generated should be
+indicated with the field <code class="docutils literal notranslate"><span class="pre">Source</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>An empty string for non-component based installations</p></li>
+<li><p><span class="target" id="index-0-variable:CPACK_DEBIAN_PACKAGE_SOURCE"></span><a class="reference internal" href="#variable:CPACK_DEBIAN_PACKAGE_SOURCE" title="CPACK_DEBIAN_PACKAGE_SOURCE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DEBIAN_PACKAGE_SOURCE</span></code></a> for component-based
+installations.</p></li>
+</ul>
+</dd>
+</dl>
+<p>See <a class="reference external" href="https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-source">https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-source</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This value is not interpreted. It is possible to pass an optional
+revision number of the referenced source package as well.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="packaging-of-debug-information">
+<h2>Packaging of debug information<a class="headerlink" href="#packaging-of-debug-information" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>Dbgsym packages contain debug symbols for debugging packaged binaries.</p>
+<p>Dbgsym packaging has its own set of variables:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_DEBUGINFO_PACKAGE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_DEBUGINFO_PACKAGE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_DEBUGINFO_PACKAGE" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object cmake" id="variable:CPACK_DEBIAN_&lt;component&gt;_DEBUGINFO_PACKAGE">
+<span class="sig-name descname"><span class="pre">CPACK_DEBIAN_&lt;component&gt;_DEBUGINFO_PACKAGE</span></span><a class="headerlink" href="#variable:CPACK_DEBIAN_<component>_DEBUGINFO_PACKAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable generation of dbgsym .ddeb package(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Setting this also strips the ELF files in the generated non-dbgsym package,
+which results in debuginfo only being available in the dbgsym package.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Binaries must contain debug symbols before packaging so use either <code class="docutils literal notranslate"><span class="pre">Debug</span></code>
+or <code class="docutils literal notranslate"><span class="pre">RelWithDebInfo</span></code> for <span class="target" id="index-0-variable:CMAKE_BUILD_TYPE"></span><a class="reference internal" href="../variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE" title="CMAKE_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code></a> variable value.</p>
+<p>Additionally, if <span class="target" id="index-0-variable:CPACK_STRIP_FILES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_STRIP_FILES" title="CPACK_STRIP_FILES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_STRIP_FILES</span></code></a> is set, the files will be stripped before
+they get to the DEB generator, so will not contain debug symbols and
+a dbgsym package will not get built. Do not use with <span class="target" id="index-1-variable:CPACK_STRIP_FILES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_STRIP_FILES" title="CPACK_STRIP_FILES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_STRIP_FILES</span></code></a>.</p>
+</div>
+</section>
+<section id="building-debian-packages-on-windows">
+<h2>Building Debian packages on Windows<a class="headerlink" href="#building-debian-packages-on-windows" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
+<p>To communicate UNIX file permissions from the install stage
+to the CPack DEB generator the <code class="docutils literal notranslate"><span class="pre">cmake_mode_t</span></code> NTFS
+alternate data stream (ADT) is used.</p>
+<p>When a filesystem without ADT support is used only owner read/write
+permissions can be preserved.</p>
+</section>
+<section id="reproducible-packages">
+<h2>Reproducible packages<a class="headerlink" href="#reproducible-packages" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>The environment variable <code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">SOURCE_DATE_EPOCH</span></code> may be set to a UNIX
+timestamp, defined as the number of seconds, excluding leap seconds,
+since 01 Jan 1970 00:00:00 UTC.  If set, the CPack DEB generator will
+use its value for timestamps in the package.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CPack DEB Generator</a><ul>
+<li><a class="reference internal" href="#variables-specific-to-cpack-debian-deb-generator">Variables specific to CPack Debian (DEB) generator</a></li>
+<li><a class="reference internal" href="#packaging-of-debug-information">Packaging of debug information</a></li>
+<li><a class="reference internal" href="#building-debian-packages-on-windows">Building Debian packages on Windows</a></li>
+<li><a class="reference internal" href="#reproducible-packages">Reproducible packages</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cygwin.html"
+                          title="previous chapter">CPack Cygwin Generator</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="dmg.html"
+                          title="next chapter">CPack DragNDrop Generator</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cpack_gen/deb.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="dmg.html" title="CPack DragNDrop Generator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cygwin.html" title="CPack Cygwin Generator"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack DEB Generator</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

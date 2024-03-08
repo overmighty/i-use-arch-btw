@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_NINJA_OUTPUT_PATH_PREFIX &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_NO_BUILTIN_CHRPATH" href="CMAKE_NO_BUILTIN_CHRPATH.html" />
+    <link rel="prev" title="CMAKE_MSVCIDE_RUN_PATH" href="CMAKE_MSVCIDE_RUN_PATH.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_NO_BUILTIN_CHRPATH.html" title="CMAKE_NO_BUILTIN_CHRPATH"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_MSVCIDE_RUN_PATH.html" title="CMAKE_MSVCIDE_RUN_PATH"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_NINJA_OUTPUT_PATH_PREFIX</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-ninja-output-path-prefix">
+<span id="variable:CMAKE_NINJA_OUTPUT_PATH_PREFIX"></span><h1>CMAKE_NINJA_OUTPUT_PATH_PREFIX<a class="headerlink" href="#cmake-ninja-output-path-prefix" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Tell the <a class="reference internal" href="../manual/cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a> to add a prefix to every output path in
+<code class="docutils literal notranslate"><span class="pre">build.ninja</span></code>.  A trailing slash is appended to the prefix, if missing.</p>
+<p>This is useful when the generated ninja file is meant to be embedded as a
+<code class="docutils literal notranslate"><span class="pre">subninja</span></code> file into a <em>super</em> ninja project.  For example, the command:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>super-build-dir<span class="w"> </span><span class="o">&amp;&amp;</span>
+cmake<span class="w"> </span>-G<span class="w"> </span>Ninja<span class="w"> </span>-S<span class="w"> </span>/path/to/src<span class="w"> </span>-B<span class="w"> </span>sub<span class="w"> </span>-DCMAKE_NINJA_OUTPUT_PATH_PREFIX<span class="o">=</span>sub/
+<span class="c1">#                                 ^^^---------- these match -----------^^^</span>
+</pre></div>
+</div>
+<p>generates a build directory with its top-level (<span class="target" id="index-0-variable:CMAKE_BINARY_DIR"></span><a class="reference internal" href="CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>)
+in <code class="docutils literal notranslate"><span class="pre">super-build-dir/sub</span></code>.  The path to the build directory ends in the
+output path prefix.  This makes it suitable for use in a separately-written
+<code class="docutils literal notranslate"><span class="pre">super-build-dir/build.ninja</span></code> file with a directive like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>subninja sub/build.ninja
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">auto-regeneration</span></code> rule in <code class="docutils literal notranslate"><span class="pre">super-build-dir/build.ninja</span></code> must
+have an order-only dependency on <code class="docutils literal notranslate"><span class="pre">sub/build.ninja</span></code>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.27: </span>The <span class="target" id="index-0-generator:Ninja Multi-Config"></span><a class="reference internal" href="../generator/Ninja%20Multi-Config.html#generator:Ninja Multi-Config" title="Ninja Multi-Config"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Ninja</span> <span class="pre">Multi-Config</span></code></a> generator supports this variable.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">CMAKE_NINJA_OUTPUT_PATH_PREFIX</span></code> is set, the project generated
+by CMake cannot be used as a standalone project.  No default targets
+are specified.</p>
+<p>The value of <code class="docutils literal notranslate"><span class="pre">CMAKE_NINJA_OUTPUT_PATH_PREFIX</span></code> must match one or more
+path components at the <em>end</em> of <span class="target" id="index-1-variable:CMAKE_BINARY_DIR"></span><a class="reference internal" href="CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>, or the
+behavior is undefined.  However, this requirement is not checked
+automatically.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_MSVCIDE_RUN_PATH.html"
+                          title="previous chapter">CMAKE_MSVCIDE_RUN_PATH</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_NO_BUILTIN_CHRPATH.html"
+                          title="next chapter">CMAKE_NO_BUILTIN_CHRPATH</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_NINJA_OUTPUT_PATH_PREFIX.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_NO_BUILTIN_CHRPATH.html" title="CMAKE_NO_BUILTIN_CHRPATH"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_MSVCIDE_RUN_PATH.html" title="CMAKE_MSVCIDE_RUN_PATH"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_NINJA_OUTPUT_PATH_PREFIX</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

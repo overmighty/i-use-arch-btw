@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>export &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="fltk_wrap_ui" href="fltk_wrap_ui.html" />
+    <link rel="prev" title="enable_testing" href="enable_testing.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="fltk_wrap_ui.html" title="fltk_wrap_ui"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="enable_testing.html" title="enable_testing"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">export</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="export">
+<span id="command:export"></span><h1>export<a class="headerlink" href="#export" title="Permalink to this heading">¶</a></h1>
+<p>Export targets or packages for outside projects to use them directly
+from the current project's build tree, without installation.</p>
+<p>See the <span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> command to export targets from an
+install tree.</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this heading">¶</a></h2>
+<pre class="literal-block">export(<a class="reference internal" href="#targets">TARGETS</a> &lt;target&gt;... [...])
+export(<a class="reference internal" href="#export">EXPORT</a> &lt;export-name&gt; [...])
+export(<a class="reference internal" href="#package">PACKAGE</a> &lt;PackageName&gt;)
+export(<a class="reference internal" href="#setup">SETUP</a> &lt;export-name&gt; [...])</pre>
+</section>
+<section id="exporting-targets">
+<h2>Exporting Targets<a class="headerlink" href="#exporting-targets" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="targets">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">export(</span></span><span class="no"><span class="pre">TARGETS</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;target&gt;...</span></span><span class="w"> </span><span class="p"><span class="pre">[...]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#targets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nv">&lt;target&gt;...</span><span class="w"> </span><span class="p">[</span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nv">&lt;namespace&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">APPEND</span><span class="p">]</span><span class="w"> </span><span class="no">FILE</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">EXPORT_LINK_INTERFACE_LIBRARIES</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">CXX_MODULES_DIRECTORY</span><span class="w"> </span><span class="nv">&lt;directory&gt;</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Creates a file <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> that may be included by outside projects to
+import targets named by <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;...</span></code> from the current project's build tree.
+This is useful during cross-compiling to build utility executables that can
+run on the host platform in one project and then import them into another
+project being compiled for the target platform.</p>
+<p>The file created by this command is specific to the build tree and
+should never be installed.  See the <span class="target" id="index-1-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> command to
+export targets from an install tree.</p>
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">NAMESPACE</span> <span class="pre">&lt;namespace&gt;</span></code></dt><dd><p>Prepend the <code class="docutils literal notranslate"><span class="pre">&lt;namespace&gt;</span></code> string to all target names written to the file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">APPEND</span></code></dt><dd><p>Append to the file instead of overwriting it.  This can be used to
+incrementally export multiple targets to the same file.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPORT_LINK_INTERFACE_LIBRARIES</span></code></dt><dd><p>Include the contents of the properties named with the pattern
+<code class="docutils literal notranslate"><span class="pre">(IMPORTED_)?LINK_INTERFACE_LIBRARIES(_&lt;CONFIG&gt;)?</span></code>
+in the export, even when policy <span class="target" id="index-0-policy:CMP0022"></span><a class="reference internal" href="../policy/CMP0022.html#policy:CMP0022" title="CMP0022"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0022</span></code></a> is NEW.  This is useful
+to support consumers using CMake versions older than 2.8.12.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CXX_MODULES_DIRECTORY</span> <span class="pre">&lt;directory&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28.</span></p>
+</div>
+<p>Export C++ module properties to files under the given directory. Each file
+will be named according to the target's export name (without any namespace).
+These files will automatically be included from the export file.</p>
+</dd>
+</dl>
+<p>This signature requires all targets to be listed explicitly.  If a library
+target is included in the export, but a target to which it links is not
+included, the behavior is unspecified.  See the <span class="target" id="index-0-command:export"></span><a class="reference internal" href="#command:export" title="export(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export(EXPORT)</span></code></a> signature
+to automatically export the same targets from the build tree as
+<span class="target" id="index-2-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> would from an install tree.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../manual/cmake-buildsystem.7.html#object-libraries"><span class="std std-ref">Object Libraries</span></a> under <span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> have special handling if
+multiple architectures are listed in <span class="target" id="index-0-variable:CMAKE_OSX_ARCHITECTURES"></span><a class="reference internal" href="../variable/CMAKE_OSX_ARCHITECTURES.html#variable:CMAKE_OSX_ARCHITECTURES" title="CMAKE_OSX_ARCHITECTURES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_OSX_ARCHITECTURES</span></code></a>.
+In this case they will be exported as <a class="reference internal" href="../manual/cmake-buildsystem.7.html#interface-libraries"><span class="std std-ref">Interface Libraries</span></a> with
+no object files available to clients.  This is sufficient to satisfy
+transitive usage requirements of other targets that link to the
+object libraries in their implementation.</p>
+</div>
+<p>This command exports all <a class="reference internal" href="../manual/cmake-buildsystem.7.html#build-configurations"><span class="std std-ref">Build Configurations</span></a> from the build tree.
+See the <span class="target" id="index-0-variable:CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;"></span><a class="reference internal" href="../variable/CMAKE_MAP_IMPORTED_CONFIG_CONFIG.html#variable:CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;" title="CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MAP_IMPORTED_CONFIG_&lt;CONFIG&gt;</span></code></a> variable to map
+configurations of dependent projects to the exported configurations.</p>
+<section id="exporting-targets-to-android-mk">
+<h3>Exporting Targets to Android.mk<a class="headerlink" href="#exporting-targets-to-android-mk" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">TARGETS</span><span class="w"> </span><span class="nv">&lt;target&gt;...</span><span class="w"> </span><span class="no">ANDROID_MK</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>This signature exports cmake built targets to the android ndk build system
+by creating an <code class="docutils literal notranslate"><span class="pre">Android.mk</span></code> file that references the prebuilt targets. The
+Android NDK supports the use of prebuilt libraries, both static and shared.
+This allows cmake to build the libraries of a project and make them available
+to an ndk build system complete with transitive dependencies, include flags
+and defines required to use the libraries. The signature takes a list of
+targets and puts them in the <code class="docutils literal notranslate"><span class="pre">Android.mk</span></code> file specified by the
+<code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> given. This signature can only be used if policy
+<span class="target" id="index-1-policy:CMP0022"></span><a class="reference internal" href="../policy/CMP0022.html#policy:CMP0022" title="CMP0022"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0022</span></code></a> is NEW for all targets given. A error will be issued if
+that policy is set to OLD for one of the targets.</p>
+</section>
+</section>
+<section id="exporting-targets-matching-install-export">
+<h2>Exporting Targets matching install(EXPORT)<a class="headerlink" href="#exporting-targets-matching-install-export" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">export(</span></span><span class="no"><span class="pre">EXPORT</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;export-name&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[...]</span></span><span class="nf"><span class="pre">)</span></span></span></dt>
+<dd></dd></dl>
+
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">EXPORT</span><span class="w"> </span><span class="nv">&lt;export-name&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">NAMESPACE</span><span class="w"> </span><span class="nv">&lt;namespace&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">FILE</span><span class="w"> </span><span class="nv">&lt;filename&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">CXX_MODULES_DIRECTORY</span><span class="w"> </span><span class="nv">&lt;directory&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">EXPORT_PACKAGE_DEPENDENCIES</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Creates a file <code class="docutils literal notranslate"><span class="pre">&lt;filename&gt;</span></code> that may be included by outside projects to
+import targets from the current project's build tree.  This is the same
+as the <span class="target" id="index-1-command:export"></span><a class="reference internal" href="#targets" title="export(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export(TARGETS)</span></code></a> signature, except that the targets are not
+explicitly listed.  Instead, it exports the targets associated with
+the installation export <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;</span></code>.  Target installations may be
+associated with the export <code class="docutils literal notranslate"><span class="pre">&lt;export-name&gt;</span></code> using the <code class="docutils literal notranslate"><span class="pre">EXPORT</span></code> option
+of the <span class="target" id="index-3-command:install"></span><a class="reference internal" href="install.html#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> command.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">EXPORT_PACKAGE_DEPENDENCIES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<p>Specify that <span class="target" id="index-0-command:find_dependency"></span><a class="reference internal" href="../module/CMakeFindDependencyMacro.html#command:find_dependency" title="find_dependency"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_dependency()</span></code></a> calls should be exported. See
+<span class="target" id="index-4-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> for details on how this works.</p>
+</dd>
+</dl>
+</section>
+<section id="exporting-packages">
+<h2>Exporting Packages<a class="headerlink" href="#exporting-packages" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="package">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">export(</span></span><span class="no"><span class="pre">PACKAGE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;PackageName&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#package" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">PACKAGE</span><span class="w"> </span><span class="nv">&lt;PackageName&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Store the current build directory in the CMake user package registry
+for package <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;</span></code>.  The <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> command may consider the
+directory while searching for package <code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;</span></code>.  This helps dependent
+projects find and use a package from the current project's build tree
+without help from the user.  Note that the entry in the package
+registry that this command creates works only in conjunction with a
+package configuration file (<code class="docutils literal notranslate"><span class="pre">&lt;PackageName&gt;Config.cmake</span></code>) that works with the
+build tree. In some cases, for example for packaging and for system
+wide installations, it is not desirable to write the user package
+registry.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.1: </span>If the <span class="target" id="index-0-variable:CMAKE_EXPORT_NO_PACKAGE_REGISTRY"></span><a class="reference internal" href="../variable/CMAKE_EXPORT_NO_PACKAGE_REGISTRY.html#variable:CMAKE_EXPORT_NO_PACKAGE_REGISTRY" title="CMAKE_EXPORT_NO_PACKAGE_REGISTRY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_EXPORT_NO_PACKAGE_REGISTRY</span></code></a> variable
+is enabled, the <code class="docutils literal notranslate"><span class="pre">export(PACKAGE)</span></code> command will do nothing.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.15: </span>By default the <code class="docutils literal notranslate"><span class="pre">export(PACKAGE)</span></code> command does nothing (see policy
+<span class="target" id="index-0-policy:CMP0090"></span><a class="reference internal" href="../policy/CMP0090.html#policy:CMP0090" title="CMP0090"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0090</span></code></a>) because populating the user package registry has effects
+outside the source and build trees.  Set the
+<span class="target" id="index-0-variable:CMAKE_EXPORT_PACKAGE_REGISTRY"></span><a class="reference internal" href="../variable/CMAKE_EXPORT_PACKAGE_REGISTRY.html#variable:CMAKE_EXPORT_PACKAGE_REGISTRY" title="CMAKE_EXPORT_PACKAGE_REGISTRY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_EXPORT_PACKAGE_REGISTRY</span></code></a> variable to add build directories
+to the CMake user package registry.</p>
+</div>
+</section>
+<section id="configuring-exports">
+<h2>Configuring Exports<a class="headerlink" href="#configuring-exports" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="setup">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">export(</span></span><span class="no"><span class="pre">SETUP</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;export-name&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[...]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#setup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">export(</span><span class="no">SETUP</span><span class="w"> </span><span class="nv">&lt;export-name&gt;</span>
+<span class="w">       </span><span class="p">[</span><span class="no">PACKAGE_DEPENDENCY</span><span class="w"> </span><span class="nv">&lt;dep&gt;</span>
+<span class="w">        </span><span class="p">[</span><span class="nf">ENABLED</span> <span class="nf">(</span><span class="nv">&lt;bool-true&gt;</span><span class="p">|</span><span class="nv">&lt;bool-false&gt;</span><span class="p">|</span><span class="no">AUTO</span><span class="nf">)</span><span class="p">]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">EXTRA_ARGS</span><span class="w"> </span><span class="nv">&lt;args&gt;...</span><span class="p">]</span>
+<span class="w">       </span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span>
+<span class="w">       </span><span class="p">[</span><span class="no">TARGET</span><span class="w"> </span><span class="nv">&lt;target&gt;</span>
+<span class="w">        </span><span class="p">[</span><span class="no">XCFRAMEWORK_LOCATION</span><span class="w"> </span><span class="nv">&lt;location&gt;</span><span class="p">]</span>
+<span class="w">       </span><span class="p">]</span><span class="w"> </span><span class="p">[...]</span>
+<span class="w">       </span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<p>Configure the parameters of an export. The arguments are as follows:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">PACKAGE_DEPENDENCY</span> <span class="pre">&lt;dep&gt;</span></code></dt><dd><p>Specify a package dependency to configure. This changes how
+<span class="target" id="index-1-command:find_dependency"></span><a class="reference internal" href="../module/CMakeFindDependencyMacro.html#command:find_dependency" title="find_dependency"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_dependency()</span></code></a> calls are written during
+<span class="target" id="index-2-command:export"></span><a class="reference internal" href="#command:export" title="export(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export(EXPORT)</span></code></a> and <span class="target" id="index-5-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a>. <code class="docutils literal notranslate"><span class="pre">&lt;dep&gt;</span></code> is the
+name of a package to export. This argument accepts the following additional
+arguments:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">ENABLED</span></code></dt><dd><p>Manually control whether or not the dependency is exported. This accepts
+the following values:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;bool-true&gt;</span></code></dt><dd><p>Any value that CMake recognizes as &quot;true&quot;. Always export the dependency,
+even if no exported targets depend on it. This can be used to manually
+add <span class="target" id="index-2-command:find_dependency"></span><a class="reference internal" href="../module/CMakeFindDependencyMacro.html#command:find_dependency" title="find_dependency"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_dependency()</span></code></a> calls to the export.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">&lt;bool-false&gt;</span></code></dt><dd><p>Any value that CMake recognizes as &quot;false&quot;. Never export the dependency,
+even if an exported target depends on it.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">AUTO</span></code></dt><dd><p>Only export the dependency if an exported target depends on it.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">EXTRA_ARGS</span> <span class="pre">&lt;args&gt;</span></code></dt><dd><p>Specify additional arguments to pass to <span class="target" id="index-3-command:find_dependency"></span><a class="reference internal" href="../module/CMakeFindDependencyMacro.html#command:find_dependency" title="find_dependency"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_dependency()</span></code></a> after
+the <code class="docutils literal notranslate"><span class="pre">REQUIRED</span></code> argument.</p>
+</dd>
+</dl>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TARGET</span> <span class="pre">&lt;target&gt;</span></code></dt><dd><p>Specify a target to configure in this export. This argument accepts the
+following additional arguments:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">XCFRAMEWORK_LOCATION</span></code></dt><dd><p>Specify the location of an <code class="docutils literal notranslate"><span class="pre">.xcframework</span></code> which contains the library from
+this target. If specified, the generated code will check to see if the
+<code class="docutils literal notranslate"><span class="pre">.xcframework</span></code> exists, and if it does, it will use the <code class="docutils literal notranslate"><span class="pre">.xcframework</span></code>
+as its imported location instead of the installed library.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">export</a><ul>
+<li><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li><a class="reference internal" href="#exporting-targets">Exporting Targets</a><ul>
+<li><a class="reference internal" href="#exporting-targets-to-android-mk">Exporting Targets to Android.mk</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#exporting-targets-matching-install-export">Exporting Targets matching install(EXPORT)</a></li>
+<li><a class="reference internal" href="#exporting-packages">Exporting Packages</a></li>
+<li><a class="reference internal" href="#configuring-exports">Configuring Exports</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="enable_testing.html"
+                          title="previous chapter">enable_testing</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="fltk_wrap_ui.html"
+                          title="next chapter">fltk_wrap_ui</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/export.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="fltk_wrap_ui.html" title="fltk_wrap_ui"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="enable_testing.html" title="enable_testing"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">export</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

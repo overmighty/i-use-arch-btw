@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_VERIFY_INTERFACE_HEADER_SETS &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_VISIBILITY_INLINES_HIDDEN" href="CMAKE_VISIBILITY_INLINES_HIDDEN.html" />
+    <link rel="prev" title="CMAKE_UNITY_BUILD_UNIQUE_ID" href="CMAKE_UNITY_BUILD_UNIQUE_ID.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_VISIBILITY_INLINES_HIDDEN.html" title="CMAKE_VISIBILITY_INLINES_HIDDEN"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_UNITY_BUILD_UNIQUE_ID.html" title="CMAKE_UNITY_BUILD_UNIQUE_ID"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_VERIFY_INTERFACE_HEADER_SETS</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-verify-interface-header-sets">
+<span id="variable:CMAKE_VERIFY_INTERFACE_HEADER_SETS"></span><h1>CMAKE_VERIFY_INTERFACE_HEADER_SETS<a class="headerlink" href="#cmake-verify-interface-header-sets" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>This variable is used to initialize the
+<span class="target" id="index-0-prop_tgt:VERIFY_INTERFACE_HEADER_SETS"></span><a class="reference internal" href="../prop_tgt/VERIFY_INTERFACE_HEADER_SETS.html#prop_tgt:VERIFY_INTERFACE_HEADER_SETS" title="VERIFY_INTERFACE_HEADER_SETS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">VERIFY_INTERFACE_HEADER_SETS</span></code></a> property of targets when they are
+created.  Setting it to true enables header set verification.</p>
+<p>Projects should not normally set this variable, it is intended as a developer
+control to be set on the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> command line or other
+equivalent methods.  The developer must have the ability to enable or
+disable header set verification according to the capabilities of their own
+machine and compiler.</p>
+<p>Verification of a dependency's header sets is not typically of interest
+to developers.  Therefore, <span class="target" id="index-0-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> explicitly
+sets <code class="docutils literal notranslate"><span class="pre">CMAKE_VERIFY_INTERFACE_HEADER_SETS</span></code> to false for the duration of its
+call, but restores its original value before returning.  If a project brings
+a dependency directly into the main build (e.g. calling
+<span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> on a vendored project from a git submodule), it
+should also do likewise.  For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Save original setting so we can restore it later</span>
+<span class="nf">set(</span><span class="nb">want_header_set_verification</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_VERIFY_INTERFACE_HEADER_SETS</span><span class="o">}</span><span class="nf">)</span>
+
+<span class="c"># Include the vendored dependency with header set verification disabled</span>
+<span class="nf">set(</span><span class="no">CMAKE_VERIFY_INTERFACE_HEADER_SETS</span><span class="w"> </span><span class="no">OFF</span><span class="nf">)</span>
+<span class="nf">add_subdirectory(</span><span class="p">...</span><span class="nf">)</span><span class="w">   </span><span class="c"># Vendored sources, e.g. from git submodules</span>
+
+<span class="c"># Add the project&#39;s own sources. Restore the developer&#39;s original choice</span>
+<span class="c"># for whether to enable header set verification.</span>
+<span class="nf">set(</span><span class="no">CMAKE_VERIFY_INTERFACE_HEADER_SETS</span><span class="w"> </span><span class="o">${</span><span class="nt">want_header_set_verification</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">add_subdirectory(</span><span class="nb">src</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>By default, this variable is not set, which will result in header set
+verification being disabled.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_UNITY_BUILD_UNIQUE_ID.html"
+                          title="previous chapter">CMAKE_UNITY_BUILD_UNIQUE_ID</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_VISIBILITY_INLINES_HIDDEN.html"
+                          title="next chapter">CMAKE_VISIBILITY_INLINES_HIDDEN</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_VERIFY_INTERFACE_HEADER_SETS.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_VISIBILITY_INLINES_HIDDEN.html" title="CMAKE_VISIBILITY_INLINES_HIDDEN"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_UNITY_BUILD_UNIQUE_ID.html" title="CMAKE_UNITY_BUILD_UNIQUE_ID"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_VERIFY_INTERFACE_HEADER_SETS</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

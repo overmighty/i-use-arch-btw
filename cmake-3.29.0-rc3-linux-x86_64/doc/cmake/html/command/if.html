@@ -1,0 +1,691 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>if &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="include" href="include.html" />
+    <link rel="prev" title="get_property" href="get_property.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="include.html" title="include"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="get_property.html" title="get_property"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">if</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="if">
+<span id="command:if"></span><h1>if<a class="headerlink" href="#if" title="Permalink to this heading">¶</a></h1>
+<p>Conditionally execute a group of commands.</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">if(</span><span class="nv">&lt;condition&gt;</span><span class="nf">)</span>
+<span class="w">  </span><span class="nv">&lt;commands&gt;</span>
+<span class="nf">elseif(</span><span class="nv">&lt;condition&gt;</span><span class="nf">)</span><span class="w"> </span><span class="c"># optional block, can be repeated</span>
+<span class="w">  </span><span class="nv">&lt;commands&gt;</span>
+<span class="nf">else()</span><span class="w">              </span><span class="c"># optional block</span>
+<span class="w">  </span><span class="nv">&lt;commands&gt;</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p>Evaluates the <code class="docutils literal notranslate"><span class="pre">condition</span></code> argument of the <code class="docutils literal notranslate"><span class="pre">if</span></code> clause according to the
+<a class="reference internal" href="#condition-syntax">Condition syntax</a> described below. If the result is true, then the
+<code class="docutils literal notranslate"><span class="pre">commands</span></code> in the <code class="docutils literal notranslate"><span class="pre">if</span></code> block are executed.
+Otherwise, optional <code class="docutils literal notranslate"><span class="pre">elseif</span></code> blocks are processed in the same way.
+Finally, if no <code class="docutils literal notranslate"><span class="pre">condition</span></code> is true, <code class="docutils literal notranslate"><span class="pre">commands</span></code> in the optional <code class="docutils literal notranslate"><span class="pre">else</span></code>
+block are executed.</p>
+<p>Per legacy, the <span class="target" id="index-0-command:else"></span><a class="reference internal" href="else.html#command:else" title="else"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">else()</span></code></a> and <span class="target" id="index-0-command:endif"></span><a class="reference internal" href="endif.html#command:endif" title="endif"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">endif()</span></code></a> commands admit
+an optional <code class="docutils literal notranslate"><span class="pre">&lt;condition&gt;</span></code> argument.
+If used, it must be a verbatim
+repeat of the argument of the opening
+<code class="docutils literal notranslate"><span class="pre">if</span></code> command.</p>
+</section>
+<section id="condition-syntax">
+<span id="id1"></span><h2>Condition Syntax<a class="headerlink" href="#condition-syntax" title="Permalink to this heading">¶</a></h2>
+<p>The following syntax applies to the <code class="docutils literal notranslate"><span class="pre">condition</span></code> argument of
+the <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">elseif</span></code> and <span class="target" id="index-0-command:while"></span><a class="reference internal" href="while.html#command:while" title="while"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">while()</span></code></a> clauses.</p>
+<p>Compound conditions are evaluated in the following order of precedence:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#parentheses">Parentheses</a>.</p></li>
+<li><p>Unary tests such as <a class="reference internal" href="#exists">EXISTS</a>, <a class="reference internal" href="#command">COMMAND</a>, and <a class="reference internal" href="#defined">DEFINED</a>.</p></li>
+<li><p>Binary tests such as <a class="reference internal" href="#equal">EQUAL</a>, <a class="reference internal" href="#less">LESS</a>, <a class="reference internal" href="#less-equal">LESS_EQUAL</a>, <a class="reference internal" href="#greater">GREATER</a>,
+<a class="reference internal" href="#greater-equal">GREATER_EQUAL</a>, <a class="reference internal" href="#strequal">STREQUAL</a>, <a class="reference internal" href="#strless">STRLESS</a>, <a class="reference internal" href="#strless-equal">STRLESS_EQUAL</a>,
+<a class="reference internal" href="#strgreater">STRGREATER</a>, <a class="reference internal" href="#strgreater-equal">STRGREATER_EQUAL</a>, <a class="reference internal" href="#version-equal">VERSION_EQUAL</a>, <a class="reference internal" href="#version-less">VERSION_LESS</a>,
+<a class="reference internal" href="#version-less-equal">VERSION_LESS_EQUAL</a>, <a class="reference internal" href="#version-greater">VERSION_GREATER</a>, <a class="reference internal" href="#version-greater-equal">VERSION_GREATER_EQUAL</a>,
+<a class="reference internal" href="#path-equal">PATH_EQUAL</a>, and <a class="reference internal" href="#matches">MATCHES</a>.</p></li>
+<li><p>Unary logical operator <a class="reference internal" href="#not">NOT</a>.</p></li>
+<li><p>Binary logical operators <a class="reference internal" href="#and">AND</a> and <a class="reference internal" href="#or">OR</a>, from left to right,
+without any short-circuit.</p></li>
+</ol>
+<section id="basic-expressions">
+<h3>Basic Expressions<a class="headerlink" href="#basic-expressions" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="constant">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="nv"><span class="pre">&lt;constant&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the constant is <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">ON</span></code>, <code class="docutils literal notranslate"><span class="pre">YES</span></code>, <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>, <code class="docutils literal notranslate"><span class="pre">Y</span></code>,
+or a non-zero number (including floating point numbers).
+False if the constant is <code class="docutils literal notranslate"><span class="pre">0</span></code>, <code class="docutils literal notranslate"><span class="pre">OFF</span></code>,
+<code class="docutils literal notranslate"><span class="pre">NO</span></code>, <code class="docutils literal notranslate"><span class="pre">FALSE</span></code>, <code class="docutils literal notranslate"><span class="pre">N</span></code>, <code class="docutils literal notranslate"><span class="pre">IGNORE</span></code>, <code class="docutils literal notranslate"><span class="pre">NOTFOUND</span></code>, the empty string,
+or ends in the suffix <code class="docutils literal notranslate"><span class="pre">-NOTFOUND</span></code>.  Named boolean constants are
+case-insensitive.  If the argument is not one of these specific
+constants, it is treated as a variable or string (see <a class="reference internal" href="#variable-expansion">Variable Expansion</a>
+further below) and one of the following two forms applies.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="variable">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="nv"><span class="pre">&lt;variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if given a variable that is defined to a value that is not a false
+constant.  False otherwise, including if the variable is undefined.
+Note that macro arguments are not variables.
+<a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-environment-variables"><span class="std std-ref">Environment Variables</span></a> also
+cannot be tested this way, e.g. <code class="docutils literal notranslate"><span class="pre">if(ENV{some_var})</span></code> will always evaluate
+to false.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="string">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="nv"><span class="pre">&lt;string&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#string" title="Permalink to this definition">¶</a></dt>
+<dd><p>A quoted string always evaluates to false unless:</p>
+<ul class="simple">
+<li><p>The string's value is one of the true constants, or</p></li>
+<li><p>Policy <span class="target" id="index-0-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a> is not set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code> and the string's value
+happens to be a variable name that is affected by <span class="target" id="index-1-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a>'s
+behavior.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="logic-operators">
+<h3>Logic Operators<a class="headerlink" href="#logic-operators" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="not">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">NOT</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;condition&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#not" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the condition is not true.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="and">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="nv"><span class="pre">&lt;cond1&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">AND</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;cond2&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#and" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if both conditions would be considered true individually.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="or">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="nv"><span class="pre">&lt;cond1&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">OR</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;cond2&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#or" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if either condition would be considered true individually.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="parentheses">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if((</span></span><span class="nb"><span class="pre">condition</span></span><span class="nf"><span class="pre">)</span></span><span class="w"> </span><span class="nf"><span class="pre">AND</span></span> <span class="nf"><span class="pre">(</span></span><span class="nb"><span class="pre">condition</span></span><span class="w"> </span><span class="nf"><span class="pre">OR</span></span> <span class="nf"><span class="pre">(</span></span><span class="nb"><span class="pre">condition</span></span><span class="nf"><span class="pre">)))</span></span></span><a class="headerlink" href="#parentheses" title="Permalink to this definition">¶</a></dt>
+<dd><p>The conditions inside the parenthesis are evaluated first and then
+the remaining condition is evaluated as in the other examples.
+Where there are nested parenthesis the innermost are evaluated as part
+of evaluating the condition that contains them.</p>
+</dd></dl>
+
+</section>
+<section id="existence-checks">
+<h3>Existence Checks<a class="headerlink" href="#existence-checks" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="command">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">COMMAND</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;command-name&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#command" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given name is a command, macro or function that can be
+invoked.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="policy">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">POLICY</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;policy-id&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given name is an existing policy (of the form <code class="docutils literal notranslate"><span class="pre">CMP&lt;NNNN&gt;</span></code>).</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="target">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">TARGET</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;target-name&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#target" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given name is an existing logical target name created
+by a call to the <span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a>, <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a>,
+or <span class="target" id="index-0-command:add_custom_target"></span><a class="reference internal" href="add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_target()</span></code></a> command that has already been invoked
+(in any directory).</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="test">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">TEST</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;test-name&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#test" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>True if the given name is an existing test name created by the
+<span class="target" id="index-0-command:add_test"></span><a class="reference internal" href="add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> command.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="defined">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">DEFINED</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;name&gt;</span></span><span class="p"><span class="pre">|</span></span><span class="o"><span class="pre">CACHE{</span></span><span class="nt"><span class="pre">&lt;name&gt;</span></span><span class="o"><span class="pre">}</span></span><span class="p"><span class="pre">|</span></span><span class="o"><span class="pre">ENV{</span></span><span class="nt"><span class="pre">&lt;name&gt;</span></span><span class="o"><span class="pre">}</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#defined" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>True if a variable, cache variable or environment variable
+with given <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;</span></code> is defined. The value of the variable
+does not matter. Note the following caveats:</p>
+<ul class="simple">
+<li><p>Macro arguments are not variables.</p></li>
+<li><p>It is not possible to test directly whether a <cite>&lt;name&gt;</cite> is a non-cache
+variable.  The expression <code class="docutils literal notranslate"><span class="pre">if(DEFINED</span> <span class="pre">someName)</span></code> will evaluate to true
+if either a cache or non-cache variable <code class="docutils literal notranslate"><span class="pre">someName</span></code> exists.  In
+comparison, the expression <code class="docutils literal notranslate"><span class="pre">if(DEFINED</span> <span class="pre">CACHE{someName})</span></code> will only
+evaluate to true if a cache variable <code class="docutils literal notranslate"><span class="pre">someName</span></code> exists.  Both expressions
+need to be tested if you need to know whether a non-cache variable exists:
+<code class="docutils literal notranslate"><span class="pre">if(DEFINED</span> <span class="pre">someName</span> <span class="pre">AND</span> <span class="pre">NOT</span> <span class="pre">DEFINED</span> <span class="pre">CACHE{someName})</span></code>.</p></li>
+</ul>
+</div></blockquote>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14: </span>Added support for <code class="docutils literal notranslate"><span class="pre">CACHE{&lt;name&gt;}</span></code> variables.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="in-list">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">IN_LIST</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#in-list" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>True if the given element is contained in the named list variable.</p>
+</dd></dl>
+
+</section>
+<section id="file-operations">
+<h3>File Operations<a class="headerlink" href="#file-operations" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="exists">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">EXISTS</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path-to-file-or-directory&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the named file or directory exists and is readable.  Behavior
+is well-defined only for explicit full paths (a leading <code class="docutils literal notranslate"><span class="pre">~/</span></code> is not
+expanded as a home directory and is considered a relative path).
+Resolves symbolic links, i.e. if the named file or directory is a
+symbolic link, returns true if the target of the symbolic link exists.</p>
+<p>False if the given path is an empty string.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Prefer <code class="docutils literal notranslate"><span class="pre">if(IS_READABLE)</span></code> to check file readability.  <code class="docutils literal notranslate"><span class="pre">if(EXISTS)</span></code>
+may be changed in the future to to only check file existence.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-readable">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">IS_READABLE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path-to-file-or-directory&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-readable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<p>True if the named file or directory is readable.  Behavior
+is well-defined only for explicit full paths (a leading <code class="docutils literal notranslate"><span class="pre">~/</span></code> is not
+expanded as a home directory and is considered a relative path).
+Resolves symbolic links, i.e. if the named file or directory is a
+symbolic link, returns true if the target of the symbolic link is readable.</p>
+<p>False if the given path is an empty string.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-writable">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">IS_WRITABLE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path-to-file-or-directory&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-writable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<p>True if the named file or directory is writable.  Behavior
+is well-defined only for explicit full paths (a leading <code class="docutils literal notranslate"><span class="pre">~/</span></code> is not
+expanded as a home directory and is considered a relative path).
+Resolves symbolic links, i.e. if the named file or directory is a
+symbolic link, returns true if the target of the symbolic link is writable.</p>
+<p>False if the given path is an empty string.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-executable">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">IS_EXECUTABLE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path-to-file-or-directory&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-executable" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<p>True if the named file or directory is executable.  Behavior
+is well-defined only for explicit full paths (a leading <code class="docutils literal notranslate"><span class="pre">~/</span></code> is not
+expanded as a home directory and is considered a relative path).
+Resolves symbolic links, i.e. if the named file or directory is a
+symbolic link, returns true if the target of the symbolic link is executable.</p>
+<p>False if the given path is an empty string.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-newer-than">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="nv"><span class="pre">&lt;file1&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">IS_NEWER_THAN</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;file2&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-newer-than" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if <code class="docutils literal notranslate"><span class="pre">file1</span></code> is newer than <code class="docutils literal notranslate"><span class="pre">file2</span></code> or if one of the two files doesn't
+exist.  Behavior is well-defined only for full paths.  If the file
+time stamps are exactly the same, an <code class="docutils literal notranslate"><span class="pre">IS_NEWER_THAN</span></code> comparison returns
+true, so that any dependent build operations will occur in the event
+of a tie.  This includes the case of passing the same file name for
+both file1 and file2.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-directory">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">IS_DIRECTORY</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-directory" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if <code class="docutils literal notranslate"><span class="pre">path</span></code> is a directory.  Behavior is well-defined only
+for full paths.</p>
+<p>False if the given path is an empty string.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-symlink">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">IS_SYMLINK</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-symlink" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given path is a symbolic link.  Behavior is well-defined
+only for full paths.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="is-absolute">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="no"><span class="pre">IS_ABSOLUTE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;path&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#is-absolute" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given path is an absolute path.  Note the following special
+cases:</p>
+<ul class="simple">
+<li><p>An empty <code class="docutils literal notranslate"><span class="pre">path</span></code> evaluates to false.</p></li>
+<li><p>On Windows hosts, any <code class="docutils literal notranslate"><span class="pre">path</span></code> that begins with a drive letter and colon
+(e.g. <code class="docutils literal notranslate"><span class="pre">C:</span></code>), a forward slash or a backslash will evaluate to true.
+This means a path like <code class="docutils literal notranslate"><span class="pre">C:no\base\dir</span></code> will evaluate to true, even
+though the non-drive part of the path is relative.</p></li>
+<li><p>On non-Windows hosts, any <code class="docutils literal notranslate"><span class="pre">path</span></code> that begins with a tilde (<code class="docutils literal notranslate"><span class="pre">~</span></code>)
+evaluates to true.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+<section id="comparisons">
+<h3>Comparisons<a class="headerlink" href="#comparisons" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="matches">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">MATCHES</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;regex&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#matches" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value matches the given regular
+expression.  See <a class="reference internal" href="string.html#regex-specification"><span class="std std-ref">Regex Specification</span></a> for regex format.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span><code class="docutils literal notranslate"><span class="pre">()</span></code> groups are captured in <span class="target" id="index-0-variable:CMAKE_MATCH_&lt;n&gt;"></span><a class="reference internal" href="../variable/CMAKE_MATCH_n.html#variable:CMAKE_MATCH_&lt;n&gt;" title="CMAKE_MATCH_&lt;n&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MATCH_&lt;n&gt;</span></code></a> variables.</p>
+</div>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="less">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">LESS</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#less" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value parses as a real number
+(like a C <code class="docutils literal notranslate"><span class="pre">double</span></code>) and less than that on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="greater">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">GREATER</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#greater" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value parses as a real number
+(like a C <code class="docutils literal notranslate"><span class="pre">double</span></code>) and greater than that on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value parses as a real number
+(like a C <code class="docutils literal notranslate"><span class="pre">double</span></code>) and equal to that on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="less-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">LESS_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#less-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>True if the given string or variable's value parses as a real number
+(like a C <code class="docutils literal notranslate"><span class="pre">double</span></code>) and less than or equal to that on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="greater-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">GREATER_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#greater-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>True if the given string or variable's value parses as a real number
+(like a C <code class="docutils literal notranslate"><span class="pre">double</span></code>) and greater than or equal to that on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="strless">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">STRLESS</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#strless" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value is lexicographically less
+than the string or variable on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="strgreater">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">STRGREATER</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#strgreater" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value is lexicographically greater
+than the string or variable on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="strequal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">STREQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#strequal" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if the given string or variable's value is lexicographically equal
+to the string or variable on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="strless-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">STRLESS_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#strless-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>True if the given string or variable's value is lexicographically less
+than or equal to the string or variable on the right.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="strgreater-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">STRGREATER_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#strgreater-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>True if the given string or variable's value is lexicographically greater
+than or equal to the string or variable on the right.</p>
+</dd></dl>
+
+</section>
+<section id="version-comparisons">
+<h3>Version Comparisons<a class="headerlink" href="#version-comparisons" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="version-less">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">VERSION_LESS</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#version-less" title="Permalink to this definition">¶</a></dt>
+<dd><p>Component-wise integer version number comparison (version format is
+<code class="docutils literal notranslate"><span class="pre">major[.minor[.patch[.tweak]]]</span></code>, omitted components are treated as zero).
+Any non-integer version component or non-integer trailing part of a version
+component effectively truncates the string at that point.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="version-greater">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">VERSION_GREATER</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#version-greater" title="Permalink to this definition">¶</a></dt>
+<dd><p>Component-wise integer version number comparison (version format is
+<code class="docutils literal notranslate"><span class="pre">major[.minor[.patch[.tweak]]]</span></code>, omitted components are treated as zero).
+Any non-integer version component or non-integer trailing part of a version
+component effectively truncates the string at that point.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="version-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">VERSION_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#version-equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Component-wise integer version number comparison (version format is
+<code class="docutils literal notranslate"><span class="pre">major[.minor[.patch[.tweak]]]</span></code>, omitted components are treated as zero).
+Any non-integer version component or non-integer trailing part of a version
+component effectively truncates the string at that point.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="version-less-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">VERSION_LESS_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#version-less-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Component-wise integer version number comparison (version format is
+<code class="docutils literal notranslate"><span class="pre">major[.minor[.patch[.tweak]]]</span></code>, omitted components are treated as zero).
+Any non-integer version component or non-integer trailing part of a version
+component effectively truncates the string at that point.</p>
+</dd></dl>
+
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="version-greater-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">VERSION_GREATER_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#version-greater-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Component-wise integer version number comparison (version format is
+<code class="docutils literal notranslate"><span class="pre">major[.minor[.patch[.tweak]]]</span></code>, omitted components are treated as zero).
+Any non-integer version component or non-integer trailing part of a version
+component effectively truncates the string at that point.</p>
+</dd></dl>
+
+</section>
+<section id="path-comparisons">
+<h3>Path Comparisons<a class="headerlink" href="#path-comparisons" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="path-equal">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">if(</span></span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">PATH_EQUAL</span></span><span class="w"> </span><span class="o"><span class="pre">&lt;</span></span><span class="nb"><span class="pre">variable</span></span><span class="p"><span class="pre">|</span></span><span class="nb"><span class="pre">string</span></span><span class="o"><span class="pre">&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#path-equal" title="Permalink to this definition">¶</a></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Compares the two paths component-by-component.  Only if every component of
+both paths match will the two paths compare equal.  Multiple path separators
+are effectively collapsed into a single separator, but note that backslashes
+are not converted to forward slashes.  No other
+<a class="reference internal" href="cmake_path.html#normalization"><span class="std std-ref">path normalization</span></a> is performed.</p>
+<p>Component-wise comparison is superior to string-based comparison due to the
+handling of multiple path separators.  In the following example, the
+expression evaluates to true using <code class="docutils literal notranslate"><span class="pre">PATH_EQUAL</span></code>, but false with
+<code class="docutils literal notranslate"><span class="pre">STREQUAL</span></code>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># comparison is TRUE</span>
+<span class="nf">if</span> <span class="nf">(</span><span class="s">&quot;/a//b/c&quot;</span><span class="w"> </span><span class="no">PATH_EQUAL</span><span class="w"> </span><span class="s">&quot;/a/b/c&quot;</span><span class="nf">)</span>
+<span class="w">   </span><span class="p">...</span>
+<span class="nf">endif()</span>
+
+<span class="c"># comparison is FALSE</span>
+<span class="nf">if</span> <span class="nf">(</span><span class="s">&quot;/a//b/c&quot;</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;/a/b/c&quot;</span><span class="nf">)</span>
+<span class="w">   </span><span class="p">...</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="cmake_path.html#path-compare"><span class="std std-ref">cmake_path(COMPARE)</span></a> for more details.</p>
+</dd></dl>
+
+</section>
+</section>
+<section id="variable-expansion">
+<h2>Variable Expansion<a class="headerlink" href="#variable-expansion" title="Permalink to this heading">¶</a></h2>
+<p>The if command was written very early in CMake's history, predating
+the <code class="docutils literal notranslate"><span class="pre">${}</span></code> variable evaluation syntax, and for convenience evaluates
+variables named by its arguments as shown in the above signatures.
+Note that normal variable evaluation with <code class="docutils literal notranslate"><span class="pre">${}</span></code> applies before the if
+command even receives the arguments.  Therefore code like</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">var1</span><span class="w"> </span><span class="no">OFF</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">var2</span><span class="w"> </span><span class="s">&quot;var1&quot;</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="o">${</span><span class="nt">var2</span><span class="o">}</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>appears to the if command as</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">if(</span><span class="nb">var1</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>and is evaluated according to the <code class="docutils literal notranslate"><span class="pre">if(&lt;variable&gt;)</span></code> case documented
+above.  The result is <code class="docutils literal notranslate"><span class="pre">OFF</span></code> which is false.  However, if we remove the
+<code class="docutils literal notranslate"><span class="pre">${}</span></code> from the example then the command sees</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">if(</span><span class="nb">var2</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>which is true because <code class="docutils literal notranslate"><span class="pre">var2</span></code> is defined to <code class="docutils literal notranslate"><span class="pre">var1</span></code> which is not a false
+constant.</p>
+<p>Automatic evaluation applies in the other cases whenever the
+above-documented condition syntax accepts <code class="docutils literal notranslate"><span class="pre">&lt;variable|string&gt;</span></code>:</p>
+<ul class="simple">
+<li><p>The left hand argument to <a class="reference internal" href="#matches">MATCHES</a> is first checked to see if it is
+a defined variable.  If so, the variable's value is used, otherwise the
+original value is used.</p></li>
+<li><p>If the left hand argument to <a class="reference internal" href="#matches">MATCHES</a> is missing it returns false
+without error</p></li>
+<li><p>Both left and right hand arguments to <a class="reference internal" href="#less">LESS</a>, <a class="reference internal" href="#greater">GREATER</a>, <a class="reference internal" href="#equal">EQUAL</a>,
+<a class="reference internal" href="#less-equal">LESS_EQUAL</a>, and <a class="reference internal" href="#greater-equal">GREATER_EQUAL</a>, are independently tested to see if
+they are defined variables.  If so, their defined values are used otherwise
+the original value is used.</p></li>
+<li><p>Both left and right hand arguments to <a class="reference internal" href="#strless">STRLESS</a>, <a class="reference internal" href="#strgreater">STRGREATER</a>,
+<a class="reference internal" href="#strequal">STREQUAL</a>, <a class="reference internal" href="#strless-equal">STRLESS_EQUAL</a>, and <a class="reference internal" href="#strgreater-equal">STRGREATER_EQUAL</a> are independently
+tested to see if they are defined variables.  If so, their defined values are
+used otherwise the original value is used.</p></li>
+<li><p>Both left and right hand arguments to <a class="reference internal" href="#version-less">VERSION_LESS</a>,
+<a class="reference internal" href="#version-greater">VERSION_GREATER</a>, <a class="reference internal" href="#version-equal">VERSION_EQUAL</a>, <a class="reference internal" href="#version-less-equal">VERSION_LESS_EQUAL</a>, and
+<a class="reference internal" href="#version-greater-equal">VERSION_GREATER_EQUAL</a> are independently tested to see if they are defined
+variables.  If so, their defined values are used otherwise the original value
+is used.</p></li>
+<li><p>The right hand argument to <a class="reference internal" href="#not">NOT</a> is tested to see if it is a boolean
+constant.  If so, the value is used, otherwise it is assumed to be a
+variable and it is dereferenced.</p></li>
+<li><p>The left and right hand arguments to <a class="reference internal" href="#and">AND</a> and <a class="reference internal" href="#or">OR</a> are independently
+tested to see if they are boolean constants.  If so, they are used as
+such, otherwise they are assumed to be variables and are dereferenced.</p></li>
+</ul>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.1: </span>To prevent ambiguity, potential variable or keyword names can be
+specified in a <a class="reference internal" href="../manual/cmake-language.7.html#quoted-argument"><span class="std std-ref">Quoted Argument</span></a> or a <a class="reference internal" href="../manual/cmake-language.7.html#bracket-argument"><span class="std std-ref">Bracket Argument</span></a>.
+A quoted or bracketed variable or keyword will be interpreted as a
+string and not dereferenced or interpreted.
+See policy <span class="target" id="index-2-policy:CMP0054"></span><a class="reference internal" href="../policy/CMP0054.html#policy:CMP0054" title="CMP0054"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0054</span></code></a>.</p>
+</div>
+<p>There is no automatic evaluation for environment or cache
+<a class="reference internal" href="../manual/cmake-language.7.html#variable-references"><span class="std std-ref">Variable References</span></a>.  Their values must be referenced as
+<code class="docutils literal notranslate"><span class="pre">$ENV{&lt;name&gt;}</span></code> or <code class="docutils literal notranslate"><span class="pre">$CACHE{&lt;name&gt;}</span></code> wherever the above-documented
+condition syntax accepts <code class="docutils literal notranslate"><span class="pre">&lt;variable|string&gt;</span></code>.</p>
+</section>
+<section id="see-also">
+<h2>See also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-1-command:else"></span><a class="reference internal" href="else.html#command:else" title="else"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">else()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:elseif"></span><a class="reference internal" href="elseif.html#command:elseif" title="elseif"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">elseif()</span></code></a></p></li>
+<li><p><span class="target" id="index-1-command:endif"></span><a class="reference internal" href="endif.html#command:endif" title="endif"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">endif()</span></code></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">if</a><ul>
+<li><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li><a class="reference internal" href="#condition-syntax">Condition Syntax</a><ul>
+<li><a class="reference internal" href="#basic-expressions">Basic Expressions</a></li>
+<li><a class="reference internal" href="#logic-operators">Logic Operators</a></li>
+<li><a class="reference internal" href="#existence-checks">Existence Checks</a></li>
+<li><a class="reference internal" href="#file-operations">File Operations</a></li>
+<li><a class="reference internal" href="#comparisons">Comparisons</a></li>
+<li><a class="reference internal" href="#version-comparisons">Version Comparisons</a></li>
+<li><a class="reference internal" href="#path-comparisons">Path Comparisons</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#variable-expansion">Variable Expansion</a></li>
+<li><a class="reference internal" href="#see-also">See also</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="get_property.html"
+                          title="previous chapter">get_property</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="include.html"
+                          title="next chapter">include</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/if.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="include.html" title="include"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="get_property.html" title="get_property"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">if</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

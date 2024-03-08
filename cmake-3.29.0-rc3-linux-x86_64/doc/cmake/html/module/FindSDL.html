@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>FindSDL &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FindSDL_image" href="FindSDL_image.html" />
+    <link rel="prev" title="FindRuby" href="FindRuby.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="FindSDL_image.html" title="FindSDL_image"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FindRuby.html" title="FindRuby"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindSDL</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="findsdl">
+<span id="module:FindSDL"></span><h1>FindSDL<a class="headerlink" href="#findsdl" title="Permalink to this heading">¶</a></h1>
+<p>Locate the SDL library</p>
+<section id="imported-targets">
+<h2>Imported targets<a class="headerlink" href="#imported-targets" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SDL::SDL</span></code></dt><dd><p>The SDL library, if found</p>
+</dd>
+</dl>
+</section>
+<section id="result-variables">
+<h2>Result variables<a class="headerlink" href="#result-variables" title="Permalink to this heading">¶</a></h2>
+<p>This module will set the following variables in your project:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_INCLUDE_DIRS</span></code></dt><dd><p>where to find SDL.h</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_LIBRARIES</span></code></dt><dd><p>the name of the library to link against</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_FOUND</span></code></dt><dd><p>if false, do not try to link to SDL</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_VERSION</span></code></dt><dd><p>the human-readable string containing the version of SDL if found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_VERSION_MAJOR</span></code></dt><dd><p>SDL major version</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_VERSION_MINOR</span></code></dt><dd><p>SDL minor version</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_VERSION_PATCH</span></code></dt><dd><p>SDL patch version</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>Added the <code class="docutils literal notranslate"><span class="pre">SDL_INCLUDE_DIRS</span></code>, <code class="docutils literal notranslate"><span class="pre">SDL_LIBRARIES</span></code> and <code class="docutils literal notranslate"><span class="pre">SDL_VERSION[_&lt;PART&gt;]</span></code>
+variables.</p>
+</div>
+</section>
+<section id="cache-variables">
+<h2>Cache variables<a class="headerlink" href="#cache-variables" title="Permalink to this heading">¶</a></h2>
+<p>These variables may optionally be set to help this module find the correct files:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_INCLUDE_DIR</span></code></dt><dd><p>where to find SDL.h</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_LIBRARY</span></code></dt><dd><p>the name of the library to link against</p>
+</dd>
+</dl>
+</section>
+<section id="variables-for-locating-sdl">
+<h2>Variables for locating SDL<a class="headerlink" href="#variables-for-locating-sdl" title="Permalink to this heading">¶</a></h2>
+<p>This module responds to the flag:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_BUILDING_LIBRARY</span></code></dt><dd><p>If this is defined, then no SDL_main will be linked in because
+only applications need main().
+Otherwise, it is assumed you are building an application and this
+module will attempt to locate and set the proper link flags
+as part of the returned SDL_LIBRARY variable.</p>
+</dd>
+</dl>
+</section>
+<section id="obsolete-variables">
+<h2>Obsolete variables<a class="headerlink" href="#obsolete-variables" title="Permalink to this heading">¶</a></h2>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.19.</span></p>
+</div>
+<p>These variables are obsolete and provided for backwards compatibility:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SDL_VERSION_STRING</span></code></dt><dd><p>the human-readable string containing the version of SDL if found.
+Identical to SDL_VERSION</p>
+</dd>
+</dl>
+<p>Don't forget to include SDLmain.h and SDLmain.m your project for the
+OS X framework based version.  (Other versions link to -lSDLmain which
+this module will try to find on your behalf.) Also for OS X, this
+module will automatically add the -framework Cocoa on your behalf.</p>
+<p>Additional Note: If you see an empty SDL_LIBRARY_TEMP in your
+configuration and no SDL_LIBRARY, it means CMake did not find your SDL
+library (SDL.dll, libsdl.so, SDL.framework, etc).  Set
+SDL_LIBRARY_TEMP to point to your SDL library, and configure again.
+Similarly, if you see an empty SDLMAIN_LIBRARY, you should set this
+value as appropriate.  These values are used to generate the final
+SDL_LIBRARY variable, but when these values are unset, SDL_LIBRARY
+does not get created.</p>
+<p>$SDLDIR is an environment variable that would correspond to the
+./configure --prefix=$SDLDIR used in building SDL.  l.e.galup 9-20-02</p>
+<p>On OSX, this will prefer the Framework version (if found) over others.
+People will have to manually change the cache values of SDL_LIBRARY to
+override this selection or set the CMake environment
+CMAKE_INCLUDE_PATH to modify the search paths.</p>
+<p>Note that the header path has changed from SDL/SDL.h to just SDL.h
+This needed to change because &quot;proper&quot; SDL convention is #include
+&quot;SDL.h&quot;, not &lt;SDL/SDL.h&gt;.  This is done for portability reasons
+because not all systems place things in SDL/ (see FreeBSD).</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">FindSDL</a><ul>
+<li><a class="reference internal" href="#imported-targets">Imported targets</a></li>
+<li><a class="reference internal" href="#result-variables">Result variables</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache variables</a></li>
+<li><a class="reference internal" href="#variables-for-locating-sdl">Variables for locating SDL</a></li>
+<li><a class="reference internal" href="#obsolete-variables">Obsolete variables</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="FindRuby.html"
+                          title="previous chapter">FindRuby</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindSDL_image.html"
+                          title="next chapter">FindSDL_image</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/FindSDL.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="FindSDL_image.html" title="FindSDL_image"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FindRuby.html" title="FindRuby"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindSDL</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

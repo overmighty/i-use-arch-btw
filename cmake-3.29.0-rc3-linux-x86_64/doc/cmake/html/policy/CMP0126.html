@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMP0126 &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMP0125" href="CMP0125.html" />
+    <link rel="prev" title="CMP0127" href="CMP0127.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMP0125.html" title="CMP0125"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMP0127.html" title="CMP0127"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0126</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmp0126">
+<span id="policy:CMP0126"></span><h1>CMP0126<a class="headerlink" href="#cmp0126" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>When this policy is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>, the <span class="target" id="index-0-command:set"></span><a class="reference internal" href="../command/set.html#cache" title="set(cache)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set(CACHE)</span></code></a> command does not
+remove any normal variable of the same name from the current scope.
+The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior removes any normal variable of the same name from the
+current scope in the following situations:</p>
+<ul class="simple">
+<li><p>No cache variable of that name existed previously.</p></li>
+<li><p>A cache variable of that name existed previously, but it had no type.
+This can occur when the variable was set on the command line using a form
+like <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-DMYVAR=blah</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-DMYVAR:STRING=blah</span></code>.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">FORCE</span></code> or <code class="docutils literal notranslate"><span class="pre">INTERNAL</span></code> keywords were used when setting the cache
+variable.</p></li>
+</ul>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior has an important difference to the similar
+<code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior of policy <span class="target" id="index-0-policy:CMP0077"></span><a class="reference internal" href="CMP0077.html#policy:CMP0077" title="CMP0077"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0077</span></code></a>.  The <span class="target" id="index-1-command:set"></span><a class="reference internal" href="../command/set.html#cache" title="set(cache)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set(CACHE)</span></code></a>
+command always sets the cache variable if it did not exist previously,
+regardless of the <code class="docutils literal notranslate"><span class="pre">CMP0126</span></code> policy setting.  The <span class="target" id="index-0-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command
+will <em>not</em> set the cache variable if a non-cache variable of the same name
+already exists and <span class="target" id="index-1-policy:CMP0077"></span><a class="reference internal" href="CMP0077.html#policy:CMP0077" title="CMP0077"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0077</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>.</p>
+<p>This policy was introduced in CMake version 3.21.
+It may be set by <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> or <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required()</span></code></a>.
+If it is not set, CMake does <em>not</em> warn by default, and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<p>See documentation of the
+<span class="target" id="index-0-variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"></span><a class="reference internal" href="../variable/CMAKE_POLICY_WARNING_CMPNNNN.html#variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_WARNING_CMP0126</span></code></a>
+variable to control the warning.</p>
+<p>The <span class="target" id="index-0-variable:CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;"></span><a class="reference internal" href="../variable/CMAKE_POLICY_DEFAULT_CMPNNNN.html#variable:CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_DEFAULT_CMP0126</span></code></a>
+variable may be used to set the policy for a third-party project in a
+subdirectory without modifying it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"></span><a class="reference internal" href="../manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMP0127.html"
+                          title="previous chapter">CMP0127</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMP0125.html"
+                          title="next chapter">CMP0125</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/policy/CMP0126.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMP0125.html" title="CMP0125"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMP0127.html" title="CMP0127"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0126</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

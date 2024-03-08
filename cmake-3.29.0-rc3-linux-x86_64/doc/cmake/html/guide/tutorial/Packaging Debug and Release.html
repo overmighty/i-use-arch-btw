@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Step 12: Packaging Debug and Release &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="User Interaction Guide" href="../user-interaction/index.html" />
+    <link rel="prev" title="Step 11: Adding Export Configuration" href="Adding%20Export%20Configuration.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../user-interaction/index.html" title="User Interaction Guide"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20Export%20Configuration.html" title="Step 11: Adding Export Configuration"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 12: Packaging Debug and Release</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="step-12-packaging-debug-and-release">
+<span id="guide:tutorial/Packaging Debug and Release"></span><h1>Step 12: Packaging Debug and Release<a class="headerlink" href="#step-12-packaging-debug-and-release" title="Permalink to this heading">¶</a></h1>
+<p><strong>Note:</strong> This example is valid for single-configuration generators and will
+not work for multi-configuration generators (e.g. Visual Studio).</p>
+<p>By default, CMake's model is that a build directory only contains a single
+configuration, be it Debug, Release, MinSizeRel, or RelWithDebInfo. It is
+possible, however, to setup CPack to bundle multiple build directories and
+construct a package that contains multiple configurations of the same project.</p>
+<p>First, we want to ensure that the debug and release builds use different names
+for the libraries that will be installed. Let's use <cite>d</cite> as the
+postfix for the debug libraries.</p>
+<p>Set <span class="target" id="index-0-variable:CMAKE_DEBUG_POSTFIX"></span><a class="reference internal" href="../../variable/CMAKE_DEBUG_POSTFIX.html#variable:CMAKE_DEBUG_POSTFIX" title="CMAKE_DEBUG_POSTFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_DEBUG_POSTFIX</span></code></a> near the beginning of the top-level
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-cmake-debug-postfix-variable">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-cmake-debug-postfix-variable" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CMAKE_DEBUG_POSTFIX</span><span class="w"> </span><span class="nb">d</span><span class="nf">)</span>
+
+<span class="nf">add_library(</span><span class="nb">tutorial_compiler_flags</span><span class="w"> </span><span class="no">INTERFACE</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>And the <span class="target" id="index-0-prop_tgt:DEBUG_POSTFIX"></span><a class="reference internal" href="../../prop_tgt/DEBUG_POSTFIX.html#prop_tgt:DEBUG_POSTFIX" title="DEBUG_POSTFIX"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">DEBUG_POSTFIX</span></code></a> property on the tutorial executable:</p>
+<div class="literal-block-wrapper docutils container" id="cmakelists-txt-debug-postfix-property">
+<div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#cmakelists-txt-debug-postfix-property" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="nb">tutorial.cxx</span><span class="nf">)</span>
+<span class="nf">set_target_properties(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="no">PROPERTIES</span><span class="w"> </span><span class="no">DEBUG_POSTFIX</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_DEBUG_POSTFIX</span><span class="o">}</span><span class="nf">)</span>
+
+<span class="nf">target_link_libraries(</span><span class="nb">Tutorial</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"> </span><span class="nb">tutorial_compiler_flags</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>Let's also add version numbering to the <code class="docutils literal notranslate"><span class="pre">MathFunctions</span></code> library. In
+<code class="docutils literal notranslate"><span class="pre">MathFunctions/CMakeLists.txt</span></code>, set the <span class="target" id="index-0-prop_tgt:VERSION"></span><a class="reference internal" href="../../prop_tgt/VERSION.html#prop_tgt:VERSION" title="VERSION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">VERSION</span></code></a> and
+<span class="target" id="index-0-prop_tgt:SOVERSION"></span><a class="reference internal" href="../../prop_tgt/SOVERSION.html#prop_tgt:SOVERSION" title="SOVERSION"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SOVERSION</span></code></a> properties:</p>
+<div class="literal-block-wrapper docutils container" id="mathfunctions-cmakelists-txt-version-properties">
+<div class="code-block-caption"><span class="caption-text">MathFunctions/CMakeLists.txt</span><a class="headerlink" href="#mathfunctions-cmakelists-txt-version-properties" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">VERSION</span><span class="w"> </span><span class="s">&quot;1.0.0&quot;</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">MathFunctions</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SOVERSION</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>From the <code class="docutils literal notranslate"><span class="pre">Step12</span></code> directory, create <code class="docutils literal notranslate"><span class="pre">debug</span></code> and <code class="docutils literal notranslate"><span class="pre">release</span></code>
+subdirectories. The layout will look like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Step12
+   - debug
+   - release
+</pre></div>
+</div>
+<p>Now we need to setup debug and release builds. We can use
+<span class="target" id="index-0-variable:CMAKE_BUILD_TYPE"></span><a class="reference internal" href="../../variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE" title="CMAKE_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code></a> to set the configuration type:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd debug</span>
+<span class="go">cmake -DCMAKE_BUILD_TYPE=Debug ..</span>
+<span class="go">cmake --build .</span>
+<span class="go">cd ../release</span>
+<span class="go">cmake -DCMAKE_BUILD_TYPE=Release ..</span>
+<span class="go">cmake --build .</span>
+</pre></div>
+</div>
+<p>Now that both the debug and release builds are complete, we can use a custom
+configuration file to package both builds into a single release. In the
+<code class="docutils literal notranslate"><span class="pre">Step12</span></code> directory, create a file called <code class="docutils literal notranslate"><span class="pre">MultiCPackConfig.cmake</span></code>. In this
+file, first include the default configuration file that was created by the
+<span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake</span></code></a> executable.</p>
+<p>Next, use the <code class="docutils literal notranslate"><span class="pre">CPACK_INSTALL_CMAKE_PROJECTS</span></code> variable to specify which
+projects to install. In this case, we want to install both debug and release.</p>
+<div class="literal-block-wrapper docutils container" id="multicpackconfig-cmake">
+<div class="code-block-caption"><span class="caption-text">MultiCPackConfig.cmake</span><a class="headerlink" href="#multicpackconfig-cmake" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="s">&quot;release/CPackConfig.cmake&quot;</span><span class="nf">)</span>
+
+<span class="nf">set(</span><span class="no">CPACK_INSTALL_CMAKE_PROJECTS</span>
+<span class="w">    </span><span class="s">&quot;debug;Tutorial;ALL;/&quot;</span>
+<span class="w">    </span><span class="s">&quot;release;Tutorial;ALL;/&quot;</span>
+<span class="w">    </span><span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>From the <code class="docutils literal notranslate"><span class="pre">Step12</span></code> directory, run <span class="target" id="index-0-manual:cpack(1)"></span><a class="reference internal" href="../../manual/cpack.1.html#manual:cpack(1)" title="cpack(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack</span></code></a> specifying our
+custom configuration file with the <code class="docutils literal notranslate"><span class="pre">config</span></code> option:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cpack --config MultiCPackConfig.cmake</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Adding%20Export%20Configuration.html"
+                          title="previous chapter">Step 11: Adding Export Configuration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../user-interaction/index.html"
+                          title="next chapter">User Interaction Guide</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/Packaging Debug and Release.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../user-interaction/index.html" title="User Interaction Guide"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Adding%20Export%20Configuration.html" title="Step 11: Adding Export Configuration"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >CMake Tutorial</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Step 12: Packaging Debug and Release</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

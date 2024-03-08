@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>FindOpenSP &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FindOpenSSL" href="FindOpenSSL.html" />
+    <link rel="prev" title="FindOpenSceneGraph" href="FindOpenSceneGraph.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="FindOpenSSL.html" title="FindOpenSSL"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="FindOpenSceneGraph.html" title="FindOpenSceneGraph"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindOpenSP</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="findopensp">
+<span id="module:FindOpenSP"></span><h1>FindOpenSP<a class="headerlink" href="#findopensp" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Try to find the OpenSP library.</p>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this heading">¶</a></h2>
+<p>This will define the following variables:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_FOUND</span></code></dt><dd><p>True if (the requested version of) <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code> is available</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_VERSION</span></code></dt><dd><p>The version of <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_VERSION_MAJOR</span></code></dt><dd><p>The major version of <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_VERSION_MINOR</span></code></dt><dd><p>The minor version of <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_VERSION_PATCH</span></code></dt><dd><p>The patch version of <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_INCLUDE_DIRS</span></code></dt><dd><p>The include dirs of <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code> with its headers</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_LIBRARIES</span></code></dt><dd><p>The OpenSP library for use with target_link_libraries().
+This can be passed to target_link_libraries() instead of
+the <span class="target" id="index-0-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> <code class="docutils literal notranslate"><span class="pre">OpenSP::OpenSP</span></code> target</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_MULTI_BYTE</span></code></dt><dd><p>True if <code class="docutils literal notranslate"><span class="pre">SP_MULTI_BYTE</span></code> was found to be defined in OpenSP's <code class="docutils literal notranslate"><span class="pre">config.h</span></code>
+header file, which indicates that the <code class="docutils literal notranslate"><span class="pre">OpenSP</span></code> library was compiled with
+support for multi-byte characters. The consuming target needs to define the
+<code class="docutils literal notranslate"><span class="pre">SP_MULTI_BYTE</span></code> to match this value in order to avoid issues with character
+decoding.</p>
+</dd>
+</dl>
+</section>
+<section id="imported-targets">
+<h2>IMPORTED Targets<a class="headerlink" href="#imported-targets" title="Permalink to this heading">¶</a></h2>
+<p>This module defines the <span class="target" id="index-1-prop_tgt:IMPORTED"></span><a class="reference internal" href="../prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target <code class="docutils literal notranslate"><span class="pre">OpenSP::OpenSP</span></code>, if
+OpenSP has been found.</p>
+</section>
+<section id="cache-variables">
+<h2>Cache variables<a class="headerlink" href="#cache-variables" title="Permalink to this heading">¶</a></h2>
+<p>The following cache variables may also be set:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_INCLUDE_DIR</span></code></dt><dd><p>the OpenSP include directory</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OpenSP_LIBRARY</span></code></dt><dd><p>the absolute path of the osp library</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">FindOpenSP</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#imported-targets">IMPORTED Targets</a></li>
+<li><a class="reference internal" href="#cache-variables">Cache variables</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="FindOpenSceneGraph.html"
+                          title="previous chapter">FindOpenSceneGraph</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="FindOpenSSL.html"
+                          title="next chapter">FindOpenSSL</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/FindOpenSP.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="FindOpenSSL.html" title="FindOpenSSL"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="FindOpenSceneGraph.html" title="FindOpenSceneGraph"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">FindOpenSP</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

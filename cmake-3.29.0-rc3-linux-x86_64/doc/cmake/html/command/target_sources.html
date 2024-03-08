@@ -1,0 +1,327 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>target_sources &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="try_compile" href="try_compile.html" />
+    <link rel="prev" title="target_precompile_headers" href="target_precompile_headers.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="try_compile.html" title="try_compile"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="target_precompile_headers.html" title="target_precompile_headers"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">target_sources</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="target-sources">
+<span id="command:target_sources"></span><h1>target_sources<a class="headerlink" href="#target-sources" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>Add sources to a target.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_sources(</span><span class="nv">&lt;target&gt;</span>
+<span class="w">  </span><span class="o">&lt;</span><span class="no">INTERFACE</span><span class="p">|</span><span class="no">PUBLIC</span><span class="p">|</span><span class="no">PRIVATE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">items1...</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="o">&lt;</span><span class="no">INTERFACE</span><span class="p">|</span><span class="no">PUBLIC</span><span class="p">|</span><span class="no">PRIVATE</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="nb">items2...</span><span class="p">]</span><span class="w"> </span><span class="p">...]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Specifies sources to use when building a target and/or its dependents.
+The named <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> must have been created by a command such as
+<span class="target" id="index-0-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a> or <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> or
+<span class="target" id="index-0-command:add_custom_target"></span><a class="reference internal" href="add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_target()</span></code></a> and must not be an
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#alias-targets"><span class="std std-ref">ALIAS target</span></a>.  The <code class="docutils literal notranslate"><span class="pre">&lt;items&gt;</span></code> may use
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20: </span><code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> can be a custom target.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code>, <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> and <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> keywords are required to
+specify the <a class="reference internal" href="../manual/cmake-buildsystem.7.html#target-usage-requirements"><span class="std std-ref">scope</span></a> of the source file paths
+(<code class="docutils literal notranslate"><span class="pre">&lt;items&gt;</span></code>) that follow them.  <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> and <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> items will
+populate the <span class="target" id="index-0-prop_tgt:SOURCES"></span><a class="reference internal" href="../prop_tgt/SOURCES.html#prop_tgt:SOURCES" title="SOURCES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SOURCES</span></code></a> property of <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code>, which are used when
+building the target itself. <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> and <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> items will populate the
+<span class="target" id="index-0-prop_tgt:INTERFACE_SOURCES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_SOURCES.html#prop_tgt:INTERFACE_SOURCES" title="INTERFACE_SOURCES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_SOURCES</span></code></a> property of <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code>, which are used
+when building dependents.  A target created by <span class="target" id="index-1-command:add_custom_target"></span><a class="reference internal" href="add_custom_target.html#command:add_custom_target" title="add_custom_target"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_target()</span></code></a>
+can only have <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> scope.</p>
+<p>Repeated calls for the same <code class="docutils literal notranslate"><span class="pre">&lt;target&gt;</span></code> append items in the order called.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3: </span>Allow exporting targets with <span class="target" id="index-1-prop_tgt:INTERFACE_SOURCES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_SOURCES.html#prop_tgt:INTERFACE_SOURCES" title="INTERFACE_SOURCES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_SOURCES</span></code></a>.</p>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>Allow setting <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> items on
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">IMPORTED targets</span></a>.</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.13: </span>Relative source file paths are interpreted as being relative to the current
+source directory (i.e. <span class="target" id="index-0-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a>).
+See policy <span class="target" id="index-0-policy:CMP0076"></span><a class="reference internal" href="../policy/CMP0076.html#policy:CMP0076" title="CMP0076"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0076</span></code></a>.</p>
+</div>
+<p>A path that begins with a generator expression is left unmodified.
+When a target's <span class="target" id="index-0-prop_tgt:SOURCE_DIR"></span><a class="reference internal" href="../prop_tgt/SOURCE_DIR.html#prop_tgt:SOURCE_DIR" title="SOURCE_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code></a> property differs from
+<span class="target" id="index-1-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a>, use absolute paths in generator
+expressions to ensure the sources are correctly assigned to the target.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># WRONG: starts with generator expression, but relative path used</span>
+<span class="nf">target_sources(</span><span class="nb">MyTarget</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="s">&quot;$&lt;$&lt;CONFIG:Debug&gt;:dbgsrc.cpp&gt;&quot;</span><span class="nf">)</span>
+
+<span class="c"># CORRECT: absolute path used inside the generator expression</span>
+<span class="nf">target_sources(</span><span class="nb">MyTarget</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="s">&quot;$&lt;$&lt;CONFIG:Debug&gt;:${CMAKE_CURRENT_SOURCE_DIR}/dbgsrc.cpp&gt;&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="../manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a> manual for more on defining
+buildsystem properties.</p>
+<section id="file-sets">
+<span id="id1"></span><h2>File Sets<a class="headerlink" href="#file-sets" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.23.</span></p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_sources(</span><span class="nv">&lt;target&gt;</span>
+<span class="w">  </span><span class="p">[</span><span class="o">&lt;</span><span class="no">INTERFACE</span><span class="p">|</span><span class="no">PUBLIC</span><span class="p">|</span><span class="no">PRIVATE</span><span class="o">&gt;</span>
+<span class="w">   </span><span class="p">[</span><span class="no">FILE_SET</span><span class="w"> </span><span class="nv">&lt;set&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">TYPE</span><span class="w"> </span><span class="nv">&lt;type&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">BASE_DIRS</span><span class="w"> </span><span class="nv">&lt;dirs&gt;...</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">FILES</span><span class="w"> </span><span class="nv">&lt;files&gt;...</span><span class="p">]]...</span>
+<span class="w">  </span><span class="p">]...</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Adds a file set to a target, or adds files to an existing file set. Targets
+have zero or more named file sets. Each file set has a name, a type, a scope of
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code>, <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code>, or <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code>, one or more base directories, and
+files within those directories. The acceptable types include:</p>
+<p><code class="docutils literal notranslate"><span class="pre">HEADERS</span></code></p>
+<blockquote>
+<div><p>Sources intended to be used via a language's <code class="docutils literal notranslate"><span class="pre">#include</span></code> mechanism.</p>
+</div></blockquote>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CXX_MODULES</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28.</span></p>
+</div>
+<p>Sources which contain C++ interface module or partition units (i.e., those
+using the <code class="docutils literal notranslate"><span class="pre">export</span></code> keyword). This file set type may not have an
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> scope except on <code class="docutils literal notranslate"><span class="pre">IMPORTED</span></code> targets.</p>
+</dd>
+</dl>
+<p>The optional default file sets are named after their type. The target may not
+be a custom target or <span class="target" id="index-0-prop_tgt:FRAMEWORK"></span><a class="reference internal" href="../prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a> target.</p>
+<p>Files in a <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> or <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> file set are marked as source files for
+the purposes of IDE integration. Additionally, files in <code class="docutils literal notranslate"><span class="pre">HEADERS</span></code> file sets
+have their <span class="target" id="index-0-prop_sf:HEADER_FILE_ONLY"></span><a class="reference internal" href="../prop_sf/HEADER_FILE_ONLY.html#prop_sf:HEADER_FILE_ONLY" title="HEADER_FILE_ONLY"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">HEADER_FILE_ONLY</span></code></a> property set to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>. Files in an
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> or <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> file set can be installed with the
+<span class="target" id="index-0-command:install"></span><a class="reference internal" href="install.html#targets" title="install(targets)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> command, and exported with the
+<span class="target" id="index-1-command:install"></span><a class="reference internal" href="install.html#export" title="install(export)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(EXPORT)</span></code></a> and <span class="target" id="index-0-command:export"></span><a class="reference internal" href="export.html#command:export" title="export"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">export()</span></code></a> commands.</p>
+<p>Each <code class="docutils literal notranslate"><span class="pre">target_sources(FILE_SET)</span></code> entry starts with <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code>, <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code> and accepts the following arguments:</p>
+<p><code class="docutils literal notranslate"><span class="pre">FILE_SET</span> <span class="pre">&lt;set&gt;</span></code></p>
+<blockquote>
+<div><p>The name of the file set to create or add to. It must contain only letters,
+numbers and underscores. Names starting with a capital letter are reserved
+for built-in file sets predefined by CMake. The only predefined set names
+are those matching the acceptable types. All other set names must not start
+with a capital letter or
+underscore.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">TYPE</span> <span class="pre">&lt;type&gt;</span></code></p>
+<blockquote>
+<div><p>Every file set is associated with a particular type of file. Only types
+specified above may be used and it is an error to specify anything else. As
+a special case, if the name of the file set is one of the types, the type
+does not need to be specified and the <code class="docutils literal notranslate"><span class="pre">TYPE</span> <span class="pre">&lt;type&gt;</span></code> arguments can be
+omitted. For all other file set names, <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> is required.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">BASE_DIRS</span> <span class="pre">&lt;dirs&gt;...</span></code></p>
+<blockquote>
+<div><p>An optional list of base directories of the file set. Any relative path
+is treated as relative to the current source directory
+(i.e. <span class="target" id="index-2-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a>). If no <code class="docutils literal notranslate"><span class="pre">BASE_DIRS</span></code> are
+specified when the file set is first created, the value of
+<span class="target" id="index-3-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a> is added. This argument supports
+<span class="target" id="index-1-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<p>No two base directories for a file set may be sub-directories of each other.
+This requirement must be met across all base directories added to a file set,
+not just those within a single call to <code class="docutils literal notranslate"><span class="pre">target_sources()</span></code>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">FILES</span> <span class="pre">&lt;files&gt;...</span></code></p>
+<blockquote>
+<div><p>An optional list of files to add to the file set. Each file must be in
+one of the base directories, or a subdirectory of one of the base
+directories. This argument supports
+<span class="target" id="index-2-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<p>If relative paths are specified, they are considered relative to
+<span class="target" id="index-4-variable:CMAKE_CURRENT_SOURCE_DIR"></span><a class="reference internal" href="../variable/CMAKE_CURRENT_SOURCE_DIR.html#variable:CMAKE_CURRENT_SOURCE_DIR" title="CMAKE_CURRENT_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_SOURCE_DIR</span></code></a> at the time <code class="docutils literal notranslate"><span class="pre">target_sources()</span></code> is
+called. An exception to this is a path starting with <code class="docutils literal notranslate"><span class="pre">$&lt;</span></code>. Such paths
+are treated as relative to the target's source directory after evaluation
+of generator expressions.</p>
+</div></blockquote>
+<p>The following target properties are set by <code class="docutils literal notranslate"><span class="pre">target_sources(FILE_SET)</span></code>,
+but they should not generally be manipulated directly:</p>
+<p>For file sets of type <code class="docutils literal notranslate"><span class="pre">HEADERS</span></code>:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-prop_tgt:HEADER_SETS"></span><a class="reference internal" href="../prop_tgt/HEADER_SETS.html#prop_tgt:HEADER_SETS" title="HEADER_SETS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">HEADER_SETS</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:INTERFACE_HEADER_SETS"></span><a class="reference internal" href="../prop_tgt/INTERFACE_HEADER_SETS.html#prop_tgt:INTERFACE_HEADER_SETS" title="INTERFACE_HEADER_SETS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_HEADER_SETS</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:HEADER_SET"></span><a class="reference internal" href="../prop_tgt/HEADER_SET.html#prop_tgt:HEADER_SET" title="HEADER_SET"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">HEADER_SET</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:HEADER_SET_&lt;NAME&gt;"></span><a class="reference internal" href="../prop_tgt/HEADER_SET_NAME.html#prop_tgt:HEADER_SET_&lt;NAME&gt;" title="HEADER_SET_&lt;NAME&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">HEADER_SET_&lt;NAME&gt;</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:HEADER_DIRS"></span><a class="reference internal" href="../prop_tgt/HEADER_DIRS.html#prop_tgt:HEADER_DIRS" title="HEADER_DIRS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">HEADER_DIRS</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:HEADER_DIRS_&lt;NAME&gt;"></span><a class="reference internal" href="../prop_tgt/HEADER_DIRS_NAME.html#prop_tgt:HEADER_DIRS_&lt;NAME&gt;" title="HEADER_DIRS_&lt;NAME&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">HEADER_DIRS_&lt;NAME&gt;</span></code></a></p></li>
+</ul>
+<p>For file sets of type <code class="docutils literal notranslate"><span class="pre">CXX_MODULES</span></code>:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-prop_tgt:CXX_MODULE_SETS"></span><a class="reference internal" href="../prop_tgt/CXX_MODULE_SETS.html#prop_tgt:CXX_MODULE_SETS" title="CXX_MODULE_SETS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_MODULE_SETS</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:INTERFACE_CXX_MODULE_SETS"></span><a class="reference internal" href="../prop_tgt/INTERFACE_CXX_MODULE_SETS.html#prop_tgt:INTERFACE_CXX_MODULE_SETS" title="INTERFACE_CXX_MODULE_SETS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_CXX_MODULE_SETS</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:CXX_MODULE_SET"></span><a class="reference internal" href="../prop_tgt/CXX_MODULE_SET.html#prop_tgt:CXX_MODULE_SET" title="CXX_MODULE_SET"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_MODULE_SET</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:CXX_MODULE_SET_&lt;NAME&gt;"></span><a class="reference internal" href="../prop_tgt/CXX_MODULE_SET_NAME.html#prop_tgt:CXX_MODULE_SET_&lt;NAME&gt;" title="CXX_MODULE_SET_&lt;NAME&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_MODULE_SET_&lt;NAME&gt;</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:CXX_MODULE_DIRS"></span><a class="reference internal" href="../prop_tgt/CXX_MODULE_DIRS.html#prop_tgt:CXX_MODULE_DIRS" title="CXX_MODULE_DIRS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_MODULE_DIRS</span></code></a></p></li>
+<li><p><span class="target" id="index-0-prop_tgt:CXX_MODULE_DIRS_&lt;NAME&gt;"></span><a class="reference internal" href="../prop_tgt/CXX_MODULE_DIRS_NAME.html#prop_tgt:CXX_MODULE_DIRS_&lt;NAME&gt;" title="CXX_MODULE_DIRS_&lt;NAME&gt;"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_MODULE_DIRS_&lt;NAME&gt;</span></code></a></p></li>
+</ul>
+<p>Target properties related to include directories are also modified by
+<code class="docutils literal notranslate"><span class="pre">target_sources(FILE_SET)</span></code> as follows:</p>
+<p><span class="target" id="index-0-prop_tgt:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INCLUDE_DIRECTORIES.html#prop_tgt:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a></p>
+<blockquote>
+<div><p>If the <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> is <code class="docutils literal notranslate"><span class="pre">HEADERS</span></code>, and the scope of the file set is <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code>
+or <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code>, all of the <code class="docutils literal notranslate"><span class="pre">BASE_DIRS</span></code> of the file set are wrapped in
+<span class="target" id="index-0-genex:BUILD_INTERFACE"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:BUILD_INTERFACE" title="BUILD_INTERFACE"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;BUILD_INTERFACE&gt;</span></code></a> and appended to this property.</p>
+</div></blockquote>
+<p><span class="target" id="index-0-prop_tgt:INTERFACE_INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_tgt/INTERFACE_INCLUDE_DIRECTORIES.html#prop_tgt:INTERFACE_INCLUDE_DIRECTORIES" title="INTERFACE_INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_INCLUDE_DIRECTORIES</span></code></a></p>
+<blockquote>
+<div><p>If the <code class="docutils literal notranslate"><span class="pre">TYPE</span></code> is <code class="docutils literal notranslate"><span class="pre">HEADERS</span></code>, and the scope of the file set is
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> or <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code>, all of the <code class="docutils literal notranslate"><span class="pre">BASE_DIRS</span></code> of the file set are
+wrapped in <span class="target" id="index-1-genex:BUILD_INTERFACE"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:BUILD_INTERFACE" title="BUILD_INTERFACE"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">$&lt;BUILD_INTERFACE&gt;</span></code></a> and appended to this property.</p>
+</div></blockquote>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-1-command:add_executable"></span><a class="reference internal" href="add_executable.html#command:add_executable" title="add_executable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_executable()</span></code></a></p></li>
+<li><p><span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_compile_definitions"></span><a class="reference internal" href="target_compile_definitions.html#command:target_compile_definitions" title="target_compile_definitions"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_definitions()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_compile_features"></span><a class="reference internal" href="target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_compile_options"></span><a class="reference internal" href="target_compile_options.html#command:target_compile_options" title="target_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_options()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_include_directories"></span><a class="reference internal" href="target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_link_directories"></span><a class="reference internal" href="target_link_directories.html#command:target_link_directories" title="target_link_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_directories()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_link_options"></span><a class="reference internal" href="target_link_options.html#command:target_link_options" title="target_link_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_options()</span></code></a></p></li>
+<li><p><span class="target" id="index-0-command:target_precompile_headers"></span><a class="reference internal" href="target_precompile_headers.html#command:target_precompile_headers" title="target_precompile_headers"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_precompile_headers()</span></code></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">target_sources</a><ul>
+<li><a class="reference internal" href="#file-sets">File Sets</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="target_precompile_headers.html"
+                          title="previous chapter">target_precompile_headers</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="try_compile.html"
+                          title="next chapter">try_compile</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/target_sources.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="try_compile.html" title="try_compile"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="target_precompile_headers.html" title="target_precompile_headers"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">target_sources</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

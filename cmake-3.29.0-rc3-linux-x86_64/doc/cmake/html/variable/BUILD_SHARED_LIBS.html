@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>BUILD_SHARED_LIBS &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_ABSOLUTE_DESTINATION_FILES" href="CMAKE_ABSOLUTE_DESTINATION_FILES.html" />
+    <link rel="prev" title="PROJECT_VERSION_TWEAK" href="PROJECT_VERSION_TWEAK.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_ABSOLUTE_DESTINATION_FILES.html" title="CMAKE_ABSOLUTE_DESTINATION_FILES"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="PROJECT_VERSION_TWEAK.html" title="PROJECT_VERSION_TWEAK"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BUILD_SHARED_LIBS</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="build-shared-libs">
+<span id="variable:BUILD_SHARED_LIBS"></span><h1>BUILD_SHARED_LIBS<a class="headerlink" href="#build-shared-libs" title="Permalink to this heading">¶</a></h1>
+<p>Tell <span class="target" id="index-0-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> to default to <code class="docutils literal notranslate"><span class="pre">SHARED</span></code> libraries,
+instead of <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> libraries, when called with no explicit library type.</p>
+<p>Calls to <span class="target" id="index-1-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> without any explicit library type check
+the current <code class="docutils literal notranslate"><span class="pre">BUILD_SHARED_LIBS</span></code> variable value.  If it is true, then the
+default library type is <code class="docutils literal notranslate"><span class="pre">SHARED</span></code>.  Otherwise, the default is <code class="docutils literal notranslate"><span class="pre">STATIC</span></code>.</p>
+<p>For example, the code:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">example</span><span class="w"> </span><span class="o">${</span><span class="nt">sources</span><span class="o">}</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>behaves as if written</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">if(</span><span class="no">BUILD_SHARED_LIBS</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">add_library(</span><span class="nb">example</span><span class="w"> </span><span class="no">SHARED</span><span class="w"> </span><span class="o">${</span><span class="nt">sources</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">else()</span>
+<span class="w">  </span><span class="nf">add_library(</span><span class="nb">example</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="o">${</span><span class="nt">sources</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p>CMake does not define <code class="docutils literal notranslate"><span class="pre">BUILD_SHARED_LIBS</span></code> by default, but projects
+often create a cache entry for it using the <span class="target" id="index-0-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">option(</span><span class="no">BUILD_SHARED_LIBS</span><span class="w"> </span><span class="s">&quot;Build using shared libraries&quot;</span><span class="w"> </span><span class="no">ON</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This provides a switch that users can control, e.g., with <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-D"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-D</span></code></a>.
+If adding such an option to the project, do so in the top level
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file, before any <span class="target" id="index-2-command:add_library"></span><a class="reference internal" href="../command/add_library.html#command:add_library" title="add_library"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_library()</span></code></a> calls.
+Note that if bringing external dependencies directly into the build, such as
+with <span class="target" id="index-0-module:FetchContent"></span><a class="reference internal" href="../module/FetchContent.html#module:FetchContent" title="FetchContent"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a> or a direct call to <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="../command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>,
+and one of those dependencies has such a call to
+<span class="target" id="index-1-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option(BUILD_SHARED_LIBS</span> <span class="pre">...)</span></code></a>, the top level project must
+also call <span class="target" id="index-2-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option(BUILD_SHARED_LIBS</span> <span class="pre">...)</span></code></a> before bringing in
+its dependencies.  Failure to do so can lead to different behavior between the
+first and subsequent CMake runs.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="PROJECT_VERSION_TWEAK.html"
+                          title="previous chapter">PROJECT_VERSION_TWEAK</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_ABSOLUTE_DESTINATION_FILES.html"
+                          title="next chapter">CMAKE_ABSOLUTE_DESTINATION_FILES</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/BUILD_SHARED_LIBS.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_ABSOLUTE_DESTINATION_FILES.html" title="CMAKE_ABSOLUTE_DESTINATION_FILES"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="PROJECT_VERSION_TWEAK.html" title="PROJECT_VERSION_TWEAK"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">BUILD_SHARED_LIBS</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

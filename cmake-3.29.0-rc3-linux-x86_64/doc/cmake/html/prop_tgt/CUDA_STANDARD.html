@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CUDA_STANDARD &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CUDA_STANDARD_REQUIRED" href="CUDA_STANDARD_REQUIRED.html" />
+    <link rel="prev" title="CUDA_SEPARABLE_COMPILATION" href="CUDA_SEPARABLE_COMPILATION.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CUDA_STANDARD_REQUIRED.html" title="CUDA_STANDARD_REQUIRED"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CUDA_SEPARABLE_COMPILATION.html" title="CUDA_SEPARABLE_COMPILATION"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CUDA_STANDARD</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cuda-standard">
+<span id="prop_tgt:CUDA_STANDARD"></span><h1>CUDA_STANDARD<a class="headerlink" href="#cuda-standard" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>The CUDA/C++ standard whose features are requested to build this target.</p>
+<p>This property specifies the CUDA/C++ standard whose features are requested
+to build this target.  For some compilers, this results in adding a
+flag such as <code class="docutils literal notranslate"><span class="pre">-std=gnu++11</span></code> to the compile line.</p>
+<p>Supported values are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">98</span></code></dt><dd><p>CUDA C++98. Note that this maps to the same as <code class="docutils literal notranslate"><span class="pre">03</span></code> internally.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">03</span></code></dt><dd><p>CUDA C++03</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">11</span></code></dt><dd><p>CUDA C++11</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">14</span></code></dt><dd><p>CUDA C++14. While CMake 3.8 and later <em>recognize</em> <code class="docutils literal notranslate"><span class="pre">14</span></code> as a valid value,
+CMake 3.9 was the first version to include support for any compiler.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">17</span></code></dt><dd><p>CUDA C++17. While CMake 3.8 and later <em>recognize</em> <code class="docutils literal notranslate"><span class="pre">17</span></code> as a valid value,
+CMake 3.18 was the first version to include support for any compiler.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">20</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12.</span></p>
+</div>
+<p>CUDA C++20. While CMake 3.12 and later <em>recognize</em> <code class="docutils literal notranslate"><span class="pre">20</span></code> as a valid value,
+CMake 3.18 was the first version to include support for any compiler.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">23</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.20.</span></p>
+</div>
+<p>CUDA C++23</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">26</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>CUDA C++26. CMake 3.25 and later <em>recognize</em> <code class="docutils literal notranslate"><span class="pre">26</span></code> as a valid value,
+no version has support for any compiler.</p>
+</dd>
+</dl>
+<p>If the value requested does not result in a compile flag being added for
+the compiler in use, a previous standard flag will be added instead.  This
+means that using:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">tgt</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">CUDA_STANDARD</span><span class="w"> </span><span class="m">11</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>with a compiler which does not support <code class="docutils literal notranslate"><span class="pre">-std=gnu++11</span></code> or an equivalent
+flag will not result in an error or warning, but will instead add the
+<code class="docutils literal notranslate"><span class="pre">-std=gnu++03</span></code> flag if supported.  This &quot;decay&quot; behavior may be controlled
+with the <span class="target" id="index-0-prop_tgt:CUDA_STANDARD_REQUIRED"></span><a class="reference internal" href="CUDA_STANDARD_REQUIRED.html#prop_tgt:CUDA_STANDARD_REQUIRED" title="CUDA_STANDARD_REQUIRED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_STANDARD_REQUIRED</span></code></a> target property.
+Additionally, the <span class="target" id="index-0-prop_tgt:CUDA_EXTENSIONS"></span><a class="reference internal" href="CUDA_EXTENSIONS.html#prop_tgt:CUDA_EXTENSIONS" title="CUDA_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA_EXTENSIONS</span></code></a> target property may be used to
+control whether compiler-specific extensions are enabled on a per-target basis.</p>
+<p>See the <span class="target" id="index-0-manual:cmake-compile-features(7)"></span><a class="reference internal" href="../manual/cmake-compile-features.7.html#manual:cmake-compile-features(7)" title="cmake-compile-features(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-compile-features(7)</span></code></a> manual for information on
+compile features and a list of supported compilers.</p>
+<p>This property is initialized by the value of
+the <span class="target" id="index-0-variable:CMAKE_CUDA_STANDARD"></span><a class="reference internal" href="../variable/CMAKE_CUDA_STANDARD.html#variable:CMAKE_CUDA_STANDARD" title="CMAKE_CUDA_STANDARD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CUDA_STANDARD</span></code></a> variable if it is set when a target
+is created.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CUDA_SEPARABLE_COMPILATION.html"
+                          title="previous chapter">CUDA_SEPARABLE_COMPILATION</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CUDA_STANDARD_REQUIRED.html"
+                          title="next chapter">CUDA_STANDARD_REQUIRED</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/CUDA_STANDARD.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CUDA_STANDARD_REQUIRED.html" title="CUDA_STANDARD_REQUIRED"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CUDA_SEPARABLE_COMPILATION.html" title="CUDA_SEPARABLE_COMPILATION"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CUDA_STANDARD</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

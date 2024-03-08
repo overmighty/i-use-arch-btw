@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMake Tutorial &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/cmake.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Step 1: A Basic Starting Point" href="A%20Basic%20Starting%20Point.html" />
+    <link rel="prev" title="CPack WIX Generator" href="../../cpack_gen/wix.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="A%20Basic%20Starting%20Point.html" title="Step 1: A Basic Starting Point"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../../cpack_gen/wix.html" title="CPack WIX Generator"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">CMake Tutorial</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-tutorial">
+<span id="guide:CMake Tutorial"></span><h1>CMake Tutorial<a class="headerlink" href="#cmake-tutorial" title="Permalink to this heading">¶</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>The CMake tutorial provides a step-by-step guide that covers common build
+system issues that CMake helps address. Seeing how various topics all
+work together in an example project can be very helpful.</p>
+</section>
+<section id="steps">
+<h2>Steps<a class="headerlink" href="#steps" title="Permalink to this heading">¶</a></h2>
+<p>The tutorial documentation and source code examples can be found in
+the <code class="docutils literal notranslate"><span class="pre">Help/guide/tutorial</span></code> directory of the CMake source code tree.
+Each step has its own subdirectory containing code that may be used as a
+starting point. The tutorial examples are progressive so that each step
+provides the complete solution for the previous step.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="A%20Basic%20Starting%20Point.html">Step 1: A Basic Starting Point</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="A%20Basic%20Starting%20Point.html#exercise-1-building-a-basic-project">Exercise 1 - Building a Basic Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A%20Basic%20Starting%20Point.html#exercise-2-specifying-the-c-standard">Exercise 2 - Specifying the C++ Standard</a></li>
+<li class="toctree-l2"><a class="reference internal" href="A%20Basic%20Starting%20Point.html#exercise-3-adding-a-version-number-and-configured-header-file">Exercise 3 - Adding a Version Number and Configured Header File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20a%20Library.html">Step 2: Adding a Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20a%20Library.html#exercise-1-creating-a-library">Exercise 1 - Creating a Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20a%20Library.html#exercise-2-adding-an-option">Exercise 2 - Adding an Option</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20Usage%20Requirements%20for%20a%20Library.html">Step 3: Adding Usage Requirements for a Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20Usage%20Requirements%20for%20a%20Library.html#exercise-1-adding-usage-requirements-for-a-library">Exercise 1 - Adding Usage Requirements for a Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20Usage%20Requirements%20for%20a%20Library.html#exercise-2-setting-the-c-standard-with-interface-libraries">Exercise 2 - Setting the C++ Standard with Interface Libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20Generator%20Expressions.html">Step 4: Adding Generator Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20Generator%20Expressions.html#exercise-1-adding-compiler-warning-flags-with-generator-expressions">Exercise 1 - Adding Compiler Warning Flags with Generator Expressions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Installing%20and%20Testing.html">Step 5: Installing and Testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Installing%20and%20Testing.html#exercise-1-install-rules">Exercise 1 - Install Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Installing%20and%20Testing.html#exercise-2-testing-support">Exercise 2 - Testing Support</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20Support%20for%20a%20Testing%20Dashboard.html">Step 6: Adding Support for a Testing Dashboard</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20Support%20for%20a%20Testing%20Dashboard.html#exercise-1-send-results-to-a-testing-dashboard">Exercise 1 - Send Results to a Testing Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20System%20Introspection.html">Step 7: Adding System Introspection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Adding%20System%20Introspection.html#exercise-1-assessing-dependency-availability">Exercise 1 - Assessing Dependency Availability</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20a%20Custom%20Command%20and%20Generated%20File.html">Step 8: Adding a Custom Command and Generated File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Packaging%20an%20Installer.html">Step 9: Packaging an Installer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Selecting%20Static%20or%20Shared%20Libraries.html">Step 10: Selecting Static or Shared Libraries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Adding%20Export%20Configuration.html">Step 11: Adding Export Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Packaging%20Debug%20and%20Release.html">Step 12: Packaging Debug and Release</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CMake Tutorial</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#steps">Steps</a><ul>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../../cpack_gen/wix.html"
+                          title="previous chapter">CPack WIX Generator</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="A%20Basic%20Starting%20Point.html"
+                          title="next chapter">Step 1: A Basic Starting Point</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/guide/tutorial/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="A%20Basic%20Starting%20Point.html" title="Step 1: A Basic Starting Point"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../../cpack_gen/wix.html" title="CPack WIX Generator"
+             >previous</a> |</li>
+  <li>
+    <img src="../../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">CMake Tutorial</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

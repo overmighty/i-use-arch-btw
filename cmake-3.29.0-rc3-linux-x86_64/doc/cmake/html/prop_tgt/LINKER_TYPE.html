@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>LINKER_TYPE &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="LOCATION" href="LOCATION.html" />
+    <link rel="prev" title="LINKER_LANGUAGE" href="LINKER_LANGUAGE.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="LOCATION.html" title="LOCATION"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="LINKER_LANGUAGE.html" title="LINKER_LANGUAGE"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LINKER_TYPE</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="linker-type">
+<span id="prop_tgt:LINKER_TYPE"></span><h1>LINKER_TYPE<a class="headerlink" href="#linker-type" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<p>Specify which linker will be used for the link step. The property value may use
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">lib1</span><span class="w"> </span><span class="no">SHARED</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">lib1</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">LINKER_TYPE</span><span class="w"> </span><span class="no">LLD</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This specifies that <code class="docutils literal notranslate"><span class="pre">lib1</span></code> should use linker type <code class="docutils literal notranslate"><span class="pre">LLD</span></code> for the link step.
+The implementation details will be provided by the variable
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_USING_LINKER_&lt;TYPE&gt;"></span><a class="reference internal" href="../variable/CMAKE_LANG_USING_LINKER_TYPE.html#variable:CMAKE_&lt;LANG&gt;_USING_LINKER_&lt;TYPE&gt;" title="CMAKE_&lt;LANG&gt;_USING_LINKER_&lt;TYPE&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_USING_LINKER_&lt;TYPE&gt;</span></code></a> with <code class="docutils literal notranslate"><span class="pre">&lt;TYPE&gt;</span></code> having the value
+<code class="docutils literal notranslate"><span class="pre">LLD</span></code>.</p>
+<p>This property is not supported on <span class="target" id="index-0-generator:Green Hills MULTI"></span><a class="reference internal" href="../generator/Green%20Hills%20MULTI.html#generator:Green Hills MULTI" title="Green Hills MULTI"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Green</span> <span class="pre">Hills</span> <span class="pre">MULTI</span></code></a> and
+<span class="target" id="index-0-generator:Visual Studio 9 2008"></span><a class="reference internal" href="../generator/Visual%20Studio%209%202008.html#generator:Visual Studio 9 2008" title="Visual Studio 9 2008"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Visual</span> <span class="pre">Studio</span> <span class="pre">9</span> <span class="pre">2008</span></code></a> generators.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is assumed that the linker specified is fully compatible with the standard
+one. CMake will not do any options translation.</p>
+</div>
+<p>Linker types are case-sensitive and may only contain letters, numbers and
+underscores. Linker types defined in all uppercase are reserved for CMake's own
+built-in types. The pre-defined linker types are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">DEFAULT</span></code></dt><dd><p>This type corresponds to standard linking, essentially equivalent to
+not specifying <span class="target" id="index-0-prop_tgt:LINKER_TYPE"></span><a class="reference internal" href="#prop_tgt:LINKER_TYPE" title="LINKER_TYPE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINKER_TYPE</span></code></a> target property.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code></dt><dd><p>Use the standard linker delivered by the platform or the standard toolkit
+(for example, <code class="docutils literal notranslate"><span class="pre">SYSTEM</span></code> imply Microsoft linker for all <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> compatible
+compilers). This type is supported for the following platforms/compilers:</p>
+<ul class="simple">
+<li><p>Linux, for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">LLVMFlang</span></code> and <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code> compilers.</p></li>
+<li><p>All Apple variants for <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code> and <code class="docutils literal notranslate"><span class="pre">GNU</span></code> compilers.</p></li>
+<li><p>Windows, for <code class="docutils literal notranslate"><span class="pre">MSVC</span></code>, <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code> and <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code> compilers.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LLD</span></code></dt><dd><p>Use the <code class="docutils literal notranslate"><span class="pre">LLVM</span></code> linker. This type is supported for the following
+platforms/compilers:</p>
+<ul class="simple">
+<li><p>Linux, for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">LLVMFlang</span></code> and <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code> compilers.</p></li>
+<li><p>All Apple variants for <code class="docutils literal notranslate"><span class="pre">Clang</span></code> and <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> compilers.</p></li>
+<li><p>Windows, for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code> compilers with <code class="docutils literal notranslate"><span class="pre">GNU</span></code> front-end and
+<code class="docutils literal notranslate"><span class="pre">CLang</span></code>, <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> and <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code> compilers with <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> front-end.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">BFD</span></code></dt><dd><p>Use the <code class="docutils literal notranslate"><span class="pre">GNU</span></code> linker.  This type is supported for the following
+platforms/compilers:</p>
+<ul class="simple">
+<li><p>Linux, for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">LLVMFlang</span></code> and <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code> compilers.</p></li>
+<li><p>Windows, for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code> compilers with <code class="docutils literal notranslate"><span class="pre">GNU</span></code> front-end.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">GOLD</span></code></dt><dd><p>Supported on Linux platform for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">LLVMFlang</span></code> and
+<code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code> compilers.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MOLD</span></code></dt><dd><p>Use the <a class="reference external" href="https://github.com/rui314/mold">mold linker</a>. This type is
+supported on the following platforms:</p>
+<ul class="simple">
+<li><p>Linux platform for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code>, <code class="docutils literal notranslate"><span class="pre">LLVMFlang</span></code> and <code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code>
+compilers.</p></li>
+<li><p>All Apple variants for <code class="docutils literal notranslate"><span class="pre">Clang</span></code> and <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> compilers as an
+alias to <code class="docutils literal notranslate"><span class="pre">SOLD</span></code>.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SOLD</span></code></dt><dd><p>Use the <a class="reference external" href="https://github.com/bluewhalesystems/sold">sold linker</a>. This type
+is only supported on Apple platforms for <code class="docutils literal notranslate"><span class="pre">Clang</span></code> and <code class="docutils literal notranslate"><span class="pre">AppleClang</span></code>
+compilers.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">APPLE_CLASSIC</span></code></dt><dd><p>Use the Apple linker in the classic behavior (i.e. before <code class="docutils literal notranslate"><span class="pre">Xcode</span> <span class="pre">15.0</span></code>).
+This type is only supported on Apple platforms for <code class="docutils literal notranslate"><span class="pre">GNU</span></code>, <code class="docutils literal notranslate"><span class="pre">Clang</span></code> and
+<code class="docutils literal notranslate"><span class="pre">AppleClang</span></code> compilers.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MSVC</span></code></dt><dd><p>Use the Microsoft linker. This type is only supported on Windows
+platform for <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> and <code class="docutils literal notranslate"><span class="pre">Clang</span></code> compiler with <code class="docutils literal notranslate"><span class="pre">MSVC</span></code> front-end.</p>
+</dd>
+</dl>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="LINKER_LANGUAGE.html"
+                          title="previous chapter">LINKER_LANGUAGE</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="LOCATION.html"
+                          title="next chapter">LOCATION</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/LINKER_TYPE.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="LOCATION.html" title="LOCATION"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="LINKER_LANGUAGE.html" title="LINKER_LANGUAGE"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">LINKER_TYPE</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

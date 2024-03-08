@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMP0133 &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMP0132" href="CMP0132.html" />
+    <link rel="prev" title="CMP0134" href="CMP0134.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMP0132.html" title="CMP0132"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMP0134.html" title="CMP0134"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0133</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmp0133">
+<span id="policy:CMP0133"></span><h1>CMP0133<a class="headerlink" href="#cmp0133" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>The <span class="target" id="index-0-module:CPack"></span><a class="reference internal" href="../module/CPack.html#module:CPack" title="CPack"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">CPack</span></code></a> module disables SLA by default in the
+<span class="target" id="index-0-cpack_gen:CPack DragNDrop Generator"></span><a class="reference internal" href="../cpack_gen/dmg.html#cpack_gen:CPack DragNDrop Generator" title="CPack DragNDrop Generator"><code class="xref cmake cmake-cpack_gen docutils literal notranslate"><span class="pre">CPack</span> <span class="pre">DragNDrop</span> <span class="pre">Generator</span></code></a>.</p>
+<p>The <span class="target" id="index-1-cpack_gen:CPack DragNDrop Generator"></span><a class="reference internal" href="../cpack_gen/dmg.html#cpack_gen:CPack DragNDrop Generator" title="CPack DragNDrop Generator"><code class="xref cmake cmake-cpack_gen docutils literal notranslate"><span class="pre">CPack</span> <span class="pre">DragNDrop</span> <span class="pre">Generator</span></code></a> in CMake 3.22 and below attach a
+Software License Agreement (SLA) to <code class="docutils literal notranslate"><span class="pre">.dmg</span></code> files using the file specified
+by <span class="target" id="index-0-variable:CPACK_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_RESOURCE_FILE_LICENSE" title="CPACK_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RESOURCE_FILE_LICENSE</span></code></a>, if set to a non-default value.
+macOS 12.0 deprecated the tools used to do this, so CMake 3.23 added
+the <span class="target" id="index-0-variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../cpack_gen/dmg.html#variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE" title="CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE</span></code></a> option to
+control the behavior.  CMake 3.23 enables that option by default for
+compatibility with older versions. CMake 3.24 and above prefer to <em>not</em>
+enable the <span class="target" id="index-1-variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../cpack_gen/dmg.html#variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE" title="CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE</span></code></a> option by
+default. This policy provides compatibility with projects that have not
+been updated to account for the lack of a SLA in their <code class="docutils literal notranslate"><span class="pre">.dmg</span></code> packages.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to enable
+<span class="target" id="index-2-variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../cpack_gen/dmg.html#variable:CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE" title="CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_DMG_SLA_USE_RESOURCE_FILE_LICENSE</span></code></a> by default.
+The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior for this policy is to not enable it by default.</p>
+<p>This policy was introduced in CMake version 3.24.
+It may be set by <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> or <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required()</span></code></a>.
+If it is not set, CMake does <em>not</em> warn by default, and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<p>See documentation of the
+<span class="target" id="index-0-variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"></span><a class="reference internal" href="../variable/CMAKE_POLICY_WARNING_CMPNNNN.html#variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_WARNING_CMP0133</span></code></a>
+variable to control the warning.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"></span><a class="reference internal" href="../manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMP0134.html"
+                          title="previous chapter">CMP0134</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMP0132.html"
+                          title="next chapter">CMP0132</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/policy/CMP0133.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMP0132.html" title="CMP0132"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMP0134.html" title="CMP0134"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0133</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>Xcode &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CodeBlocks" href="CodeBlocks.html" />
+    <link rel="prev" title="Green Hills MULTI" href="Green%20Hills%20MULTI.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CodeBlocks.html" title="CodeBlocks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="Green%20Hills%20MULTI.html" title="Green Hills MULTI"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" accesskey="U">cmake-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Xcode</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="xcode">
+<span id="generator:Xcode"></span><h1>Xcode<a class="headerlink" href="#xcode" title="Permalink to this heading">¶</a></h1>
+<p>Generate Xcode project files.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.15: </span>This generator supports Xcode 5.0 and above.</p>
+</div>
+<section id="toolset-and-build-system-selection">
+<span id="xcode-build-system-selection"></span><h2>Toolset and Build System Selection<a class="headerlink" href="#toolset-and-build-system-selection" title="Permalink to this heading">¶</a></h2>
+<p>By default Xcode is allowed to select its own default toolchain.
+The <span class="target" id="index-0-variable:CMAKE_GENERATOR_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_GENERATOR_TOOLSET.html#variable:CMAKE_GENERATOR_TOOLSET" title="CMAKE_GENERATOR_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_GENERATOR_TOOLSET</span></code></a> option may be set, perhaps
+via the <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-T"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-T</span></code></a> option, to specify another toolset.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19: </span>This generator supports toolset specification using one of these forms:</p>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">toolset</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">toolset[,key=value]*</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key=value[,key=value]*</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">toolset</span></code> specifies the toolset name.  The selected toolset name
+is provided in the <span class="target" id="index-0-variable:CMAKE_XCODE_PLATFORM_TOOLSET"></span><a class="reference internal" href="../variable/CMAKE_XCODE_PLATFORM_TOOLSET.html#variable:CMAKE_XCODE_PLATFORM_TOOLSET" title="CMAKE_XCODE_PLATFORM_TOOLSET"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_XCODE_PLATFORM_TOOLSET</span></code></a> variable.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">key=value</span></code> pairs form a comma-separated list of options to
+specify generator-specific details of the toolset selection.
+Supported pairs are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">buildsystem=&lt;variant&gt;</span></code></dt><dd><p>Specify the buildsystem variant to use.
+See the <span class="target" id="index-0-variable:CMAKE_XCODE_BUILD_SYSTEM"></span><a class="reference internal" href="../variable/CMAKE_XCODE_BUILD_SYSTEM.html#variable:CMAKE_XCODE_BUILD_SYSTEM" title="CMAKE_XCODE_BUILD_SYSTEM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_XCODE_BUILD_SYSTEM</span></code></a> variable for allowed values.</p>
+<p>For example, to select the original build system under Xcode 12,
+run <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> with the option <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-T"><code class="xref std std-option docutils literal notranslate"><span class="pre">-T</span> <span class="pre">buildsystem=1</span></code></a>.</p>
+</dd>
+</dl>
+</section>
+<section id="swift-support">
+<h2>Swift Support<a class="headerlink" href="#swift-support" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>When using the <code class="docutils literal notranslate"><span class="pre">Xcode</span></code> generator with Xcode 6.1 or higher,
+one may enable the <code class="docutils literal notranslate"><span class="pre">Swift</span></code> language with the <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a>
+command or the <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a>.</p>
+</section>
+<section id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this heading">¶</a></h2>
+<p>The Xcode generator does not support per-configuration sources.
+Code like the following will result in a generation error:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">MyApp</span><span class="w"> </span><span class="nb">mymain-</span><span class="o">$&lt;</span><span class="no">CONFIG</span><span class="o">&gt;</span><span class="p">.</span><span class="nb">cpp</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Xcode</a><ul>
+<li><a class="reference internal" href="#toolset-and-build-system-selection">Toolset and Build System Selection</a></li>
+<li><a class="reference internal" href="#swift-support">Swift Support</a></li>
+<li><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="Green%20Hills%20MULTI.html"
+                          title="previous chapter">Green Hills MULTI</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CodeBlocks.html"
+                          title="next chapter">CodeBlocks</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/generator/Xcode.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CodeBlocks.html" title="CodeBlocks"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="Green%20Hills%20MULTI.html" title="Green Hills MULTI"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-generators.7.html" >cmake-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Xcode</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

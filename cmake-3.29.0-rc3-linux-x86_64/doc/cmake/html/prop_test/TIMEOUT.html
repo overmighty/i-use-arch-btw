@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>TIMEOUT &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="TIMEOUT_AFTER_MATCH" href="TIMEOUT_AFTER_MATCH.html" />
+    <link rel="prev" title="SKIP_RETURN_CODE" href="SKIP_RETURN_CODE.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="TIMEOUT_AFTER_MATCH.html" title="TIMEOUT_AFTER_MATCH"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="SKIP_RETURN_CODE.html" title="SKIP_RETURN_CODE"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TIMEOUT</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="timeout">
+<span id="prop_test:TIMEOUT"></span><h1>TIMEOUT<a class="headerlink" href="#timeout" title="Permalink to this heading">¶</a></h1>
+<p>How many seconds to allow for this test.</p>
+<p>This property if set will limit a test to not take more than the
+specified number of seconds to run.  If it exceeds that the test
+process will be killed and ctest will move to the next test.  This
+setting takes precedence over <span class="target" id="index-0-variable:CTEST_TEST_TIMEOUT"></span><a class="reference internal" href="../variable/CTEST_TEST_TIMEOUT.html#variable:CTEST_TEST_TIMEOUT" title="CTEST_TEST_TIMEOUT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_TEST_TIMEOUT</span></code></a>.</p>
+<p>An explicit <code class="docutils literal notranslate"><span class="pre">0</span></code> value means the test has no timeout, except as
+necessary to honor <a class="reference internal" href="../manual/ctest.1.html#cmdoption-ctest-stop-time"><code class="xref std std-option docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">--stop-time</span></code></a>.</p>
+<p>See also <span class="target" id="index-0-prop_test:TIMEOUT_AFTER_MATCH"></span><a class="reference internal" href="TIMEOUT_AFTER_MATCH.html#prop_test:TIMEOUT_AFTER_MATCH" title="TIMEOUT_AFTER_MATCH"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">TIMEOUT_AFTER_MATCH</span></code></a> and
+<span class="target" id="index-0-prop_test:TIMEOUT_SIGNAL_NAME"></span><a class="reference internal" href="TIMEOUT_SIGNAL_NAME.html#prop_test:TIMEOUT_SIGNAL_NAME" title="TIMEOUT_SIGNAL_NAME"><code class="xref cmake cmake-prop_test docutils literal notranslate"><span class="pre">TIMEOUT_SIGNAL_NAME</span></code></a>.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="SKIP_RETURN_CODE.html"
+                          title="previous chapter">SKIP_RETURN_CODE</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="TIMEOUT_AFTER_MATCH.html"
+                          title="next chapter">TIMEOUT_AFTER_MATCH</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_test/TIMEOUT.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="TIMEOUT_AFTER_MATCH.html" title="TIMEOUT_AFTER_MATCH"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="SKIP_RETURN_CODE.html" title="SKIP_RETURN_CODE"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">TIMEOUT</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

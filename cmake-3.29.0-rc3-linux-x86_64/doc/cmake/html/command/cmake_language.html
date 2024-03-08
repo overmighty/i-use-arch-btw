@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>cmake_language &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmake_minimum_required" href="cmake_minimum_required.html" />
+    <link rel="prev" title="cmake_host_system_information" href="cmake_host_system_information.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cmake_minimum_required.html" title="cmake_minimum_required"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="cmake_host_system_information.html" title="cmake_host_system_information"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cmake_language</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-language">
+<span id="command:cmake_language"></span><h1>cmake_language<a class="headerlink" href="#cmake-language" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>Call meta-operations on CMake commands.</p>
+<section id="synopsis">
+<h2>Synopsis<a class="headerlink" href="#synopsis" title="Permalink to this heading">¶</a></h2>
+<pre class="literal-block">cmake_language(<a class="reference internal" href="#call">CALL</a> &lt;command&gt; [&lt;arg&gt;...])
+cmake_language(<a class="reference internal" href="#eval">EVAL</a> CODE &lt;code&gt;...)
+cmake_language(<a class="reference internal" href="#defer">DEFER</a> &lt;options&gt;... CALL &lt;command&gt; [&lt;arg&gt;...])
+cmake_language(<a class="reference internal" href="#set-dependency-provider">SET_DEPENDENCY_PROVIDER</a> &lt;command&gt; SUPPORTED_METHODS &lt;methods&gt;...)
+cmake_language(<a class="reference internal" href="#get-message-log-level">GET_MESSAGE_LOG_LEVEL</a> &lt;out-var&gt;)
+cmake_language(<a class="reference internal" href="#exit">EXIT</a> &lt;exit-code&gt;)</pre>
+</section>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>This command will call meta-operations on built-in CMake commands or
+those created via the <span class="target" id="index-0-command:macro"></span><a class="reference internal" href="macro.html#command:macro" title="macro"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">macro()</span></code></a> or <span class="target" id="index-0-command:function"></span><a class="reference internal" href="function.html#command:function" title="function"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">function()</span></code></a> commands.</p>
+<p><code class="docutils literal notranslate"><span class="pre">cmake_language</span></code> does not introduce a new variable or policy scope.</p>
+</section>
+<section id="calling-commands">
+<h2>Calling Commands<a class="headerlink" href="#calling-commands" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="call">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_language(</span></span><span class="no"><span class="pre">CALL</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;command&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="nv"><span class="pre">&lt;arg&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls the named <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> with the given arguments (if any).
+For example, the code:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">message_command</span><span class="w"> </span><span class="s">&quot;message&quot;</span><span class="nf">)</span>
+<span class="nf">cmake_language(</span><span class="no">CALL</span><span class="w"> </span><span class="o">${</span><span class="nt">message_command</span><span class="o">}</span><span class="w"> </span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>is equivalent to</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;Hello World!&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To ensure consistency of the code, the following commands are not allowed:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">if</span></code> / <code class="docutils literal notranslate"><span class="pre">elseif</span></code> / <code class="docutils literal notranslate"><span class="pre">else</span></code> / <code class="docutils literal notranslate"><span class="pre">endif</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">block</span></code> / <code class="docutils literal notranslate"><span class="pre">endblock</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">while</span></code> / <code class="docutils literal notranslate"><span class="pre">endwhile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">foreach</span></code> / <code class="docutils literal notranslate"><span class="pre">endforeach</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">function</span></code> / <code class="docutils literal notranslate"><span class="pre">endfunction</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">macro</span></code> / <code class="docutils literal notranslate"><span class="pre">endmacro</span></code></p></li>
+</ul>
+</div>
+</dd></dl>
+
+</section>
+<section id="evaluating-code">
+<h2>Evaluating Code<a class="headerlink" href="#evaluating-code" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="eval">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_language(</span></span><span class="no"><span class="pre">EVAL</span></span><span class="w"> </span><span class="no"><span class="pre">CODE</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;code&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;...</span></code> as CMake code.</p>
+<p>For example, the code:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">A</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">B</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">C</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">condition</span><span class="w"> </span><span class="s">&quot;(A AND B) OR C&quot;</span><span class="nf">)</span>
+
+<span class="nf">cmake_language(</span><span class="no">EVAL</span><span class="w"> </span><span class="no">CODE</span><span class="w"> </span><span class="s">&quot;</span>
+<span class="s">  if (${condition})</span>
+<span class="s">    message(STATUS TRUE)</span>
+<span class="s">  else()</span>
+<span class="s">    message(STATUS FALSE)</span>
+<span class="s">  endif()&quot;</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>is equivalent to</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">A</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">B</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">C</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">condition</span><span class="w"> </span><span class="s">&quot;(A AND B) OR C&quot;</span><span class="nf">)</span>
+
+<span class="nf">file(</span><span class="no">WRITE</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/eval.cmake</span><span class="w"> </span><span class="s">&quot;</span>
+<span class="s">  if (${condition})</span>
+<span class="s">    message(STATUS TRUE)</span>
+<span class="s">  else()</span>
+<span class="s">    message(STATUS FALSE)</span>
+<span class="s">  endif()&quot;</span>
+<span class="nf">)</span>
+
+<span class="nf">include(</span><span class="o">${</span><span class="nt">CMAKE_CURRENT_BINARY_DIR</span><span class="o">}</span><span class="na">/eval.cmake</span><span class="nf">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="deferring-calls">
+<h2>Deferring Calls<a class="headerlink" href="#deferring-calls" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="defer">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_language(</span></span><span class="no"><span class="pre">DEFER</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;options&gt;...</span></span><span class="w"> </span><span class="no"><span class="pre">CALL</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;command&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">[</span></span><span class="nv"><span class="pre">&lt;arg&gt;...</span></span><span class="p"><span class="pre">]</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#defer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Schedules a call to the named <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> with the given arguments (if any)
+to occur at a later time.  By default, deferred calls are executed as if
+written at the end of the current directory's <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file,
+except that they run even after a <span class="target" id="index-0-command:return"></span><a class="reference internal" href="return.html#command:return" title="return"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">return()</span></code></a> call.  Variable
+references in arguments are evaluated at the time the deferred call is
+executed.</p>
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">DIRECTORY</span> <span class="pre">&lt;dir&gt;</span></code></dt><dd><p>Schedule the call for the end of the given directory instead of the
+current directory.  The <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> may reference either a source
+directory or its corresponding binary directory.  Relative paths are
+treated as relative to the current source directory.</p>
+<p>The given directory must be known to CMake, being either the top-level
+directory or one added by <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>.  Furthermore,
+the given directory must not yet be finished processing.  This means
+it can be the current directory or one of its ancestors.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ID</span> <span class="pre">&lt;id&gt;</span></code></dt><dd><p>Specify an identification for the deferred call.
+The <code class="docutils literal notranslate"><span class="pre">&lt;id&gt;</span></code> may not be empty and may not begin with a capital letter <code class="docutils literal notranslate"><span class="pre">A-Z</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">&lt;id&gt;</span></code> may begin with an underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>) only if it was generated
+automatically by an earlier call that used <code class="docutils literal notranslate"><span class="pre">ID_VAR</span></code> to get the id.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">ID_VAR</span> <span class="pre">&lt;var&gt;</span></code></dt><dd><p>Specify a variable in which to store the identification for the
+deferred call.  If <code class="docutils literal notranslate"><span class="pre">ID</span> <span class="pre">&lt;id&gt;</span></code> is not given, a new identification
+will be generated and the generated id will start with an underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>).</p>
+</dd>
+</dl>
+<p>The currently scheduled list of deferred calls may be retrieved:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_language(</span><span class="no">DEFER</span><span class="w"> </span><span class="p">[</span><span class="no">DIRECTORY</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="no">GET_CALL_IDS</span><span class="w"> </span><span class="nv">&lt;var&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This will store in <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of deferred call ids.  The ids are for the directory scope in which
+the calls have been deferred to (i.e. where they will be executed), which can
+be different to the scope in which they were created.  The <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code>
+option can be used to specify the scope for which to retrieve the call ids.
+If that option is not given, the call ids for the current directory scope
+will be returned.</p>
+<p>Details of a specific call may be retrieved from its id:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_language(</span><span class="no">DEFER</span><span class="w"> </span><span class="p">[</span><span class="no">DIRECTORY</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="no">GET_CALL</span><span class="w"> </span><span class="nv">&lt;id&gt;</span><span class="w"> </span><span class="nv">&lt;var&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This will store in <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> in which the first element is the name of the command to be
+called, and the remaining elements are its unevaluated arguments (any
+contained <code class="docutils literal notranslate"><span class="pre">;</span></code> characters are included literally and cannot be distinguished
+from multiple arguments).  If multiple calls are scheduled with the same id,
+this retrieves the first one.  If no call is scheduled with the given id in
+the specified <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> scope (or the current directory scope if no
+<code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> option is given), this stores an empty string in the variable.</p>
+<p>Deferred calls may be canceled by their id:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_language(</span><span class="no">DEFER</span><span class="w"> </span><span class="p">[</span><span class="no">DIRECTORY</span><span class="w"> </span><span class="nv">&lt;dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="no">CANCEL_CALL</span><span class="w"> </span><span class="nv">&lt;id&gt;...</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>This cancels all deferred calls matching any of the given ids in the specified
+<code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> scope (or the current directory scope if no <code class="docutils literal notranslate"><span class="pre">DIRECTORY</span></code> option
+is given).  Unknown ids are silently ignored.</p>
+</dd></dl>
+
+<section id="deferred-call-examples">
+<h3>Deferred Call Examples<a class="headerlink" href="#deferred-call-examples" title="Permalink to this heading">¶</a></h3>
+<p>For example, the code:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_language(</span><span class="no">DEFER</span><span class="w"> </span><span class="no">CALL</span><span class="w"> </span><span class="nb">message</span><span class="w"> </span><span class="s">&quot;${deferred_message}&quot;</span><span class="nf">)</span>
+<span class="nf">cmake_language(</span><span class="no">DEFER</span><span class="w"> </span><span class="no">ID_VAR</span><span class="w"> </span><span class="nb">id</span><span class="w"> </span><span class="no">CALL</span><span class="w"> </span><span class="nb">message</span><span class="w"> </span><span class="s">&quot;Canceled Message&quot;</span><span class="nf">)</span>
+<span class="nf">cmake_language(</span><span class="no">DEFER</span><span class="w"> </span><span class="no">CANCEL_CALL</span><span class="w"> </span><span class="o">${</span><span class="nt">id</span><span class="o">}</span><span class="nf">)</span>
+<span class="nf">message(</span><span class="s">&quot;Immediate Message&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">deferred_message</span><span class="w"> </span><span class="s">&quot;Deferred Message&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>prints:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Immediate Message
+Deferred Message
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">Canceled</span> <span class="pre">Message</span></code> is never printed because its command is
+canceled.  The <code class="docutils literal notranslate"><span class="pre">deferred_message</span></code> variable reference is not evaluated
+until the call site, so it can be set after the deferred call is scheduled.</p>
+<p>In order to evaluate variable references immediately when scheduling a
+deferred call, wrap it using <code class="docutils literal notranslate"><span class="pre">cmake_language(EVAL)</span></code>.  However, note that
+arguments will be re-evaluated in the deferred call, though that can be
+avoided by using bracket arguments.  For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">deferred_message</span><span class="w"> </span><span class="s">&quot;Deferred Message 1&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">re_evaluated</span><span class="w"> </span><span class="p">[[</span><span class="o">${</span><span class="nt">deferred_message</span><span class="o">}</span><span class="p">]]</span><span class="nf">)</span>
+<span class="nf">cmake_language(</span><span class="no">EVAL</span><span class="w"> </span><span class="no">CODE</span><span class="w"> </span><span class="s">&quot;</span>
+<span class="s">  cmake_language(DEFER CALL message [[${deferred_message}]])</span>
+<span class="s">  cmake_language(DEFER CALL message \&quot;${re_evaluated}\&quot;)</span>
+<span class="s">&quot;</span><span class="nf">)</span>
+<span class="nf">message(</span><span class="s">&quot;Immediate Message&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">deferred_message</span><span class="w"> </span><span class="s">&quot;Deferred Message 2&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>also prints:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Immediate Message
+Deferred Message 1
+Deferred Message 2
+</pre></div>
+</div>
+</section>
+</section>
+<section id="dependency-providers">
+<span id="id1"></span><h2>Dependency Providers<a class="headerlink" href="#dependency-providers" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A high-level introduction to this feature can be found in the
+<a class="reference internal" href="../guide/using-dependencies/index.html#dependency-providers-overview"><span class="std std-ref">Using Dependencies Guide</span></a>.</p>
+</div>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="set-dependency-provider">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_language(</span></span><span class="no"><span class="pre">SET_DEPENDENCY_PROVIDER</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;command&gt;</span></span><span class="w"> </span><span class="no"><span class="pre">SUPPORTED_METHODS</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;methods&gt;...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#set-dependency-provider" title="Permalink to this definition">¶</a></dt>
+<dd><p>When a call is made to <span class="target" id="index-0-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> or
+<span class="target" id="index-0-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>, the call may be forwarded to a
+dependency provider which then has the opportunity to fulfill the request.
+If the request is for one of the <code class="docutils literal notranslate"><span class="pre">&lt;methods&gt;</span></code> specified when the provider
+was set, CMake calls the provider's <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> with a set of
+method-specific arguments.  If the provider does not fulfill the request,
+or if the provider doesn't support the request's method, or no provider
+is set, the built-in <span class="target" id="index-1-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> or
+<span class="target" id="index-1-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> implementation is used to fulfill
+the request in the usual way.</p>
+<p>One or more of the following values can be specified for the <code class="docutils literal notranslate"><span class="pre">&lt;methods&gt;</span></code>
+when setting the provider:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE</span></code></dt><dd><p>The provider command accepts <span class="target" id="index-2-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> requests.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_MAKEAVAILABLE_SERIAL</span></code></dt><dd><p>The provider command accepts <span class="target" id="index-2-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>
+requests.  It expects each dependency to be fed to the provider command
+one at a time, not the whole list in one go.</p>
+</dd>
+</dl>
+<p>Only one provider can be set at any point in time.  If a provider is already
+set when <code class="docutils literal notranslate"><span class="pre">cmake_language(SET_DEPENDENCY_PROVIDER)</span></code> is called, the new
+provider replaces the previously set one.  The specified <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> must
+already exist when <code class="docutils literal notranslate"><span class="pre">cmake_language(SET_DEPENDENCY_PROVIDER)</span></code> is called.
+As a special case, providing an empty string for the <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> and no
+<code class="docutils literal notranslate"><span class="pre">&lt;methods&gt;</span></code> will discard any previously set provider.</p>
+<p>The dependency provider can only be set while processing one of the files
+specified by the <span class="target" id="index-0-variable:CMAKE_PROJECT_TOP_LEVEL_INCLUDES"></span><a class="reference internal" href="../variable/CMAKE_PROJECT_TOP_LEVEL_INCLUDES.html#variable:CMAKE_PROJECT_TOP_LEVEL_INCLUDES" title="CMAKE_PROJECT_TOP_LEVEL_INCLUDES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_TOP_LEVEL_INCLUDES</span></code></a> variable.
+Thus, dependency providers can only be set as part of the first call to
+<span class="target" id="index-0-command:project"></span><a class="reference internal" href="project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a>.  Calling <code class="docutils literal notranslate"><span class="pre">cmake_language(SET_DEPENDENCY_PROVIDER)</span></code>
+outside of that context will result in an error.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The choice of dependency provider should always be under the user's control.
+As a convenience, a project may choose to provide a file that users can
+list in their <span class="target" id="index-1-variable:CMAKE_PROJECT_TOP_LEVEL_INCLUDES"></span><a class="reference internal" href="../variable/CMAKE_PROJECT_TOP_LEVEL_INCLUDES.html#variable:CMAKE_PROJECT_TOP_LEVEL_INCLUDES" title="CMAKE_PROJECT_TOP_LEVEL_INCLUDES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_TOP_LEVEL_INCLUDES</span></code></a> variable, but
+the use of such a file should always be the user's choice.</p>
+</div>
+</dd></dl>
+
+<section id="provider-commands">
+<h3>Provider commands<a class="headerlink" href="#provider-commands" title="Permalink to this heading">¶</a></h3>
+<p>Providers define a single <code class="docutils literal notranslate"><span class="pre">&lt;command&gt;</span></code> to accept requests.  The name of
+the command should be specific to that provider, not something overly
+generic that another provider might also use.  This enables users to compose
+different providers in their own custom provider.  The recommended form is
+<code class="docutils literal notranslate"><span class="pre">xxx_provide_dependency()</span></code>, where <code class="docutils literal notranslate"><span class="pre">xxx</span></code> is the provider-specific part
+(e.g. <code class="docutils literal notranslate"><span class="pre">vcpkg_provide_dependency()</span></code>, <code class="docutils literal notranslate"><span class="pre">conan_provide_dependency()</span></code>,
+<code class="docutils literal notranslate"><span class="pre">ourcompany_provide_dependency()</span></code>, and so on).</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">xxx_provide_dependency(</span><span class="nv">&lt;method&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;method-specific-args&gt;...</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Because some methods expect certain variables to be set in the calling scope,
+the provider command should typically be implemented as a macro rather than a
+function.  This ensures it does not introduce a new variable scope.</p>
+<p>The arguments CMake passes to the dependency provider depend on the type of
+request.  The first argument is always the method, and it will only ever
+be one of the <code class="docutils literal notranslate"><span class="pre">&lt;methods&gt;</span></code> that was specified when setting the provider.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">&lt;method-specific-args&gt;</span></code> will be everything passed to the
+<span class="target" id="index-3-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call that requested the dependency.  The first of
+these <code class="docutils literal notranslate"><span class="pre">&lt;method-specific-args&gt;</span></code> will therefore always be the name of the
+dependency.  Dependency names are case-sensitive for this method because
+<span class="target" id="index-4-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> treats them case-sensitively too.</p>
+<p>If the provider command fulfills the request, it must set the same variable
+that <span class="target" id="index-5-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> expects to be set.  For a dependency named
+<code class="docutils literal notranslate"><span class="pre">depName</span></code>, the provider must set <code class="docutils literal notranslate"><span class="pre">depName_FOUND</span></code> to true if it fulfilled
+the request.  If the provider returns without setting this variable, CMake
+will assume the request was not fulfilled and will fall back to the
+built-in implementation.</p>
+<p>If the provider needs to call the built-in <span class="target" id="index-6-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a>
+implementation as part of its processing, it can do so by including the
+<code class="docutils literal notranslate"><span class="pre">BYPASS_PROVIDER</span></code> keyword as one of the arguments.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_MAKEAVAILABLE_SERIAL</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">&lt;method-specific-args&gt;</span></code> will be everything passed to the
+<span class="target" id="index-0-command:fetchcontent_declare"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a> call that corresponds to the requested
+dependency, with the following exceptions:</p>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> or <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> were not part of the original
+declared arguments, they will be added with their default values.</p></li>
+<li><p>If <span class="target" id="index-0-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="../module/FetchContent.html#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEVER</span></code>,
+any <code class="docutils literal notranslate"><span class="pre">FIND_PACKAGE_ARGS</span></code> will be omitted.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> keyword is always omitted.</p></li>
+</ul>
+<p>The first of the <code class="docutils literal notranslate"><span class="pre">&lt;method-specific-args&gt;</span></code> will always be the name of the
+dependency.  Dependency names are case-insensitive for this method because
+<span class="target" id="index-0-module:FetchContent"></span><a class="reference internal" href="../module/FetchContent.html#module:FetchContent" title="FetchContent"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a> also treats them case-insensitively.</p>
+<p>If the provider fulfills the request, it should call
+<span class="target" id="index-0-command:fetchcontent_setpopulated"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_setpopulated" title="fetchcontent_setpopulated"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_SetPopulated()</span></code></a>, passing the name of the dependency as
+the first argument.  The <code class="docutils literal notranslate"><span class="pre">SOURCE_DIR</span></code> and <code class="docutils literal notranslate"><span class="pre">BINARY_DIR</span></code> arguments to that
+command should only be given if the provider makes the dependency's source
+and build directories available in exactly the same way as the built-in
+<span class="target" id="index-3-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> command.</p>
+<p>If the provider returns without calling <span class="target" id="index-1-command:fetchcontent_setpopulated"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_setpopulated" title="fetchcontent_setpopulated"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_SetPopulated()</span></code></a>
+for the named dependency, CMake will assume the request was not fulfilled
+and will fall back to the built-in implementation.</p>
+<p>Note that empty arguments may be significant for this method (e.g. an empty
+string following a <code class="docutils literal notranslate"><span class="pre">GIT_SUBMODULES</span></code> keyword).  Therefore, if forwarding
+these arguments on to another command, extra care must be taken to avoid such
+arguments being silently dropped.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_SOURCE_DIR_&lt;uppercaseDepName&gt;</span></code> is set, then the
+dependency provider will never see requests for the <code class="docutils literal notranslate"><span class="pre">&lt;depName&gt;</span></code> dependency
+for this method. When the user sets such a variable, they are explicitly
+overriding where to get that dependency from and are taking on the
+responsibility that their overriding version meets any requirements for that
+dependency and is compatible with whatever else in the project uses it.
+Depending on the value of <span class="target" id="index-1-variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE"></span><a class="reference internal" href="../module/FetchContent.html#variable:FETCHCONTENT_TRY_FIND_PACKAGE_MODE" title="FETCHCONTENT_TRY_FIND_PACKAGE_MODE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">FETCHCONTENT_TRY_FIND_PACKAGE_MODE</span></code></a>
+and whether the <code class="docutils literal notranslate"><span class="pre">OVERRIDE_FIND_PACKAGE</span></code> option was given to
+<span class="target" id="index-1-command:fetchcontent_declare"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_declare" title="fetchcontent_declare"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_Declare()</span></code></a>, having
+<code class="docutils literal notranslate"><span class="pre">FETCHCONTENT_SOURCE_DIR_&lt;uppercaseDepName&gt;</span></code> set may also prevent the
+dependency provider from seeing requests for a <code class="docutils literal notranslate"><span class="pre">find_package(depName)</span></code>
+call too.</p>
+</dd>
+</dl>
+</section>
+<section id="provider-examples">
+<h3>Provider Examples<a class="headerlink" href="#provider-examples" title="Permalink to this heading">¶</a></h3>
+<p>This first example only intercepts <span class="target" id="index-7-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> calls.  The
+provider command runs an external tool which copies the relevant artifacts
+into a provider-specific directory, if that tool knows about the dependency.
+It then relies on the built-in implementation to then find those artifacts.
+<span class="target" id="index-4-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a> calls would not go through the provider.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">mycomp_provider.cmake</span><a class="headerlink" href="#id2" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># Always ensure we have the policy settings this provider expects</span>
+<span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.24</span><span class="nf">)</span>
+
+<span class="nf">set(</span><span class="no">MYCOMP_PROVIDER_INSTALL_DIR</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_BINARY_DIR</span><span class="o">}</span><span class="na">/mycomp_packages</span>
+<span class="w">  </span><span class="no">CACHE</span><span class="w"> </span><span class="no">PATH</span><span class="w"> </span><span class="s">&quot;The directory this provider installs packages to&quot;</span>
+<span class="nf">)</span>
+<span class="c"># Tell the built-in implementation to look in our area first, unless</span>
+<span class="c"># the find_package() call uses NO_..._PATH options to exclude it</span>
+<span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="no">CMAKE_MODULE_PATH</span><span class="w"> </span><span class="o">${</span><span class="nt">MYCOMP_PROVIDER_INSTALL_DIR</span><span class="o">}</span><span class="na">/cmake</span><span class="nf">)</span>
+<span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="no">CMAKE_PREFIX_PATH</span><span class="w"> </span><span class="o">${</span><span class="nt">MYCOMP_PROVIDER_INSTALL_DIR</span><span class="o">}</span><span class="nf">)</span>
+
+<span class="nf">macro(</span><span class="nb">mycomp_provide_dependency</span><span class="w"> </span><span class="nb">method</span><span class="w"> </span><span class="nb">package_name</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">execute_process(</span>
+<span class="w">    </span><span class="no">COMMAND</span><span class="w"> </span><span class="nb">some_tool</span><span class="w"> </span><span class="o">${</span><span class="nt">package_name</span><span class="o">}</span><span class="w"> </span><span class="p">--</span><span class="nb">installdir</span><span class="w"> </span><span class="o">${</span><span class="nt">MYCOMP_PROVIDER_INSTALL_DIR</span><span class="o">}</span>
+<span class="w">    </span><span class="no">COMMAND_ERROR_IS_FATAL</span><span class="w"> </span><span class="no">ANY</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">endmacro()</span>
+
+<span class="nf">cmake_language(</span>
+<span class="w">  </span><span class="no">SET_DEPENDENCY_PROVIDER</span><span class="w"> </span><span class="nb">mycomp_provide_dependency</span>
+<span class="w">  </span><span class="no">SUPPORTED_METHODS</span><span class="w"> </span><span class="no">FIND_PACKAGE</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>The user would then typically use the above file like so:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>cmake -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=/path/to/mycomp_provider.cmake ...
+</pre></div>
+</div>
+<p>The next example demonstrates a provider that accepts both methods, but
+only handles one specific dependency.  It enforces providing Google Test
+using <span class="target" id="index-1-module:FetchContent"></span><a class="reference internal" href="../module/FetchContent.html#module:FetchContent" title="FetchContent"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FetchContent</span></code></a>, but leaves all other dependencies to be
+fulfilled by CMake's built-in implementation.  It accepts a few different
+names, which demonstrates one way of working around projects that hard-code
+an unusual or undesirable way of adding this particular dependency to the
+build.  The example also demonstrates how to use the <span class="target" id="index-0-command:list"></span><a class="reference internal" href="list.html#command:list" title="list"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">list()</span></code></a> command
+to preserve variables that may be overwritten by a call to
+<span class="target" id="index-5-command:fetchcontent_makeavailable"></span><a class="reference internal" href="../module/FetchContent.html#command:fetchcontent_makeavailable" title="fetchcontent_makeavailable"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">FetchContent_MakeAvailable()</span></code></a>.</p>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">mycomp_provider.cmake</span><a class="headerlink" href="#id3" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.24</span><span class="nf">)</span>
+
+<span class="c"># Because we declare this very early, it will take precedence over any</span>
+<span class="c"># details the project might declare later for the same thing</span>
+<span class="nf">include(</span><span class="nb">FetchContent</span><span class="nf">)</span>
+<span class="nf">FetchContent_Declare(</span>
+<span class="w">  </span><span class="nb">googletest</span>
+<span class="w">  </span><span class="no">GIT_REPOSITORY</span><span class="w"> </span><span class="na">https://github.com/google/googletest.git</span>
+<span class="w">  </span><span class="no">GIT_TAG</span><span class="w">        </span><span class="nb">e2239ee6043f73722e7aa812a459f54a28552929</span><span class="w"> </span><span class="c"># release-1.11.0</span>
+<span class="nf">)</span>
+
+<span class="c"># Both FIND_PACKAGE and FETCHCONTENT_MAKEAVAILABLE_SERIAL methods provide</span>
+<span class="c"># the package or dependency name as the first method-specific argument.</span>
+<span class="nf">macro(</span><span class="nb">mycomp_provide_dependency</span><span class="w"> </span><span class="nb">method</span><span class="w"> </span><span class="nb">dep_name</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">if(</span><span class="s">&quot;${dep_name}&quot;</span><span class="w"> </span><span class="no">MATCHES</span><span class="w"> </span><span class="s">&quot;^(gtest|googletest)$&quot;</span><span class="nf">)</span>
+<span class="w">    </span><span class="c"># Save our current command arguments in case we are called recursively</span>
+<span class="w">    </span><span class="nf">list(</span><span class="no">APPEND</span><span class="w"> </span><span class="nb">mycomp_provider_args</span><span class="w"> </span><span class="o">${</span><span class="nt">method</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nt">dep_name</span><span class="o">}</span><span class="nf">)</span>
+
+<span class="w">    </span><span class="c"># This will forward to the built-in FetchContent implementation,</span>
+<span class="w">    </span><span class="c"># which detects a recursive call for the same thing and avoids calling</span>
+<span class="w">    </span><span class="c"># the provider again if dep_name is the same as the current call.</span>
+<span class="w">    </span><span class="nf">FetchContent_MakeAvailable(</span><span class="nb">googletest</span><span class="nf">)</span>
+
+<span class="w">    </span><span class="c"># Restore our command arguments</span>
+<span class="w">    </span><span class="nf">list(</span><span class="no">POP_BACK</span><span class="w"> </span><span class="nb">mycomp_provider_args</span><span class="w"> </span><span class="nb">dep_name</span><span class="w"> </span><span class="nb">method</span><span class="nf">)</span>
+
+<span class="w">    </span><span class="c"># Tell the caller we fulfilled the request</span>
+<span class="w">    </span><span class="nf">if(</span><span class="s">&quot;${method}&quot;</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;FIND_PACKAGE&quot;</span><span class="nf">)</span>
+<span class="w">      </span><span class="c"># We need to set this if we got here from a find_package() call</span>
+<span class="w">      </span><span class="c"># since we used a different method to fulfill the request.</span>
+<span class="w">      </span><span class="c"># This example assumes projects only use the gtest targets,</span>
+<span class="w">      </span><span class="c"># not any of the variables the FindGTest module may define.</span>
+<span class="w">      </span><span class="nf">set(</span><span class="o">${</span><span class="nt">dep_name</span><span class="o">}</span><span class="nb">_FOUND</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="w">    </span><span class="nf">elseif(</span><span class="no">NOT</span><span class="w"> </span><span class="s">&quot;${dep_name}&quot;</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;googletest&quot;</span><span class="nf">)</span>
+<span class="w">      </span><span class="c"># We used the same method, but were given a different name to the</span>
+<span class="w">      </span><span class="c"># one we populated with. Tell the caller about the name it used.</span>
+<span class="w">      </span><span class="nf">FetchContent_SetPopulated(</span><span class="o">${</span><span class="nt">dep_name</span><span class="o">}</span>
+<span class="w">        </span><span class="no">SOURCE_DIR</span><span class="w"> </span><span class="s">&quot;${googletest_SOURCE_DIR}&quot;</span>
+<span class="w">        </span><span class="no">BINARY_DIR</span><span class="w"> </span><span class="s">&quot;${googletest_BINARY_DIR}&quot;</span>
+<span class="w">      </span><span class="nf">)</span>
+<span class="w">    </span><span class="nf">endif()</span>
+<span class="w">  </span><span class="nf">endif()</span>
+<span class="nf">endmacro()</span>
+
+<span class="nf">cmake_language(</span>
+<span class="w">  </span><span class="no">SET_DEPENDENCY_PROVIDER</span><span class="w"> </span><span class="nb">mycomp_provide_dependency</span>
+<span class="w">  </span><span class="no">SUPPORTED_METHODS</span>
+<span class="w">    </span><span class="no">FIND_PACKAGE</span>
+<span class="w">    </span><span class="no">FETCHCONTENT_MAKEAVAILABLE_SERIAL</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+<p>The final example demonstrates how to modify arguments to a
+<span class="target" id="index-8-command:find_package"></span><a class="reference internal" href="find_package.html#command:find_package" title="find_package"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">find_package()</span></code></a> call.  It forces all such calls to have the
+<code class="docutils literal notranslate"><span class="pre">QUIET</span></code> keyword.  It uses the <code class="docutils literal notranslate"><span class="pre">BYPASS_PROVIDER</span></code> keyword to prevent
+calling the provider command recursively for the same dependency.</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">mycomp_provider.cmake</span><a class="headerlink" href="#id4" title="Permalink to this code">¶</a></div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_minimum_required(</span><span class="no">VERSION</span><span class="w"> </span><span class="m">3.24</span><span class="nf">)</span>
+
+<span class="nf">macro(</span><span class="nb">mycomp_provide_dependency</span><span class="w"> </span><span class="nb">method</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">find_package(</span><span class="o">${</span><span class="nt">ARGN</span><span class="o">}</span><span class="w"> </span><span class="no">BYPASS_PROVIDER</span><span class="w"> </span><span class="no">QUIET</span><span class="nf">)</span>
+<span class="nf">endmacro()</span>
+
+<span class="nf">cmake_language(</span>
+<span class="w">  </span><span class="no">SET_DEPENDENCY_PROVIDER</span><span class="w"> </span><span class="nb">mycomp_provide_dependency</span>
+<span class="w">  </span><span class="no">SUPPORTED_METHODS</span><span class="w"> </span><span class="no">FIND_PACKAGE</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="getting-current-message-log-level">
+<h2>Getting current message log level<a class="headerlink" href="#getting-current-message-log-level" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<span class="target" id="query-message-log-level"></span><dl class="cmake signature">
+<dt class="sig sig-object cmake" id="get-message-log-level">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_language(</span></span><span class="no"><span class="pre">GET_MESSAGE_LOG_LEVEL</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;output_variable&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#get-message-log-level" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes the current <span class="target" id="index-0-command:message"></span><a class="reference internal" href="message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message()</span></code></a> logging level
+into the given <code class="docutils literal notranslate"><span class="pre">&lt;output_variable&gt;</span></code>.</p>
+<p>See <span class="target" id="index-1-command:message"></span><a class="reference internal" href="message.html#command:message" title="message"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">message()</span></code></a> for the possible logging levels.</p>
+<p>The current message logging level can be set either using the
+<a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-log-level"><code class="xref std std-option docutils literal notranslate"><span class="pre">--log-level</span></code></a>
+command line option of the <span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="../manual/cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> program or using
+the <span class="target" id="index-0-variable:CMAKE_MESSAGE_LOG_LEVEL"></span><a class="reference internal" href="../variable/CMAKE_MESSAGE_LOG_LEVEL.html#variable:CMAKE_MESSAGE_LOG_LEVEL" title="CMAKE_MESSAGE_LOG_LEVEL"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MESSAGE_LOG_LEVEL</span></code></a> variable.</p>
+<p>If both the command line option and the variable are set, the command line
+option takes precedence. If neither are set, the default logging level
+is returned.</p>
+</dd></dl>
+
+</section>
+<section id="terminating-scripts">
+<h2>Terminating Scripts<a class="headerlink" href="#terminating-scripts" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.29.</span></p>
+</div>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="exit">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_language(</span></span><span class="no"><span class="pre">EXIT</span></span><span class="w"> </span><span class="nv"><span class="pre">&lt;exit-code&gt;</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Terminate the current <a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake-P"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">-P</span></code></a> script and exit with <code class="docutils literal notranslate"><span class="pre">&lt;exit-code&gt;</span></code>.</p>
+<p>This command works only in <a class="reference internal" href="../manual/cmake.1.html#script-processing-mode"><span class="std std-ref">script mode</span></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;exit-code&gt;</span></code> should be non-negative.
+If <code class="docutils literal notranslate"><span class="pre">&lt;exit-code&gt;</span></code> is negative then the behavior
+is unspecified (e.g., on Windows the error code -1
+becomes <code class="docutils literal notranslate"><span class="pre">0xffffffff</span></code>, and on Linux it becomes <code class="docutils literal notranslate"><span class="pre">255</span></code>).</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">cmake_language</a><ul>
+<li><a class="reference internal" href="#synopsis">Synopsis</a></li>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#calling-commands">Calling Commands</a></li>
+<li><a class="reference internal" href="#evaluating-code">Evaluating Code</a></li>
+<li><a class="reference internal" href="#deferring-calls">Deferring Calls</a><ul>
+<li><a class="reference internal" href="#deferred-call-examples">Deferred Call Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#dependency-providers">Dependency Providers</a><ul>
+<li><a class="reference internal" href="#provider-commands">Provider commands</a></li>
+<li><a class="reference internal" href="#provider-examples">Provider Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#getting-current-message-log-level">Getting current message log level</a></li>
+<li><a class="reference internal" href="#terminating-scripts">Terminating Scripts</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="cmake_host_system_information.html"
+                          title="previous chapter">cmake_host_system_information</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cmake_minimum_required.html"
+                          title="next chapter">cmake_minimum_required</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/cmake_language.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cmake_minimum_required.html" title="cmake_minimum_required"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="cmake_host_system_information.html" title="cmake_host_system_information"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cmake_language</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

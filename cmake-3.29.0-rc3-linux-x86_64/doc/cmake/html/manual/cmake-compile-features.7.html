@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>cmake-compile-features(7) &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="cmake-configure-log(7)" href="cmake-configure-log.7.html" />
+    <link rel="prev" title="write_file" href="../command/write_file.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="cmake-configure-log.7.html" title="cmake-configure-log(7)"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../command/write_file.html" title="write_file"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">cmake-compile-features(7)</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="manual:cmake-compile-features(7)"></span><section id="cmake-compile-features-7">
+<h1><a class="toc-backref" href="#id3" role="doc-backlink">cmake-compile-features(7)</a><a class="headerlink" href="#cmake-compile-features-7" title="Permalink to this heading">¶</a></h1>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#cmake-compile-features-7" id="id3">cmake-compile-features(7)</a></p>
+<ul>
+<li><p><a class="reference internal" href="#introduction" id="id4">Introduction</a></p></li>
+<li><p><a class="reference internal" href="#compile-feature-requirements" id="id5">Compile Feature Requirements</a></p>
+<ul>
+<li><p><a class="reference internal" href="#requiring-language-standards" id="id6">Requiring Language Standards</a></p></li>
+<li><p><a class="reference internal" href="#availability-of-compiler-extensions" id="id7">Availability of Compiler Extensions</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#optional-compile-features" id="id8">Optional Compile Features</a></p></li>
+<li><p><a class="reference internal" href="#conditional-compilation-options" id="id9">Conditional Compilation Options</a></p></li>
+<li><p><a class="reference internal" href="#supported-compilers" id="id10">Supported Compilers</a></p></li>
+<li><p><a class="reference internal" href="#language-standard-flags" id="id11">Language Standard Flags</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="introduction">
+<h2><a class="toc-backref" href="#id4" role="doc-backlink">Introduction</a><a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
+<p>Project source code may depend on, or be conditional on, the availability
+of certain features of the compiler.  There are three use-cases which arise:
+<a class="reference internal" href="#compile-feature-requirements">Compile Feature Requirements</a>, <a class="reference internal" href="#optional-compile-features">Optional Compile Features</a>
+and <a class="reference internal" href="#conditional-compilation-options">Conditional Compilation Options</a>.</p>
+<p>While features are typically specified in programming language standards,
+CMake provides a primary user interface based on granular handling of
+the features, not the language standard that introduced the feature.</p>
+<p>The <span class="target" id="index-0-prop_gbl:CMAKE_C_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_C_KNOWN_FEATURES.html#prop_gbl:CMAKE_C_KNOWN_FEATURES" title="CMAKE_C_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_C_KNOWN_FEATURES</span></code></a>, <span class="target" id="index-0-prop_gbl:CMAKE_CUDA_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_CUDA_KNOWN_FEATURES.html#prop_gbl:CMAKE_CUDA_KNOWN_FEATURES" title="CMAKE_CUDA_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_CUDA_KNOWN_FEATURES</span></code></a>,
+and <span class="target" id="index-0-prop_gbl:CMAKE_CXX_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html#prop_gbl:CMAKE_CXX_KNOWN_FEATURES" title="CMAKE_CXX_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">CMAKE_CXX_KNOWN_FEATURES</span></code></a> global properties contain all the
+features known to CMake, regardless of compiler support for the feature.
+The <span class="target" id="index-0-variable:CMAKE_C_COMPILE_FEATURES"></span><a class="reference internal" href="../variable/CMAKE_C_COMPILE_FEATURES.html#variable:CMAKE_C_COMPILE_FEATURES" title="CMAKE_C_COMPILE_FEATURES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_C_COMPILE_FEATURES</span></code></a>, <span class="target" id="index-0-variable:CMAKE_CUDA_COMPILE_FEATURES"></span><a class="reference internal" href="../variable/CMAKE_CUDA_COMPILE_FEATURES.html#variable:CMAKE_CUDA_COMPILE_FEATURES" title="CMAKE_CUDA_COMPILE_FEATURES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CUDA_COMPILE_FEATURES</span></code></a>
+, and <span class="target" id="index-0-variable:CMAKE_CXX_COMPILE_FEATURES"></span><a class="reference internal" href="../variable/CMAKE_CXX_COMPILE_FEATURES.html#variable:CMAKE_CXX_COMPILE_FEATURES" title="CMAKE_CXX_COMPILE_FEATURES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_COMPILE_FEATURES</span></code></a> variables contain all features
+CMake knows are known to the compiler, regardless of language standard
+or compile flags needed to use them.</p>
+<p>Features known to CMake are named mostly following the same convention
+as the Clang feature test macros.  There are some exceptions, such as
+CMake using <code class="docutils literal notranslate"><span class="pre">cxx_final</span></code> and <code class="docutils literal notranslate"><span class="pre">cxx_override</span></code> instead of the single
+<code class="docutils literal notranslate"><span class="pre">cxx_override_control</span></code> used by Clang.</p>
+<p>Note that there are no separate compile features properties or variables for
+the <code class="docutils literal notranslate"><span class="pre">OBJC</span></code> or <code class="docutils literal notranslate"><span class="pre">OBJCXX</span></code> languages.  These are based off <code class="docutils literal notranslate"><span class="pre">C</span></code> or <code class="docutils literal notranslate"><span class="pre">C++</span></code>
+respectively, so the properties and variables for their corresponding base
+language should be used instead.</p>
+</section>
+<section id="compile-feature-requirements">
+<h2><a class="toc-backref" href="#id5" role="doc-backlink">Compile Feature Requirements</a><a class="headerlink" href="#compile-feature-requirements" title="Permalink to this heading">¶</a></h2>
+<p>Compile feature requirements may be specified with the
+<span class="target" id="index-0-command:target_compile_features"></span><a class="reference internal" href="../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a> command.  For example, if a target must
+be compiled with compiler support for the
+<span class="target" id="index-1-prop_gbl:CMAKE_CXX_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html#prop_gbl:CMAKE_CXX_KNOWN_FEATURES" title="CMAKE_CXX_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">cxx_constexpr</span></code></a> feature:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">mylib</span><span class="w"> </span><span class="nb">requires_constexpr.cpp</span><span class="nf">)</span>
+<span class="nf">target_compile_features(</span><span class="nb">mylib</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">cxx_constexpr</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>In processing the requirement for the <code class="docutils literal notranslate"><span class="pre">cxx_constexpr</span></code> feature,
+<span class="target" id="index-0-manual:cmake(1)"></span><a class="reference internal" href="cmake.1.html#manual:cmake(1)" title="cmake(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake(1)</span></code></a> will ensure that the in-use C++ compiler is capable
+of the feature, and will add any necessary flags such as <code class="docutils literal notranslate"><span class="pre">-std=gnu++11</span></code>
+to the compile lines of C++ files in the <code class="docutils literal notranslate"><span class="pre">mylib</span></code> target.  A
+<code class="docutils literal notranslate"><span class="pre">FATAL_ERROR</span></code> is issued if the compiler is not capable of the
+feature.</p>
+<p>The exact compile flags and language standard are deliberately not part
+of the user interface for this use-case.  CMake will compute the
+appropriate compile flags to use by considering the features specified
+for each target.</p>
+<p>Such compile flags are added even if the compiler supports the
+particular feature without the flag. For example, the GNU compiler
+supports variadic templates (with a warning) even if <code class="docutils literal notranslate"><span class="pre">-std=gnu++98</span></code> is
+used.  CMake adds the <code class="docutils literal notranslate"><span class="pre">-std=gnu++11</span></code> flag if <code class="docutils literal notranslate"><span class="pre">cxx_variadic_templates</span></code>
+is specified as a requirement.</p>
+<p>In the above example, <code class="docutils literal notranslate"><span class="pre">mylib</span></code> requires <code class="docutils literal notranslate"><span class="pre">cxx_constexpr</span></code> when it
+is built itself, but consumers of <code class="docutils literal notranslate"><span class="pre">mylib</span></code> are not required to use a
+compiler which supports <code class="docutils literal notranslate"><span class="pre">cxx_constexpr</span></code>.  If the interface of
+<code class="docutils literal notranslate"><span class="pre">mylib</span></code> does require the <code class="docutils literal notranslate"><span class="pre">cxx_constexpr</span></code> feature (or any other
+known feature), that may be specified with the <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code> or
+<code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> signatures of <span class="target" id="index-1-command:target_compile_features"></span><a class="reference internal" href="../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a>:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">mylib</span><span class="w"> </span><span class="nb">requires_constexpr.cpp</span><span class="nf">)</span>
+<span class="c"># cxx_constexpr is a usage-requirement</span>
+<span class="nf">target_compile_features(</span><span class="nb">mylib</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="nb">cxx_constexpr</span><span class="nf">)</span>
+
+<span class="c"># main.cpp will be compiled with -std=gnu++11 on GNU for cxx_constexpr.</span>
+<span class="nf">add_executable(</span><span class="nb">myexe</span><span class="w"> </span><span class="nb">main.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">myexe</span><span class="w"> </span><span class="nb">mylib</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Feature requirements are evaluated transitively by consuming the link
+implementation.  See <span class="target" id="index-0-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a> for more on
+transitive behavior of build properties and usage requirements.</p>
+<section id="requiring-language-standards">
+<span id="id1"></span><h3><a class="toc-backref" href="#id6" role="doc-backlink">Requiring Language Standards</a><a class="headerlink" href="#requiring-language-standards" title="Permalink to this heading">¶</a></h3>
+<p>In projects that use a large number of commonly available features from
+a particular language standard (e.g. C++ 11) one may specify a
+meta-feature (e.g. <code class="docutils literal notranslate"><span class="pre">cxx_std_11</span></code>) that requires use of a compiler mode
+that is at minimum aware of that standard, but could be greater.
+This is simpler than specifying all the features individually, but does
+not guarantee the existence of any particular feature.
+Diagnosis of use of unsupported features will be delayed until compile time.</p>
+<p>For example, if C++ 11 features are used extensively in a project's
+header files, then clients must use a compiler mode that is no less
+than C++ 11.  This can be requested with the code:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">target_compile_features(</span><span class="nb">mylib</span><span class="w"> </span><span class="no">PUBLIC</span><span class="w"> </span><span class="nb">cxx_std_11</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>In this example, CMake will ensure the compiler is invoked in a mode
+of at-least C++ 11 (or C++ 14, C++ 17, ...), adding flags such as
+<code class="docutils literal notranslate"><span class="pre">-std=gnu++11</span></code> if necessary.  This applies to sources within <code class="docutils literal notranslate"><span class="pre">mylib</span></code>
+as well as any dependents (that may include headers from <code class="docutils literal notranslate"><span class="pre">mylib</span></code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the compiler's default standard level is at least that
+of the requested feature, CMake may omit the <code class="docutils literal notranslate"><span class="pre">-std=</span></code> flag.
+The flag may still be added if the compiler's default extensions mode
+does not match the <span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> target property,
+or if the <span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> target property is set.</p>
+</div>
+</section>
+<section id="availability-of-compiler-extensions">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Availability of Compiler Extensions</a><a class="headerlink" href="#availability-of-compiler-extensions" title="Permalink to this heading">¶</a></h3>
+<p>The <span class="target" id="index-1-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> target property defaults to the compiler's
+default (see <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"></span><a class="reference internal" href="../variable/CMAKE_LANG_EXTENSIONS_DEFAULT.html#variable:CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT" title="CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT</span></code></a>). Note that because
+most compilers enable extensions by default, this may expose portability bugs
+in user code or in the headers of third-party dependencies.</p>
+<p><span class="target" id="index-2-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> used to default to <code class="docutils literal notranslate"><span class="pre">ON</span></code>. See <span class="target" id="index-0-policy:CMP0128"></span><a class="reference internal" href="../policy/CMP0128.html#policy:CMP0128" title="CMP0128"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0128</span></code></a>.</p>
+</section>
+</section>
+<section id="optional-compile-features">
+<h2><a class="toc-backref" href="#id8" role="doc-backlink">Optional Compile Features</a><a class="headerlink" href="#optional-compile-features" title="Permalink to this heading">¶</a></h2>
+<p>Compile features may be preferred if available, without creating a hard
+requirement.   This can be achieved by <em>not</em> specifying features with
+<span class="target" id="index-2-command:target_compile_features"></span><a class="reference internal" href="../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a> and instead checking the compiler
+capabilities with preprocessor conditions in project code.</p>
+<p>In this use-case, the project may wish to establish a particular language
+standard if available from the compiler, and use preprocessor conditions
+to detect the features actually available.  A language standard may be
+established by <a class="reference internal" href="#requiring-language-standards">Requiring Language Standards</a> using
+<span class="target" id="index-3-command:target_compile_features"></span><a class="reference internal" href="../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a> with meta-features like <code class="docutils literal notranslate"><span class="pre">cxx_std_11</span></code>,
+or by setting the <span class="target" id="index-0-prop_tgt:CXX_STANDARD"></span><a class="reference internal" href="../prop_tgt/CXX_STANDARD.html#prop_tgt:CXX_STANDARD" title="CXX_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CXX_STANDARD</span></code></a> target property or
+<span class="target" id="index-0-variable:CMAKE_CXX_STANDARD"></span><a class="reference internal" href="../variable/CMAKE_CXX_STANDARD.html#variable:CMAKE_CXX_STANDARD" title="CMAKE_CXX_STANDARD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_STANDARD</span></code></a> variable.</p>
+<p>See also policy <span class="target" id="index-0-policy:CMP0120"></span><a class="reference internal" href="../policy/CMP0120.html#policy:CMP0120" title="CMP0120"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0120</span></code></a> and legacy documentation on
+<a class="reference internal" href="../module/WriteCompilerDetectionHeader.html#wcdh-example-usage"><span class="std std-ref">Example Usage</span></a> of the deprecated
+<span class="target" id="index-0-module:WriteCompilerDetectionHeader"></span><a class="reference internal" href="../module/WriteCompilerDetectionHeader.html#module:WriteCompilerDetectionHeader" title="WriteCompilerDetectionHeader"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">WriteCompilerDetectionHeader</span></code></a> module.</p>
+</section>
+<section id="conditional-compilation-options">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Conditional Compilation Options</a><a class="headerlink" href="#conditional-compilation-options" title="Permalink to this heading">¶</a></h2>
+<p>Libraries may provide entirely different header files depending on
+requested compiler features.</p>
+<p>For example, a header at <code class="docutils literal notranslate"><span class="pre">with_variadics/interface.h</span></code> may contain:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">...</span><span class="w"> </span><span class="n">Is</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Interface</span><span class="p">;</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">I</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Interface</span><span class="o">&lt;</span><span class="n">I</span><span class="o">&gt;</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">accumulate</span><span class="p">()</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">I</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">I</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">...</span><span class="w"> </span><span class="n">Is</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Interface</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">accumulate</span><span class="p">()</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Interface</span><span class="o">&lt;</span><span class="n">Is</span><span class="p">...</span><span class="o">&gt;::</span><span class="n">accumulate</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>while a header at <code class="docutils literal notranslate"><span class="pre">no_variadics/interface.h</span></code> may contain:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">template</span><span class="o">&lt;</span><span class="kt">int</span><span class="w"> </span><span class="n">I1</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">I2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">I3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">I4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="o">&gt;</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Interface</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">accumulate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">I1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">I2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">I3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">I4</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>It may be possible to write an abstraction <code class="docutils literal notranslate"><span class="pre">interface.h</span></code> header
+containing something like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#ifdef HAVE_CXX_VARIADIC_TEMPLATES</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;with_variadics/interface.h&quot;</span>
+<span class="cp">#else</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;no_variadics/interface.h&quot;</span>
+<span class="cp">#endif</span>
+</pre></div>
+</div>
+<p>However this could be unmaintainable if there are many files to
+abstract. What is needed is to use alternative include directories
+depending on the compiler capabilities.</p>
+<p>CMake provides a <code class="docutils literal notranslate"><span class="pre">COMPILE_FEATURES</span></code>
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"></span><a class="reference internal" href="cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expression</span></code></a> to implement
+such conditions.  This may be used with the build-property commands such as
+<span class="target" id="index-0-command:target_include_directories"></span><a class="reference internal" href="../command/target_include_directories.html#command:target_include_directories" title="target_include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_include_directories()</span></code></a> and <span class="target" id="index-0-command:target_link_libraries"></span><a class="reference internal" href="../command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>
+to set the appropriate <span class="target" id="index-1-manual:cmake-buildsystem(7)"></span><a class="reference internal" href="cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">buildsystem</span></code></a>
+properties:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_library(</span><span class="nb">foo</span><span class="w"> </span><span class="no">INTERFACE</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">with_variadics</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/with_variadics</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">no_variadics</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/no_variadics</span><span class="nf">)</span>
+<span class="nf">target_include_directories(</span><span class="nb">foo</span>
+<span class="w">  </span><span class="no">INTERFACE</span>
+<span class="w">    </span><span class="s">&quot;$&lt;$&lt;COMPILE_FEATURES:cxx_variadic_templates&gt;:${with_variadics}&gt;&quot;</span>
+<span class="w">    </span><span class="s">&quot;$&lt;$&lt;NOT:$&lt;COMPILE_FEATURES:cxx_variadic_templates&gt;&gt;:${no_variadics}&gt;&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Consuming code then simply links to the <code class="docutils literal notranslate"><span class="pre">foo</span></code> target as usual and uses
+the feature-appropriate include directory</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">consumer_with</span><span class="w"> </span><span class="nb">consumer_with.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">consumer_with</span><span class="w"> </span><span class="nb">foo</span><span class="nf">)</span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">consumer_with</span><span class="w"> </span><span class="no">CXX_STANDARD</span><span class="w"> </span><span class="m">11</span><span class="nf">)</span>
+
+<span class="nf">add_executable(</span><span class="nb">consumer_no</span><span class="w"> </span><span class="nb">consumer_no.cpp</span><span class="nf">)</span>
+<span class="nf">target_link_libraries(</span><span class="nb">consumer_no</span><span class="w"> </span><span class="nb">foo</span><span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+<section id="supported-compilers">
+<h2><a class="toc-backref" href="#id10" role="doc-backlink">Supported Compilers</a><a class="headerlink" href="#supported-compilers" title="Permalink to this heading">¶</a></h2>
+<p>CMake is currently aware of the <span class="target" id="index-1-prop_tgt:CXX_STANDARD"></span><a class="reference internal" href="../prop_tgt/CXX_STANDARD.html#prop_tgt:CXX_STANDARD" title="CXX_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">C++</span> <span class="pre">standards</span></code></a>
+and <span class="target" id="index-2-prop_gbl:CMAKE_CXX_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_CXX_KNOWN_FEATURES.html#prop_gbl:CMAKE_CXX_KNOWN_FEATURES" title="CMAKE_CXX_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">compile</span> <span class="pre">features</span></code></a> available from
+the following <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">compiler</span> <span class="pre">ids</span></code></a> as of the
+versions specified for each:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">AppleClang</span></code>: Apple Clang for Xcode versions 4.4+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Clang</span></code>: Clang compiler versions 2.9+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GNU</span></code>: GNU compiler versions 4.4+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MSVC</span></code>: Microsoft Visual Studio versions 2010+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SunPro</span></code>: Oracle SolarisStudio versions 12.4+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Intel</span></code>: Intel compiler versions 12.1+.</p></li>
+</ul>
+<p>CMake is currently aware of the <span class="target" id="index-0-prop_tgt:C_STANDARD"></span><a class="reference internal" href="../prop_tgt/C_STANDARD.html#prop_tgt:C_STANDARD" title="C_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">C</span> <span class="pre">standards</span></code></a>
+and <span class="target" id="index-1-prop_gbl:CMAKE_C_KNOWN_FEATURES"></span><a class="reference internal" href="../prop_gbl/CMAKE_C_KNOWN_FEATURES.html#prop_gbl:CMAKE_C_KNOWN_FEATURES" title="CMAKE_C_KNOWN_FEATURES"><code class="xref cmake cmake-prop_gbl docutils literal notranslate"><span class="pre">compile</span> <span class="pre">features</span></code></a> available from
+the following <span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">compiler</span> <span class="pre">ids</span></code></a> as of the
+versions specified for each:</p>
+<ul class="simple">
+<li><p>all compilers and versions listed above for C++.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GNU</span></code>: GNU compiler versions 3.4+</p></li>
+</ul>
+<p>CMake is currently aware of the <span class="target" id="index-2-prop_tgt:CXX_STANDARD"></span><a class="reference internal" href="../prop_tgt/CXX_STANDARD.html#prop_tgt:CXX_STANDARD" title="CXX_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">C++</span> <span class="pre">standards</span></code></a> and
+their associated meta-features (e.g. <code class="docutils literal notranslate"><span class="pre">cxx_std_11</span></code>) available from the
+following <span class="target" id="index-2-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">compiler</span> <span class="pre">ids</span></code></a> as of the
+versions specified for each:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Cray</span></code>: Cray Compiler Environment version 8.1+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Fujitsu</span></code>: Fujitsu HPC compiler 4.0+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PGI</span></code>: PGI version 12.10+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVHPC</span></code>: NVIDIA HPC compilers version 11.0+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TI</span></code>: Texas Instruments compiler.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TIClang</span></code>: Texas Instruments Clang-based compilers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">XL</span></code>: IBM XL version 10.1+.</p></li>
+</ul>
+<p>CMake is currently aware of the <span class="target" id="index-1-prop_tgt:C_STANDARD"></span><a class="reference internal" href="../prop_tgt/C_STANDARD.html#prop_tgt:C_STANDARD" title="C_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">C</span> <span class="pre">standards</span></code></a> and
+their associated meta-features (e.g. <code class="docutils literal notranslate"><span class="pre">c_std_99</span></code>) available from the
+following <span class="target" id="index-3-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">compiler</span> <span class="pre">ids</span></code></a> as of the
+versions specified for each:</p>
+<ul class="simple">
+<li><p>all compilers and versions listed above with only meta-features for C++.</p></li>
+</ul>
+<p>CMake is currently aware of the <span class="target" id="index-0-prop_tgt:CUDA_STANDARD"></span><a class="reference internal" href="../prop_tgt/CUDA_STANDARD.html#prop_tgt:CUDA_STANDARD" title="CUDA_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">CUDA</span> <span class="pre">standards</span></code></a> and
+their associated meta-features (e.g. <code class="docutils literal notranslate"><span class="pre">cuda_std_11</span></code>) available from the
+following <span class="target" id="index-4-variable:CMAKE_&lt;LANG&gt;_COMPILER_ID"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER_ID.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_ID" title="CMAKE_&lt;LANG&gt;_COMPILER_ID"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">compiler</span> <span class="pre">ids</span></code></a> as of the
+versions specified for each:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Clang</span></code>: Clang compiler 5.0+.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVIDIA</span></code>: NVIDIA nvcc compiler 7.5+.</p></li>
+</ul>
+</section>
+<section id="language-standard-flags">
+<span id="id2"></span><h2><a class="toc-backref" href="#id11" role="doc-backlink">Language Standard Flags</a><a class="headerlink" href="#language-standard-flags" title="Permalink to this heading">¶</a></h2>
+<p>In order to satisfy requirements specified by the
+<span class="target" id="index-4-command:target_compile_features"></span><a class="reference internal" href="../command/target_compile_features.html#command:target_compile_features" title="target_compile_features"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_features()</span></code></a> command or the
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../variable/CMAKE_LANG_STANDARD.html#variable:CMAKE_&lt;LANG&gt;_STANDARD" title="CMAKE_&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_STANDARD</span></code></a> variable, CMake may pass a
+language standard flag to the compiler, such as <code class="docutils literal notranslate"><span class="pre">-std=c++11</span></code>.</p>
+<p>For <a class="reference internal" href="cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a>, CMake cannot precisely control
+the placement of the language standard flag on the compiler command line.
+For <a class="reference internal" href="cmake-generators.7.html#ninja-generators"><span class="std std-ref">Ninja Generators</span></a>, <a class="reference internal" href="cmake-generators.7.html#makefile-generators"><span class="std std-ref">Makefile Generators</span></a>, and
+<span class="target" id="index-0-generator:Xcode"></span><a class="reference internal" href="../generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a>, CMake places the language standard flag just after
+the language-wide flags from <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS.html#variable:CMAKE_&lt;LANG&gt;_FLAGS" title="CMAKE_&lt;LANG&gt;_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS</span></code></a>
+and <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS_CONFIG.html#variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;</span></code></a>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.26: </span>The language standard flag is placed before flags specified by other
+abstractions such as the <span class="target" id="index-0-command:target_compile_options"></span><a class="reference internal" href="../command/target_compile_options.html#command:target_compile_options" title="target_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_options()</span></code></a> command.
+Prior to CMake 3.26, the language standard flag was placed after them.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">cmake-compile-features(7)</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#compile-feature-requirements">Compile Feature Requirements</a><ul>
+<li><a class="reference internal" href="#requiring-language-standards">Requiring Language Standards</a></li>
+<li><a class="reference internal" href="#availability-of-compiler-extensions">Availability of Compiler Extensions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optional-compile-features">Optional Compile Features</a></li>
+<li><a class="reference internal" href="#conditional-compilation-options">Conditional Compilation Options</a></li>
+<li><a class="reference internal" href="#supported-compilers">Supported Compilers</a></li>
+<li><a class="reference internal" href="#language-standard-flags">Language Standard Flags</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="../command/write_file.html"
+                          title="previous chapter">write_file</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="cmake-configure-log.7.html"
+                          title="next chapter">cmake-configure-log(7)</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/manual/cmake-compile-features.7.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="cmake-configure-log.7.html" title="cmake-configure-log(7)"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../command/write_file.html" title="write_file"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+        <li class="nav-item nav-item-this"><a href="">cmake-compile-features(7)</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

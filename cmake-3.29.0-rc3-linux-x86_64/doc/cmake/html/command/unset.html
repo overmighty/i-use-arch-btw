@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>unset &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="variable_watch" href="variable_watch.html" />
+    <link rel="prev" title="string" href="string.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="variable_watch.html" title="variable_watch"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="string.html" title="string"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">unset</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="unset">
+<span id="command:unset"></span><h1>unset<a class="headerlink" href="#unset" title="Permalink to this heading">¶</a></h1>
+<p>Unset a variable, cache variable, or environment variable.</p>
+<section id="unset-normal-variable-or-cache-entry">
+<h2>Unset Normal Variable or Cache Entry<a class="headerlink" href="#unset-normal-variable-or-cache-entry" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">unset(</span><span class="nv">&lt;variable&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">CACHE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="no">PARENT_SCOPE</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Removes a normal variable from the current scope, causing it
+to become undefined.  If <code class="docutils literal notranslate"><span class="pre">CACHE</span></code> is present, then a cache variable
+is removed instead of a normal variable.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">PARENT_SCOPE</span></code> is present then the variable is removed from the scope
+above the current scope.  See the same option in the <span class="target" id="index-0-command:set"></span><a class="reference internal" href="set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> command
+for further details.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When evaluating <a class="reference internal" href="../manual/cmake-language.7.html#variable-references"><span class="std std-ref">Variable References</span></a> of the form <code class="docutils literal notranslate"><span class="pre">${VAR}</span></code>, CMake
+first searches for a normal variable with that name.  If no such normal
+variable exists, CMake will then search for a cache entry with that name.
+Because of this, <strong>unsetting a normal variable can expose a cache variable
+that was previously hidden</strong>.  To force a variable reference of the form
+<code class="docutils literal notranslate"><span class="pre">${VAR}</span></code> to return an empty string, use <code class="docutils literal notranslate"><span class="pre">set(&lt;variable&gt;</span> <span class="pre">&quot;&quot;)</span></code>, which
+clears the normal variable but leaves it defined.</p>
+</div>
+</section>
+<section id="unset-environment-variable">
+<h2>Unset Environment Variable<a class="headerlink" href="#unset-environment-variable" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">unset(</span><span class="o">ENV{</span><span class="nt">&lt;variable&gt;</span><span class="o">}</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Removes <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> from the currently available
+<span class="target" id="index-0-manual:cmake-env-variables(7)"></span><a class="reference internal" href="../manual/cmake-env-variables.7.html#manual:cmake-env-variables(7)" title="cmake-env-variables(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">Environment</span> <span class="pre">Variables</span></code></a>.
+Subsequent calls of <code class="docutils literal notranslate"><span class="pre">$ENV{&lt;variable&gt;}</span></code> will return the empty string.</p>
+<p>This command affects only the current CMake process, not the process
+from which CMake was called, nor the system environment at large,
+nor the environment of subsequent build or test processes.</p>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="target" id="index-1-command:set"></span><a class="reference internal" href="set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a></p></li>
+</ul>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">unset</a><ul>
+<li><a class="reference internal" href="#unset-normal-variable-or-cache-entry">Unset Normal Variable or Cache Entry</a></li>
+<li><a class="reference internal" href="#unset-environment-variable">Unset Environment Variable</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="string.html"
+                          title="previous chapter">string</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="variable_watch.html"
+                          title="next chapter">variable_watch</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/unset.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="variable_watch.html" title="variable_watch"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="string.html" title="string"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">unset</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

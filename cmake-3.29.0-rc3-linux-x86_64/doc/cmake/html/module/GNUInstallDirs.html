@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>GNUInstallDirs &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GoogleTest" href="GoogleTest.html" />
+    <link rel="prev" title="GenerateExportHeader" href="GenerateExportHeader.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="GoogleTest.html" title="GoogleTest"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="GenerateExportHeader.html" title="GenerateExportHeader"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">GNUInstallDirs</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="gnuinstalldirs">
+<span id="module:GNUInstallDirs"></span><h1>GNUInstallDirs<a class="headerlink" href="#gnuinstalldirs" title="Permalink to this heading">¶</a></h1>
+<p>Define GNU standard installation directories</p>
+<p>Provides install directory variables as defined by the
+<a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU Coding Standards</a>.</p>
+<section id="result-variables">
+<h2>Result Variables<a class="headerlink" href="#result-variables" title="Permalink to this heading">¶</a></h2>
+<p>Inclusion of this module defines the following variables:</p>
+<p><code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_&lt;dir&gt;</span></code></p>
+<blockquote>
+<div><p>Destination for files of a given type.  This value may be passed to
+the <code class="docutils literal notranslate"><span class="pre">DESTINATION</span></code> options of  <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> commands for the
+corresponding file type.  It should be a path relative to the installation
+prefix so that it can be converted to an absolute path in a relocatable way.</p>
+<p>While absolute paths are allowed, they are not recommended as they
+do not work with the <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span></code> command's
+<a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake--install-0"><code class="xref std std-option docutils literal notranslate"><span class="pre">--prefix</span></code></a> option, or with the
+<span class="target" id="index-0-manual:cpack(1)"></span><a class="reference internal" href="../manual/cpack.1.html#manual:cpack(1)" title="cpack(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack</span></code></a> installer generators. In particular, there is no
+need to make paths absolute by prepending <span class="target" id="index-0-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a>;
+this prefix is used by default if the DESTINATION is a relative path.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_FULL_&lt;dir&gt;</span></code></p>
+<blockquote>
+<div><p>The absolute path generated from the corresponding <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_&lt;dir&gt;</span></code>
+value.  If the value is not already an absolute path, an absolute path
+is constructed typically by prepending the value of the
+<span class="target" id="index-1-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> variable.  However, there are some
+<a class="reference internal" href="#special-cases">special cases</a> as documented below.</p>
+<p>These variables shouldn't be used in <span class="target" id="index-1-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> commands
+as they do not work with the <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--install</span></code> command's
+<a class="reference internal" href="../manual/cmake.1.html#cmdoption-cmake--install-0"><code class="xref std std-option docutils literal notranslate"><span class="pre">--prefix</span></code></a> option, or with the
+<span class="target" id="index-1-manual:cpack(1)"></span><a class="reference internal" href="../manual/cpack.1.html#manual:cpack(1)" title="cpack(1)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cpack</span></code></a> installer generators.</p>
+</div></blockquote>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> is one of:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">BINDIR</span></code></dt><dd><p>user executables (<code class="docutils literal notranslate"><span class="pre">bin</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SBINDIR</span></code></dt><dd><p>system admin executables (<code class="docutils literal notranslate"><span class="pre">sbin</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LIBEXECDIR</span></code></dt><dd><p>program executables (<code class="docutils literal notranslate"><span class="pre">libexec</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SYSCONFDIR</span></code></dt><dd><p>read-only single-machine data (<code class="docutils literal notranslate"><span class="pre">etc</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SHAREDSTATEDIR</span></code></dt><dd><p>modifiable architecture-independent data (<code class="docutils literal notranslate"><span class="pre">com</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOCALSTATEDIR</span></code></dt><dd><p>modifiable single-machine data (<code class="docutils literal notranslate"><span class="pre">var</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RUNSTATEDIR</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9: </span>run-time variable data (<code class="docutils literal notranslate"><span class="pre">LOCALSTATEDIR/run</span></code>)</p>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LIBDIR</span></code></dt><dd><p>object code libraries (<code class="docutils literal notranslate"><span class="pre">lib</span></code> or <code class="docutils literal notranslate"><span class="pre">lib64</span></code>)</p>
+<p>On Debian, this may be <code class="docutils literal notranslate"><span class="pre">lib/&lt;multiarch-tuple&gt;</span></code> when
+<span class="target" id="index-2-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> is <code class="docutils literal notranslate"><span class="pre">/usr</span></code>.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">INCLUDEDIR</span></code></dt><dd><p>C header files (<code class="docutils literal notranslate"><span class="pre">include</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OLDINCLUDEDIR</span></code></dt><dd><p>C header files for non-gcc (<code class="docutils literal notranslate"><span class="pre">/usr/include</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DATAROOTDIR</span></code></dt><dd><p>read-only architecture-independent data root (<code class="docutils literal notranslate"><span class="pre">share</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DATADIR</span></code></dt><dd><p>read-only architecture-independent data (<code class="docutils literal notranslate"><span class="pre">DATAROOTDIR</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">INFODIR</span></code></dt><dd><p>info documentation (<code class="docutils literal notranslate"><span class="pre">DATAROOTDIR/info</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LOCALEDIR</span></code></dt><dd><p>locale-dependent data (<code class="docutils literal notranslate"><span class="pre">DATAROOTDIR/locale</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MANDIR</span></code></dt><dd><p>man documentation (<code class="docutils literal notranslate"><span class="pre">DATAROOTDIR/man</span></code>)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">DOCDIR</span></code></dt><dd><p>documentation root (<code class="docutils literal notranslate"><span class="pre">DATAROOTDIR/doc/PROJECT_NAME</span></code>)</p>
+</dd>
+</dl>
+<p>If the includer does not define a value the above-shown default will be
+used and the value will appear in the cache for editing by the user.</p>
+</section>
+<section id="special-cases">
+<h2>Special Cases<a class="headerlink" href="#special-cases" title="Permalink to this heading">¶</a></h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.4.</span></p>
+</div>
+<p>The following values of <span class="target" id="index-3-variable:CMAKE_INSTALL_PREFIX"></span><a class="reference internal" href="../variable/CMAKE_INSTALL_PREFIX.html#variable:CMAKE_INSTALL_PREFIX" title="CMAKE_INSTALL_PREFIX"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_INSTALL_PREFIX</span></code></a> are special:</p>
+<p><code class="docutils literal notranslate"><span class="pre">/</span></code></p>
+<blockquote>
+<div><p>For <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> other than the <code class="docutils literal notranslate"><span class="pre">SYSCONFDIR</span></code>, <code class="docutils literal notranslate"><span class="pre">LOCALSTATEDIR</span></code> and
+<code class="docutils literal notranslate"><span class="pre">RUNSTATEDIR</span></code>, the value of <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_&lt;dir&gt;</span></code> is prefixed
+with <code class="docutils literal notranslate"><span class="pre">usr/</span></code> if it is not user-specified as an absolute path.
+For example, the <code class="docutils literal notranslate"><span class="pre">INCLUDEDIR</span></code> value <code class="docutils literal notranslate"><span class="pre">include</span></code> becomes <code class="docutils literal notranslate"><span class="pre">usr/include</span></code>.
+This is required by the <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU Coding Standards</a>, which state:</p>
+<blockquote>
+<div><p>When building the complete GNU system, the prefix will be empty
+and <code class="docutils literal notranslate"><span class="pre">/usr</span></code> will be a symbolic link to <code class="docutils literal notranslate"><span class="pre">/</span></code>.</p>
+</div></blockquote>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">/usr</span></code></p>
+<blockquote>
+<div><p>For <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> equal to <code class="docutils literal notranslate"><span class="pre">SYSCONFDIR</span></code>, <code class="docutils literal notranslate"><span class="pre">LOCALSTATEDIR</span></code> or
+<code class="docutils literal notranslate"><span class="pre">RUNSTATEDIR</span></code>, the <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_FULL_&lt;dir&gt;</span></code> is computed by
+prepending just <code class="docutils literal notranslate"><span class="pre">/</span></code> to the value of <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_&lt;dir&gt;</span></code>
+if it is not user-specified as an absolute path.
+For example, the <code class="docutils literal notranslate"><span class="pre">SYSCONFDIR</span></code> value <code class="docutils literal notranslate"><span class="pre">etc</span></code> becomes <code class="docutils literal notranslate"><span class="pre">/etc</span></code>.
+This is required by the <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU Coding Standards</a>.</p>
+</div></blockquote>
+<p><code class="docutils literal notranslate"><span class="pre">/opt/...</span></code></p>
+<blockquote>
+<div><p>For <code class="docutils literal notranslate"><span class="pre">&lt;dir&gt;</span></code> equal to <code class="docutils literal notranslate"><span class="pre">SYSCONFDIR</span></code>, <code class="docutils literal notranslate"><span class="pre">LOCALSTATEDIR</span></code> or
+<code class="docutils literal notranslate"><span class="pre">RUNSTATEDIR</span></code>, the <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_FULL_&lt;dir&gt;</span></code> is computed by
+<em>appending</em> the prefix to the value of <code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_&lt;dir&gt;</span></code>
+if it is not user-specified as an absolute path.
+For example, the <code class="docutils literal notranslate"><span class="pre">SYSCONFDIR</span></code> value <code class="docutils literal notranslate"><span class="pre">etc</span></code> becomes <code class="docutils literal notranslate"><span class="pre">/etc/opt/...</span></code>.
+This is defined by the <a class="reference external" href="https://refspecs.linuxfoundation.org/FHS_3.0/fhs/index.html">Filesystem Hierarchy Standard</a>.</p>
+<p>This behavior does not apply to paths under <code class="docutils literal notranslate"><span class="pre">/opt/homebrew/...</span></code>.</p>
+</div></blockquote>
+</section>
+<section id="macros">
+<h2>Macros<a class="headerlink" href="#macros" title="Permalink to this heading">¶</a></h2>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:gnuinstalldirs_get_absolute_install_dir">
+<span class="sig-name descname"><span class="pre">GNUInstallDirs_get_absolute_install_dir</span></span><a class="headerlink" href="#command:gnuinstalldirs_get_absolute_install_dir" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>GNUInstallDirs_get_absolute_install_dir(absvar var dirname)
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Set the given variable <code class="docutils literal notranslate"><span class="pre">absvar</span></code> to the absolute path contained
+within the variable <code class="docutils literal notranslate"><span class="pre">var</span></code>.  This is to allow the computation of an
+absolute path, accounting for all the special cases documented
+above.  While this macro is used to compute the various
+<code class="docutils literal notranslate"><span class="pre">CMAKE_INSTALL_FULL_&lt;dir&gt;</span></code> variables, it is exposed publicly to
+allow users who create additional path variables to also compute
+absolute paths where necessary, using the same logic.  <code class="docutils literal notranslate"><span class="pre">dirname</span></code> is
+the directory name to get, e.g. <code class="docutils literal notranslate"><span class="pre">BINDIR</span></code>.</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 3.20: </span>Added the <code class="docutils literal notranslate"><span class="pre">&lt;dirname&gt;</span></code> parameter.  Previous versions of CMake passed
+this value through the variable <code class="docutils literal notranslate"><span class="pre">${dir}</span></code>.</p>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">GNUInstallDirs</a><ul>
+<li><a class="reference internal" href="#result-variables">Result Variables</a></li>
+<li><a class="reference internal" href="#special-cases">Special Cases</a></li>
+<li><a class="reference internal" href="#macros">Macros</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="GenerateExportHeader.html"
+                          title="previous chapter">GenerateExportHeader</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="GoogleTest.html"
+                          title="next chapter">GoogleTest</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/GNUInstallDirs.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="GoogleTest.html" title="GoogleTest"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="GenerateExportHeader.html" title="GenerateExportHeader"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">GNUInstallDirs</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

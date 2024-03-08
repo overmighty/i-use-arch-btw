@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CTestUseLaunchers &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DeployQt4" href="DeployQt4.html" />
+    <link rel="prev" title="CTestScriptMode" href="CTestScriptMode.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="DeployQt4.html" title="DeployQt4"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CTestScriptMode.html" title="CTestScriptMode"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CTestUseLaunchers</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ctestuselaunchers">
+<span id="module:CTestUseLaunchers"></span><h1>CTestUseLaunchers<a class="headerlink" href="#ctestuselaunchers" title="Permalink to this heading">¶</a></h1>
+<p>Set the RULE_LAUNCH_* global properties when CTEST_USE_LAUNCHERS is on.</p>
+<p>CTestUseLaunchers is automatically included when you include(CTest).
+However, it is split out into its own module file so projects can use
+the CTEST_USE_LAUNCHERS functionality independently.</p>
+<p>To use launchers, set CTEST_USE_LAUNCHERS to ON in a <a class="reference internal" href="../manual/ctest.1.html#cmdoption-ctest-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-S</span></code></a>
+dashboard script, and then also set it in the cache of the configured
+project.  Both cmake and ctest need to know the value of it for the
+launchers to work properly.  CMake needs to know in order to generate
+proper build rules, and ctest, in order to produce the proper error
+and warning analysis.</p>
+<p>For convenience, you may set the ENV variable
+CTEST_USE_LAUNCHERS_DEFAULT in your ctest -S script, too.  Then, as
+long as your CMakeLists uses include(CTest) or
+include(CTestUseLaunchers), it will use the value of the ENV variable
+to initialize a CTEST_USE_LAUNCHERS cache variable.  This cache
+variable initialization only occurs if CTEST_USE_LAUNCHERS is not
+already defined.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8: </span>If CTEST_USE_LAUNCHERS is on in a <a class="reference internal" href="../manual/ctest.1.html#cmdoption-ctest-S"><code class="xref std std-option docutils literal notranslate"><span class="pre">ctest</span> <span class="pre">-S</span></code></a> script
+the ctest_configure command will add -DCTEST_USE_LAUNCHERS:BOOL=TRUE
+to the cmake command used to configure the project.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CTestScriptMode.html"
+                          title="previous chapter">CTestScriptMode</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="DeployQt4.html"
+                          title="next chapter">DeployQt4</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/CTestUseLaunchers.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="DeployQt4.html" title="DeployQt4"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CTestScriptMode.html" title="CTestScriptMode"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CTestUseLaunchers</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

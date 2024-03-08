@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>ctest_memcheck &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ctest_read_custom_files" href="ctest_read_custom_files.html" />
+    <link rel="prev" title="ctest_empty_binary_directory" href="ctest_empty_binary_directory.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ctest_read_custom_files.html" title="ctest_read_custom_files"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ctest_empty_binary_directory.html" title="ctest_empty_binary_directory"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ctest_memcheck</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ctest-memcheck">
+<span id="command:ctest_memcheck"></span><h1>ctest_memcheck<a class="headerlink" href="#ctest-memcheck" title="Permalink to this heading">¶</a></h1>
+<p>Perform the <a class="reference internal" href="../manual/ctest.1.html#ctest-memcheck-step"><span class="std std-ref">CTest MemCheck Step</span></a> as a <a class="reference internal" href="../manual/ctest.1.html#dashboard-client"><span class="std std-ref">Dashboard Client</span></a>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ctest_memcheck(</span><span class="p">[</span><span class="no">BUILD</span><span class="w"> </span><span class="nv">&lt;build-dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">APPEND</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">START</span><span class="w"> </span><span class="nv">&lt;start-number&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">END</span><span class="w"> </span><span class="nv">&lt;end-number&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">STRIDE</span><span class="w"> </span><span class="nv">&lt;stride-number&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">EXCLUDE</span><span class="w"> </span><span class="nv">&lt;exclude-regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">INCLUDE</span><span class="w"> </span><span class="nv">&lt;include-regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">EXCLUDE_LABEL</span><span class="w"> </span><span class="nv">&lt;label-exclude-regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">INCLUDE_LABEL</span><span class="w"> </span><span class="nv">&lt;label-include-regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">EXCLUDE_FIXTURE</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">EXCLUDE_FIXTURE_SETUP</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">EXCLUDE_FIXTURE_CLEANUP</span><span class="w"> </span><span class="nv">&lt;regex&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">PARALLEL_LEVEL</span><span class="w"> </span><span class="nv">&lt;level&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">RESOURCE_SPEC_FILE</span><span class="w"> </span><span class="nv">&lt;file&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">TEST_LOAD</span><span class="w"> </span><span class="nv">&lt;threshold&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">SCHEDULE_RANDOM</span><span class="w"> </span><span class="o">&lt;</span><span class="no">ON</span><span class="p">|</span><span class="no">OFF</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">STOP_ON_FAILURE</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">STOP_TIME</span><span class="w"> </span><span class="nv">&lt;time-of-day&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">RETURN_VALUE</span><span class="w"> </span><span class="nv">&lt;result-var&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">CAPTURE_CMAKE_ERROR</span><span class="w"> </span><span class="nv">&lt;result-var&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">REPEAT</span><span class="w"> </span><span class="nv">&lt;mode&gt;</span><span class="o">:</span><span class="nv">&lt;n&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">OUTPUT_JUNIT</span><span class="w"> </span><span class="nv">&lt;file&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">DEFECT_COUNT</span><span class="w"> </span><span class="nv">&lt;defect-count-var&gt;</span><span class="p">]</span>
+<span class="w">               </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span>
+<span class="w">               </span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Run tests with a dynamic analysis tool and store results in
+<code class="docutils literal notranslate"><span class="pre">MemCheck.xml</span></code> for submission with the <span class="target" id="index-0-command:ctest_submit"></span><a class="reference internal" href="ctest_submit.html#command:ctest_submit" title="ctest_submit"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_submit()</span></code></a>
+command.</p>
+<p>Most options are the same as those for the <span class="target" id="index-0-command:ctest_test"></span><a class="reference internal" href="ctest_test.html#command:ctest_test" title="ctest_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_test()</span></code></a> command.</p>
+<p>The options unique to this command are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">DEFECT_COUNT</span> <span class="pre">&lt;defect-count-var&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;defect-count-var&gt;</span></code> the number of defects found.</p>
+</dd>
+</dl>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ctest_empty_binary_directory.html"
+                          title="previous chapter">ctest_empty_binary_directory</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ctest_read_custom_files.html"
+                          title="next chapter">ctest_read_custom_files</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/ctest_memcheck.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ctest_read_custom_files.html" title="ctest_read_custom_files"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ctest_empty_binary_directory.html" title="ctest_empty_binary_directory"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ctest_memcheck</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>subdirs &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="use_mangled_mesa" href="use_mangled_mesa.html" />
+    <link rel="prev" title="subdir_depends" href="subdir_depends.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="use_mangled_mesa.html" title="use_mangled_mesa"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="subdir_depends.html" title="subdir_depends"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subdirs</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="subdirs">
+<span id="command:subdirs"></span><h1>subdirs<a class="headerlink" href="#subdirs" title="Permalink to this heading">¶</a></h1>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.0: </span>Use the <span class="target" id="index-0-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> command instead.</p>
+</div>
+<p>Add a list of subdirectories to the build.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">subdirs(</span><span class="nb">dir1</span><span class="w"> </span><span class="nb">dir2</span><span class="w"> </span><span class="p">...[</span><span class="no">EXCLUDE_FROM_ALL</span><span class="w"> </span><span class="nb">exclude_dir1</span><span class="w"> </span><span class="nb">exclude_dir2</span><span class="w"> </span><span class="p">...]</span>
+<span class="w">        </span><span class="p">[</span><span class="no">PREORDER</span><span class="p">]</span><span class="w"> </span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Add a list of subdirectories to the build.  The <span class="target" id="index-1-command:add_subdirectory"></span><a class="reference internal" href="add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>
+command should be used instead of <code class="docutils literal notranslate"><span class="pre">subdirs</span></code> although <code class="docutils literal notranslate"><span class="pre">subdirs</span></code> will still
+work.  This will cause any CMakeLists.txt files in the sub directories
+to be processed by CMake.  Any directories after the <code class="docutils literal notranslate"><span class="pre">PREORDER</span></code> flag are
+traversed first by makefile builds, the <code class="docutils literal notranslate"><span class="pre">PREORDER</span></code> flag has no effect on
+IDE projects.  Any directories after the <code class="docutils literal notranslate"><span class="pre">EXCLUDE_FROM_ALL</span></code> marker will
+not be included in the top level makefile or project file.  This is
+useful for having CMake create makefiles or projects for a set of
+examples in a project.  You would want CMake to generate makefiles or
+project files for all the examples at the same time, but you would not
+want them to show up in the top level project or be built each time
+make is run from the top.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="subdir_depends.html"
+                          title="previous chapter">subdir_depends</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="use_mangled_mesa.html"
+                          title="next chapter">use_mangled_mesa</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/subdirs.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="use_mangled_mesa.html" title="use_mangled_mesa"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="subdir_depends.html" title="subdir_depends"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">subdirs</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

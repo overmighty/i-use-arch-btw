@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CXX_SCAN_FOR_MODULES &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CXX_STANDARD" href="CXX_STANDARD.html" />
+    <link rel="prev" title="CXX_MODULE_SETS" href="CXX_MODULE_SETS.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CXX_STANDARD.html" title="CXX_STANDARD"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CXX_MODULE_SETS.html" title="CXX_MODULE_SETS"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" accesskey="U">cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CXX_SCAN_FOR_MODULES</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cxx-scan-for-modules">
+<span id="prop_tgt:CXX_SCAN_FOR_MODULES"></span><h1>CXX_SCAN_FOR_MODULES<a class="headerlink" href="#cxx-scan-for-modules" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.28.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">CXX_SCAN_FOR_MODULES</span></code> is a boolean specifying whether CMake will scan C++
+sources in the target for module dependencies.  See also the
+<span class="target" id="index-0-prop_sf:CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="../prop_sf/CXX_SCAN_FOR_MODULES.html#prop_sf:CXX_SCAN_FOR_MODULES" title="CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">CXX_SCAN_FOR_MODULES</span></code></a> for per-source settings which, if set,
+overrides the target-wide settings.</p>
+<p>This property is initialized by the value of the
+<span class="target" id="index-0-variable:CMAKE_CXX_SCAN_FOR_MODULES"></span><a class="reference internal" href="../variable/CMAKE_CXX_SCAN_FOR_MODULES.html#variable:CMAKE_CXX_SCAN_FOR_MODULES" title="CMAKE_CXX_SCAN_FOR_MODULES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_SCAN_FOR_MODULES</span></code></a> variable if it is set when a target is
+created.</p>
+<p>When this property is set <code class="docutils literal notranslate"><span class="pre">ON</span></code> or unset, CMake will scan the target's
+<code class="docutils literal notranslate"><span class="pre">CXX</span></code> sources at build time and add module dependency information to the
+compile line as necessary.  When this property is set <code class="docutils literal notranslate"><span class="pre">OFF</span></code>, CMake will not
+scan the target's <code class="docutils literal notranslate"><span class="pre">CXX</span></code> sources at build time.</p>
+<p>Note that scanning is only performed if C++20 or higher is enabled for the
+target.  Scanning for modules in the target's sources belonging to file sets
+of type <code class="docutils literal notranslate"><span class="pre">CXX_MODULES</span></code> is always performed.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CXX_MODULE_SETS.html"
+                          title="previous chapter">CXX_MODULE_SETS</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CXX_STANDARD.html"
+                          title="next chapter">CXX_STANDARD</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/prop_tgt/CXX_SCAN_FOR_MODULES.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CXX_STANDARD.html" title="CXX_STANDARD"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CXX_MODULE_SETS.html" title="CXX_MODULE_SETS"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-properties.7.html" >cmake-properties(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CXX_SCAN_FOR_MODULES</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

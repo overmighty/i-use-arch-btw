@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CPack Inno Setup Generator &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CPack IFW Generator" href="ifw.html" />
+    <link rel="prev" title="CPack FreeBSD Generator" href="freebsd.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ifw.html" title="CPack IFW Generator"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="freebsd.html" title="CPack FreeBSD Generator"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" accesskey="U">cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack Inno Setup Generator</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cpack-inno-setup-generator">
+<span id="cpack_gen:CPack Inno Setup Generator"></span><h1>CPack Inno Setup Generator<a class="headerlink" href="#cpack-inno-setup-generator" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.27.</span></p>
+</div>
+<p>Inno Setup is a free installer for Windows programs by Jordan Russell and
+Martijn Laan (<a class="reference external" href="https://jrsoftware.org/isinfo.php">https://jrsoftware.org/isinfo.php</a>).</p>
+<p>This documentation explains Inno Setup generator specific options.</p>
+<p>The generator provides a lot of options like components. Unfortunately, not
+all features (e.g. component dependencies) are currently supported by
+Inno Setup and they're ignored by the generator for now.</p>
+<p>CPack requires Inno Setup 6 or greater and only works on Windows.</p>
+<section id="variables-specific-to-cpack-inno-setup-generator">
+<h2>Variables specific to CPack Inno Setup generator<a class="headerlink" href="#variables-specific-to-cpack-inno-setup-generator" title="Permalink to this heading">¶</a></h2>
+<p>You can use the following variables to change the behavior of the CPack
+<code class="docutils literal notranslate"><span class="pre">INNOSETUP</span></code> generator:</p>
+<section id="general">
+<h3>General<a class="headerlink" href="#general" title="Permalink to this heading">¶</a></h3>
+<p>None of the following variables is required to be set for the Inno Setup
+generator to work. If a variable is marked as mandatory below but not set,
+its default value is taken.</p>
+<p>The variables can also contain Inno Setup constants like <code class="docutils literal notranslate"><span class="pre">{app}</span></code>. Please
+refer to the documentation of Inno Setup for more information.</p>
+<p>If you're asked to provide the path to any file, you can always give an
+absolute path or in most cases the relative path from the top-level directory
+where all files being installed by an <span class="target" id="index-0-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> instruction reside.</p>
+<p>CPack tries to escape quotes and other special characters for you. However,
+using special characters could cause problems.</p>
+<p>The following variable simplifies the usage of Inno Setup in CMake:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inno Setup only uses <code class="docutils literal notranslate"><span class="pre">yes</span></code> or <code class="docutils literal notranslate"><span class="pre">no</span></code> as boolean formats meanwhile CMake
+uses a lot of alternative formats like <code class="docutils literal notranslate"><span class="pre">ON</span></code> or <code class="docutils literal notranslate"><span class="pre">OFF</span></code>. Having this option
+turned on enables an automatic conversion.</p>
+<p>Consider the following example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">CMAKE_INNOSETUP_SETUP_AllowNoIcons</span><span class="w"> </span><span class="no">OFF</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>If this option is turned on, the following line will be created in the output
+script: <code class="docutils literal notranslate"><span class="pre">AllowNoIcons=no</span></code>.
+Else, the following erroneous line will be created: <code class="docutils literal notranslate"><span class="pre">AllowNoIcons=OFF</span></code></p>
+<p>The conversion is enabled in every Inno Setup specific variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">ON</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="setup-specific-variables">
+<h3>Setup Specific Variables<a class="headerlink" href="#setup-specific-variables" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_ARCHITECTURE">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_ARCHITECTURE</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_ARCHITECTURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>One of <code class="docutils literal notranslate"><span class="pre">x86</span></code>, <code class="docutils literal notranslate"><span class="pre">x64</span></code>, <code class="docutils literal notranslate"><span class="pre">arm64</span></code> or <code class="docutils literal notranslate"><span class="pre">ia64</span></code>. This variable specifies the
+target architecture of the installer. This also affects the Program Files
+folder or registry keys being used.</p>
+<p>CPack tries to determine the correct value with a try compile (see
+<span class="target" id="index-0-variable:CMAKE_SIZEOF_VOID_P"></span><a class="reference internal" href="../variable/CMAKE_SIZEOF_VOID_P.html#variable:CMAKE_SIZEOF_VOID_P" title="CMAKE_SIZEOF_VOID_P"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SIZEOF_VOID_P</span></code></a>), but this option can be manually specified
+too (especially when using <code class="docutils literal notranslate"><span class="pre">ia64</span></code> or cross-platform compilation).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>Either <code class="docutils literal notranslate"><span class="pre">x86</span></code> or <code class="docutils literal notranslate"><span class="pre">x64</span></code> depending on the results of the try-compile</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_INSTALL_ROOT">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_INSTALL_ROOT</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_INSTALL_ROOT" title="Permalink to this definition">¶</a></dt>
+<dd><p>If you don't want the installer to create the installation directory under
+Program Files, you've to specify the installation root here.</p>
+<p>The full directory of the installation will be:
+<code class="docutils literal notranslate"><span class="pre">${CPACK_INNOSETUP_INSTALL_ROOT}/${CPACK_PACKAGE_INSTALL_DIRECTORY}</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">{autopf}</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_ALLOW_CUSTOM_DIRECTORY">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_ALLOW_CUSTOM_DIRECTORY</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_ALLOW_CUSTOM_DIRECTORY" title="Permalink to this definition">¶</a></dt>
+<dd><p>If turned on, the installer allows the user to change the installation
+directory providing an extra wizard page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">ON</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_PROGRAM_MENU_FOLDER">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_PROGRAM_MENU_FOLDER</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_PROGRAM_MENU_FOLDER" title="Permalink to this definition">¶</a></dt>
+<dd><p>The initial name of the start menu folder being created.</p>
+<p>If this variable is set to <code class="docutils literal notranslate"><span class="pre">.</span></code>, then no separate folder is created,
+application shortcuts will appear in the top-level start menu folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p>The value of <span class="target" id="index-0-variable:CPACK_PACKAGE_NAME"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_NAME" title="CPACK_PACKAGE_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_NAME</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_LANGUAGES">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_LANGUAGES</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_LANGUAGES" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of languages you want
+Inno Setup to include.</p>
+<p>Currently available: <code class="docutils literal notranslate"><span class="pre">armenian</span></code>, <code class="docutils literal notranslate"><span class="pre">brazilianPortuguese</span></code>, <code class="docutils literal notranslate"><span class="pre">bulgarian</span></code>,
+<code class="docutils literal notranslate"><span class="pre">catalan</span></code>, <code class="docutils literal notranslate"><span class="pre">corsican</span></code>, <code class="docutils literal notranslate"><span class="pre">czech</span></code>, <code class="docutils literal notranslate"><span class="pre">danish</span></code>, <code class="docutils literal notranslate"><span class="pre">dutch</span></code>, <code class="docutils literal notranslate"><span class="pre">english</span></code>,
+<code class="docutils literal notranslate"><span class="pre">finnish</span></code>, <code class="docutils literal notranslate"><span class="pre">french</span></code>, <code class="docutils literal notranslate"><span class="pre">german</span></code>, <code class="docutils literal notranslate"><span class="pre">hebrew</span></code>, <code class="docutils literal notranslate"><span class="pre">icelandic</span></code>, <code class="docutils literal notranslate"><span class="pre">italian</span></code>,
+<code class="docutils literal notranslate"><span class="pre">japanese</span></code>, <code class="docutils literal notranslate"><span class="pre">norwegian</span></code>, <code class="docutils literal notranslate"><span class="pre">polish</span></code>, <code class="docutils literal notranslate"><span class="pre">portuguese</span></code>, <code class="docutils literal notranslate"><span class="pre">russian</span></code>,
+<code class="docutils literal notranslate"><span class="pre">slovak</span></code>, <code class="docutils literal notranslate"><span class="pre">slovenian</span></code>, <code class="docutils literal notranslate"><span class="pre">spanish</span></code>, <code class="docutils literal notranslate"><span class="pre">turkish</span></code> and <code class="docutils literal notranslate"><span class="pre">ukrainian</span></code>.
+This list might differ depending on the version of Inno Setup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">english</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_IGNORE_LICENSE_PAGE">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_IGNORE_LICENSE_PAGE</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_IGNORE_LICENSE_PAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>If you don't specify a license file using
+<span class="target" id="index-0-variable:CPACK_RESOURCE_FILE_LICENSE"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_RESOURCE_FILE_LICENSE" title="CPACK_RESOURCE_FILE_LICENSE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RESOURCE_FILE_LICENSE</span></code></a>, CPack uses a file for demonstration
+purposes. If you want the installer to ignore license files at all, you can
+enable this option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_IGNORE_README_PAGE">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_IGNORE_README_PAGE</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_IGNORE_README_PAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>If you don't specify a readme file using
+<span class="target" id="index-0-variable:CPACK_RESOURCE_FILE_README"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_RESOURCE_FILE_README" title="CPACK_RESOURCE_FILE_README"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_RESOURCE_FILE_README</span></code></a>, CPack uses a file for demonstration
+purposes. If you want the installer to ignore readme files at all, you can
+enable this option. Make sure the option is disabled when using
+a custom readme file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">ON</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_PASSWORD">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_PASSWORD</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_PASSWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables password protection and file encryption with the given password.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_USE_MODERN_WIZARD">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_USE_MODERN_WIZARD</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_USE_MODERN_WIZARD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enables the modern look and feel provided by Inno Setup. If this option is
+turned off, the classic style is used instead. Images and icon files are
+also affected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code> because of compatibility reasons</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_ICON_FILE">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_ICON_FILE</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_ICON_FILE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The path to a custom installer <code class="docutils literal notranslate"><span class="pre">.ico</span></code> file.</p>
+<p>Use <span class="target" id="index-0-variable:CPACK_PACKAGE_ICON"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_ICON" title="CPACK_PACKAGE_ICON"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_ICON</span></code></a> to customize the bitmap file being shown
+in the wizard.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_SETUP_&lt;directive&gt;">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_SETUP_&lt;directive&gt;</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_SETUP_<directive>" title="Permalink to this definition">¶</a></dt>
+<dd><p>This group allows adapting any of the <code class="docutils literal notranslate"><span class="pre">[Setup]</span></code> section directives provided
+by Inno Setup where <code class="docutils literal notranslate"><span class="pre">directive</span></code> is its name.</p>
+<p>Here are some examples:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">CPACK_INNOSETUP_SETUP_WizardSmallImageFile</span><span class="w"> </span><span class="s">&quot;my_bitmap.bmp&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="nb">CPACK_INNOSETUP_SETUP_AllowNoIcons</span><span class="w"> </span><span class="no">OFF</span><span class="nf">)</span><span class="w"> </span><span class="c"># This requires CPACK_INNOSETUP_USE_CMAKE_BOOL_FORMAT to be on</span>
+</pre></div>
+</div>
+<p>All of these variables have higher priority than the others.
+Consider the following example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">CPACK_INNOSETUP_SETUP_Password</span><span class="w"> </span><span class="s">&quot;admin&quot;</span><span class="nf">)</span>
+<span class="nf">set(</span><span class="no">CPACK_INNOSETUP_PASSWORD</span><span class="w"> </span><span class="s">&quot;secret&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The password will be <code class="docutils literal notranslate"><span class="pre">admin</span></code> at the end because <code class="docutils literal notranslate"><span class="pre">CPACK_INNOSETUP_PASSWORD</span></code>
+has less priority than <code class="docutils literal notranslate"><span class="pre">CPACK_INNOSETUP_SETUP_Password</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="file-specific-variables">
+<h3>File Specific Variables<a class="headerlink" href="#file-specific-variables" title="Permalink to this heading">¶</a></h3>
+<p>Although all files being installed by an <span class="target" id="index-1-command:install"></span><a class="reference internal" href="../command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install()</span></code></a> instruction are
+automatically processed and added to the installer, there are some variables
+to customize the installation process.</p>
+<p>Before using executables (only <code class="docutils literal notranslate"><span class="pre">.exe</span></code> or <code class="docutils literal notranslate"><span class="pre">.com</span></code>) in shortcuts
+(e.g. <span class="target" id="index-0-variable:CPACK_CREATE_DESKTOP_LINKS"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_CREATE_DESKTOP_LINKS" title="CPACK_CREATE_DESKTOP_LINKS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_CREATE_DESKTOP_LINKS</span></code></a>) or <code class="docutils literal notranslate"><span class="pre">[Run]</span></code> entries, you've to
+add the raw file name (without path and extension) to
+<span class="target" id="index-0-variable:CPACK_PACKAGE_EXECUTABLES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_EXECUTABLES" title="CPACK_PACKAGE_EXECUTABLES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_EXECUTABLES</span></code></a> and create a start menu shortcut
+for them.</p>
+<p>If you have two files with the same raw name (e.g. <code class="docutils literal notranslate"><span class="pre">a/executable.exe</span></code> and
+<code class="docutils literal notranslate"><span class="pre">b/executable.com</span></code>), an entry in the section is created twice. This will
+result in undefined behavior and is not recommended.</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_CUSTOM_INSTALL_INSTRUCTIONS">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_CUSTOM_INSTALL_INSTRUCTIONS</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_CUSTOM_INSTALL_INSTRUCTIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>This variable should contain a
+<a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of pairs <code class="docutils literal notranslate"><span class="pre">path</span></code>,
+<code class="docutils literal notranslate"><span class="pre">instruction</span></code> and can be used to customize the install command being
+automatically created for each file or directory.</p>
+<p>CPack creates the following Inno Setup instruction for every file...</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Source: &quot;absolute\path\to\my_file.txt&quot;; DestDir: &quot;{app}&quot;; Flags: ignoreversion
+</pre></div>
+</div>
+<p>...and the following line for every directory:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Name: &quot;{app}\my_folder&quot;
+</pre></div>
+</div>
+<p>You might want to change the destination directory or the flags of
+<code class="docutils literal notranslate"><span class="pre">my_file.txt</span></code>. Since we can also provide a relative path, the line you'd
+like to have, is the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Source: &quot;my_file.txt&quot;; DestDir: &quot;{userdocs}&quot;; Flags: ignoreversion uninsneveruninstall
+</pre></div>
+</div>
+<p>You would do this by using <code class="docutils literal notranslate"><span class="pre">my_file.txt</span></code> as <code class="docutils literal notranslate"><span class="pre">path</span></code> and
+<code class="docutils literal notranslate"><span class="pre">Source:</span> <span class="pre">&quot;my_file.txt&quot;;</span> <span class="pre">DestDir:</span> <span class="pre">&quot;{userdocs}&quot;;</span> <span class="pre">Flags:</span> <span class="pre">ignoreversion</span> <span class="pre">uninsneveruninstall</span></code>
+as <code class="docutils literal notranslate"><span class="pre">instruction</span></code>.</p>
+<p>You've to take care of the <a class="reference external" href="https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html#adding-custom-cpack-options">escaping problem</a>.
+So the CMake command would be:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CPACK_INNOSETUP_CUSTOM_INSTALL_INSTRUCTIONS</span><span class="w"> </span><span class="s">&quot;my_file.txt;Source: \\\&quot;my_file.txt\\\&quot;\\; DestDir: \\\&quot;{userdocs}\\\&quot;\\; Flags: ignoreversion uninsneveruninstall&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>To improve readability, you should go around the escaping problem by using
+<span class="target" id="index-0-variable:CPACK_VERBATIM_VARIABLES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_VERBATIM_VARIABLES" title="CPACK_VERBATIM_VARIABLES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_VERBATIM_VARIABLES</span></code></a> or by placing the instruction into a
+separate CPack project config file.</p>
+<p>If you customize the install instruction of a specific file, you lose the
+connection to its component. To go around, manually add
+<code class="docutils literal notranslate"><span class="pre">Components:</span> <span class="pre">&lt;component&gt;</span></code>. You also need to add its shortcuts and <code class="docutils literal notranslate"><span class="pre">[Run]</span></code>
+entries by yourself in a custom section, since the executable won't be found
+anymore by <span class="target" id="index-1-variable:CPACK_PACKAGE_EXECUTABLES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_EXECUTABLES" title="CPACK_PACKAGE_EXECUTABLES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_EXECUTABLES</span></code></a>.</p>
+<p>Here's another example (Note: You've to go around the escaping problem for
+the example to work):</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CPACK_INNOSETUP_CUSTOM_INSTALL_INSTRUCTIONS</span>
+<span class="w">    </span><span class="s">&quot;component1/my_folder&quot;</span><span class="w"> </span><span class="s">&quot;Name: \&quot;{userdocs}\\my_folder\&quot;\; Components: component1&quot;</span>
+<span class="w">    </span><span class="s">&quot;component2/my_folder2/my_file.txt&quot;</span><span class="w"> </span><span class="s">&quot;Source: \&quot;component2\\my_folder2\\my_file.txt\&quot;\; DestDir: \&quot;{app}\\my_folder2\\my_file.txt\&quot;\; Flags: ignoreversion uninsneveruninstall\; Components: component2&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_MENU_LINKS">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_MENU_LINKS</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_MENU_LINKS" title="Permalink to this definition">¶</a></dt>
+<dd><p>This variable should contain a
+<a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of pairs <code class="docutils literal notranslate"><span class="pre">link</span></code>,
+<code class="docutils literal notranslate"><span class="pre">link</span> <span class="pre">name</span></code> and can be used to add shortcuts into the start menu folder
+beside those of the executables (see <span class="target" id="index-2-variable:CPACK_PACKAGE_EXECUTABLES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_EXECUTABLES" title="CPACK_PACKAGE_EXECUTABLES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_EXECUTABLES</span></code></a>).
+While <code class="docutils literal notranslate"><span class="pre">link</span> <span class="pre">name</span></code> is the label, <code class="docutils literal notranslate"><span class="pre">link</span></code> can be a URL or a path relative to
+the installation directory.</p>
+<p>Here's an example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="no">CPACK_INNOSETUP_MENU_LINKS</span>
+<span class="w">    </span><span class="s">&quot;doc/cmake-@CMake_VERSION_MAJOR@.@CMake_VERSION_MINOR@/cmake.html&quot;</span>
+<span class="w">    </span><span class="s">&quot;CMake Help&quot;</span><span class="w"> </span><span class="s">&quot;https://cmake.org&quot;</span><span class="w"> </span><span class="s">&quot;CMake Web Site&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_CREATE_UNINSTALL_LINK">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_CREATE_UNINSTALL_LINK</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_CREATE_UNINSTALL_LINK" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this option is turned on, a shortcut to the application's uninstaller is
+automatically added to the start menu folder.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">OFF</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_RUN_EXECUTABLES">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_RUN_EXECUTABLES</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_RUN_EXECUTABLES" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of executables being
+specified in <span class="target" id="index-3-variable:CPACK_PACKAGE_EXECUTABLES"></span><a class="reference internal" href="../module/CPack.html#variable:CPACK_PACKAGE_EXECUTABLES" title="CPACK_PACKAGE_EXECUTABLES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_PACKAGE_EXECUTABLES</span></code></a> which the user can run
+when the installer finishes.</p>
+<p>They're internally added to the <code class="docutils literal notranslate"><span class="pre">[Run]</span></code> section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="components-specific-variables">
+<h3>Components Specific Variables<a class="headerlink" href="#components-specific-variables" title="Permalink to this heading">¶</a></h3>
+<p>The generator supports components and also downloaded components. However,
+there are some features of components that aren't supported yet (especially
+component dependencies). These variables are ignored for now.</p>
+<p>CPack will change a component's name in Inno Setup if it has a parent group
+for technical reasons. Consider using <code class="docutils literal notranslate"><span class="pre">group\component</span></code> as component name in
+Inno Setup scripts if you have the component <code class="docutils literal notranslate"><span class="pre">component</span></code> and its parent
+group <code class="docutils literal notranslate"><span class="pre">group</span></code>.</p>
+<p>Here are some additional variables for components:</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_&lt;compName&gt;_INSTALL_DIRECTORY">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_&lt;compName&gt;_INSTALL_DIRECTORY</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_<compName>_INSTALL_DIRECTORY" title="Permalink to this definition">¶</a></dt>
+<dd><p>If you don't want the component <code class="docutils literal notranslate"><span class="pre">compName</span></code> to be installed under <code class="docutils literal notranslate"><span class="pre">{app}</span></code>,
+you've to specify its installation directory here.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_VERIFY_DOWNLOADS">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_VERIFY_DOWNLOADS</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_VERIFY_DOWNLOADS" title="Permalink to this definition">¶</a></dt>
+<dd><p>This option only affects downloaded components.</p>
+<p>If this option is turned on, the hashes of the downloaded archives are
+calculated during compile and
+download time. The installer will only proceed if they match.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">ON</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="compilation-and-scripting-specific-variables">
+<h3>Compilation and Scripting Specific Variables<a class="headerlink" href="#compilation-and-scripting-specific-variables" title="Permalink to this heading">¶</a></h3>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_EXECUTABLE">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_EXECUTABLE</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_EXECUTABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>The filename of the Inno Setup Script Compiler command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Yes</p>
+</dd>
+<dt class="field-even">Default<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">ISCC</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_EXECUTABLE_ARGUMENTS">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_EXECUTABLE_ARGUMENTS</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_EXECUTABLE_ARGUMENTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of extra
+command-line options for the Inno Setup Script Compiler command.</p>
+<p>For example: <code class="docutils literal notranslate"><span class="pre">/Qp;/Smysigntool=$p</span></code></p>
+<p>Take care of the <a class="reference external" href="https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html#adding-custom-cpack-options">escaping problem</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_DEFINE_&lt;macro&gt;">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_DEFINE_&lt;macro&gt;</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_DEFINE_<macro>" title="Permalink to this definition">¶</a></dt>
+<dd><p>This group allows to add custom define directives as command-line options to
+the Inno Setup Preprocessor command. Each entry emulates a
+<code class="docutils literal notranslate"><span class="pre">#define</span> <span class="pre">public</span> <span class="pre">&lt;macro&gt;</span></code> directive. Its macro is accessible from anywhere
+(<code class="docutils literal notranslate"><span class="pre">public</span></code>), so it can also be used in extra script files.</p>
+<p>Macro names must not contain any special characters. Refer to the Inno Setup
+Preprocessor documentation for the detailed rules.</p>
+<p>Consider the following example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># The following line emulates: #define public MyMacro &quot;Hello, World!&quot;</span>
+<span class="nf">set(</span><span class="nb">CPACK_INNOSETUP_DEFINE_MyMacro</span><span class="w"> </span><span class="s">&quot;Hello, World!&quot;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>At this point, you can use <code class="docutils literal notranslate"><span class="pre">MyMacro</span></code> anywhere. For example in the following
+extra script:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>AppComments={#emit &quot;&#39;My Macro&#39; has the value: &quot; + MyMacro}
+</pre></div>
+</div>
+<p>Take care of the <a class="reference external" href="https://cmake.org/cmake/help/book/mastering-cmake/chapter/Packaging%20With%20CPack.html#adding-custom-cpack-options">escaping problem</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_EXTRA_SCRIPTS">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_EXTRA_SCRIPTS</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_EXTRA_SCRIPTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of paths to
+additional <code class="docutils literal notranslate"><span class="pre">.iss</span></code> script files to be processed.</p>
+<p>They're internally included at the top of the output script file using a
+<code class="docutils literal notranslate"><span class="pre">#include</span></code> directive.</p>
+<p>You can add any section in your file to extend the installer (e.g. adding
+additional tasks or registry keys). Prefer using
+<span class="target" id="index-0-variable:CPACK_INNOSETUP_SETUP_&lt;directive&gt;"></span><a class="reference internal" href="#variable:CPACK_INNOSETUP_SETUP_&lt;directive&gt;" title="CPACK_INNOSETUP_SETUP_&lt;directive&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_INNOSETUP_SETUP_&lt;directive&gt;</span></code></a> when extending the
+<code class="docutils literal notranslate"><span class="pre">[Setup]</span></code> section.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:CPACK_INNOSETUP_CODE_FILES">
+<span class="sig-name descname"><span class="pre">CPACK_INNOSETUP_CODE_FILES</span></span><a class="headerlink" href="#variable:CPACK_INNOSETUP_CODE_FILES" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of paths to
+additional Pascal files to be processed.</p>
+<p>This variable is actually the same as
+<span class="target" id="index-0-variable:CPACK_INNOSETUP_EXTRA_SCRIPTS"></span><a class="reference internal" href="#variable:CPACK_INNOSETUP_EXTRA_SCRIPTS" title="CPACK_INNOSETUP_EXTRA_SCRIPTS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CPACK_INNOSETUP_EXTRA_SCRIPTS</span></code></a>, except you don't have to
+add <code class="docutils literal notranslate"><span class="pre">[Code]</span></code> at the top of your file. Never change the current section in
+a code file. This will result in undefined behavior! Treat them as normal
+Pascal scripts instead.</p>
+<p>Code files are included at the very bottom of the output script.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Mandatory<span class="colon">:</span></dt>
+<dd class="field-odd"><p>No</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CPack Inno Setup Generator</a><ul>
+<li><a class="reference internal" href="#variables-specific-to-cpack-inno-setup-generator">Variables specific to CPack Inno Setup generator</a><ul>
+<li><a class="reference internal" href="#general">General</a></li>
+<li><a class="reference internal" href="#setup-specific-variables">Setup Specific Variables</a></li>
+<li><a class="reference internal" href="#file-specific-variables">File Specific Variables</a></li>
+<li><a class="reference internal" href="#components-specific-variables">Components Specific Variables</a></li>
+<li><a class="reference internal" href="#compilation-and-scripting-specific-variables">Compilation and Scripting Specific Variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="freebsd.html"
+                          title="previous chapter">CPack FreeBSD Generator</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ifw.html"
+                          title="next chapter">CPack IFW Generator</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/cpack_gen/innosetup.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ifw.html" title="CPack IFW Generator"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="freebsd.html" title="CPack FreeBSD Generator"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cpack-generators.7.html" >cpack-generators(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CPack Inno Setup Generator</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt; &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED" href="CMAKE_LANG_LINK_GROUP_USING_FEATURE_SUPPORTED.html" />
+    <link rel="prev" title="CMAKE_&lt;LANG&gt;_INCLUDE_WHAT_YOU_USE" href="CMAKE_LANG_INCLUDE_WHAT_YOU_USE.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_LANG_LINK_GROUP_USING_FEATURE_SUPPORTED.html" title="CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_LANG_INCLUDE_WHAT_YOU_USE.html" title="CMAKE_&lt;LANG&gt;_INCLUDE_WHAT_YOU_USE"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-lang-link-group-using-feature">
+<span id="variable:CMAKE_<LANG>_LINK_GROUP_USING_<FEATURE>"></span><h1>CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;<a class="headerlink" href="#cmake-lang-link-group-using-feature" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>This variable defines how to link a group of libraries for the specified
+<code class="docutils literal notranslate"><span class="pre">&lt;FEATURE&gt;</span></code> when a <span class="target" id="index-0-genex:LINK_GROUP"></span><a class="reference internal" href="../manual/cmake-generator-expressions.7.html#genex:LINK_GROUP" title="LINK_GROUP"><code class="xref cmake cmake-genex docutils literal notranslate"><span class="pre">LINK_GROUP</span></code></a> generator expression is used and
+the link language for the target is <code class="docutils literal notranslate"><span class="pre">&lt;LANG&gt;</span></code>.
+For this variable to have any effect, the associated
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED"></span><a class="reference internal" href="CMAKE_LANG_LINK_GROUP_USING_FEATURE_SUPPORTED.html#variable:CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED" title="CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED</span></code></a> variable
+must be set to true.</p>
+<p>The <span class="target" id="index-0-variable:CMAKE_LINK_GROUP_USING_&lt;FEATURE&gt;"></span><a class="reference internal" href="CMAKE_LINK_GROUP_USING_FEATURE.html#variable:CMAKE_LINK_GROUP_USING_&lt;FEATURE&gt;" title="CMAKE_LINK_GROUP_USING_&lt;FEATURE&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_LINK_GROUP_USING_&lt;FEATURE&gt;</span></code></a> variable should be defined
+instead for features that are independent of the link language.</p>
+<p>Feature names are case-sensitive and may only contain letters, numbers
+and underscores.  Feature names defined in all uppercase are reserved for
+CMake's own built-in features (see <a class="reference internal" href="#predefined-features">Predefined Features</a> further below).</p>
+<section id="feature-definitions">
+<h2>Feature Definitions<a class="headerlink" href="#feature-definitions" title="Permalink to this heading">¶</a></h2>
+<p>A group feature definition is a list that contains exactly two elements:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;PREFIX&gt; &lt;SUFFIX&gt;
+</pre></div>
+</div>
+<p>On the linker command line, <code class="docutils literal notranslate"><span class="pre">&lt;PREFIX&gt;</span></code> will precede the list of libraries
+in the group and <code class="docutils literal notranslate"><span class="pre">&lt;SUFFIX&gt;</span></code> will follow after.</p>
+<p>For the elements of this variable, the <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix can be used.</p>
+<p>To pass options to the linker tool, each compiler driver has its own syntax.
+The <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix and <code class="docutils literal notranslate"><span class="pre">,</span></code> separator can be used to specify, in a portable
+way, options to pass to the linker tool. <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> is replaced by the
+appropriate driver option and <code class="docutils literal notranslate"><span class="pre">,</span></code> by the appropriate driver separator.
+The driver prefix and driver separator are given by the values of the
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG"></span><a class="reference internal" href="CMAKE_LANG_LINKER_WRAPPER_FLAG.html#variable:CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG" title="CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG</span></code></a> and
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG_SEP"></span><a class="reference internal" href="CMAKE_LANG_LINKER_WRAPPER_FLAG_SEP.html#variable:CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG_SEP" title="CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG_SEP"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_LINKER_WRAPPER_FLAG_SEP</span></code></a> variables.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">&quot;LINKER:-z,defs&quot;</span></code> becomes <code class="docutils literal notranslate"><span class="pre">-Xlinker</span> <span class="pre">-z</span> <span class="pre">-Xlinker</span> <span class="pre">defs</span></code> for
+<code class="docutils literal notranslate"><span class="pre">Clang</span></code> and <code class="docutils literal notranslate"><span class="pre">-Wl,-z,defs</span></code> for <code class="docutils literal notranslate"><span class="pre">GNU</span> <span class="pre">GCC</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix can be specified as part of a <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix
+expression.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix supports, as an alternative syntax, specification of
+arguments using the <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix and space as separator. The previous
+example then becomes <code class="docutils literal notranslate"><span class="pre">&quot;LINKER:SHELL:-z</span> <span class="pre">defs&quot;</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Specifying the <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix anywhere other than at the beginning of the
+<code class="docutils literal notranslate"><span class="pre">LINKER:</span></code> prefix is not supported.</p>
+</div>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
+<section id="solving-cross-references-between-two-static-libraries">
+<h3>Solving cross-references between two static libraries<a class="headerlink" href="#solving-cross-references-between-two-static-libraries" title="Permalink to this heading">¶</a></h3>
+<p>A project may define two or more static libraries which have circular
+dependencies between them.  In order for the linker to resolve all symbols
+at link time, it may need to search repeatedly among the libraries until no
+new undefined references are created.  Different linkers use different syntax
+for achieving this.  The following example shows how this may be implemented
+for some linkers.  Note that this is for illustration purposes only.
+Projects should use the built-in <code class="docutils literal notranslate"><span class="pre">RESCAN</span></code> group feature instead
+(see <a class="reference internal" href="#predefined-features">Predefined Features</a>), which provides a more complete and more robust
+implementation of this functionality.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set(</span><span class="nb">CMAKE_C_LINK_GROUP_USING_cross_refs_SUPPORTED</span><span class="w"> </span><span class="no">TRUE</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="no">CMAKE_C_COMPILER_ID</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;GNU&quot;</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">CMAKE_SYSTEM_NAME</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;Linux&quot;</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set(</span><span class="nb">CMAKE_C_LINK_GROUP_USING_cross_refs</span>
+<span class="w">    </span><span class="s">&quot;LINKER:--start-group&quot;</span>
+<span class="w">    </span><span class="s">&quot;LINKER:--end-group&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">elseif(</span><span class="no">CMAKE_C_COMPILER_ID</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;SunPro&quot;</span><span class="w"> </span><span class="no">AND</span><span class="w"> </span><span class="no">CMAKE_SYSTEM_NAME</span><span class="w"> </span><span class="no">STREQUAL</span><span class="w"> </span><span class="s">&quot;SunOS&quot;</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">set(</span><span class="nb">CMAKE_C_LINK_GROUP_USING_cross_refs</span>
+<span class="w">    </span><span class="s">&quot;LINKER:-z,rescan-start&quot;</span>
+<span class="w">    </span><span class="s">&quot;LINKER:-z,rescan-end&quot;</span>
+<span class="w">  </span><span class="nf">)</span>
+<span class="nf">else()</span>
+<span class="w">  </span><span class="c"># feature not yet supported for the other environments</span>
+<span class="w">  </span><span class="nf">set(</span><span class="nb">CMAKE_C_LINK_GROUP_USING_cross_refs_SUPPORTED</span><span class="w"> </span><span class="no">FALSE</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+
+<span class="nf">add_library(</span><span class="nb">lib1</span><span class="w"> </span><span class="no">STATIC</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+<span class="nf">add_library(</span><span class="nb">lib2</span><span class="w"> </span><span class="no">SHARED</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span>
+
+<span class="nf">if(</span><span class="nb">CMAKE_C_LINK_GROUP_USING_cross_refs_SUPPORTED</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">target_link_libraries(</span><span class="nb">lib2</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="s">&quot;$&lt;LINK_GROUP:cross_refs,lib1,external&gt;&quot;</span><span class="nf">)</span>
+<span class="nf">else()</span>
+<span class="w">  </span><span class="nf">target_link_libraries(</span><span class="nb">lib2</span><span class="w"> </span><span class="no">PRIVATE</span><span class="w"> </span><span class="nb">lib1</span><span class="w"> </span><span class="nb">external</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+<p>CMake will generate the following linker command line fragments when linking
+<code class="docutils literal notranslate"><span class="pre">lib2</span></code>:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GNU</span></code>: <code class="docutils literal notranslate"><span class="pre">-Wl,--start-group</span> <span class="pre">/path/to/lib1.a</span> <span class="pre">-lexternal</span> <span class="pre">-Wl,--end-group</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SunPro</span></code>: <code class="docutils literal notranslate"><span class="pre">-Wl,-z,rescan-start</span> <span class="pre">/path/to/lib1.a</span> <span class="pre">-lexternal</span> <span class="pre">-Wl,-z,rescan-end</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="predefined-features">
+<h2>Predefined Features<a class="headerlink" href="#predefined-features" title="Permalink to this heading">¶</a></h2>
+<p>The following built-in group features are pre-defined by CMake:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">RESCAN</span></code></dt><dd><p>Some linkers are single-pass only.  For such linkers, circular references
+between libraries typically result in unresolved symbols.  This feature
+instructs the linker to search the specified static libraries repeatedly
+until no new undefined references are created.</p>
+<p>Normally, a static library is searched only once in the order that it is
+specified on the command line.  If a symbol in that library is needed to
+resolve an undefined symbol referred to by an object in a library that
+appears later on the command line, the linker would not be able to resolve
+that reference.  By grouping the static libraries with the <code class="docutils literal notranslate"><span class="pre">RESCAN</span></code>
+feature, they will all be searched repeatedly until all possible references
+are resolved.  This will use linker options like <code class="docutils literal notranslate"><span class="pre">--start-group</span></code> and
+<code class="docutils literal notranslate"><span class="pre">--end-group</span></code>, or on SunOS, <code class="docutils literal notranslate"><span class="pre">-z</span> <span class="pre">rescan-start</span></code> and <code class="docutils literal notranslate"><span class="pre">-z</span> <span class="pre">rescan-end</span></code>.</p>
+<p>Using this feature has a significant performance cost. It is best to use it
+only when there are unavoidable circular references between two or more
+static libraries.</p>
+<p>This feature is available when using toolchains that target Linux, BSD, and
+SunOS.  It can also be used when targeting Windows platforms if the GNU
+toolchain is used.</p>
+</dd>
+</dl>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;</a><ul>
+<li><a class="reference internal" href="#feature-definitions">Feature Definitions</a></li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#solving-cross-references-between-two-static-libraries">Solving cross-references between two static libraries</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#predefined-features">Predefined Features</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_LANG_INCLUDE_WHAT_YOU_USE.html"
+                          title="previous chapter">CMAKE_&lt;LANG&gt;_INCLUDE_WHAT_YOU_USE</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_LANG_LINK_GROUP_USING_FEATURE_SUPPORTED.html"
+                          title="next chapter">CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_LANG_LINK_GROUP_USING_FEATURE.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_LANG_LINK_GROUP_USING_FEATURE_SUPPORTED.html" title="CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;_SUPPORTED"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_LANG_INCLUDE_WHAT_YOU_USE.html" title="CMAKE_&lt;LANG&gt;_INCLUDE_WHAT_YOU_USE"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_&lt;LANG&gt;_LINK_GROUP_USING_&lt;FEATURE&gt;</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMAKE_&lt;LANG&gt;_FLAGS &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;" href="CMAKE_LANG_FLAGS_CONFIG.html" />
+    <link rel="prev" title="CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT" href="CMAKE_LANG_EXTENSIONS_DEFAULT.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMAKE_LANG_FLAGS_CONFIG.html" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_LANG_EXTENSIONS_DEFAULT.html" title="CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" accesskey="U">cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_&lt;LANG&gt;_FLAGS</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-lang-flags">
+<span id="variable:CMAKE_<LANG>_FLAGS"></span><h1>CMAKE_&lt;LANG&gt;_FLAGS<a class="headerlink" href="#cmake-lang-flags" title="Permalink to this heading">¶</a></h1>
+<p>Language-wide flags for language <code class="docutils literal notranslate"><span class="pre">&lt;LANG&gt;</span></code> used when building for
+all configurations.  These flags will be passed to all invocations
+of the compiler.  This includes invocations that drive compiling
+and those that drive linking.</p>
+<p>For each language, if this variable is not defined, it is initialized
+and stored in the cache using values from environment variables in
+combination with CMake's builtin defaults for the toolchain:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_C_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CFLAGS"></span><a class="reference internal" href="../envvar/CFLAGS.html#envvar:CFLAGS" title="CFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CXX_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CXXFLAGS"></span><a class="reference internal" href="../envvar/CXXFLAGS.html#envvar:CXXFLAGS" title="CXXFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CXXFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CUDA_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CUDAFLAGS"></span><a class="reference internal" href="../envvar/CUDAFLAGS.html#envvar:CUDAFLAGS" title="CUDAFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CUDAFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_Fortran_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:FFLAGS"></span><a class="reference internal" href="../envvar/FFLAGS.html#envvar:FFLAGS" title="FFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">FFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CSharp_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CSFLAGS"></span><a class="reference internal" href="../envvar/CSFLAGS.html#envvar:CSFLAGS" title="CSFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CSFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_HIP_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:HIPFLAGS"></span><a class="reference internal" href="../envvar/HIPFLAGS.html#envvar:HIPFLAGS" title="HIPFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">HIPFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_ISPC_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:ISPCFLAGS"></span><a class="reference internal" href="../envvar/ISPCFLAGS.html#envvar:ISPCFLAGS" title="ISPCFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">ISPCFLAGS</span></code></a> environment variable.</p></li>
+</ul>
+<p>This value is a command-line string fragment. Therefore, multiple options
+should be separated by spaces, and options with spaces should be quoted.</p>
+<p>The flags in this variable will be passed before those in the
+per-configuration <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"></span><a class="reference internal" href="CMAKE_LANG_FLAGS_CONFIG.html#variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;</span></code></a> variable.
+On invocations driving compiling, flags from both variables will be passed
+before flags added by commands such as <span class="target" id="index-0-command:add_compile_options"></span><a class="reference internal" href="../command/add_compile_options.html#command:add_compile_options" title="add_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_compile_options()</span></code></a> and
+<span class="target" id="index-0-command:target_compile_options"></span><a class="reference internal" href="../command/target_compile_options.html#command:target_compile_options" title="target_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_options()</span></code></a>. On invocations driving linking,
+they will be passed before flags added by commands such as
+<span class="target" id="index-0-command:add_link_options"></span><a class="reference internal" href="../command/add_link_options.html#command:add_link_options" title="add_link_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_link_options()</span></code></a> and <span class="target" id="index-0-command:target_link_options"></span><a class="reference internal" href="../command/target_link_options.html#command:target_link_options" title="target_link_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_options()</span></code></a>.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMAKE_LANG_EXTENSIONS_DEFAULT.html"
+                          title="previous chapter">CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMAKE_LANG_FLAGS_CONFIG.html"
+                          title="next chapter">CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/variable/CMAKE_LANG_FLAGS.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMAKE_LANG_FLAGS_CONFIG.html" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMAKE_LANG_EXTENSIONS_DEFAULT.html" title="CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-variables.7.html" >cmake-variables(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMAKE_&lt;LANG&gt;_FLAGS</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

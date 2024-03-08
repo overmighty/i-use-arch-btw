@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMP0077 &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMP0076" href="CMP0076.html" />
+    <link rel="prev" title="CMP0078" href="CMP0078.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMP0076.html" title="CMP0076"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMP0078.html" title="CMP0078"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0077</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmp0077">
+<span id="policy:CMP0077"></span><h1>CMP0077<a class="headerlink" href="#cmp0077" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p><span class="target" id="index-0-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> honors normal variables.</p>
+<p>The <span class="target" id="index-1-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command is typically used to create a cache entry
+to allow users to set the option.  However, there are cases in which a
+normal (non-cached) variable of the same name as the option may be
+defined by the project prior to calling the <span class="target" id="index-2-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command.
+For example, a project that embeds another project as a subdirectory
+may want to hard-code options of the subproject to build the way it needs.</p>
+<p>For historical reasons in CMake 3.12 and below the <span class="target" id="index-3-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a>
+command <em>removes</em> a normal (non-cached) variable of the same name when:</p>
+<ul class="simple">
+<li><p>a cache entry of the specified name does not exist at all, or</p></li>
+<li><p>a cache entry of the specified name exists but has not been given
+a type (e.g. via <code class="docutils literal notranslate"><span class="pre">-D&lt;name&gt;=ON</span></code> on the command line).</p></li>
+</ul>
+<p>In both of these cases (typically on the first run in a new build tree),
+the <span class="target" id="index-4-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command gives the cache entry type <code class="docutils literal notranslate"><span class="pre">BOOL</span></code> and
+removes any normal (non-cached) variable of the same name.  In the
+remaining case that the cache entry of the specified name already
+exists and has a type (typically on later runs in a build tree), the
+<span class="target" id="index-5-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command changes nothing and any normal variable of
+the same name remains set.</p>
+<p>In CMake 3.13 and above the <span class="target" id="index-6-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command prefers to
+do nothing when a normal variable of the given name already exists.
+It does not create or update a cache entry or remove the normal variable.
+The new behavior is consistent between the first and later runs in a
+build tree.  This policy provides compatibility with projects that have
+not been updated to expect the new behavior.</p>
+<p>When the <span class="target" id="index-7-command:option"></span><a class="reference internal" href="../command/option.html#command:option" title="option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">option()</span></code></a> command sees a normal variable of the given
+name:</p>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to proceed even when a normal
+variable of the same name exists.  If the cache entry does not already
+exist and have a type then it is created and/or given a type and the
+normal variable is removed.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior for this policy is to do nothing when a normal
+variable of the same name exists.  The normal variable is not removed.
+The cache entry is not created or updated and is ignored if it exists.</p></li>
+</ul>
+<p>See <span class="target" id="index-0-policy:CMP0126"></span><a class="reference internal" href="CMP0126.html#policy:CMP0126" title="CMP0126"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0126</span></code></a> for a similar policy for the <span class="target" id="index-0-command:set"></span><a class="reference internal" href="../command/set.html#cache" title="set(cache)"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set(CACHE)</span></code></a>
+command, but note that there are some differences in <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior
+between the two policies.</p>
+<p>This policy was introduced in CMake version 3.13.
+It may be set by <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> or <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required()</span></code></a>.
+If it is not set, CMake warns, and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<p>Use the <span class="target" id="index-0-variable:CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;"></span><a class="reference internal" href="../variable/CMAKE_POLICY_DEFAULT_CMPNNNN.html#variable:CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_DEFAULT_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_DEFAULT_CMP0077</span></code></a> variable to set the policy for
+a third-party project in a subdirectory without modifying it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"></span><a class="reference internal" href="../manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMP0078.html"
+                          title="previous chapter">CMP0078</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMP0076.html"
+                          title="next chapter">CMP0076</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/policy/CMP0077.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMP0076.html" title="CMP0076"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMP0078.html" title="CMP0078"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0077</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

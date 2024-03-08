@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>cmake_file_api &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="create_test_sourcelist" href="create_test_sourcelist.html" />
+    <link rel="prev" title="build_command" href="build_command.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="create_test_sourcelist.html" title="create_test_sourcelist"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="build_command.html" title="build_command"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cmake_file_api</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmake-file-api">
+<span id="command:cmake_file_api"></span><h1>cmake_file_api<a class="headerlink" href="#cmake-file-api" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.27.</span></p>
+</div>
+<p>Enables interacting with the <span class="target" id="index-0-manual:cmake-file-api(7)"></span><a class="reference internal" href="../manual/cmake-file-api.7.html#manual:cmake-file-api(7)" title="cmake-file-api(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">CMake</span> <span class="pre">file</span> <span class="pre">API</span></code></a>.</p>
+<dl class="cmake signature">
+<dt class="sig sig-object cmake" id="query">
+<span class="code cmake highlight sig-name descname"><span class="nf"><span class="pre">cmake_file_api(</span></span><span class="no"><span class="pre">QUERY</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="nf"><span class="pre">)</span></span></span><a class="headerlink" href="#query" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <code class="docutils literal notranslate"><span class="pre">QUERY</span></code> subcommand adds a file API query for the current CMake
+invocation.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_file_api(</span>
+<span class="w">  </span><span class="no">QUERY</span>
+<span class="w">  </span><span class="no">API_VERSION</span><span class="w"> </span><span class="nv">&lt;version&gt;</span>
+<span class="w">  </span><span class="p">[</span><span class="no">CODEMODEL</span><span class="w"> </span><span class="nv">&lt;versions&gt;...</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">CACHE</span><span class="w"> </span><span class="nv">&lt;versions&gt;...</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">CMAKEFILES</span><span class="w"> </span><span class="nv">&lt;versions&gt;...</span><span class="p">]</span>
+<span class="w">  </span><span class="p">[</span><span class="no">TOOLCHAINS</span><span class="w"> </span><span class="nv">&lt;versions&gt;...</span><span class="p">]</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">API_VERSION</span></code> must always be given.  Currently, the only supported
+value for <code class="docutils literal notranslate"><span class="pre">&lt;version&gt;</span></code> is 1.  See <a class="reference internal" href="../manual/cmake-file-api.7.html#file-api-v1"><span class="std std-ref">API v1</span></a> for details of the
+reply content and location.</p>
+<p>Each of the optional keywords <code class="docutils literal notranslate"><span class="pre">CODEMODEL</span></code>, <code class="docutils literal notranslate"><span class="pre">CACHE</span></code>, <code class="docutils literal notranslate"><span class="pre">CMAKEFILES</span></code> and
+<code class="docutils literal notranslate"><span class="pre">TOOLCHAINS</span></code> correspond to one of the object kinds that can be requested
+by the project.  The <code class="docutils literal notranslate"><span class="pre">configureLog</span></code> object kind cannot be set with this
+command, since it must be set before CMake starts reading the top level
+<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file.</p>
+<p>For each of the optional keywords, the <code class="docutils literal notranslate"><span class="pre">&lt;versions&gt;</span></code> list must contain one
+or more version values of the form <code class="docutils literal notranslate"><span class="pre">major</span></code> or <code class="docutils literal notranslate"><span class="pre">major.minor</span></code>, where
+<code class="docutils literal notranslate"><span class="pre">major</span></code> and <code class="docutils literal notranslate"><span class="pre">minor</span></code> are integers.  Projects should list the versions they
+accept in their preferred order, as only the first supported value from the
+list will be selected.  The command will ignore versions with a <code class="docutils literal notranslate"><span class="pre">major</span></code>
+version higher than any major version it supports for that object kind.
+It will raise an error if it encounters an invalid version number, or if none
+of the requested versions is supported.</p>
+<p>For each type of object kind requested, a query equivalent to a shared,
+stateless query will be added internally.  No query file will be created in
+the file system.  The reply <em>will</em> be written to the file system at
+generation time.</p>
+<p>It is not an error to add a query for the same thing more than once, whether
+from query files or from multiple calls to <code class="docutils literal notranslate"><span class="pre">cmake_file_api(QUERY)</span></code>.
+The final set of queries will be a merged combination of all queries
+specified on disk and queries submitted by the project.</p>
+</dd></dl>
+
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<p>A project may want to use replies from the file API at build time to implement
+some form of verification task.  Instead of relying on something outside of
+CMake to create a query file, the project can use <code class="docutils literal notranslate"><span class="pre">cmake_file_api(QUERY)</span></code>
+to request the required information for the current run.  It can then create
+a custom command to run at build time, knowing that the requested information
+should always be available.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">cmake_file_api(</span>
+<span class="w">  </span><span class="no">QUERY</span>
+<span class="w">  </span><span class="no">API_VERSION</span><span class="w"> </span><span class="m">1</span>
+<span class="w">  </span><span class="no">CODEMODEL</span><span class="w"> </span><span class="m">2.3</span>
+<span class="w">  </span><span class="no">TOOLCHAINS</span><span class="w"> </span><span class="m">1</span>
+<span class="nf">)</span>
+
+<span class="nf">add_custom_target(</span><span class="nb">verify_project</span>
+<span class="w">  </span><span class="no">COMMAND</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_COMMAND</span><span class="o">}</span>
+<span class="w">    </span><span class="p">-</span><span class="no">D</span><span class="w"> </span><span class="no">BUILD_DIR</span><span class="p">=</span><span class="o">${</span><span class="nt">CMAKE_BINARY_DIR</span><span class="o">}</span>
+<span class="w">    </span><span class="p">-</span><span class="no">D</span><span class="w"> </span><span class="no">CONFIG</span><span class="p">=</span><span class="o">$&lt;</span><span class="no">CONFIG</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">-</span><span class="no">P</span><span class="w"> </span><span class="o">${</span><span class="nt">CMAKE_CURRENT_SOURCE_DIR</span><span class="o">}</span><span class="na">/verify_project.cmake</span>
+<span class="nf">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">cmake_file_api</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="build_command.html"
+                          title="previous chapter">build_command</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="create_test_sourcelist.html"
+                          title="next chapter">create_test_sourcelist</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/cmake_file_api.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="create_test_sourcelist.html" title="create_test_sourcelist"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="build_command.html" title="build_command"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">cmake_file_api</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

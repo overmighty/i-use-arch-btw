@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CheckLanguage &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CheckLibraryExists" href="CheckLibraryExists.html" />
+    <link rel="prev" title="CheckIPOSupported" href="CheckIPOSupported.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CheckLibraryExists.html" title="CheckLibraryExists"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CheckIPOSupported.html" title="CheckIPOSupported"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CheckLanguage</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="checklanguage">
+<span id="module:CheckLanguage"></span><h1>CheckLanguage<a class="headerlink" href="#checklanguage" title="Permalink to this heading">¶</a></h1>
+<p>Check whether a language can be enabled by the <span class="target" id="index-0-command:enable_language"></span><a class="reference internal" href="../command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a>
+or <span class="target" id="index-0-command:project"></span><a class="reference internal" href="../command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> commands:</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:check_language">
+<span class="sig-name descname"><span class="pre">check_language</span></span><a class="headerlink" href="#command:check_language" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">check_language(</span><span class="nv">&lt;lang&gt;</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Try enabling language <code class="docutils literal notranslate"><span class="pre">&lt;lang&gt;</span></code> in a test project and record results
+in the cache:</p>
+<dl>
+<dt><span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_COMPILER" title="CMAKE_&lt;LANG&gt;_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER</span></code></a></dt><dd><p>If the language can be enabled, this variable is set to the compiler
+that was found.  If the language cannot be enabled, this variable is
+set to <code class="docutils literal notranslate"><span class="pre">NOTFOUND</span></code>.</p>
+<p>If this variable is already set, either explicitly or cached by
+a previous call, the check is skipped.</p>
+</dd>
+<dt><span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_HOST_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_HOST_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_HOST_COMPILER" title="CMAKE_&lt;LANG&gt;_HOST_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_HOST_COMPILER</span></code></a></dt><dd><p>This variable is set when <code class="docutils literal notranslate"><span class="pre">&lt;lang&gt;</span></code> is <code class="docutils literal notranslate"><span class="pre">CUDA</span></code> or <code class="docutils literal notranslate"><span class="pre">HIP</span></code>.</p>
+<p>If the check detects an explicit host compiler that is required for
+compilation, this variable will be set to that compiler.
+If the check detects that no explicit host compiler is needed,
+this variable will be cleared.</p>
+<p>If this variable is already set, its value is preserved only if
+<span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_COMPILER" title="CMAKE_&lt;LANG&gt;_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER</span></code></a> is also set.
+Otherwise, the check runs and overwrites
+<span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_HOST_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_HOST_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_HOST_COMPILER" title="CMAKE_&lt;LANG&gt;_HOST_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_HOST_COMPILER</span></code></a> with a new result.
+Note that <span class="target" id="index-2-variable:CMAKE_&lt;LANG&gt;_HOST_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_HOST_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_HOST_COMPILER" title="CMAKE_&lt;LANG&gt;_HOST_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_HOST_COMPILER</span></code></a> documents it should
+not be set without also setting
+<span class="target" id="index-2-variable:CMAKE_&lt;LANG&gt;_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_COMPILER" title="CMAKE_&lt;LANG&gt;_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER</span></code></a> to a NVCC compiler.</p>
+</dd>
+<dt><span class="target" id="index-0-variable:CMAKE_HIP_PLATFORM"></span><a class="reference internal" href="../variable/CMAKE_HIP_PLATFORM.html#variable:CMAKE_HIP_PLATFORM" title="CMAKE_HIP_PLATFORM"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_PLATFORM</span></code></a></dt><dd><p>This variable is set to the detected GPU platform when <code class="docutils literal notranslate"><span class="pre">&lt;lang&gt;</span></code> is <code class="docutils literal notranslate"><span class="pre">HIP</span></code>.</p>
+<p>If the variable is already set its value is always preserved. Only compatible values
+will be considered for <span class="target" id="index-3-variable:CMAKE_&lt;LANG&gt;_COMPILER"></span><a class="reference internal" href="../variable/CMAKE_LANG_COMPILER.html#variable:CMAKE_&lt;LANG&gt;_COMPILER" title="CMAKE_&lt;LANG&gt;_COMPILER"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_COMPILER</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">check_language(</span><span class="nb">Fortran</span><span class="nf">)</span>
+<span class="nf">if(</span><span class="nb">CMAKE_Fortran_COMPILER</span><span class="nf">)</span>
+<span class="w">  </span><span class="nf">enable_language(</span><span class="nb">Fortran</span><span class="nf">)</span>
+<span class="nf">else()</span>
+<span class="w">  </span><span class="nf">message(</span><span class="no">STATUS</span><span class="w"> </span><span class="s">&quot;No Fortran support&quot;</span><span class="nf">)</span>
+<span class="nf">endif()</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CheckIPOSupported.html"
+                          title="previous chapter">CheckIPOSupported</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CheckLibraryExists.html"
+                          title="next chapter">CheckLibraryExists</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/CheckLanguage.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CheckLibraryExists.html" title="CheckLibraryExists"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CheckIPOSupported.html" title="CheckIPOSupported"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CheckLanguage</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>ctest_configure &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ctest_coverage" href="ctest_coverage.html" />
+    <link rel="prev" title="ctest_build" href="ctest_build.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ctest_coverage.html" title="ctest_coverage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ctest_build.html" title="ctest_build"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" accesskey="U">cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ctest_configure</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="ctest-configure">
+<span id="command:ctest_configure"></span><h1>ctest_configure<a class="headerlink" href="#ctest-configure" title="Permalink to this heading">¶</a></h1>
+<p>Perform the <a class="reference internal" href="../manual/ctest.1.html#ctest-configure-step"><span class="std std-ref">CTest Configure Step</span></a> as a <a class="reference internal" href="../manual/ctest.1.html#dashboard-client"><span class="std std-ref">Dashboard Client</span></a>.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">ctest_configure(</span><span class="p">[</span><span class="no">BUILD</span><span class="w"> </span><span class="nv">&lt;build-dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">SOURCE</span><span class="w"> </span><span class="nv">&lt;source-dir&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">APPEND</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">OPTIONS</span><span class="w"> </span><span class="nv">&lt;options&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">RETURN_VALUE</span><span class="w"> </span><span class="nv">&lt;result-var&gt;</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">QUIET</span><span class="p">]</span>
+<span class="w">                </span><span class="p">[</span><span class="no">CAPTURE_CMAKE_ERROR</span><span class="w"> </span><span class="nv">&lt;result-var&gt;</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Configure the project build tree and record results in <code class="docutils literal notranslate"><span class="pre">Configure.xml</span></code>
+for submission with the <span class="target" id="index-0-command:ctest_submit"></span><a class="reference internal" href="ctest_submit.html#command:ctest_submit" title="ctest_submit"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_submit()</span></code></a> command.</p>
+<p>The options are:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">BUILD</span> <span class="pre">&lt;build-dir&gt;</span></code></dt><dd><p>Specify the top-level build directory.  If not given, the
+<span class="target" id="index-0-variable:CTEST_BINARY_DIRECTORY"></span><a class="reference internal" href="../variable/CTEST_BINARY_DIRECTORY.html#variable:CTEST_BINARY_DIRECTORY" title="CTEST_BINARY_DIRECTORY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_BINARY_DIRECTORY</span></code></a> variable is used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SOURCE</span> <span class="pre">&lt;source-dir&gt;</span></code></dt><dd><p>Specify the source directory.  If not given, the
+<span class="target" id="index-0-variable:CTEST_SOURCE_DIRECTORY"></span><a class="reference internal" href="../variable/CTEST_SOURCE_DIRECTORY.html#variable:CTEST_SOURCE_DIRECTORY" title="CTEST_SOURCE_DIRECTORY"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CTEST_SOURCE_DIRECTORY</span></code></a> variable is used.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">APPEND</span></code></dt><dd><p>Mark <code class="docutils literal notranslate"><span class="pre">Configure.xml</span></code> for append to results previously submitted to a
+dashboard server since the last <span class="target" id="index-0-command:ctest_start"></span><a class="reference internal" href="ctest_start.html#command:ctest_start" title="ctest_start"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">ctest_start()</span></code></a> call.
+Append semantics are defined by the dashboard server in use.
+This does <em>not</em> cause results to be appended to a <code class="docutils literal notranslate"><span class="pre">.xml</span></code> file
+produced by a previous call to this command.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OPTIONS</span> <span class="pre">&lt;options&gt;</span></code></dt><dd><p>Specify command-line arguments to pass to the configuration tool.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">RETURN_VALUE</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable the return value of the native
+configuration tool.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CAPTURE_CMAKE_ERROR</span> <span class="pre">&lt;result-var&gt;</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Store in the <code class="docutils literal notranslate"><span class="pre">&lt;result-var&gt;</span></code> variable -1 if there are any errors running
+the command and prevent ctest from returning non-zero if an error occurs.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">QUIET</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.3.</span></p>
+</div>
+<p>Suppress any CTest-specific non-error messages that would have
+otherwise been printed to the console.  Output from the underlying
+configure command is not affected.</p>
+</dd>
+</dl>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ctest_build.html"
+                          title="previous chapter">ctest_build</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="ctest_coverage.html"
+                          title="next chapter">ctest_coverage</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/command/ctest_configure.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ctest_coverage.html" title="ctest_coverage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ctest_build.html" title="ctest_build"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-commands.7.html" >cmake-commands(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ctest_configure</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CheckSourceCompiles &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CheckSourceRuns" href="CheckSourceRuns.html" />
+    <link rel="prev" title="CheckPrototypeDefinition" href="CheckPrototypeDefinition.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CheckSourceRuns.html" title="CheckSourceRuns"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CheckPrototypeDefinition.html" title="CheckPrototypeDefinition"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" accesskey="U">cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CheckSourceCompiles</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="checksourcecompiles">
+<span id="module:CheckSourceCompiles"></span><h1>CheckSourceCompiles<a class="headerlink" href="#checksourcecompiles" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>Check if given source compiles and links into an executable.</p>
+<dl class="cmake command">
+<dt class="sig sig-object cmake" id="command:check_source_compiles">
+<span class="sig-name descname"><span class="pre">check_source_compiles</span></span><a class="headerlink" href="#command:check_source_compiles" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">check_source_compiles(</span><span class="nv">&lt;lang&gt;</span><span class="w"> </span><span class="nv">&lt;code&gt;</span><span class="w"> </span><span class="nv">&lt;resultVar&gt;</span>
+<span class="w">                      </span><span class="p">[</span><span class="no">FAIL_REGEX</span><span class="w"> </span><span class="nv">&lt;regex1&gt;</span><span class="w"> </span><span class="p">[</span><span class="nv">&lt;regex2&gt;...</span><span class="p">]]</span>
+<span class="w">                      </span><span class="p">[</span><span class="no">SRC_EXT</span><span class="w"> </span><span class="nv">&lt;extension&gt;</span><span class="p">]</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>Check that the source supplied in <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> can be compiled as a source
+file for the requested language and linked as an executable. The result
+will be stored in the internal cache variable specified by <code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code>,
+with a boolean true value for success and boolean false for failure. If
+<code class="docutils literal notranslate"><span class="pre">FAIL_REGEX</span></code> is provided, then failure is determined by checking if
+anything in the compiler output matches any of the specified regular
+expressions.</p>
+<p>By default, the test source file will be given a file extension that matches
+the requested language. The <code class="docutils literal notranslate"><span class="pre">SRC_EXT</span></code> option can be used to override this
+with <code class="docutils literal notranslate"><span class="pre">.&lt;extension&gt;</span></code> instead.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> must contain a valid main program. For example:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">check_source_compiles(</span><span class="no">C</span>
+<span class="s">&quot;#include &lt;stdlib.h&gt;</span>
+<span class="s">#include &lt;stdnoreturn.h&gt;</span>
+<span class="s">noreturn void f(){ exit(0); }</span>
+<span class="s">int main(void) { f(); return 1; }&quot;</span>
+<span class="no">HAVE_NORETURN</span><span class="nf">)</span>
+
+<span class="nf">check_source_compiles(</span><span class="nb">Fortran</span>
+<span class="s">&quot;program test</span>
+<span class="s">error stop</span>
+<span class="s">end program&quot;</span>
+<span class="no">HAVE_ERROR_STOP</span><span class="nf">)</span>
+</pre></div>
+</div>
+<p>The check is only performed once, with the result cached in the variable
+named by <code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code>. Every subsequent CMake run will reuse this cached
+value rather than performing the check again, even if the <code class="docutils literal notranslate"><span class="pre">&lt;code&gt;</span></code> changes.
+In order to force the check to be re-evaluated, the variable named by
+<code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code> must be manually removed from the cache.</p>
+<p>The compile and link commands can be influenced by setting any of the
+following variables prior to calling <code class="docutils literal notranslate"><span class="pre">check_source_compiles()</span></code>:</p>
+</dd></dl>
+
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_FLAGS</span></code></dt><dd><p>String of additional flags to pass to the compiler. The string must be
+space-delimited--a <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> will not work.
+The contents of <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS.html#variable:CMAKE_&lt;LANG&gt;_FLAGS" title="CMAKE_&lt;LANG&gt;_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS</span></code></a> and
+its associated configuration-specific variable are automatically added
+to the compiler command before the contents of <code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_FLAGS</span></code>.</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_DEFINITIONS</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of compiler definitions of the form
+<code class="docutils literal notranslate"><span class="pre">-DFOO</span></code> or <code class="docutils literal notranslate"><span class="pre">-DFOO=bar</span></code>. A definition for the name specified by
+<code class="docutils literal notranslate"><span class="pre">&lt;resultVar&gt;</span></code> will also be added automatically.</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_INCLUDES</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of header search paths to pass to
+the compiler. These will be the only header search paths used--the contents
+of the <span class="target" id="index-0-prop_dir:INCLUDE_DIRECTORIES"></span><a class="reference internal" href="../prop_dir/INCLUDE_DIRECTORIES.html#prop_dir:INCLUDE_DIRECTORIES" title="INCLUDE_DIRECTORIES"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">INCLUDE_DIRECTORIES</span></code></a> directory property will be ignored.</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_LINK_OPTIONS</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of options to add to the link
+command (see <span class="target" id="index-0-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for further details).</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_LIBRARIES</span></code></dt><dd><p>A <a class="reference internal" href="../manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">;-list</span></a> of libraries to add to the link
+command. These can be the name of system libraries or they can be
+<a class="reference internal" href="../manual/cmake-buildsystem.7.html#imported-targets"><span class="std std-ref">Imported Targets</span></a> (see <span class="target" id="index-1-command:try_compile"></span><a class="reference internal" href="../command/try_compile.html#command:try_compile" title="try_compile"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">try_compile()</span></code></a> for
+further details).</p>
+</dd>
+</dl>
+</div></blockquote>
+<blockquote>
+<div><dl>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_REQUIRED_QUIET</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>If this variable evaluates to a boolean true value, all status messages
+associated with the check will be suppressed.</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CheckPrototypeDefinition.html"
+                          title="previous chapter">CheckPrototypeDefinition</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CheckSourceRuns.html"
+                          title="next chapter">CheckSourceRuns</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/module/CheckSourceCompiles.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CheckSourceRuns.html" title="CheckSourceRuns"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CheckPrototypeDefinition.html" title="CheckPrototypeDefinition"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-modules.7.html" >cmake-modules(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CheckSourceCompiles</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>

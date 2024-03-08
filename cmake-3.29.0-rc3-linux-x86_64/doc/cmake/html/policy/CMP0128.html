@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <title>CMP0128 &mdash; CMake 3.29.0-rc3 Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmake.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    
+    <link rel="icon" href="../_static/cmake-favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="CMP0127" href="CMP0127.html" />
+    <link rel="prev" title="CMP0129" href="CMP0129.html" />
+ 
+
+  </head><body>
+
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="CMP0127.html" title="CMP0127"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="CMP0129.html" title="CMP0129"
+             accesskey="P">previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" accesskey="U">cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0128</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="cmp0128">
+<span id="policy:CMP0128"></span><h1>CMP0128<a class="headerlink" href="#cmp0128" title="Permalink to this heading">¶</a></h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
+</div>
+<p>When this policy is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> is initialized to
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../variable/CMAKE_LANG_EXTENSIONS.html#variable:CMAKE_&lt;LANG&gt;_EXTENSIONS" title="CMAKE_&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_EXTENSIONS</span></code></a> if set, otherwise falling back to
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"></span><a class="reference internal" href="../variable/CMAKE_LANG_EXTENSIONS_DEFAULT.html#variable:CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT" title="CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT</span></code></a>.</p></li>
+<li><p>Extensions are correctly enabled/disabled if <span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> is
+unset or satisfied by the default.</p></li>
+<li><p>Standard mode-affecting flags aren't added unless necessary to achieve the
+specified mode.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior:</p>
+<ul class="simple">
+<li><p>Initializes <span class="target" id="index-1-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> to
+<span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../variable/CMAKE_LANG_EXTENSIONS.html#variable:CMAKE_&lt;LANG&gt;_EXTENSIONS" title="CMAKE_&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_EXTENSIONS</span></code></a> if set, otherwise falling back to <code class="docutils literal notranslate"><span class="pre">ON</span></code>.</p></li>
+<li><p>Always adds a flag if <span class="target" id="index-1-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> is set and
+<span class="target" id="index-0-prop_tgt:&lt;LANG&gt;_STANDARD_REQUIRED"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD_REQUIRED.html#prop_tgt:&lt;LANG&gt;_STANDARD_REQUIRED" title="&lt;LANG&gt;_STANDARD_REQUIRED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD_REQUIRED</span></code></a> is <code class="docutils literal notranslate"><span class="pre">OFF</span></code>.</p></li>
+<li><p>If <span class="target" id="index-2-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> is unset:</p>
+<ul>
+<li><p>Doesn't disable extensions even if <span class="target" id="index-2-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> is
+<code class="docutils literal notranslate"><span class="pre">OFF</span></code>.</p></li>
+<li><p>Fails to enable extensions if <span class="target" id="index-3-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> is <code class="docutils literal notranslate"><span class="pre">ON</span></code>
+except for the <code class="docutils literal notranslate"><span class="pre">IAR</span></code> compiler.</p></li>
+</ul>
+</li>
+</ul>
+<p>Code may need to be updated for the <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior in the following cases:</p>
+<ul>
+<li><p>If a standard mode flag previously overridden by CMake's and not used during
+compiler detection now takes effect due to CMake no longer adding one as the
+default detected is appropriate.</p>
+<p>Such code should be converted to either:</p>
+<ul class="simple">
+<li><p>Use <span class="target" id="index-3-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> and <span class="target" id="index-4-prop_tgt:&lt;LANG&gt;_EXTENSIONS"></span><a class="reference internal" href="../prop_tgt/LANG_EXTENSIONS.html#prop_tgt:&lt;LANG&gt;_EXTENSIONS" title="&lt;LANG&gt;_EXTENSIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_EXTENSIONS</span></code></a> instead
+of manually adding flags.</p></li>
+<li><p>Or ensure the manually-specified flags are used during compiler detection.</p></li>
+</ul>
+</li>
+<li><p>If extensions were disabled without <span class="target" id="index-4-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> being set
+CMake previously wouldn't actually disable extensions.</p>
+<p>Such code should be updated to not disable extensions if they are required.</p>
+</li>
+<li><p>If extensions were enabled/disabled when <span class="target" id="index-5-prop_tgt:&lt;LANG&gt;_STANDARD"></span><a class="reference internal" href="../prop_tgt/LANG_STANDARD.html#prop_tgt:&lt;LANG&gt;_STANDARD" title="&lt;LANG&gt;_STANDARD"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">&lt;LANG&gt;_STANDARD</span></code></a> was
+satisfied by the compiler's default CMake previously wouldn't actually
+enable/disable extensions.</p>
+<p>Such code should be updated to set the correct extensions mode.</p>
+</li>
+</ul>
+<p>If compiler flags affecting the standard mode are used during compiler
+detection (for example in <span class="target" id="index-0-manual:cmake-toolchains(7)"></span><a class="reference internal" href="../manual/cmake-toolchains.7.html#manual:cmake-toolchains(7)" title="cmake-toolchains(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">a</span> <span class="pre">toolchain</span> <span class="pre">file</span></code></a>
+using <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS_INIT"></span><a class="reference internal" href="../variable/CMAKE_LANG_FLAGS_INIT.html#variable:CMAKE_&lt;LANG&gt;_FLAGS_INIT" title="CMAKE_&lt;LANG&gt;_FLAGS_INIT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS_INIT</span></code></a>) then they will affect the detected
+default <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_STANDARD_DEFAULT"></span><a class="reference internal" href="../variable/CMAKE_LANG_STANDARD_DEFAULT.html#variable:CMAKE_&lt;LANG&gt;_STANDARD_DEFAULT" title="CMAKE_&lt;LANG&gt;_STANDARD_DEFAULT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">standard</span></code></a> and
+<span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"></span><a class="reference internal" href="../variable/CMAKE_LANG_EXTENSIONS_DEFAULT.html#variable:CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT" title="CMAKE_&lt;LANG&gt;_EXTENSIONS_DEFAULT"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">extensions</span></code></a>.</p>
+<p>This policy was introduced in CMake version 3.22.
+It may be set by <span class="target" id="index-0-command:cmake_policy"></span><a class="reference internal" href="../command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> or <span class="target" id="index-0-command:cmake_minimum_required"></span><a class="reference internal" href="../command/cmake_minimum_required.html#command:cmake_minimum_required" title="cmake_minimum_required"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_minimum_required()</span></code></a>.
+If it is not set, CMake does <em>not</em> warn by default, and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<p>See documentation of the
+<span class="target" id="index-0-variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"></span><a class="reference internal" href="../variable/CMAKE_POLICY_WARNING_CMPNNNN.html#variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_WARNING_CMP0128</span></code></a>
+variable to control the warning.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"></span><a class="reference internal" href="../manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="CMP0129.html"
+                          title="previous chapter">CMP0129</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="CMP0127.html"
+                          title="next chapter">CMP0127</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/policy/CMP0128.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="CMP0127.html" title="CMP0127"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="CMP0129.html" title="CMP0129"
+             >previous</a> |</li>
+  <li>
+    <img src="../_static/cmake-logo-16.png" alt=""
+         style="vertical-align: middle; margin-top: -2px" />
+  </li>
+  <li>
+    <a href="https://cmake.org/">CMake</a> &#187;
+  </li>
+  <li>
+    <a href="../index.html">3.29.0-rc3 Documentation</a> &#187;
+  </li>
+
+          <li class="nav-item nav-item-1"><a href="../manual/cmake-policies.7.html" >cmake-policies(7)</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">CMP0128</a></li> 
+      </ul>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2000-2024 Kitware, Inc. and Contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.2.1.
+    </div>
+  </body>
+</html>
