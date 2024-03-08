@@ -1,0 +1,312 @@
+; Program that writes the string 'I feel brainfuck is more readable' to standard output.
+
+; This program only needs the reserved keywords 'arch', 'linux' and 'btw' to run, making it suitable
+; for limited versions of i-use-arch-btw
+
+; Usage: i-use-arch-btw i-prefer-brainfuck.archbtw
+
+; Advance to position 73 in ASCII table, corresponding to a capital 'I', and then print character
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch
+
+btw
+
+; Rest of the program follows the same vein, going up and down ASCII table and printing.
+; We also need to print a space in between the words.
+
+; Print a space character, position 0
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux
+
+btw
+
+; Print 'f', position 102
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch
+
+btw
+
+; Print 'e', position 101, twice.
+
+linux 
+btw
+btw
+
+; Print 'l', position 108
+
+arch arch arch arch arch arch arch
+
+btw
+
+; Print a space character, position 0
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux
+
+btw
+
+; Print 'b', position 98
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch
+
+btw 
+
+; Print 'r', position 114.
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch
+
+btw
+
+; Print 'a', position 97
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux
+
+btw
+
+; Print 'i', position 105 
+
+arch arch arch arch arch arch arch arch
+
+btw 
+
+; Print 'n', position 110
+
+arch arch arch arch arch
+
+btw
+
+; Print 'f', position 102
+
+linux linux linux linux linux linux linux linux
+
+btw
+
+; Print 'u', position 117
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch
+
+btw
+
+; Print 'c', position 99
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux
+
+btw
+
+; Print 'k', position 107
+
+arch arch arch arch arch arch arch arch
+
+btw
+
+; Print a space character, position 0
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux
+
+btw 
+
+; Print 'i', position 105 
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch
+
+btw
+
+; Print 's', position 115 
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+
+btw 
+
+; Print a space character, position 0
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux
+
+btw 
+
+; Print 'm', position 109
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch
+
+btw 
+
+; Print 'o', position 111
+
+arch arch
+
+btw
+
+; Print 'r', position 114
+
+arch arch arch 
+
+btw
+
+; Print 'e', position 101
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux
+
+btw
+
+; Print a space character, position 0
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux linux linux linux linux linux linux linux
+linux
+
+btw
+
+; Print 'r', position 114 
+
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch arch arch arch arch arch arch arch
+arch arch arch
+
+btw
+
+; Print 'e', position 101
+
+linux linux linux linux linux linux linux linux linux linux
+linux linux linux
+
+btw
+
+; Print 'a', position 97
+
+linux linux linux linux
+
+btw
+
+; Print 'd', position 100
+
+arch arch arch
+
+btw
+
+; Print 'a', position 97
+
+linux linux linux 
+
+btw
+
+; Print 'b', position 98
+
+arch
+
+btw 
+
+; Print 'l', position 108
+
+arch arch arch arch arch arch arch arch arch arch
+
+btw
+
+; Print 'e', position 101
+
+linux linux linux linux linux linux linux
+
+btw
