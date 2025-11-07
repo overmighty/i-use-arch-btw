@@ -10,6 +10,8 @@ extern "C" {
 
 #include <stddef.h>
 
+extern int LANGUAGE;
+
 // A type of I use Arch btw source code token.
 enum iuab_token_type {
     // End of file.

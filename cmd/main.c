@@ -8,15 +8,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+
+int LANGUAGE = 0;
 
 void print_help(FILE *file, const char *argv0) {
     fprintf(
         file,
-        "Usage: %s [options] <source file>\n"
+        "Usage: %s [options] <source file> [language]\n"
         "\n"
         "Options:\n"
         "  -h  Display this help information then exit.\n"
-        "  -V  Display version information then exit.\n",
+        "  -V  Display version information then exit.\n"
+        "\n\n"
+        "Languages:\n"
+        "  EN (default)"
+        "  DE",
         argv0
     );
 }
@@ -47,6 +54,12 @@ int options_init(struct options *opts, int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }
 
+void set_language(char* lang) {
+    if (strcmp(lang, "DE") == 0) {
+        LANGUAGE = 1;
+    }
+}
+
 int main(int argc, char *argv[]) {
     if (argc < 2) {
         print_help(stderr, argv[0]);
@@ -68,6 +81,10 @@ int main(int argc, char *argv[]) {
     if (opts.version) {
         print_version();
         return EXIT_SUCCESS;
+    }
+
+    if (argc >= 3) {
+        set_language(argv[2]);
     }
 
     return compile_and_run(argv[1]);

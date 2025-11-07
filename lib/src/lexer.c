@@ -76,21 +76,46 @@ static enum iuab_token_type iuab_lexer_match_token(
 
 static enum iuab_token_type
 iuab_lexer_next_token_type(struct iuab_lexer *lexer, int ch) {
-    switch (ch) {
-    case 'i': return IUAB_LEXER_MATCH_TOKEN(lexer, "", IUAB_TOKEN_I);
-    case 'u': return IUAB_LEXER_MATCH_TOKEN(lexer, "se", IUAB_TOKEN_USE);
-    case 'a': return IUAB_LEXER_MATCH_TOKEN(lexer, "rch", IUAB_TOKEN_ARCH);
-    case 'l': return IUAB_LEXER_MATCH_TOKEN(lexer, "inux", IUAB_TOKEN_LINUX);
-    case 'b':
-        switch (iuab_lexer_next_char(lexer)) {
-        case 't': return IUAB_LEXER_MATCH_TOKEN(lexer, "w", IUAB_TOKEN_BTW);
-        case 'y': return IUAB_LEXER_MATCH_TOKEN(lexer, "", IUAB_TOKEN_BY);
-        default: return IUAB_TOKEN_INVALID;
-        }
-    case 't': return IUAB_LEXER_MATCH_TOKEN(lexer, "he", IUAB_TOKEN_THE);
-    case 'w': return IUAB_LEXER_MATCH_TOKEN(lexer, "ay", IUAB_TOKEN_WAY);
-    case 'g': return IUAB_LEXER_MATCH_TOKEN(lexer, "entoo", IUAB_TOKEN_GENTOO);
-    default: return IUAB_TOKEN_INVALID;
+    switch(LANGUAGE) {
+        case 1: // Deutsch
+            switch (ch) {
+                case 'i': return IUAB_LEXER_MATCH_TOKEN(lexer, "ch", IUAB_TOKEN_I);
+                case 'b':
+                    switch (iuab_lexer_next_char(lexer)) {
+                    case 'e': 
+                        switch (iuab_lexer_next_char(lexer)) {
+                        case 'n': return IUAB_LEXER_MATCH_TOKEN(lexer, "utze", IUAB_TOKEN_USE);
+                        case 'i': return IUAB_LEXER_MATCH_TOKEN(lexer, "", IUAB_TOKEN_BY);
+                        default: return IUAB_TOKEN_INVALID;
+                        }
+                    case 'o': return IUAB_LEXER_MATCH_TOKEN(lexer, "gen", IUAB_TOKEN_ARCH);
+                    default: return IUAB_TOKEN_INVALID;
+                    }
+                case 'd': return IUAB_LEXER_MATCH_TOKEN(lexer, "em", IUAB_TOKEN_THE);
+                case 'w': return IUAB_LEXER_MATCH_TOKEN(lexer, "eg", IUAB_TOKEN_WAY);
+                case 'l': return IUAB_LEXER_MATCH_TOKEN(lexer, "inux", IUAB_TOKEN_LINUX);
+                
+                case 'u': return IUAB_LEXER_MATCH_TOKEN(lexer, "ebrigens", IUAB_TOKEN_BTW);
+                case 'g': return IUAB_LEXER_MATCH_TOKEN(lexer, "entoo", IUAB_TOKEN_GENTOO);
+                default: return IUAB_TOKEN_INVALID;
+            }
+        default: // English
+            switch (ch) {
+                case 'i': return IUAB_LEXER_MATCH_TOKEN(lexer, "", IUAB_TOKEN_I);
+                case 'u': return IUAB_LEXER_MATCH_TOKEN(lexer, "se", IUAB_TOKEN_USE);
+                case 'a': return IUAB_LEXER_MATCH_TOKEN(lexer, "rch", IUAB_TOKEN_ARCH);
+                case 'l': return IUAB_LEXER_MATCH_TOKEN(lexer, "inux", IUAB_TOKEN_LINUX);
+                case 'b':
+                    switch (iuab_lexer_next_char(lexer)) {
+                    case 't': return IUAB_LEXER_MATCH_TOKEN(lexer, "w", IUAB_TOKEN_BTW);
+                    case 'y': return IUAB_LEXER_MATCH_TOKEN(lexer, "", IUAB_TOKEN_BY);
+                    default: return IUAB_TOKEN_INVALID;
+                    }
+                case 't': return IUAB_LEXER_MATCH_TOKEN(lexer, "he", IUAB_TOKEN_THE);
+                case 'w': return IUAB_LEXER_MATCH_TOKEN(lexer, "ay", IUAB_TOKEN_WAY);
+                case 'g': return IUAB_LEXER_MATCH_TOKEN(lexer, "entoo", IUAB_TOKEN_GENTOO);
+                default: return IUAB_TOKEN_INVALID;
+            }
     }
 }
 
